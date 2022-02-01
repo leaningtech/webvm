@@ -29,7 +29,6 @@
     <link rel="stylesheet" href="/xterm/xterm.css" />
     <script src="/xterm/xterm.js"></script>
     <script src="/xterm/xterm-addon-fit.js"></script>
-    <script src="https://cheerpxdemos.leaningtech.com/publicdeploy/20220131_600/cx.js"></script>
   </head>
 
   <body style="margin:0;height:100%;background:black;color:white;overflow:hidden;">
@@ -184,19 +183,19 @@
 	}
 	term.onData(readData);
 
-	structure = {
-		name: "bash",
-		cmd: "/bin/bash",
-		args: ["--login"],
-		env: ["HOME=/home/user", "TERM=xterm", "USER=user", "SHELL=/bin/bash", "EDITOR=vim", "LANG=en_US.UTF-8", "LC_ALL=C"],
-		expectedPrompt: ">",
-		versionOpt: "--version",
-		comment_line: "#",
-		description_line: "The original Bourne Again SHell",
-	}
 	//Actual CheerpX and bash specific logic
-	function runBash(structure)
+	function runBash()
 	{
+		const structure = {
+			name: "bash",
+			cmd: "/bin/bash",
+			args: ["--login"],
+			env: ["HOME=/home/user", "TERM=xterm", "USER=user", "SHELL=/bin/bash", "EDITOR=vim", "LANG=en_US.UTF-8", "LC_ALL=C"],
+			expectedPrompt: ">",
+			versionOpt: "--version",
+			comment_line: "#",
+			description_line: "The original Bourne Again SHell",
+		}
 		if (typeof SharedArrayBuffer === "undefined")
 		{
 			printOnTerm.printError(printOnTerm.getSharedArrayBufferMissingMessage());
@@ -286,9 +285,28 @@
 		term.registerLinkProvider(provider);
 		console.log("Welcome. We appreciate curiosity, but be warned that keeping the DevTools open causes significant performance degradation and crashes.");
 	}
-
 	initialMessage();
-	runBash(structure);
+
+	var script = document.createElement('script');
+	script.type = 'text/javascript';
+
+	var cxFile = "https://cheerpxdemos.leaningtech.com/publicdeploy/";
+	const isMobile = navigator.userAgent.toLowerCase().match(/mobile/i);
+	if (isMobile)
+	{
+		printOnTerm.printMessage(["Loading mobile version...\n"]);
+		cxFile += '20220131_500/cx.js';
+	}
+	else
+	{
+		cxFile += '20220131_600/cx.js';
+	}
+
+	script.src = cxFile;
+	script.addEventListener("load", runBash, false);
+
+	document.head.appendChild(script);
+
     </script>
   </body>
 </html>
