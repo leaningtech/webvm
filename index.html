@@ -68,31 +68,36 @@
 			var text = [
 				" +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 				" |                                                                            |",
-				" |  WebVM is based on Leaning Technologies' virtualization engine, CheerpX.   |",
+				" | WebVM is a server-less virtual Linux environment running fully client-side |",
+				" | in HTML5/WebAssembly.                                                      |",
 				" |                                                                            |",
-				" |  CheerpX allows safe client-side execution of x86 apps in a WebAssembly    |",
-				" |  sandbox.                                                                  |",
+				" | In this demo, it runs an unmodified Debian distribution including many     |",
+				" | native development toolchains.                                             |",
 				" |                                                                            |",
-				" |  CheerpX includes a WebAssembly JIT compiler to achieve                    |",
-				" |  a high level of performance.                                              |",
+				" | WebVM is powered by the CheerpX virtualization engine, and enables safe,   |",
+				" | sandboxed client-side execution of x86 binaries on any browser.            |",
 				" |                                                                            |",
-				" |  WebVM is an headless, serverless Debian environment. It runs unmodified   |",
-				" |  binaries from the Debian distribution.                                    |",
+				" | CheerpX includes an x86-to-WebAssembly JIT compiler, a virtual block-based |",
+				" | file system, and a Linux syscall emulator.                                 |",
 				" |                                                                            |",
-				" |  " +
-					    underline + "Medium" + normal + "  |  " +
+				" | For more information: " + underline + "https://medium.com/p/40a60170b361" + normal + "                    |",
+				" |                                                                            |",
+				" | " +
 					    underline + "GitHub" + normal + "  |  " +
 					    underline + "Issues" + normal + "  |  " +
 					    underline + "Gitter" + normal + "  |  " +
 					    underline + "Twitter" + normal + "  |  " +
-					    underline + "CheerpX's site" + normal + "    |",
+					    underline + "Latest News" + normal + "  |  " +
+					    underline + "About CheerpX" + normal + " |",
 				" |                                                                            |",
 				" +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 				"",
-				"   Welcome to WebVM! If you don't know what to do, try to create and delete ",
-				"   files, or to compile / execute one of the examples. All the data will be ",
-				"   saved internally to the browser. If you want to reset the state of WebVM, ",
-				"   delete the cache and IndexDB for this page.",
+				"   Welcome to WebVM (build 20220201). If unsure, try these examples:",
+				"",
+				"     python3 examples/python3/fibonacci.py ",
+				"     gcc -o helloworld examples/c/helloworld.c && ./helloworld",
+				"     objdump -d ./helloworld | less -M",
+				"     vim examples/c/helloworld.c",
 				"",
 				];
 			return text;
@@ -108,12 +113,10 @@
 				"     does not support.",
 				"",
 				"SharedArrayBuffer is currently enabled by default on recent",
-				"     versions of Chrome, Edge and Firefox.",
-				"",
-				"Safari and mobile don't support this JavaScript feature, but will do in the future",
+				"     versions of Chrome, Edge, Firefox and Safari.",
 				"",
 				"",
-				"Give it a try from a desktop version / another browser!",
+				"Give it a try from another browser!",
 				]
 
 			return text;
@@ -240,12 +243,15 @@
 		printOnTerm.printMessage(printOnTerm.getAsciiTitle());
 		printOnTerm.printMessage(["\n"]);
 		printOnTerm.printMessage(printOnTerm.getAsciiText());
+		term.registerLinkMatcher(/https:\/\/medium\.com\/p\/40a60170b361/, function(mouseEvent, matchedString) {
+			window.open(matchedString, "_blank")
+		});
 		const textArray = new Array(6);
 		const linksArray = new Array(6);
 		const rangesArray = new Array(6);
 		var last = 0;
-		const textLinkLine = " |  Medium  |  GitHub  |  Issues  |  Gitter  |  Twitter  |  CheerpX's site       |";
-		const lineWithLinks = 20;
+		const textLinkLine = " | GitHub  |  Issues  |  Gitter  |  Twitter  |  Latest News  |  About CheerpX |";
+		const lineWithLinks = 23;
 		function addLink(text, website)
 		{
 			var index = textLinkLine.indexOf(text);
@@ -256,12 +262,12 @@
 			last++;
 		}
 
-		addLink("Medium", "https://medium.com/leaningtech");
 		addLink("GitHub", "https://github.com/leaningtech/webvm");
 		addLink("Issues", "https://github.com/leaningtech/webvm/issues");
 		addLink("Gitter", "https://gitter.im/leaningtech/cheerpx");
 		addLink("Twitter", "https://twitter.com/leaningtech");
-		addLink("CheerpX's site", "https://leaningtech.com/cheerpx");
+		addLink("Latest News", "https://medium.com/leaningtech");
+		addLink("About CheerpX", "https://leaningtech.com/cheerpx");
 		var provider = {
 			provideLinks(bufferLineNum, callback) {
 				switch(bufferLineNum)
@@ -299,7 +305,7 @@
 	}
 	else
 	{
-		cxFile += '20220131_600/cx.js';
+		cxFile += '20220131_700/cx.js';
 	}
 
 	script.src = cxFile;
