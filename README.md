@@ -1,8 +1,8 @@
 # WebVM
 
-This repository hosts the source code of the [https://webvm.io](https://webvm.io) live demo page. 
+This repository hosts the source code of the [https://webvm.io](https://webvm.io) live demo page.
 
-WebVM is a server-less virtual Linux environment running fully client-side in HTML5/WebAssembly.  In this demo, it runs an unmodified Debian distribution including many native development toolchains.
+WebVM is a server-less virtual environment running fully client-side in HTML5/WebAssembly. It's designed to be Linux ABI-compatible. In this demo, it runs an unmodified Debian distribution including many native development toolchains.
 
 WebVM is powered by the CheerpX virtualization engine, and enables safe, sandboxed client-side execution of x86 binaries on any browser. CheerpX includes an x86-to-WebAssembly JIT compiler, a virtual block-based file system, and a Linux syscall emulator. 
 
