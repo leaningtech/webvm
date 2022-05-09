@@ -101,7 +101,7 @@
 				" |                                                                            |",
 				" +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 				"",
-				"   Welcome to WebVM (build 20220201). If unsure, try these examples:",
+				"   Welcome to WebVM (build 20220509). If unsure, try these examples:",
 				"",
 				"     python3 examples/python3/fibonacci.py ",
 				"     gcc -o helloworld examples/c/helloworld.c && ./helloworld",
@@ -305,18 +305,7 @@
 	var script = document.createElement('script');
 	script.type = 'text/javascript';
 
-	var cxFile = "https://cheerpxdemos.leaningtech.com/publicdeploy/";
-	const isMobile = navigator.userAgent.toLowerCase().match(/mobile/i);
-	if (isMobile)
-	{
-		printOnTerm.printMessage(["Loading mobile version...\n"]);
-		cxFile += '20220131_500/cx.js';
-	}
-	else
-	{
-		cxFile += '20220131_700/cx.js';
-	}
-
+	var cxFile = "https://cheerpxdemos.leaningtech.com/publicdeploy/20220509_500/cx.js";
 	script.src = cxFile;
 	script.addEventListener("load", runBash, false);
 
