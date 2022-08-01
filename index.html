@@ -32,12 +32,22 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	 
 
-    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="./favicon.ico">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/xterm/xterm.css" />
-    <script src="/xterm/xterm.js"></script>
-    <script src="/xterm/xterm-addon-fit.js"></script>
+    <link rel="stylesheet" href="./xterm/xterm.css" />
+    <script type="module">
+        import { init } from "/tun/tailscale_tun.js";
+        import { showPeers, showLoginURL } from "/tun/test/ui.js";
+
+        const { loginURL, ipStack } = await init({ netMapCallback: showPeers });
+        showLoginURL(loginURL);
+        const { connect, parseIP } = await ipStack;
+        window.connect = connect;
+        window.parseIP = parseIP;
+    </script>
+    <script src="./xterm/xterm.js"></script>
+    <script src="./xterm/xterm-addon-fit.js"></script>
   </head>
 
   <body style="margin:0;height:100%;background:black;color:white;overflow:hidden;">
@@ -47,12 +57,15 @@
 	      style="display:none;visibility:hidden"></iframe>
     </noscript>
     <!-- End Google Tag Manager (noscript) -->
-    
-    <main style="display: flex; flex-direction: row; justify-content: space-between; margin:0; height:100%;">
+    <main style="display: flex; flex-direction: row; justify-content: space-between; margin:0; height:80%;">
       <div style="flex-grow:1; height:100%;display:inline-block;margin:0;" id="console">
       </div>
 
     </main>
+    <div>
+      <div id="state"></div>
+      <div id="peers"></div>
+    </div>
     <script>
 
 	//Utility namespace to group all functionality related to printing (both error and non error) messages
@@ -245,7 +258,7 @@
 		{
 			printOnTerm.printError(printOnTerm.getErrorMessage(err));
 		}
-		CheerpXApp.create({devices:[{type:"block",url:"https://disks.leaningtech.com/webvm_20220131.ext2",name:"block1"}],mounts:[{type:"ext2",dev:"block1",path:"/"},{type:"cheerpOS",dev:"/app",path:"/bootstrap"},{type:"devs",dev:"",path:"/dev"}]}).then(runTest, failCallback);
+					CheerpXApp.create({devices:[{type:"block",url:"https://127.0.0.1:8080/images/webvm_20220131.ext2",name:"block1"}],mounts:[{type:"ext2",dev:"block1",path:"/"},{type:"cheerpOS",dev:"/app",path:"/app"},{type:"cheerpOS",dev:"/str",path:"/data"},{type:"devs",dev:"",path:"/dev"}]}).then(runTest, failCallback);
 	}
 	function initialMessage()
 	{
@@ -305,7 +318,7 @@
 	var script = document.createElement('script');
 	script.type = 'text/javascript';
 
-	var cxFile = "https://cheerpxdemos.leaningtech.com/publicdeploy/20220509_500/cx.js";
+	var cxFile = "https://127.0.0.1:8080/cx.js";
 	script.src = cxFile;
 	script.addEventListener("load", runBash, false);
 
