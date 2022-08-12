@@ -42,7 +42,8 @@
 
         const { loginURL, ipStack } = await init({ netMapCallback: showPeers });
         showLoginURL(loginURL);
-        const { connect, parseIP } = await ipStack;
+        const { listen, connect, parseIP } = await ipStack;
+        window.listen = listen;
         window.connect = connect;
         window.parseIP = parseIP;
     </script>
