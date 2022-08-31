@@ -40,11 +40,17 @@
         import { init } from "/tun/tailscale_tun.js";
         import { showPeers, showLoginURL } from "/tun/test/ui.js";
 
-        const { loginURL, ipStack } = await init({ netMapCallback: showPeers });
+        const { loginURL, ipStack } = await init({
+            netMapCallback: showPeers,
+            dnsIp: "8.8.8.8",
+            controlURL: "https://headscale.yuri.space",
+            exitNodeIp: "100.64.0.3",
+        });
         showLoginURL(loginURL);
-        const { listen, connect, parseIP } = await ipStack;
+        const { listen, connect, bind, parseIP } = await ipStack;
         window.listen = listen;
         window.connect = connect;
+        window.bind = bind;
         window.parseIP = parseIP;
     </script>
     <script src="./xterm/xterm.js"></script>
