@@ -43,8 +43,8 @@
         const { loginURL, ipStack } = await init({
             netMapCallback: showPeers,
             dnsIp: "8.8.8.8",
-            controlURL: "https://headscale.yuri.space",
-            exitNodeIp: "100.64.0.3",
+            //controlURL: "https://headscale.yuri.space",
+            exitNodeIp: "100.113.180.66",
         });
         showLoginURL(loginURL);
         const { listen, connect, bind, parseIP } = await ipStack;
