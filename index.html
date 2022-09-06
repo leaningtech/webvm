@@ -39,7 +39,9 @@
     <script type="module">
         import { init } from "/tun/tailscale_tun.js";
         import { showPeers, showLoginURL } from "/tun/test/ui.js";
-
+        import * as modal from "/webvm/network_modal.js";
+        modal.create(document.body);
+        
         const { loginURL, ipStack } = await init({
             netMapCallback: showPeers,
             dnsIp: "8.8.8.8",
