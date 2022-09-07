@@ -38,43 +38,80 @@
     <link rel="stylesheet" href="./xterm/xterm.css" />
     <script type="module">
         import { init } from "/tun/tailscale_tun.js";
-        import { showPeers, showLoginURL } from "/tun/test/ui.js";
-        import * as modal from "/webvm/network_modal.js";
-        modal.create(document.body);
-        
-        const { loginURL, ipStack } = await init({
-            netMapCallback: showPeers,
-            dnsIp: "8.8.8.8",
-            //controlURL: "https://headscale.yuri.space",
-            exitNodeIp: "100.113.180.66",
-        });
-        showLoginURL(loginURL);
-        const { listen, connect, bind, parseIP } = await ipStack;
+        import {createUi} from "/tun/tailscale_tun_ui.js";
+
+        let listen,connect,bind,parseIP,up,down,login,logout = null;
+        const  upCb = (conf) => {
+          up(conf);
+        };
+        const  downCb = () => {
+          down();
+        };
+        const  loginCb = () => {
+          login();
+        };
+        const  logoutCb = () => {
+          logout();
+        };
+        const { showModal, updateState, updatePeers, setLoginUrl } = createUi(document.body,{upCb,downCb,loginCb,logoutCb});
+ 
+        ({ listen, connect, bind, parseIP, up, down, login, logout } = await init({
+            netMapCb: updatePeers,
+            stateUpdateCb: updateState,
+            loginUrlCb: setLoginUrl,
+        }));
         window.listen = listen;
         window.connect = connect;
         window.bind = bind;
         window.parseIP = parseIP;
+        window.showModal = showModal;
     </script>
     <script src="./xterm/xterm.js"></script>
     <script src="./xterm/xterm-addon-fit.js"></script>
   </head>
 
-  <body style="margin:0;height:100%;background:black;color:white;overflow:hidden;">
+  <body style="margin:0;height:100%;background:black;color:white;overflow:hidden; display:flex; flex-direction: column; justify-content: space-between; height: 100%;">
     <!-- Google Tag Manager (noscript) -->
     <noscript>
       <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5GBJM42" height="0" width="0"
 	      style="display:none;visibility:hidden"></iframe>
     </noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <main style="display: flex; flex-direction: row; justify-content: space-between; margin:0; height:80%;">
+
+    <header style="flex-grow:0; flex-srink: 0;height:80px; width: 100%; margin: 2px 0 2px 0;">
+      <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+        <div style="display: flex; flex-direction: row;">
+          <img src="./tower.png" style="margin-left: 10px; width: 70px; height: 80px;">
+          <div style=" margin-left: 10px; height: 100%; display: flex; align-items: center;">
+            <div style="color: white; font-family: montserrat; font-weight: 700; font-size: xxx-large;">WebVM</div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: row; justify-content: space-before;">
+          <li style=" margin-right: 50px; height: 100%; display: flex; align-items: center;">
+            <a href="https://leaningtech.com">
+              <div style="color: white; font-family: montserrat; font-weight: 700; font-size: large;">GitHub's Issues</div>
+            </a>
+          </li>
+          <li style=" margin-right: 50px; height: 100%; display: flex; align-items: center;">
+            <a href="https://leaningtech.com">
+              <div style="color: white; font-family: montserrat; font-weight: 700; font-size: large;">Article</div>
+            </a>
+          </li>
+          <li style=" margin-right: 50px; height: 100%; display: flex; align-items: center;">
+            <a href="#" onclick="showModal()">
+              <div style="color: white; font-family: montserrat; font-weight: 700; font-size: large;">Network Settings</div>
+            </a>
+          </li>
+        </div>
+      </div>
+    </header>
+    <div style="flex-grow:0; flex-shrink: 0; height:1px; width: 100%; background-color: white;">
+    </div>
+    <main style="display: flex; flex-direction: row; justify-content: space-between; margin:0; height:100%;">
       <div style="flex-grow:1; height:100%;display:inline-block;margin:0;" id="console">
       </div>
 
     </main>
-    <div>
-      <div id="state"></div>
-      <div id="peers"></div>
-    </div>
     <script>
 
 	//Utility namespace to group all functionality related to printing (both error and non error) messages
