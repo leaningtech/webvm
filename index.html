@@ -36,6 +36,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./xterm/xterm.css" />
+    <script>
+        window.networkInterface = {};
+    </script>
     <script type="module">
         import { init } from "/tun/tailscale_tun.js";
         import {createUi} from "/tun/tailscale_tun_ui.js";
@@ -60,9 +63,9 @@
             stateUpdateCb: updateState,
             loginUrlCb: setLoginUrl,
         }));
-        window.listen = listen;
-        window.connect = connect;
-        window.bind = bind;
+        window.networkInterface.bind = bind;
+        window.networkInterface.connect = connect;
+        window.networkInterface.listen = listen;
         window.parseIP = parseIP;
         window.showModal = showModal;
     </script>
@@ -309,7 +312,7 @@
 		{
 			printOnTerm.printError(printOnTerm.getErrorMessage(err));
 		}
-					CheerpXApp.create({devices:[{type:"block",url:"https://127.0.0.1:8080/images/webvm_20220131.ext2",name:"block1"}],mounts:[{type:"ext2",dev:"block1",path:"/"},{type:"cheerpOS",dev:"/app",path:"/app"},{type:"cheerpOS",dev:"/str",path:"/data"},{type:"devs",dev:"",path:"/dev"}]}).then(runTest, failCallback);
+					CheerpXApp.create({devices:[{type:"block",url:"https://127.0.0.1:8080/images/webvm_20220131.ext2",name:"block1"}],mounts:[{type:"ext2",dev:"block1",path:"/"},{type:"cheerpOS",dev:"/app",path:"/app"},{type:"cheerpOS",dev:"/str",path:"/data"},{type:"devs",dev:"",path:"/dev"}], networkInterface}).then(runTest, failCallback);
 	}
 	function initialMessage()
 	{
