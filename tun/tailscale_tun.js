@@ -2,8 +2,17 @@ import "./wasm_exec.js";
 
 import ipStackAwait from "./ipstack.js";
 
-export async function init({ stateUpdateCb, netMapCb, loginUrlCb })
-{
+export const State = {
+	NoState: 0,
+	InUseOtherUser: 1,
+	NeedsLogin: 2,
+	NeedsMachineAuth: 3,
+	Stopped: 4,
+	Starting: 5,
+	Running: 6,
+};
+
+export async function init() {
 	const {IpStack} = await ipStackAwait();
 
 	const wasmUrl = new URL("tailscale.wasm", import.meta.url);
@@ -11,16 +20,11 @@ export async function init({ stateUpdateCb, netMapCb, loginUrlCb })
 	let {instance} = await WebAssembly.instantiateStreaming(fetch(wasmUrl),go.importObject);
 	go.run(instance);
 
-	const State = {
-		NoState: 0,
-		InUseOtherUser: 1,
-		NeedsLogin: 2,
-		NeedsMachineAuth: 3,
-		Stopped: 4,
-		Starting: 5,
-		Running: 6,
-	};
-
+	const listeners = {
+		onstateupdate: () => {},
+		onnetmap: () => {},
+		onloginurl: () => {},
+	}
 
 	const sessionStateStorage = {
 		setState(id, value) {
@@ -54,11 +58,10 @@ export async function init({ stateUpdateCb, netMapCb, loginUrlCb })
 	let dnsIp = null;
 
 	ipn.run({
-		notifyState: stateUpdateCb,
+		notifyState: (s) => listeners.onstateupdate(s),
 		notifyNetMap: (s) => {
 			const netMap = JSON.parse(s);
-			if (netMapCb)
-				netMapCb(netMap);
+			listeners.onnetmap(netMap);
 			const newLocalIp = netMap.self.addresses[0];
 			if (localIp != newLocalIp)
 			{
@@ -69,7 +72,7 @@ export async function init({ stateUpdateCb, netMapCb, loginUrlCb })
 				}});
 			}
 		},
-		notifyBrowseToURL: loginUrlCb,
+		notifyBrowseToURL: (l) => listeners.onloginurl(l),
 	});
 
 	return {
@@ -88,6 +91,7 @@ export async function init({ stateUpdateCb, netMapCb, loginUrlCb })
 		},
 		login: () => ipn.login(),
 		logout: () => ipn.logout(),
+		listeners
 	};
 }
 

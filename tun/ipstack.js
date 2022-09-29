@@ -13,10 +13,10 @@ function fetchBuffer(p){
 		}));
 	});
 }
-function ___cxx_global_var_init$p3(){
+function ___cxx_global_var_init$p2(){
 	__ZN7IpStackL7chanMapE=_cheerpCreate_ZN6client4TMapIiPNS_14MessageChannelEEC2Ev();
 }
-function ___cxx_global_var_init$p4(){
+function ___cxx_global_var_init$p3(){
 	__ZN7IpStackL11listenerMapE=_cheerpCreate_ZN6client4TMapIiPNS_13EventListenerEEC2Ev();
 }
 function _cheerpCreate_ZN6client4TMapIiPNS_13EventListenerEEC2Ev(){
@@ -58,7 +58,7 @@ function __ZN6cheerp14MakeTypedArrayIhN6client10Uint8ArrayEEEPT0_PKT_j(Lptr,Mptr
 	return tmp1.subarray((+(tmp0>>>0)));
 }
 function __Z14start_timeoutsv(){
-	+setInterval(__ZN6cheerp8CallbackIZ14start_timeoutsvE3$_0EEPN6client13EventListenerEOT_(),100);
+	+setInterval(__ZN6cheerp8CallbackIZ14start_timeoutsvE3$_0EEPN6client13EventListenerEOT_(),10);
 }
 function __ZN6cheerp8CallbackIZ14start_timeoutsvE3$_0EEPN6client13EventListenerEOT_(){
 	var Lref$ptmp=null,Lcall1=null;
@@ -177,20 +177,15 @@ function __ZN7IpStack4downEv(){
 	__Z4downv();
 }
 function __ZN7IpStack5inputEPN6client10Uint8ArrayE(Lpkt){
-	var LsavedStack=null,Ldata=0,Lcall1=null,Lcall1o=0,Lconv=0;
-	LsavedStack=___getStackPtr();
-	Lcall1=-16+LsavedStack|0;
-	___setStackPtr(Lcall1);
+	var Lconv=0,Lcall2=0,tmp2=null,tmp2o=0;
 	Lconv=~~ +Lpkt.length;
-	Ldata=Lcall1|0;
-	__ZNSt6vectorIhSaIhEEC2Ej(Ldata,Lconv);
-	Lcall1=HEAP8;
-	Lcall1o=__ZNSt6vectorIhSaIhEEixEj(Ldata,0)|0;
-	__ZN6cheerp14MakeTypedArrayIhN6client10Uint8ArrayEEEPT0_PKT_j(Lcall1,Lcall1o,Lconv).set(Lpkt);
-	Lconv=_pbuf_alloc(0,Lconv,386)|0;
-	if((Lconv|0)!=(0|0))__Z22copy_to_pbuf_and_inputP4pbufRKSt6vectorIhSaIhEE(Lconv,Ldata);
-	__ZNSt6vectorIhSaIhEED2Ev(Ldata);
-	___setStackPtr(LsavedStack);
+	Lcall2=_pbuf_alloc(0,Lconv)|0;
+	if((Lcall2|0)!=(0|0)){
+		tmp2o=HEAP32[4+Lcall2>>2];
+		tmp2=HEAP8;
+		__ZN6cheerp14MakeTypedArrayIhN6client10Uint8ArrayEEEPT0_PKT_j(tmp2,tmp2o,Lconv).set(Lpkt);
+		__ZN7IpStackL7doInputEP4pbuf(Lcall2);
+	}
 }
 function __ZN7IpStack6outputEPFvPN6client10Uint8ArrayEE(Lcallback){
 	__ZL9output_cb=Lcallback;
@@ -199,10 +194,7 @@ function __ZN7IpStack11recvAdapterEPN3tcp6SocketEPhj(Ls,Ldata,Mdata,Llen){
 	var Lcall1=null;
 	Lcall1=__ZN6client4TMapIiPNS_14MessageChannelEE3getEi(__ZN7IpStackL7chanMapE,((Ls|0)|0)).port2;
 	if(__ZN7IpStack10isWasmNullIhEEbPT_(Ldata,Mdata)|0){
-		console.warn(_cheerpCreate_ZN6client6StringC2EPKc(HEAP8,1052568>>0));
 		__ZN3tcp6Socket5closeEv(Ls|0);
-		__ZN3tcp6SocketD2Ev(Ls|0);
-		_free(Ls|0);
 		Lcall1.postMessage(null);
 		return;
 	}
@@ -219,24 +211,6 @@ function __ZN7IpStack10isWasmNullIhEEbPT_(Lp,Mp){
 		return ((tmp0|0)===0?1:0)|0;
 	}
 	return 0|0;
-}
-function _cheerpCreate_ZN6client6StringC2EPKc(Larg0,Marg0){
-	return String(__ZN6client6String11fromCharPtrIcEEPS0_PKT_(Larg0,Marg0));
-}
-function __ZN6client6String11fromCharPtrIcEEPS0_PKT_(Ls,Ms){
-	var LretConstructor=null,tmp1=0,Lgeptoindexphi=0;
-	LretConstructor=String();
-	tmp1=Ls[Ms]|0;
-	if((tmp1&255)===0)return LretConstructor;
-	Lgeptoindexphi=0;
-	while(1){
-		LretConstructor=LretConstructor.concat(String.fromCharCode(tmp1<<24>>24));
-		Lgeptoindexphi=Lgeptoindexphi+1|0;
-		tmp1=Ls[Ms+Lgeptoindexphi|0]|0;
-		if((tmp1&255)!==0)continue;
-		break;
-	}
-	return LretConstructor;
 }
 function __ZN7IpStack11connAdapterEPN3tcp6SocketEi(Ls,Lerr){
 	var tmp0=0,Lcall=null,Lcall2=null;
@@ -284,8 +258,9 @@ function __ZN7IpStackL12setupChannelEPN3tcp6SocketE(Ls){
 	Lcall1=LretConstructor.port2;
 	__ZN6client4TMapIiPNS_14MessageChannelEE3setEiS2_(__ZN7IpStackL7chanMapE,((Ls|0)|0),LretConstructor);
 	__ZN7IpStack8recvWasmEPN3tcp6SocketE(Ls|0);
-	LretConstructor={a0:0};
-	LretConstructor.a0=(Ls|0);
+	LretConstructor={a0:null,a1:0};
+	LretConstructor.a0=Lcall1;
+	LretConstructor.a1=(Ls|0);
 	Lcall1.onmessage=__ZN6cheerp8CallbackIZN7IpStackL12setupChannelEPN3tcp6SocketEE3$_7EEPN6client13EventListenerEOT_(LretConstructor);
 }
 function __ZN6client4TMapIiPNS_13EventListenerEE3setEiS2_(Lthis,Lk,Lv){
@@ -330,8 +305,9 @@ function __ZN6cheerp13ClosureHelperIZN7IpStackL12setupChannelEPN3tcp6SocketEE3$_
 }
 function __ZN6cheerp7ClosureIFvPN6client12MessageEventEEEC2IZN7IpStackL12setupChannelEPN3tcp6SocketEE3$_7EEOT_PNSt9enable_ifIXntsr3std14is_convertibleISC_PS4_EE5valueEvE4typeEPNSE_IXntsrNS5_13_must_destroyISC_EE5valueEvE4typeE(Lthis,Lf){
 	var tmp0=null,tmp1=null;
-	tmp0=[{a0:0}];
-	tmp0[0].a0=(Lf.a0|0);
+	tmp0=[{a0:null,a1:0}];
+	tmp0[0].a0=Lf.a0;
+	tmp0[0].a1=(Lf.a1|0);
 	tmp1=cheerpCreateClosure(__ZN6cheerp12InvokeHelperIvE6invokeIZN7IpStackL12setupChannelEPN3tcp6SocketEE3$_7JPN6client12MessageEventEEEEvPT_DpT0_,tmp0[0]);
 	Lthis.a0=tmp1;
 	Lthis.a1=null;
@@ -341,7 +317,7 @@ function __ZN6cheerp12InvokeHelperIvE6invokeIZN7IpStackL12setupChannelEPN3tcp6So
 	__ZZN7IpStackL12setupChannelEPN3tcp6SocketEENK3$_7clEPN6client12MessageEventE(Lfunc,Largs);
 }
 function __ZZN7IpStackL12setupChannelEPN3tcp6SocketEENK3$_7clEPN6client12MessageEventE(Lthis,Lev){
-	var LsavedStack=null,Lcall=null,Lcall8=null,Lcall8o=0,Lcall7=null,Lcall7o=0,Lbuf=0,Li$p04=0;
+	var LsavedStack=null,Lcall=null,Lbuf=0,Lcall8=null,Lcall8o=0,Lcall7=null,Lcall7o=0,Li$p03=0;
 	LsavedStack=___getStackPtr();
 	Lcall7=-16+LsavedStack|0;
 	___setStackPtr(Lcall7);
@@ -350,27 +326,23 @@ function __ZZN7IpStackL12setupChannelEPN3tcp6SocketEENK3$_7clEPN6client12Message
 		Lbuf=Lcall7|0;
 		__ZNSt6vectorIhSaIhEEC2Ej(Lbuf,~~ +Lcall.length);
 		if( +Lcall.length>0){
-			Li$p04=0;
+			Li$p03=0;
 			while(1){
-				Lcall7=__ZN6client10Uint8ArrayixEi(Lcall,Li$p04);
+				Lcall7=__ZN6client10Uint8ArrayixEi(Lcall,Li$p03);
 				Lcall7o=oSlot;
 				Lcall8=HEAP8;
-				Lcall8o=__ZNSt6vectorIhSaIhEEixEj(Lbuf,Li$p04)|0;
+				Lcall8o=__ZNSt6vectorIhSaIhEEixEj(Lbuf,Li$p03)|0;
 				Lcall8[Lcall8o]=Lcall7[Lcall7o]|0;
-				Li$p04=Li$p04+1|0;
-				if( +Lcall.length>(+(Li$p04|0)))continue;
+				Li$p03=Li$p03+1|0;
+				if( +Lcall.length>(+(Li$p03|0)))continue;
 				break;
 			}
 		}
-		__ZN7IpStack8sendWasmEPN3tcp6SocketERKSt6vectorIhSaIhEE(Lthis.a0|0,Lbuf);
+		__ZN7IpStack8sendWasmEPN3tcp6SocketERKSt6vectorIhSaIhEE(Lthis.a1|0,Lbuf);
 		__ZNSt6vectorIhSaIhEED2Ev(Lbuf);
 	}else{
-		__ZN3tcp6Socket5closeEv(Lthis.a0|0);
-		Lbuf=Lthis.a0|0;
-		if((Lbuf|0)!=(0|0)){
-			__ZN3tcp6SocketD2Ev(Lbuf);
-			_free(Lbuf|0);
-		}
+		__ZN3tcp6Socket5closeEv(Lthis.a1|0);
+		Lthis.a0.onmessage=null;
 	}
 	___setStackPtr(LsavedStack);
 }
@@ -430,6 +402,10 @@ function __ZN6cheerp7ClosureIFvPN6client12MessageEventEEEC2IZN7IpStack6listenEiE
 	Lthis.a2=tmp0[0];
 }
 function __ZN6cheerp12InvokeHelperIvE6invokeIZN7IpStack6listenEiE3$_4JPN6client12MessageEventEEEEvPT_DpT0_(Lfunc,Largs){
+	__ZZN7IpStack6listenEiENK3$_4clEPN6client12MessageEventE(Lfunc);
+}
+function __ZZN7IpStack6listenEiENK3$_4clEPN6client12MessageEventE(Lthis){
+	__ZN3tcp6Socket5closeEv(Lthis.a0|0);
 }
 function __ZN7IpStack14recvAdapterUdpEPN3udp6SocketEPhjii(Ls,Ldata,Mdata,Llen,Laddr,Lport){
 	var Lcall=0,Lcall2=null;
@@ -483,7 +459,7 @@ function __ZN6cheerp12InvokeHelperIvE6invokeIZN7IpStack4bindEiE3$_6JPN6client12M
 	__ZZN7IpStack4bindEiENK3$_6clEPN6client12MessageEventE(Lfunc,Largs);
 }
 function __ZZN7IpStack4bindEiENK3$_6clEPN6client12MessageEventE(Lthis,Lev){
-	var LsavedStack=null,Lcall=null,Lcall3=null,Lcall9=null,Lcall9o=0,Lcall11=0,Lcall8=null,Lcall8o=0,Lbuf=0,Li$p04=0;
+	var LsavedStack=null,Lcall=null,Lcall3=null,Lbuf=0,Lcall9=null,Lcall9o=0,Lcall11=0,Lcall8=null,Lcall8o=0,Li$p03=0;
 	LsavedStack=___getStackPtr();
 	Lcall8=-16+LsavedStack|0;
 	___setStackPtr(Lcall8);
@@ -493,38 +469,31 @@ function __ZZN7IpStack4bindEiENK3$_6clEPN6client12MessageEventE(Lthis,Lev){
 		Lbuf=Lcall8|0;
 		__ZNSt6vectorIhSaIhEEC2Ej(Lbuf,~~ +Lcall3.length);
 		if( +Lcall3.length>0){
-			Li$p04=0;
+			Li$p03=0;
 			while(1){
-				Lcall8=__ZN6client10Uint8ArrayixEi(Lcall3,Li$p04);
+				Lcall8=__ZN6client10Uint8ArrayixEi(Lcall3,Li$p03);
 				Lcall8o=oSlot;
 				Lcall9=HEAP8;
-				Lcall9o=__ZNSt6vectorIhSaIhEEixEj(Lbuf,Li$p04)|0;
+				Lcall9o=__ZNSt6vectorIhSaIhEEixEj(Lbuf,Li$p03)|0;
 				Lcall9[Lcall9o]=Lcall8[Lcall8o]|0;
-				Li$p04=Li$p04+1|0;
-				if( +Lcall3.length>(+(Li$p04|0)))continue;
+				Li$p03=Li$p03+1|0;
+				if( +Lcall3.length>(+(Li$p03|0)))continue;
 				break;
 			}
 		}
-		Li$p04=Lcall.addr;
+		Li$p03=Lcall.addr;
 		Lcall11=Lcall.port;
-		__ZN7IpStack11sendWasmUdpEPN3udp6SocketERKSt6vectorIhSaIhEEjj(Lthis.a0|0,Lbuf,Li$p04,Lcall11);
+		__ZN7IpStack11sendWasmUdpEPN3udp6SocketERKSt6vectorIhSaIhEEjj(Lthis.a0|0,Lbuf,Li$p03,Lcall11);
 		__ZNSt6vectorIhSaIhEED2Ev(Lbuf);
-	}else{
-		__ZN3udp6Socket5closeEv(Lthis.a0|0);
-		Lbuf=Lthis.a0|0;
-		if((Lbuf|0)!=(0|0)){
-			__ZN3udp6SocketD2Ev(Lbuf);
-			_free(Lbuf|0);
-		}
-	}
+	}else __ZN3udp6Socket5closeEv(Lthis.a0|0);
 	___setStackPtr(LsavedStack);
 }
 function __ZN10__cxxabiv1L24__cxa_throw_wasm_adapterEjPSt9type_infoj(Lthrown_object){
 	var Ldest$paddr=null,Lref$ptmp=null,Ltinfo$paddr=null;
 	Ltinfo$paddr=[0];
-	Ltinfo$paddr[0]=(1048752|0);
+	Ltinfo$paddr[0]=(1048880|0);
 	Ldest$paddr=[0];
-	Ldest$paddr[0]=((58|0)|0);
+	Ldest$paddr[0]=((59|0)|0);
 	Lref$ptmp=[nullObj];
 	Lref$ptmp[0]={d:null,o:Lthrown_object};
 	Ltinfo$paddr=__ZN10__cxxabiv19Exception8allocateIJPvRPSt9type_infoRjEEEPS0_DpOT_(Lref$ptmp,0,Ltinfo$paddr,0,Ldest$paddr,0);
@@ -598,6 +567,20 @@ function __ZN10__cxxabiv1L8do_throwEPNS_9ExceptionE(Lex){
 	throw LretConstructor8;
 	;
 }
+function _cheerpCreate_ZN6client6StringC2EPKc(Larg0,Marg0){
+	var LretConstructor$pi=null,Lgeptoindexphi=0,LcheerpPtrAlloca$p07$pi=null;
+	LretConstructor$pi=String();
+	if((Larg0[Marg0]&255)===0)return String(LretConstructor$pi);
+	Lgeptoindexphi=0;
+	while(1){
+		LcheerpPtrAlloca$p07$pi=String.fromCharCode(Larg0[Marg0+Lgeptoindexphi|0]<<24>>24);
+		LretConstructor$pi=LretConstructor$pi.concat(LcheerpPtrAlloca$p07$pi);
+		Lgeptoindexphi=Lgeptoindexphi+1|0;
+		if((Larg0[Marg0+Lgeptoindexphi|0]&255)!==0)continue;
+		break;
+	}
+	return String(LretConstructor$pi);
+}
 function _print(Lbuf,Mbuf,Llen){
 	var Lcall=null,Lsub=0;
 	Lcall=__ZN6client6String8fromUtf8EPKcj(Lbuf,Mbuf,Llen);
@@ -652,8 +635,8 @@ function __ZN6client6String8fromUtf8EPKcj(Lin,Min,Llen){
 }
 function __start(){
 	___cxx_global_var_init();
+	___cxx_global_var_init$p2();
 	___cxx_global_var_init$p3();
-	___cxx_global_var_init$p4();
 }
 function ___wrapper__print(Larg0,Larg1){
 	_print(HEAP8,Larg0>>0,Larg1);
@@ -752,8 +735,8 @@ var __ZN3tcp6Socket4bindEii=null;
 var __ZN3tcp6Socket6listenEv=null;
 var __ZN7IpStack10acceptWasmEPN3tcp6SocketE=null;
 var __ZN3tcp6SocketD2Ev=null;
-var __ZN7IpStack8recvWasmEPN3tcp6SocketE=null;
 var __ZN3tcp6Socket5closeEv=null;
+var __ZN7IpStack8recvWasmEPN3tcp6SocketE=null;
 var __ZN7IpStack8sendWasmEPN3tcp6SocketERKSt6vectorIhSaIhEE=null;
 var __ZN7IpStack11connectWasmEPN3tcp6SocketEii=null;
 var __ZN2ip4stonERKSs=null;
@@ -762,7 +745,7 @@ var __ZNSsC2Ev=null;
 var __ZNSs6resizeEj=null;
 var __ZNSsixEj_icf=null;
 var _pbuf_alloc=null;
-var __Z22copy_to_pbuf_and_inputP4pbufRKSt6vectorIhSaIhEE=null;
+var __ZN7IpStackL7doInputEP4pbuf=null;
 var __Z4downv=null;
 var __ZNSt13unordered_mapISsSsSt4hashISsESt8equal_toISsESaISt4pairIKSsSsEEEC2Ev=null;
 var __ZNSt13unordered_mapISsSsSt4hashISsESt8equal_toISsESaISt4pairIKSsSsEEE7emplaceIJSsSsEEES4_ISt19__hash_map_iteratorISt15__hash_iteratorIPSt11__hash_nodeISt17__hash_value_typeISsSsEPvEEEbEDpOT_=null;
@@ -821,8 +804,8 @@ export default function(Lh){
 		__ZN3tcp6Socket6listenEv=__asm.__ZN3tcp6Socket6listenEv;
 		__ZN7IpStack10acceptWasmEPN3tcp6SocketE=__asm.__ZN7IpStack10acceptWasmEPN3tcp6SocketE;
 		__ZN3tcp6SocketD2Ev=__asm.__ZN3tcp6SocketD2Ev;
-		__ZN7IpStack8recvWasmEPN3tcp6SocketE=__asm.__ZN7IpStack8recvWasmEPN3tcp6SocketE;
 		__ZN3tcp6Socket5closeEv=__asm.__ZN3tcp6Socket5closeEv;
+		__ZN7IpStack8recvWasmEPN3tcp6SocketE=__asm.__ZN7IpStack8recvWasmEPN3tcp6SocketE;
 		__ZN7IpStack8sendWasmEPN3tcp6SocketERKSt6vectorIhSaIhEE=__asm.__ZN7IpStack8sendWasmEPN3tcp6SocketERKSt6vectorIhSaIhEE;
 		__ZN7IpStack11connectWasmEPN3tcp6SocketEii=__asm.__ZN7IpStack11connectWasmEPN3tcp6SocketEii;
 		__ZN2ip4stonERKSs=__asm.__ZN2ip4stonERKSs;
@@ -831,7 +814,7 @@ export default function(Lh){
 		__ZNSs6resizeEj=__asm.__ZNSs6resizeEj;
 		__ZNSsixEj_icf=__asm.__ZNSsixEj_icf;
 		_pbuf_alloc=__asm._pbuf_alloc;
-		__Z22copy_to_pbuf_and_inputP4pbufRKSt6vectorIhSaIhEE=__asm.__Z22copy_to_pbuf_and_inputP4pbufRKSt6vectorIhSaIhEE;
+		__ZN7IpStackL7doInputEP4pbuf=__asm.__ZN7IpStackL7doInputEP4pbuf;
 		__Z4downv=__asm.__Z4downv;
 		__ZNSt13unordered_mapISsSsSt4hashISsESt8equal_toISsESaISt4pairIKSsSsEEEC2Ev=__asm.__ZNSt13unordered_mapISsSsSt4hashISsESt8equal_toISsESaISt4pairIKSsSsEEEC2Ev;
 		__ZNSt13unordered_mapISsSsSt4hashISsESt8equal_toISsESaISt4pairIKSsSsEEE7emplaceIJSsSsEEES4_ISt19__hash_map_iteratorISt15__hash_iteratorIPSt11__hash_nodeISt17__hash_value_typeISsSsEPvEEEbEDpOT_=__asm.__ZNSt13unordered_mapISsSsSt4hashISsESt8equal_toISsESaISt4pairIKSsSsEEE7emplaceIJSsSsEEES4_ISt19__hash_map_iteratorISt15__hash_iteratorIPSt11__hash_nodeISt17__hash_value_typeISsSsEPvEEEbEDpOT_;
