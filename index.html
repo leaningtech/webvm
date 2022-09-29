@@ -57,7 +57,7 @@
                 case State.Running:
                 {
                     const a = document.getElementById("loginLink");
-                    a.href = "#";
+                    a.href = "https://login.tailscale.com/admin/machines";
                     break;
                 }
                 case State.Starting:
@@ -126,7 +126,7 @@
             </a>
           </li>
           <li style=" margin-right: 50px; height: 100%; display: flex; align-items: center;">
-            <a id="loginLink" href="#">
+            <a id="loginLink" href="#" target="_blank">
               <div id="networkStatus" style="color: white; font-family: montserrat; font-weight: 700; font-size: large;">Tailscale Login</div>
             </a>
           </li>
