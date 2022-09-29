@@ -40,34 +40,54 @@
         window.networkInterface = {};
     </script>
     <script type="module">
-        import { init } from "/tun/tailscale_tun.js";
-        import {createUi} from "/tun/tailscale_tun_ui.js";
+        import { State } from "/tun/tailscale_tun.js";
+        import { autoConf } from "/tun/tailscale_tun_auto.js";
 
-        let listen,connect,bind,parseIP,up,down,login,logout = null;
-        const  upCb = (conf) => {
-          up(conf);
+        const loginUrlCb = (url) => {
+            const a = document.getElementById("loginLink");
+            a.href = url;
         };
-        const  downCb = () => {
-          down();
+        const stateUpdateCb = (state) => {
+            switch(state)
+            {
+                case State.NeedsLogin:
+                {
+                    break;
+                }
+                case State.Running:
+                {
+                    const a = document.getElementById("loginLink");
+                    a.href = "#";
+                    break;
+                }
+                case State.Starting:
+                {
+                    break;
+                }
+                case State.Stopped:
+                {
+                    break;
+                }
+                case State.NoState:
+                {
+                    break;
+                }
+            }
         };
-        const  loginCb = () => {
-          login();
+        const netmapUpdateCb = (map) => {
+            const ip = map.self.addresses[0];
+            const status = document.getElementById("networkStatus");
+            status.innerHTML = "Ip: "+ip;
         };
-        const  logoutCb = () => {
-          logout();
-        };
-        const { showModal, updateState, updatePeers, setLoginUrl } = createUi(document.body,{upCb,downCb,loginCb,logoutCb});
- 
-        ({ listen, connect, bind, parseIP, up, down, login, logout } = await init({
-            netMapCb: updatePeers,
-            stateUpdateCb: updateState,
-            loginUrlCb: setLoginUrl,
-        }));
+        const { listen, connect, bind, parseIP } = await autoConf({
+            loginUrlCb,
+            stateUpdateCb,
+            netmapUpdateCb,
+        });
         window.networkInterface.bind = bind;
         window.networkInterface.connect = connect;
         window.networkInterface.listen = listen;
         window.parseIP = parseIP;
-        window.showModal = showModal;
     </script>
     <script src="./xterm/xterm.js"></script>
     <script src="./xterm/xterm-addon-fit.js"></script>
@@ -106,8 +126,8 @@
             </a>
           </li>
           <li style=" margin-right: 50px; height: 100%; display: flex; align-items: center;">
-            <a href="#" onclick="showModal()">
-              <div style="color: white; font-family: montserrat; font-weight: 700; font-size: large;">Network Settings</div>
+            <a id="loginLink" href="#">
+              <div id="networkStatus" style="color: white; font-family: montserrat; font-weight: 700; font-size: large;">Tailscale Login</div>
             </a>
           </li>
         </div>
