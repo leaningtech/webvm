@@ -86,7 +86,7 @@
         const netmapUpdateCb = (map) => {
             const ip = map.self.addresses[0];
             const status = document.getElementById("networkStatus");
-            status.innerHTML = "Ip: "+ip;
+            status.innerHTML = "IP: "+ip;
         };
         const { listen, connect, bind, up } = await autoConf({
             loginUrlCb,
