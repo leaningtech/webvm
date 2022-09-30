@@ -168,52 +168,29 @@
 	const underline= "\x1b[94;4m";
 	const normal= "\x1b[0m";
 	var printOnTerm = {
-		getAsciiTitle: function ()
-		{
-			var title = [
-				color + "                        __      __   _  __   ____  __       " + normal,
-				color + "                        \\ \\    / /__| |_\\ \\ / /  \\/  | " + normal,
-				color + "                         \\ \\/\\/ / -_) '_ \\ V /| |\\/| | " + normal,
-				color + "                          \\_/\\_/\\___|_.__/\\_/ |_|  |_|  " + normal,
-
-			];
-			return title;
-		},
 		getAsciiText: function ()
 		{
 			var text = [
-				" +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
-				" |                                                                            |",
-				" | WebVM is a server-less virtual Linux environment running fully client-side |",
-				" | in HTML5/WebAssembly.                                                      |",
-				" |                                                                            |",
-				" | In this demo, it runs an unmodified Debian distribution including many     |",
-				" | native development toolchains.                                             |",
-				" |                                                                            |",
-				" | WebVM is powered by the CheerpX virtualization engine, and enables safe,   |",
-				" | sandboxed client-side execution of x86 binaries on any browser.            |",
-				" |                                                                            |",
-				" | CheerpX includes an x86-to-WebAssembly JIT compiler, a virtual block-based |",
-				" | file system, and a Linux syscall emulator.                                 |",
-				" |                                                                            |",
-				" | For more information: " + underline + "https://medium.com/p/40a60170b361" + normal + "                    |",
-				" |                                                                            |",
-				" | " +
-					    underline + "GitHub" + normal + "  |  " +
-					    underline + "Issues" + normal + "  |  " +
-					    underline + "Gitter" + normal + "  |  " +
-					    underline + "Twitter" + normal + "  |  " +
-					    underline + "Latest News" + normal + "  |  " +
-					    underline + "About CheerpX" + normal + " |",
-				" |                                                                            |",
-				" +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
+				"   WebVM is a server-less virtual Linux environment running fully client-side ",
+				"   in HTML5/WebAssembly.                                                      ",
+				"                                                                            ",
+				"   In this demo, it runs an unmodified Debian distribution including many     ",
+				"   native development toolchains.                                             ",
+				"                                                                            ",
+				"   WebVM is powered by the CheerpX virtualization engine, and enables safe,   ",
+				"   sandboxed client-side execution of x86 binaries on any browser.            ",
+				"                                                                            ",
+				"   CheerpX includes an x86-to-WebAssembly JIT compiler, a virtual block-based ",
+				"   file system, and a Linux syscall emulator.                                 ",
+				"                                                                            ",
+				" --------------                                                                            ",
 				"",
 				"   Welcome to WebVM (build CX_VERSION). If unsure, try these examples:",
 				"",
-				"     python3 examples/python3/fibonacci.py ",
-				"     gcc -o helloworld examples/c/helloworld.c && ./helloworld",
-				"     objdump -d ./helloworld | less -M",
-				"     vim examples/c/helloworld.c",
+				"   python3 examples/python3/fibonacci.py ",
+				"   gcc -o helloworld examples/c/helloworld.c && ./helloworld",
+				"   objdump -d ./helloworld | less -M",
+				"   vim examples/c/helloworld.c",
 				"",
 				];
 			return text;
@@ -356,55 +333,12 @@
 	}
 	function initialMessage()
 	{
-		printOnTerm.printMessage(printOnTerm.getAsciiTitle());
 		printOnTerm.printMessage(["\n"]);
 		printOnTerm.printMessage(printOnTerm.getAsciiText());
-		term.registerLinkMatcher(/https:\/\/medium\.com\/p\/40a60170b361/, function(mouseEvent, matchedString) {
-			window.open(matchedString, "_blank")
-		});
 		const textArray = new Array(6);
 		const linksArray = new Array(6);
 		const rangesArray = new Array(6);
 		var last = 0;
-		const textLinkLine = " | GitHub  |  Issues  |  Gitter  |  Twitter  |  Latest News  |  About CheerpX |";
-		const lineWithLinks = 23;
-		function addLink(text, website)
-		{
-			var index = textLinkLine.indexOf(text);
-			const start_x = index+1;
-			const end_x = index + text.length;
-			rangesArray[last] = {start: {x:start_x, y:lineWithLinks}, end: {x:end_x, y:lineWithLinks}};
-			linksArray[last] = website;
-			last++;
-		}
-
-		addLink("GitHub", "https://github.com/leaningtech/webvm");
-		addLink("Issues", "https://github.com/leaningtech/webvm/issues");
-		addLink("Gitter", "https://gitter.im/leaningtech/cheerpx");
-		addLink("Twitter", "https://twitter.com/leaningtech");
-		addLink("Latest News", "https://medium.com/leaningtech");
-		addLink("About CheerpX", "https://leaningtech.com/cheerpx");
-		var provider = {
-			provideLinks(bufferLineNum, callback) {
-				switch(bufferLineNum)
-				{
-					case lineWithLinks:
-						{
-						callback([
-								{range: rangesArray[0], activate() {window.open('' + linksArray[0], '_blank');}},
-								{range: rangesArray[1], activate() {window.open('' + linksArray[1], '_blank');}},
-								{range: rangesArray[2], activate() {window.open('' + linksArray[2], '_blank');}},
-								{range: rangesArray[3], activate() {window.open('' + linksArray[3], '_blank');}},
-								{range: rangesArray[4], activate() {window.open('' + linksArray[4], '_blank');}},
-								{range: rangesArray[5], activate() {window.open('' + linksArray[5], '_blank');}},
-							]);
-							break;
-						}
-
-					}
-			}
-		};
-		term.registerLinkProvider(provider);
 		console.log("Welcome. We appreciate curiosity, but be warned that keeping the DevTools open causes significant performance degradation and crashes.");
 	}
 	initialMessage();
