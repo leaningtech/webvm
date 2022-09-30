@@ -70,13 +70,14 @@ export async function autoConf({loginUrlCb, stateUpdateCb, netmapUpdateCb}) {
 		}
 	};
 
-	up(settings);
-
 	return {
 		bind,
 		connect,
 		listen,
 		parseIP,
+		up: async () => {
+			await up(settings);
+		},
 	}
 }
 
