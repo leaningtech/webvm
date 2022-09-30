@@ -491,9 +491,9 @@ function __ZZN7IpStack4bindEiENK3$_6clEPN6client12MessageEventE(Lthis,Lev){
 function __ZN10__cxxabiv1L24__cxa_throw_wasm_adapterEjPSt9type_infoj(Lthrown_object){
 	var Ldest$paddr=null,Lref$ptmp=null,Ltinfo$paddr=null;
 	Ltinfo$paddr=[0];
-	Ltinfo$paddr[0]=(1048880|0);
+	Ltinfo$paddr[0]=(1051752|0);
 	Ldest$paddr=[0];
-	Ldest$paddr[0]=((59|0)|0);
+	Ldest$paddr[0]=((58|0)|0);
 	Lref$ptmp=[nullObj];
 	Lref$ptmp[0]={d:null,o:Lthrown_object};
 	Ltinfo$paddr=__ZN10__cxxabiv19Exception8allocateIJPvRPSt9type_infoRjEEEPS0_DpOT_(Lref$ptmp,0,Ltinfo$paddr,0,Ldest$paddr,0);

@@ -43,7 +43,7 @@ export async function init() {
 		ipn = newIPN({
 			// Persist IPN state in sessionStorage in development, so that we don't need
 			// to re-authorize every time we reload the page.
-			stateStorage: sessionStateStorage,
+			//stateStorage: sessionStateStorage,
 		});
 
 		const setupIpStack = () => {
