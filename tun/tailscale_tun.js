@@ -29,7 +29,7 @@ export async function init() {
 	const lazyRunIpn = async () => {
 		const wasmUrl = new URL("tailscale.wasm", import.meta.url);
 		const go = new window.Go();
-		let {instance} = await WebAssembly.instantiateStreaming(fetch(wasmUrl),go.importObject);
+		let {instance} = await fetch(wasmUrl).then(x => x.arrayBuffer()).then(x => WebAssembly.instantiate(x,go.importObject));
 		go.run(instance);
 
 		const sessionStateStorage = {
