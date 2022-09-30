@@ -43,9 +43,17 @@
         import { State } from "/tun/tailscale_tun.js";
         import { autoConf } from "/tun/tailscale_tun_auto.js";
 
+        let resolveLogin = null;
+        let loginPromise = new Promise((f,r) => {
+            resolveLogin = f;
+        });
         const loginUrlCb = (url) => {
             const a = document.getElementById("loginLink");
             a.href = url;
+            a.target = "_blank";
+            const status = document.getElementById("networkStatus");
+            status.innerHTML = "Tailscale Login";
+            resolveLogin(url);
         };
         const stateUpdateCb = (state) => {
             switch(state)
@@ -79,7 +87,7 @@
             const status = document.getElementById("networkStatus");
             status.innerHTML = "Ip: "+ip;
         };
-        const { listen, connect, bind, parseIP } = await autoConf({
+        const { listen, connect, bind, up } = await autoConf({
             loginUrlCb,
             stateUpdateCb,
             netmapUpdateCb,
@@ -87,7 +95,18 @@
         window.networkInterface.bind = bind;
         window.networkInterface.connect = connect;
         window.networkInterface.listen = listen;
-        window.parseIP = parseIP;
+        window.startTailscaleAndGetLogin = async () => {
+            const a = document.getElementById("loginLink");
+            a.onclick = null;
+            const status = document.getElementById("networkStatus");
+            status.innerHTML = "Downloading network code...";
+            const w = window.open("login.html", "_blank");
+            await up();
+            w.document.body.innerHTML = "Starting login...";
+            status.innerHTML = "Starting login...";
+            const url = await loginPromise;
+            w.location.href = url;
+        };
     </script>
     <script src="./xterm/xterm.js"></script>
     <script src="./xterm/xterm-addon-fit.js"></script>
@@ -126,7 +145,7 @@
             </a>
           </li>
           <li style=" margin-right: 50px; height: 100%; display: flex; align-items: center;">
-            <a id="loginLink" href="#" target="_blank">
+            <a id="loginLink" href="#" onclick="startTailscaleAndGetLogin()">
               <div id="networkStatus" style="color: white; font-family: montserrat; font-weight: 700; font-size: large;">Tailscale Login</div>
             </a>
           </li>
