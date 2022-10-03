@@ -196,14 +196,12 @@
 				"                                                                           ",
 				" TO BE ADDED: Minimal Tailscale/network info plus click on 'Login'         ",
 				"                                                                           ",
-				" For more information: " + underline + "https://medium.com/p/40a60170b361" + normal + "                   ",
-				"                                                                           ",
-					    underline + "GitHub" + normal + "  |  " +
-					    underline + "Issues" + normal + "  |  " +
-					    underline + "Gitter" + normal + "  |  " +
-					    underline + "Twitter" + normal + "  |  " +
-					    underline + "Latest News" + normal + "  |  " +
-					    underline + "About CheerpX" + normal + " |",
+				" Latest article: " + underline + "https://medium.com/p/40a60170b361" + normal + "                   ",
+				" Repository: " + underline + "https://github.com/leaningtech/webvm" + normal + "                   ",
+				" Discord: " + underline + "https://medium.com/p/40a60170b361" + normal + "                   ",
+				" Twitter: " + underline + "https://medium.com/p/40a60170b361" + normal + "                   ",
+				" About us: " + underline + "https://medium.com/p/40a60170b361" + normal + "                   ",
+				"",
 				"",
 				"   Welcome to WebVM (build CX_VERSION). If unsure, try these examples:",
 				"",
@@ -359,49 +357,6 @@
 		term.registerLinkMatcher(/https:\/\/medium\.com\/p\/40a60170b361/, function(mouseEvent, matchedString) {
 			window.open(matchedString, "_blank")
 		});
-		const textArray = new Array(6);
-		const linksArray = new Array(6);
-		const rangesArray = new Array(6);
-		var last = 0;
-		const textLinkLine = " | GitHub  |  Issues  |  Gitter  |  Twitter  |  Latest News  |  About CheerpX |";
-		const lineWithLinks = 23;
-		function addLink(text, website)
-		{
-			var index = textLinkLine.indexOf(text);
-			const start_x = index+1;
-			const end_x = index + text.length;
-			rangesArray[last] = {start: {x:start_x, y:lineWithLinks}, end: {x:end_x, y:lineWithLinks}};
-			linksArray[last] = website;
-			last++;
-		}
-
-		addLink("GitHub", "https://github.com/leaningtech/webvm");
-		addLink("Issues", "https://github.com/leaningtech/webvm/issues");
-		addLink("Gitter", "https://gitter.im/leaningtech/cheerpx");
-		addLink("Twitter", "https://twitter.com/leaningtech");
-		addLink("Latest News", "https://medium.com/leaningtech");
-		addLink("About CheerpX", "https://leaningtech.com/cheerpx");
-		var provider = {
-			provideLinks(bufferLineNum, callback) {
-				switch(bufferLineNum)
-				{
-					case lineWithLinks:
-						{
-						callback([
-								{range: rangesArray[0], activate() {window.open('' + linksArray[0], '_blank');}},
-								{range: rangesArray[1], activate() {window.open('' + linksArray[1], '_blank');}},
-								{range: rangesArray[2], activate() {window.open('' + linksArray[2], '_blank');}},
-								{range: rangesArray[3], activate() {window.open('' + linksArray[3], '_blank');}},
-								{range: rangesArray[4], activate() {window.open('' + linksArray[4], '_blank');}},
-								{range: rangesArray[5], activate() {window.open('' + linksArray[5], '_blank');}},
-							]);
-							break;
-						}
-
-					}
-			}
-		};
-		term.registerLinkProvider(provider);
 		console.log("Welcome. We appreciate curiosity, but be warned that keeping the DevTools open causes significant performance degradation and crashes.");
 	}
 	initialMessage();
