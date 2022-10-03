@@ -329,7 +329,7 @@
 		{
 			printOnTerm.printError(printOnTerm.getErrorMessage(err));
 		}
-					CheerpXApp.create({devices:[{type:"block",url:"https://127.0.0.1:8080/images/webvm_20220131.ext2",name:"block1"}],mounts:[{type:"ext2",dev:"block1",path:"/"},{type:"cheerpOS",dev:"/app",path:"/app"},{type:"cheerpOS",dev:"/str",path:"/data"},{type:"devs",dev:"",path:"/dev"}], networkInterface}).then(runTest, failCallback);
+					CheerpXApp.create({devices:[{type:"block",url:"https://disks.leaningtech.com/pythonfiddle_20220914.ext2",name:"block1"}],mounts:[{type:"ext2",dev:"block1",path:"/"},{type:"cheerpOS",dev:"/app",path:"/app"},{type:"cheerpOS",dev:"/str",path:"/data"},{type:"devs",dev:"",path:"/dev"}], networkInterface}).then(runTest, failCallback);
 	}
 	function initialMessage()
 	{
