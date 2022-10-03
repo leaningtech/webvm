@@ -1,0 +1,21 @@
+.scrollbar {
+  scrollbar-color: #777 #0000;
+}
+
+.scrollbar *::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+  background-color: #0000;
+}
+
+/* Add a thumb */
+.scrollbar *::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  height: 6px;
+  width: 6px;
+    background: #777;
+}
+
+.scrollbar *::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
