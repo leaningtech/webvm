@@ -141,8 +141,8 @@
             </a>
           </li>
           <li style=" margin-right: 50px; height: 100%; display: flex; align-items: center;">
-            <a href="https://medium.com/p/40a60170b361" target="_blank">
-              <div style="color: white; font-family: montserrat; font-weight: 700; font-size: large;">About</div>
+            <a href="https://discord.leaningtech.com" target="_blank">
+              <div style="color: white; font-family: montserrat; font-weight: 700; font-size: large;">Discord</div>
             </a>
           </li>
           <li style=" margin-right: 50px; height: 100%; display: flex; align-items: center;">
@@ -196,11 +196,10 @@
 				"                                                                           ",
 				" TO BE ADDED: Minimal Tailscale/network info plus click on 'Login'         ",
 				"                                                                           ",
-				" Latest article: " + underline + "https://medium.com/p/40a60170b361" + normal + "                   ",
-				" Repository: " + underline + "https://github.com/leaningtech/webvm" + normal + "                   ",
-				" Discord: " + underline + "https://medium.com/p/40a60170b361" + normal + "                   ",
-				" Twitter: " + underline + "https://medium.com/p/40a60170b361" + normal + "                   ",
-				" About us: " + underline + "https://medium.com/p/40a60170b361" + normal + "                   ",
+				" Latest article:  " + underline + "https://medium.com/p/40a60170b361" + normal + "                   ",
+				" Repository:      " + underline + "https://github.com/leaningtech/webvm" + normal + "                   ",
+				" Discord:         " + underline + "https://discord.leaningtech.com" + normal + "                   ",
+				" Twitter:         " + underline + "https://twitter.com/leaningtech" + normal + "                   ",
 				"",
 				"",
 				"   Welcome to WebVM (build CX_VERSION). If unsure, try these examples:",
@@ -355,6 +354,12 @@
 		printOnTerm.printMessage(["\n"]);
 		printOnTerm.printMessage(printOnTerm.getAsciiText());
 		term.registerLinkMatcher(/https:\/\/medium\.com\/p\/40a60170b361/, function(mouseEvent, matchedString) {
+			window.open(matchedString, "_blank")
+		});
+		term.registerLinkMatcher(/https:\/\/github.com\/leaningtech\/webvm/, function(mouseEvent, matchedString) {
+			window.open(matchedString, "_blank")
+		});
+		term.registerLinkMatcher(/https:\/\/discord.leaningtech.com/, function(mouseEvent, matchedString) {
 			window.open(matchedString, "_blank")
 		});
 		console.log("Welcome. We appreciate curiosity, but be warned that keeping the DevTools open causes significant performance degradation and crashes.");
