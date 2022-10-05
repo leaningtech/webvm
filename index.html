@@ -98,6 +98,7 @@
             const w = window.open("login.html", "_blank");
 	    async function waitLogin() {
 	        await up();
+                statusElem.innerHTML = "Starting login...";
 		const url = await loginPromise;
 		w.location.href = url;
 	    }
