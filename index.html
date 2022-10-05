@@ -35,7 +35,9 @@
     <script>
         window.networkInterface = {};
     </script>
-    <script type="module">
+    <script src="./xterm/xterm.js"></script>
+    <script src="./xterm/xterm-addon-fit.js"></script>
+    <script defer type="module">
         import { State } from "/tun/tailscale_tun.js";
         import { autoConf } from "/tun/tailscale_tun_auto.js";
 
@@ -104,20 +106,9 @@
             };
         };
     </script>
-    <script src="./xterm/xterm.js"></script>
-    <script src="./xterm/xterm-addon-fit.js"></script>
   </head>
 
   <body style="margin:0;height:100%;background:black;color:white;overflow:hidden; display:flex; flex-direction: column; justify-content: space-between; height: 100%;">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-818T3Y0PEY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-818T3Y0PEY');
-</script>
 
     <header style="flex-grow:0; flex-srink: 0;height:80px; width: 100%; margin: 2px 0 2px 0;">
       <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
@@ -368,6 +359,15 @@
 	document.head.appendChild(script);
 
     </script>
+<!-- Google tag (gtag.js) -->
+<script defer src="https://www.googletagmanager.com/gtag/js?id=G-818T3Y0PEY"></script>
+<script defer>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-818T3Y0PEY');
+</script>
   </body>
 </html>
 
