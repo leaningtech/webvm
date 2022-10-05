@@ -100,7 +100,7 @@
 	        await up();
                 statusElem.innerHTML = "Starting login...";
 		const url = await loginPromise;
-		w.location.href = url;
+		w.changeLocation(url);
 	    }
 	    waitLogin();
         };
