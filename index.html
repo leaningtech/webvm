@@ -164,24 +164,24 @@
 		getAsciiText: function ()
 		{
 			var text = [
-				"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
-				"|                                                                            |",
-				"| WebVM is a server-less virtual Linux environment running fully client-side |",
-				"| in HTML5/WebAssembly.                                                      |",
-				"|                                                                            |",
-				"| WebVM is powered by the CheerpX virtualization engine, which enables safe, |",
-				"| sandboxed client-side execution of x86 binaries on any browser.            |",
-				"|                                                                            |",
-				"| CheerpX includes an x86-to-WebAssembly JIT compiler, a virtual block-based |",
-				"| file system, and a Linux syscall emulator. Read more about WebVM at        |",
-				"| "+ underline + "https://leaningtech.com/webvm" + normal + "                                              |",
-				"|                                                                            |",
-				"| [NEW!] WebVM now supports full TCP and UDP networking via Tailscale, click |",
-				"| on Tailscale Login to enable it. Read the announcement:                    |",
-				"|                                                                            |",
-				"| " + underline + "https://leaningtech.com/webvm-virtual-machine-with-networking-via-tailscale" + normal +"|",
-				"|                                                                            |",
-				"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
+				"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
+				"|                                                                             |",
+				"| WebVM is a server-less virtual Linux environment running fully client-side  |",
+				"| in HTML5/WebAssembly.                                                       |",
+				"|                                                                             |",
+				"| WebVM is powered by the CheerpX virtualization engine, which enables safe,  |",
+				"| sandboxed client-side execution of x86 binaries on any browser.             |",
+				"|                                                                             |",
+				"| CheerpX includes an x86-to-WebAssembly JIT compiler, a virtual block-based  |",
+				"| file system, and a Linux syscall emulator. Read more about WebVM at         |",
+				"| "+ underline + "https://leaningtech.com/webvm" + normal + "                                               |",
+				"|                                                                             |",
+				"| [NEW!] WebVM now supports full TCP and UDP networking via Tailscale, click  |",
+				"| on Tailscale Login to enable it. Read the announcement:                     |",
+				"|                                                                             |",
+				"| " + underline + "https://leaningtech.com/webvm-virtual-machine-with-networking-via-tailscale" + normal +" |",
+				"|                                                                             |",
+				"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 				"",
 				"   Welcome to WebVM (build CX_VERSION). If unsure, try these examples:",
 				"",
@@ -333,15 +333,12 @@
 	function initialMessage()
 	{
 		printOnTerm.printMessage(printOnTerm.getAsciiTitle());
-		printOnTerm.printMessage(["\n"]);
+		printOnTerm.printMessage([""]);
 		printOnTerm.printMessage(printOnTerm.getAsciiText());
-		term.registerLinkMatcher(/https:\/\/medium\.com\/p\/40a60170b361/, function(mouseEvent, matchedString) {
+		term.registerLinkMatcher(/https:\/\/leaningtech.com\/webvm/, function(mouseEvent, matchedString) {
 			window.open(matchedString, "_blank")
 		});
-		term.registerLinkMatcher(/https:\/\/github.com\/leaningtech\/webvm/, function(mouseEvent, matchedString) {
-			window.open(matchedString, "_blank")
-		});
-		term.registerLinkMatcher(/https:\/\/discord.leaningtech.com/, function(mouseEvent, matchedString) {
+		term.registerLinkMatcher(/https:\/\/leaningtech.com\/webvm-virtual-machine-with-networking-via-tailscale/, function(mouseEvent, matchedString) {
 			window.open(matchedString, "_blank")
 		});
 		console.log("Welcome. We appreciate curiosity, but be warned that keeping the DevTools open causes significant performance degradation and crashes.");
