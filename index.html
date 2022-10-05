@@ -91,15 +91,17 @@
         window.networkInterface.listen = listen;
         loginElem.style.cursor = "pointer";
         statusElem.style.color = "white";
-        loginElem.onclick = async () => {
+        loginElem.onclick = () => {
             loginElem.onclick = null;
             statusElem.innerHTML = "Downloading network code...";
             const w = window.open("login.html", "_blank");
-            await up();
-            w.document.body.innerHTML = "Starting login...";
-            statusElem.innerHTML = "Starting login...";
-            const url = await loginPromise;
-            w.location.href = url;
+            w.onload = async () => {
+                await up();
+                w.document.body.innerHTML = "Starting login...";
+                statusElem.innerHTML = "Starting login...";
+                const url = await loginPromise;
+                w.location.href = url;
+            };
         };
     </script>
     <script src="./xterm/xterm.js"></script>
