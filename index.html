@@ -96,13 +96,12 @@
             loginElem.onclick = null;
             statusElem.innerHTML = "Downloading network code...";
             const w = window.open("login.html", "_blank");
-            w.onload = async () => {
-                await up();
-                w.document.body.innerHTML = "Starting login...";
-                statusElem.innerHTML = "Starting login...";
-                const url = await loginPromise;
-                w.location.href = url;
-            };
+	    async function waitLogin() {
+	        await up();
+		const url = await loginPromise;
+		w.location.href = url;
+	    }
+	    waitLogin();
         };
     </script>
   </head>
