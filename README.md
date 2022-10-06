@@ -8,6 +8,18 @@ WebVM is powered by the CheerpX virtualization engine, and enables safe, sandbox
 
 For more information: https://medium.com/leaningtech/webvm-client-side-x86-virtual-machines-in-the-browser-40a60170b361
 
+# Enable Networking
+
+- Click "Tailscale Login" in the top right corner.
+- Log in to Tailscale (create an accout if you don't have one)
+- If you want to access the public internet, you need an Exit Node. See here for how to set one up. If you just want to access a machine in your Tailscale Network, you don't need it.
+- Depending on your network speed, you may need to wait a few moments for the Tailscale Wasm module to be downloaded.
+- Log in with your Tailscale credentials.
+- Go back to the WebVM tab. You will see your IP address in the top right.
+- Start firing network requests!
+
+Given the short-lived nature of WebVM, we log into Tailscale as an Ephemeral Node. This means that the node will disappear from your Tailscale Network after a period of inactivity. It also means that when you reload the tab, you need to log in again. It should be faster the second time.
+
 # Bugs and Issues
 
 Please use [Issues](github.com/webvm/issues) to report any bug.
