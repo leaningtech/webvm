@@ -2,6 +2,8 @@
 
 This repository hosts the source code of for [https://webvm.io](https://webvm.io), a Linux virtual machine that runs in your browser.
 
+![Example of WebVM usage](assets/assets/welcome_to_WebVM_slim.png "Welcome message to WebVM via cowsay")
+
 WebVM is a server-less virtual environment running fully client-side in HTML5/WebAssembly. It's designed to be Linux ABI-compatible. It runs an unmodified Debian distribution including many native development toolchains.
 
 WebVM is powered by the CheerpX virtualization engine, and enables safe, sandboxed client-side execution of x86 binaries on any browser. CheerpX includes an x86-to-WebAssembly JIT compiler, a virtual block-based file system, and a Linux syscall emulator. 
@@ -27,7 +29,7 @@ Given the short-lived nature of WebVM, we log into Tailscale as an Ephemeral Nod
 
 # Bugs and Issues
 
-Please use [Issues](github.com/webvm/issues) to report any bug.
+Please use [Issues](https://github.com/webvm/issues) to report any bug.
 
 # Browsers support
 
