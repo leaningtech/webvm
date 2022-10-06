@@ -28,10 +28,19 @@ WebVM is powered by the CheerpX virtualization engine, and enables safe, sandbox
 # Bugs and Issues
 
 Please use [Issues](https://github.com/webvm/issues) to report any bug.
+Or come to say hello / share your feedback on [Discord](https://discord.leaningtech.com).
 
 # Browsers support
 
 WebVM and CheerpX are compatible with any browser, both Desktop and Mobile, provided support for [SAB](https://caniuse.com/sharedarraybuffer), [IndexedDB](https://caniuse.com/indexeddb), and the device having enough memory.
+
+# More links
+
+- [Do: WebVM](https://webvm.io)
+- [Read: WebVM](https://leaningtech.com/webvm-server-less-x86-virtual-machines-in-the-browser/)
+- [Read: WebVM + Tailscale networking](https://leaningtech.com/webvm-virtual-machine-with-networking-via-tailscale/)
+- [Learn: WebVM](https://leaningtech.com/webvm)
+- [Watch: WebVM at GitNation](https://www.youtube.com/watch?v=VqrbVycTXmw)
 
 # Thanks to... 
 This project depends on:
