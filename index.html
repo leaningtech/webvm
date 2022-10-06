@@ -334,9 +334,6 @@
 		printOnTerm.printMessage(printOnTerm.getAsciiTitle());
 		printOnTerm.printMessage([""]);
 		printOnTerm.printMessage(printOnTerm.getAsciiText());
-		term.registerLinkMatcher(/https:\/\/leaningtech.com\/webvm/, function(mouseEvent, matchedString) {
-			window.open(matchedString, "_blank")
-		});
 		term.registerLinkMatcher(/https:\/\/leaningtech.com\/webvm-virtual-machine-with-networking-via-tailscale/, function(mouseEvent, matchedString) {
 			window.open(matchedString, "_blank")
 		});
