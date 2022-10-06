@@ -2,7 +2,7 @@
 
 This repository hosts the source code of for [https://webvm.io](https://webvm.io), a Linux virtual machine that runs in your browser.
 
-![Example of WebVM usage](assets/assets/welcome_to_WebVM_slim.png "Welcome message to WebVM via cowsay")
+<img src="assets/welcome_to_WebVM_slim.png" width="600" height="300">
 
 WebVM is a server-less virtual environment running fully client-side in HTML5/WebAssembly. It's designed to be Linux ABI-compatible. It runs an unmodified Debian distribution including many native development toolchains.
 
@@ -24,8 +24,6 @@ WebVM is powered by the CheerpX virtualization engine, and enables safe, sandbox
 - log in with your Tailscale credentials
 - go back to the WebVM tab. You will see your IP address in the top right
 - start firing network requests!
-
-Given the short-lived nature of WebVM, we log into Tailscale as an Ephemeral Node. This means that the node will disappear from your Tailscale Network after a period of inactivity. It also means that when you reload the tab, you need to log in again. It should be faster the second time.
 
 # Bugs and Issues
 
