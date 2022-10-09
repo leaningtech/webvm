@@ -27,7 +27,7 @@ WebVM is powered by the CheerpX virtualization engine, and enables safe, sandbox
 
 # Bugs and Issues
 
-Please use [Issues](https://github.com/webvm/issues) to report any bug.
+Please use [Issues](https://github.com/leaningtech/webvm/issues) to report any bug.
 Or come to say hello / share your feedback on [Discord](https://discord.leaningtech.com).
 
 # Browsers support
