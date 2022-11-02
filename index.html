@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="./xterm/xterm.css" />
     <link rel="stylesheet" href="./scrollbar.css" />
     <script>
-        window.networkInterface = {};
+        window.networkInterface = { bind: null, connect: null, listen: null, ready: false };
     </script>
     <script src="./xterm/xterm.js"></script>
     <script src="./xterm/xterm-addon-fit.js"></script>
@@ -90,6 +90,7 @@
         window.networkInterface.bind = bind;
         window.networkInterface.connect = connect;
         window.networkInterface.listen = listen;
+	window.networkInterface.ready = true;
         loginElem.style.cursor = "pointer";
         statusElem.style.color = "white";
         loginElem.onclick = () => {
