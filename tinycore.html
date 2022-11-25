@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%;">
+  <head>
+    <meta charset="utf-8">
+    <title>WebVM - Linux virtualization in WebAssembly</title>
+
+    <meta name="description" content="Server-less virtual machine, networking included, running browser-side in HTML5/WebAssembly. Code in any programming language inside this Linux terminal.">
+    <meta name="keywords" content="WebVM, Virtual Machine, CheerpX, x86 virtualization, WebAssembly, Tailscale, JIT">
+    <meta property="og:title" content="WebVM - Linux virtualization in WebAssembly" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="WebVM"/>
+    <meta property="og:url" content="/">
+    <meta property="og:image" content="https://webvm.io/assets/welcome_to_WebVM_.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@leaningtech" />
+    <meta name="twitter:title" content="WebVM - Linux virtualization in WebAssembly" />
+    <meta name="twitter:description" content="Server-less virtual machine, networking included, running browser-side in HTML5/WebAssembly. Code in any programming language inside this Linux terminal.">
+    <meta name="twitter:image" content="https://webvm.io/assets/welcome_to_WebVM_.png" />
+
+    <!-- Apple iOS web clip compatibility tags -->
+    <meta name="application-name" content="WebVM" />
+    <meta name="apple-mobile-web-app-title" content="WebVM" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <link rel="shortcut icon" href="./tower.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" id="us-fonts-css" href="https://fonts.googleapis.com/css?family=Montserrat%3A300%2C400%2C500%2C600%2C700&amp;display=swap&amp;ver=6.0.2" media="all">
+    <link rel="stylesheet" href="./xterm/xterm.css" />
+    <link rel="stylesheet" href="./scrollbar.css" />
+    <script>
+        window.networkInterface = { bind: null, connect: null, listen: null, ready: false };
+    </script>
+    <script src="./xterm/xterm.js"></script>
+    <script src="./xterm/xterm-addon-fit.js"></script>
+    <script defer type="module">
+        import { State } from "/tun/tailscale_tun.js";
+        import { autoConf } from "/tun/tailscale_tun_auto.js";
+
+        let resolveLogin = null;
+        let loginPromise = new Promise((f,r) => {
+            resolveLogin = f;
+        });
+        const loginElem = document.getElementById("loginLink");
+        const statusElem = document.getElementById("networkStatus");
+        const loginUrlCb = (url) => {
+            loginElem.href = url;
+            loginElem.target = "_blank";
+            statusElem.innerHTML = "Tailscale Login";
+            resolveLogin(url);
+        };
+        const stateUpdateCb = (state) => {
+            switch(state)
+            {
+                case State.NeedsLogin:
+                {
+                    break;
+                }
+                case State.Running:
+                {
+                    loginElem.href = "https://login.tailscale.com/admin/machines";
+                    break;
+                }
+                case State.Starting:
+                {
+                    break;
+                }
+                case State.Stopped:
+                {
+                    break;
+                }
+                case State.NoState:
+                {
+                    break;
+                }
+            }
+        };
+        const netmapUpdateCb = (map) => {
+            const ip = map.self.addresses[0];
+            statusElem.innerHTML = "IP: "+ip;
+        };
+        const { listen, connect, bind, up } = await autoConf({
+            loginUrlCb,
+            stateUpdateCb,
+            netmapUpdateCb,
+        });
+        window.networkInterface.bind = bind;
+        window.networkInterface.connect = connect;
+        window.networkInterface.listen = listen;
+	window.networkInterface.ready = true;
+        loginElem.style.cursor = "pointer";
+        statusElem.style.color = "white";
+        loginElem.onclick = () => {
+            loginElem.onclick = null;
+            statusElem.innerHTML = "Downloading network code...";
+            const w = window.open("login.html", "_blank");
+	    async function waitLogin() {
+	        await up();
+                statusElem.innerHTML = "Starting login...";
+		const url = await loginPromise;
+		w.location.href = url;
+	    }
+	    waitLogin();
+        };
+    </script>
+  </head>
+
+  <body style="margin:0;height:100%;background:black;color:white;overflow:hidden; display:flex; flex-direction: column; justify-content: space-between; height: 100%;">
+
+    <header style="flex-grow:0; flex-srink: 0;height:80px; width: 100%; margin: 2px 0 2px 0;">
+      <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+        <div style="display: flex; flex-direction: row;">
+          <a href="https://leaningtech.com/" target="_blank">
+            <img src="./assets/leaningtech.png" style="margin-left: 10px; height: 60px; margin-top: 10px;">
+          </a>
+        </div>
+        <div style="display: flex; flex-direction: row; justify-content: space-before;">
+          <li style=" margin-right: 50px; height: 100%; display: flex; align-items: center;">
+            <a href="https://discord.leaningtech.com" target="_blank"  style="text-decoration: none">
+              <div style="color: white; font-family: montserrat; font-weight: 700; font-size: large;">Discord</div>
+            </a>
+          </li>
+          <li style=" margin-right: 50px; height: 100%; display: flex; align-items: center;">
+            <a href="https://github.com/leaningtech/webvm" target="_blank" style="text-decoration: none" >
+              <div style="color: white; font-family: montserrat; font-weight: 700; font-size: large;">Github</div>
+            </a>
+          </li>
+          <li style=" margin-right: 50px; height: 100%; display: flex; align-items: center;">
+            <a id="loginLink" style="text-decoration: none; cursor:not-allowed;">
+              <div id="networkStatus" style="color: grey; font-family: montserrat; font-weight: 700; font-size: large;">Tailscale Login</div>
+            </a>
+          </li>
+        </div>
+      </div>
+    </header>
+    <div style="flex-grow:0; flex-shrink: 0; height:1px; width: 100%; background-color: white;">
+    </div>
+    <main style="display: flex; flex-direction: row; justify-content: space-between; margin:0; height:100%;">
+      <div style="flex-grow:1; height:100%;display:inline-block;margin:0;" class="scrollbar" id="console">
+      </div>
+
+    </main>
+    <script>
+
+	//Utility namespace to group all functionality related to printing (both error and non error) messages
+	const color= "\x1b[1;35m";
+	const bold= "\x1b[1;37m";
+	const underline= "\x1b[94;4m";
+	const normal= "\x1b[0m";
+	var printOnTerm = {
+		getAsciiTitle: function ()
+		{
+			var title = [
+				color + "                        __      __   _  __   ____  __       " + normal,
+				color + "                        \\ \\    / /__| |_\\ \\ / /  \\/  | " + normal,
+				color + "                         \\ \\/\\/ / -_) '_ \\ V /| |\\/| | " + normal,
+				color + "                          \\_/\\_/\\___|_.__/\\_/ |_|  |_|  " + normal,
+
+			];
+			return title;
+		},
+		getAsciiText: function ()
+		{
+			var text = [
+				"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
+				"|                                                                             |",
+				"| WebVM is a server-less virtual Linux environment running fully client-side  |",
+				"| in HTML5/WebAssembly.                                                       |",
+				"|                                                                             |",
+				"| WebVM is powered by the CheerpX virtualization engine, which enables safe,  |",
+				"| sandboxed client-side execution of x86 binaries on any browser.             |",
+				"|                                                                             |",
+				"| CheerpX includes an x86-to-WebAssembly JIT compiler, a virtual block-based  |",
+				"| file system, and a Linux syscall emulator.                                  |",
+				"|                                                                             |",
+				"| [NEW!] WebVM now supports full TCP and UDP networking via Tailscale!        |",
+				"| Click on 'Tailscale Login' to enable it. Read the announcement:             |",
+				"|                                                                             |",
+				"| " + underline + "https://leaningtech.com/webvm-virtual-machine-with-networking-via-tailscale" + normal +" |",
+				"|                                                                             |",
+				"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
+				"",
+				"   Welcome to WebVM (build CX_VERSION). If unsure, try these examples:",
+				"",
+				"     python3 examples/python3/fibonacci.py ",
+				"     gcc -o helloworld examples/c/helloworld.c && ./helloworld",
+				"     objdump -d ./helloworld | less -M",
+				"     vim examples/c/helloworld.c",
+				"     curl --max-time 15 parrot.live  # requires networking",
+				"",
+				];
+			return text;
+		},
+		getSharedArrayBufferMissingMessage: function ()
+		{
+			const text = [
+				"",
+				"",
+				color + "CheerpX could not start" + normal,
+				"",
+				"CheerpX depends on JavaScript's SharedArrayBuffer, that your browser",
+				"     does not support.",
+				"",
+				"SharedArrayBuffer is currently enabled by default on recent",
+				"     versions of Chrome, Edge, Firefox and Safari.",
+				"",
+				"",
+				"Give it a try from another browser!",
+				]
+
+			return text;
+		},
+		getErrorMessage: function (error_message)
+		{
+			const text = [
+				"",
+				"",
+				color + "CheerpX could not start" + normal,
+				"",
+				"CheerpX internal error message is:",
+				error_message,
+				"",
+				"",
+				"CheerpX is expected to work with recent desktop versions of Chrome, Edge, Firefox and Safari",
+				"",
+				"",
+				"Give it a try from a desktop version / another browser!",
+				]
+
+			return text;
+		},
+		printMessage: function (text) {
+			for (var i=0; i<text.length; i++)
+			{
+				term.write(text[i]);
+				term.write('\n');
+			}
+		},
+		printError: function (message)
+		{
+			this.printMessage(message);
+
+			term.write("\n\n");
+
+			function writeCustom(something)
+			{
+				term.write(something);
+			}
+		},
+	};
+
+	var consoleDiv = document.getElementById("console");
+
+	//xterm.js related logic
+	var term = new Terminal({cursorBlink:true,convertEol:true, fontFamily:"monospace", fontWeight: 400, fontWeightBold: 700});
+	var fitAddon = new FitAddon.FitAddon();
+	term.loadAddon(fitAddon);
+	term.open(consoleDiv);
+	term.scrollToTop();
+
+	fitAddon.fit();
+	window.addEventListener("resize", function(ev){fitAddon.fit();}, false);
+	term.focus();
+	var cxReadFunc = null;
+	function writeData(buf)
+	{
+		term.write(new Uint8Array(buf));
+	}
+	function readData(str)
+	{
+		if(cxReadFunc == null)
+			return;
+		for(var i=0;i<str.length;i++)
+			cxReadFunc(str.charCodeAt(i));
+	}
+	term.onData(readData);
+
+	//Actual CheerpX and init specific logic
+	function runInit()
+	{
+		if (typeof SharedArrayBuffer === "undefined")
+		{
+			printOnTerm.printError(printOnTerm.getSharedArrayBufferMissingMessage());
+			return;
+		}
+
+		async function runTest(cx)
+		{
+			term.scrollToBottom();
+
+			cxReadFunc = cx.setCustomConsole(writeData, term.cols, term.rows);
+
+			function preventDefaults (e) {
+				e.preventDefault()
+				e.stopPropagation()
+			}
+			consoleDiv.addEventListener("dragover", preventDefaults, false);
+			consoleDiv.addEventListener("dragenter", preventDefaults, false);
+			consoleDiv.addEventListener("dragleave", preventDefaults, false);
+			consoleDiv.addEventListener("drop", preventDefaults, false);
+
+			var opts = {uid:0};
+      cx.run("/init", [], opts);
+		}
+		function failCallback(err)
+		{
+			printOnTerm.printError(printOnTerm.getErrorMessage(err));
+		}
+					CheerpXApp.create({devices:[{type:"block",url:"https://disks.leaningtech.com/tc_nographic_20221117.ext2",name:"block1"}],mounts:[{type:"ext2",dev:"block1",path:"/"},{type:"cheerpOS",dev:"/app",path:"/app"}], networkInterface}).then(runTest, failCallback);
+	}
+	function initialMessage()
+	{
+		console.log("Welcome. We appreciate curiosity, but be warned that keeping the DevTools open causes significant performance degradation and crashes.");
+	}
+	initialMessage();
+
+	var script = document.createElement('script');
+	script.type = 'text/javascript';
+
+	var cxFile = "https://cheerpxdemos.leaningtech.com/publicdeploy/20221125/cx.js";
+	script.src = cxFile;
+	script.addEventListener("load", runInit, false);
+
+	document.head.appendChild(script);
+
+    </script>
+<!-- Google tag (gtag.js) -->
+<script defer src="https://www.googletagmanager.com/gtag/js?id=G-818T3Y0PEY"></script>
+<script defer>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-818T3Y0PEY');
+</script>
+  </body>
+</html>
+
