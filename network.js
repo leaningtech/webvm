@@ -1,5 +1,11 @@
-import { State } from "/tun/tailscale_tun.js";
-import { autoConf } from "/tun/tailscale_tun_auto.js";
+import { State } from "./tun/tailscale_tun.js";
+import { autoConf } from "./tun/tailscale_tun_auto.js";
+
+let params = new URLSearchParams("?"+window.location.hash.substr(1));
+let authKey = params.get("authKey") || undefined;
+let controlUrl = params.get("controlUrl") || undefined;
+console.log(authKey, controlUrl);
+let loginElemUrl = controlUrl ? null : "https://login.tailscale.com/admin/machines";
 
 let resolveLogin = null;
 let loginPromise = new Promise((f,r) => {
@@ -22,7 +28,9 @@ const stateUpdateCb = (state) => {
         }
         case State.Running:
         {
-            loginElem.href = "https://login.tailscale.com/admin/machines";
+            if (loginElemUrl) {
+                loginElem.href = loginElemUrl;
+            }
             break;
         }
         case State.Starting:
@@ -47,6 +55,8 @@ const { listen, connect, bind, up } = await autoConf({
     loginUrlCb,
     stateUpdateCb,
     netmapUpdateCb,
+    authKey,
+    controlUrl,
 });
 window.networkInterface.bind = bind;
 window.networkInterface.connect = connect;
@@ -54,15 +64,23 @@ window.networkInterface.listen = listen;
 window.networkInterface.ready = true;
 loginElem.style.cursor = "pointer";
 statusElem.style.color = "white";
-loginElem.onclick = () => {
-    loginElem.onclick = null;
-    statusElem.innerHTML = "Downloading network code...";
-    const w = window.open("login.html", "_blank");
-async function waitLogin() {
-    await up();
+if (authKey) {
+    if (loginElemUrl) {
+        loginElem.href = loginElemUrl;
+        loginElem.target = "_blank";
+    }
+    up();
+} else {
+    loginElem.onclick = () => {
+        loginElem.onclick = null;
+        statusElem.innerHTML = "Downloading network code...";
+        const w = window.open("login.html", "_blank");
+        async function waitLogin() {
+        await up();
         statusElem.innerHTML = "Starting login...";
-const url = await loginPromise;
-w.location.href = url;
+        const url = await loginPromise;
+        w.location.href = url;
+        }
+        waitLogin();
+    };
 }
-waitLogin();
-};
