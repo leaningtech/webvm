@@ -51,7 +51,7 @@ export async function init() {
 				IpStack.input(ev.data)
 			};
 			IpStack.output(function(p){
-				ipn.tun.postMessage(p);
+				ipn.tun.postMessage(p, [p.buffer]);
 			});
 		};
 		setupIpStack();
@@ -65,10 +65,15 @@ export async function init() {
 				if (localIp != newLocalIp)
 				{
 					localIp = newLocalIp;
-					IpStack.up({localIp, ipMap: {
+					try{
+					IpStack.up({localIp, dnsIp, ipMap: {
 						["127.0.0.53"]: dnsIp,
 						[dnsIp]: "127.0.0.53",
 					}});
+					}catch(e){
+						console.log(e);
+						debugger;
+					}
 				}
 			},
 			notifyBrowseToURL: (l) => listeners.onloginurl(l),
@@ -82,6 +87,7 @@ export async function init() {
 		listen: IpStack.listen,
 		bind: IpStack.bind,
 		parseIP: IpStack.parseIP,
+		resolve: IpStack.resolve,
 		up: async (conf) => {
 			if (ipn == null) {
 				await lazyRunIpn();
