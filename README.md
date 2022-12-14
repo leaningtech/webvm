@@ -25,6 +25,18 @@ WebVM is powered by the CheerpX virtualization engine, and enables safe, sandbox
 - go back to the WebVM tab. You will see your IP address in the top right
 - start firing network requests!
 
+# How to: login to Tailscale with an Auth key
+
+- Add `#authKey=<your-key>` at the end of the URL
+- Done. You don't need to manually log in anymore
+
+It is recommended to use an ephemeral key.
+
+# How to: login to a self-hosted Tailscale network (Headscale)
+
+- Add `#controlUrl=<your-control-url>` at the end of the URL
+- You can combine this option with `authKey` with a `&`: `#controlUrl=<url>&authKey=<key>`
+
 # Bugs and Issues
 
 Please use [Issues](https://github.com/leaningtech/webvm/issues) to report any bug.
