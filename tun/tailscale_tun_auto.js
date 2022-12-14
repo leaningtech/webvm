@@ -1,17 +1,11 @@
 import {State, init} from "./tailscale_tun.js";
 
-export async function autoConf({loginUrlCb, stateUpdateCb, netmapUpdateCb}) {
-	const { listen, connect, bind, parseIP, up, down, login, logout, listeners } = await init();
-
-	const getSettings = () => {
-		settings.controlUrl = null;
-		settings.exitNodeIp = null;
-		settings.dnsIp = null;
-		settings.wantsRunning = true;
-	};
+export async function autoConf({loginUrlCb, stateUpdateCb, netmapUpdateCb, controlUrl, authKey}) {
+	const { listen, connect, bind, parseIP, resolve, up, down, login, logout, listeners } = await init();
 
 	const settings = {
-		controlUrl: undefined,
+		controlUrl: controlUrl,
+		authKey: authKey,
 		exitNodeIp: undefined,
 		dnsIp: undefined,
 		wantsRunning: true,
@@ -75,6 +69,7 @@ export async function autoConf({loginUrlCb, stateUpdateCb, netmapUpdateCb}) {
 		connect,
 		listen,
 		parseIP,
+		resolve,
 		up: async () => {
 			await up(settings);
 		},
