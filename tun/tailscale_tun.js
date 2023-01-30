@@ -83,9 +83,8 @@ export async function init() {
 
 
 	return {
-		connect: IpStack.connect,
-		listen: IpStack.listen,
-		bind: IpStack.bind,
+		tcpSocket: IpStack.TCPSocket.create,
+		udpSocket: IpStack.UDPSocket.create,
 		parseIP: IpStack.parseIP,
 		resolve: IpStack.resolve,
 		up: async (conf) => {
