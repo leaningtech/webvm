@@ -51,16 +51,15 @@ const netmapUpdateCb = (map) => {
     const ip = map.self.addresses[0];
     statusElem.innerHTML = "IP: "+ip;
 };
-const { listen, connect, bind, up } = await autoConf({
+const { tcpSocket, udpSocket, up } = await autoConf({
     loginUrlCb,
     stateUpdateCb,
     netmapUpdateCb,
     authKey,
     controlUrl,
 });
-window.networkInterface.bind = bind;
-window.networkInterface.connect = connect;
-window.networkInterface.listen = listen;
+window.networkInterface.tcpSocket = tcpSocket;
+window.networkInterface.udpSocket = udpSocket;
 window.networkInterface.ready = true;
 loginElem.style.cursor = "pointer";
 statusElem.style.color = "white";
