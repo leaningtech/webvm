@@ -37,6 +37,11 @@ It is recommended to use an ephemeral key.
 - Add `#controlUrl=<your-control-url>` at the end of the URL
 - You can combine this option with `authKey` with a `&`: `#controlUrl=<url>&authKey=<key>`
 
+# How to host WebVM locally
+
+- Replace `CX_VERSION` in index.html and tinycore.html with a valid version of CheerpX. The latest version can be found at [https://webvm.io](https://webvm.io)
+- Run nginx -p . -c nginx.conf in the root of the WebVM directory. WebVM can then be found at `http://localhost:8081`
+
 # Bugs and Issues
 
 Please use [Issues](https://github.com/leaningtech/webvm/issues) to report any bug.
