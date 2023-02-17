@@ -42,6 +42,10 @@ It is recommended to use an ephemeral key.
 - Replace `CX_VERSION` in index.html and tinycore.html with a valid version of CheerpX. The latest version can be found at [https://webvm.io](https://webvm.io)
 - Run nginx -p . -c nginx.conf in the root of the WebVM directory. WebVM can then be found at `http://localhost:8081`
 
+# How to deploy your own version of WebVM
+- This project is set up to automatically deploy via most programs, but here is a button to deploy via a preferred service, Vercel.
+- [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fleaningtech%2Fwebvm)
+
 # Bugs and Issues
 
 Please use [Issues](https://github.com/leaningtech/webvm/issues) to report any bug.
