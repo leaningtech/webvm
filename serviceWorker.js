@@ -61,7 +61,8 @@ async function doRegister() {
 				console.log("Service Worker failed reloading the page. ERROR:" + err);
 			};
 		});
-		// If the registration is active, but it's not controlling the page, reload the page to have it take control
+		// When the registration is active, but it's not controlling the page, we reload the page to have it take control.
+		// This f.e occurs when you hard-reload (shift + refresh). https://www.w3.org/TR/service-workers/#navigator-service-worker-controller
 		if (registration.active && !navigator.serviceWorker.controller) {
 			console.log("Reloading the page to transfer control to the Service Worker.");
 			try {
