@@ -55,7 +55,11 @@ async function doRegister() {
 		// f.e on first access.
 		registration.addEventListener("updatefound", () => {
 			console.log("Reloading the page to transfer control to the Service Worker.");
-			window.location.reload();
+			try {
+				window.location.reload();
+			} catch (err) {
+				console.log("Service Worker failed reloading the page. ERROR:" + err);
+			};
 		});
 		// If the registration is active, but it's not controlling the page, reload the page to have it take control
 		if (registration.active && !navigator.serviceWorker.controller) {
