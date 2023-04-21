@@ -1,0 +1,185 @@
+name: Create and deploy ext2 image to pages
+
+# Define when the workflow should run
+on:
+  # Allow manual triggering of the workflow from the Actions tab
+  workflow_dispatch:
+
+  # Allow inputs to be passed when manually triggering the workflow from the Actions tab
+    inputs:
+      DOCKERFILE_PATH:
+        type: string
+        description: 'Absolute path to the Dockerfile. The Docker build context is the repository root.'
+        required: true
+        default: 'dockerfiles/example/Dockerfile'
+
+      IMAGE_SIZE:
+        type: string
+        description: 'Size of the base ext2 image. 950GB is the max size for Github pages, 2GB for Github release. Refer to the fallocate(1) manpage for multiplicative suffixes'
+        required: true
+        default: '950MB'
+
+      IMAGE_NAME:
+        type: string
+        description: 'Name of final image. Example final url: https://www.github.io/<owner>/<repositoryName>/<image_name>'
+        required: true
+        default: 'base_image.ext2'
+
+      CX_VERSION:
+        type: string
+        description: Version of CX to use.
+        required: true
+        default: "20230419"
+
+      LOGIN_UID:
+          type: string
+          description: 'UID of the starting process.'
+          required: true
+          default: "1000"
+
+      LOGIN_GID:
+        type: string
+        description: 'GID of the starting process.'
+        required: true
+        default: "1000"
+
+      DEPLOY_TO_GITHUB_PAGES:
+        type: boolean
+        description: 'Deploy to Github pages.'
+        required: true
+        default: true
+
+      GITHUB_RELEASE:
+        type: boolean
+        description: 'Upload github release.'
+        required: true
+        default: false
+
+      GITHUB_RELEASE_TAG:
+        type: string
+        description: 'Tag for the github release.'
+        required: true
+        default: "ext2_image"
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest # Image to run the worker on.
+
+    env:
+      TAG: "ext2-webvm-base-image" # Tag of docker image.
+      IMAGE_SIZE: '${{ github.event.inputs.IMAGE_SIZE }}'
+      IMAGE_NAME: '${{ github.event.inputs.IMAGE_NAME }}'
+      DEPLOY_DIR: /webvm_deploy/ # Path to directory where we host the final image from.
+  
+    permissions: # Permissions to grant the GITHUB_TOKEN.
+      contents: write  # Required permission to make a github release.
+      actions: 'write' # Required for the Dockerfile path guard clause.
+
+    steps:
+      # Checks-out our repository under $GITHUB_WORKSPACE, so our job can access it
+      - uses: actions/checkout@v3
+      # Guard clause that cancels the workflow in case of an invalid DOCKERFILE_PATH. 
+      # The main reason for choosing this workaround for aborting the workflow is the fact that it does not display the workflow as successful, which can set false expectations.
+      - name: DOCKERFILE_PATH guard clause
+        shell: bash 
+        run: |
+          if [ ! -f ${{ github.event.inputs.DOCKERFILE_PATH }} ]; then
+              echo "::error title=Invalid Dockerfile path::No file found at ${{ github.event.inputs.DOCKERFILE_PATH }}"
+              gh run cancel ${{ github.run_id }}
+              gh run watch ${{ github.run_id }}
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }} # As required by the GitHub-CLI
+
+      # Create directory to host the image from.
+      - run: sudo mkdir -p $DEPLOY_DIR
+
+      # Build the i386 Dockerfile image.
+      - run: docker build . --tag $TAG --file ${{ github.event.inputs.DOCKERFILE_PATH }} --platform=i386
+      
+      # Run the docker image so that we can export the container.
+      - run: docker run -d $TAG
+
+      # We create and mount the base ext2 image to extract the Docker container's filesystem its contents into.
+      - name: Create ext2 image.
+        run: |
+         # Preallocate space for the ext2 image
+         sudo fallocate -l $IMAGE_SIZE ${DEPLOY_DIR}/${IMAGE_NAME}
+         # Format to ext2 linux kernel revision 0
+         sudo mkfs.ext2 -r 0 ${DEPLOY_DIR}/${IMAGE_NAME}
+         # Mount the ext2 image to modify it
+         sudo mount -o loop -t ext2 ${DEPLOY_DIR}/${IMAGE_NAME} /mnt/
+      
+      # We choose to use Docker export instead of Docker save because we only care about the final result and not the metadata and separate layers of the Docker image.
+      - name: Export and unpack container filesystem contents into mounted ext2 image.
+        run: | 
+          docker export $(sudo docker ps -aq) | sudo tar -x -C /mnt/
+          sudo umount /mnt/
+      # Result is an ext2 image for webvm.
+
+      # Move required files for gh-pages deployment to the deployment directory $DEPLOY_DIR.
+      - run: sudo mv assets examples tun xterm favicon.ico index.html login.html network.js scrollbar.css serviceWorker.js tower.ico $DEPLOY_DIR
+      
+      # This step updates the default index.html file by performing the following steps:
+      #   1. Replaces all occurrences of UID, GID, and CX_VERSION with their respective input parameters.
+      #   2. Replaces all occurrences of IMAGE_URL with the URL to the image.
+      - name: Adjust index.html
+        run: |
+          sudo sed -i 's#UID#"${{ github.event.inputs.LOGIN_UID }}"#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#GID#"${{ github.event.inputs.LOGIN_GID }}"#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#CX_VERSION#${{ github.event.inputs.CX_VERSION }}#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#IMAGE_URL#"${{ env.IMAGE_NAME }}"#g' ${{ env.DEPLOY_DIR }}index.html
+
+      # We generate index.list files for our httpfs to function properly.
+      - name: make index.list
+        shell: bash
+        run: |
+          find $DEPLOY_DIR -type d | while read -r dir;
+          do
+            index_list="$dir/index.list";
+            sudo rm -f "$index_list";
+            sudo ls "$dir" | sudo tee "$index_list" > /dev/null;
+            sudo chmod +rw "$index_list";     
+            sudo echo "created $index_list"; 
+          done
+
+      # Create a gh-pages artifact in order to deploy to gh-pages.
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v1.0.7
+        with:
+          # Path of the directory containing the static assets for our gh pages deployment.
+          path: ${{ env.DEPLOY_DIR }} # optional, default is _site/
+
+      - name: github release # To upload our final ext2 image as a github release.
+        if: ${{ github.event.inputs.GITHUB_RELEASE == 'true' }}
+        uses: softprops/action-gh-release@v0.1.15
+        with:
+          target_commitish: ${{ github.sha }} # Last commit on the GITHUB_REF branch or tag
+          tag_name: ${{ github.event.inputs.GITHUB_RELEASE_TAG }} # Tag of the release.
+          fail_on_unmatched_files: 'true' # Fail in case of no matches with the file(s) glob(s).
+          files: | # Assets to upload as release.
+            ${{ env.DEPLOY_DIR }}${{ env.IMAGE_NAME }}
+
+  deploy_to_github_pages: # Job that deploys the github-pages artifact to github-pages.
+    if: ${{ github.event.inputs.DEPLOY_TO_GITHUB_PAGES == 'true' }}
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    runs-on: ubuntu-latest
+    steps:
+      # Deployment to github pages
+      - name: Deploy GitHub Pages site
+        id: deployment
+        uses: actions/deploy-pages@v2.0.0
+      - name: Print final url
+        run: |
+          echo "::notice::URL to the image ${{ steps.deployment.outputs.page_url }}${{ github.event.inputs.IMAGE_NAME }}"
+          echo "::notice::URL to the Github pages site ${{ steps.deployment.outputs.page_url }}"
