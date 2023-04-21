@@ -1,0 +1,119 @@
+name: Create and deploy ext2 image to pages
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+  # Lets you supply arguments when you run a github action manually.
+    inputs:
+      dockerfile_context_path:
+        description: 'Path or url to the Dockerfile its context.'
+        required: true
+        default: 'dockerfiles'
+
+      dockerfile_path:
+        description: 'Path to the Dockerfile.'
+        required: true
+        default: 'dockerfiles/Dockerfile'
+  
+      image_size:
+        description: 'Size of the base ext2 image. 1G is the max and recommended size. Reference the dd manpage for multiplicative suffixes'
+        required: true
+        default: '1G'
+
+      image_name:
+        description: 'Name of final image. Example final url: https://www.github.io/<owner>/<repositoryName>/<image_name>'
+        required: true
+        default: 'base_image.ext2'
+
+      deploy_to_pages:
+        description: 'Set to true to deploy to pages.'
+        required: true
+        default: 'true'
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest # Image to run the worker on.
+    
+    # Our variables
+    env:
+      ext2_img: "ext2-webvm-base-image"
+      dockerfile_context_path: '${{ github.event.inputs.dockerfile_context_path }}'
+      dockerfile_path: '${{ github.event.inputs.dockerfile_path }}'
+
+      tag: "ext2_img"
+      IMAGE_SIZE: '${{ github.event.inputs.image_size }}'
+      IMAGE_NAME: '${{ github.event.inputs.image_name }}'
+      DEST: /assets/images/tmp/ # Path to directory where we host the final image from.
+  
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so our job can access it
+      - uses: actions/checkout@v3
+      # We make the directory to host our image from.
+      - run: sudo mkdir -p /assets/images/tmp/
+      # We build the i386 Dockerfile image.
+      - run: docker build $dockerfile_context_path --file $dockerfile_path --tag $tag --platform=i386 
+      # We run our image with tail -f /dev/null to keep it running.
+      - run: docker run --rm -d $tag tail -f /dev/null
+      # We create our ext2 filesystem.
+      # We allocate space for the ext2 image
+      - run: sudo dd if=/dev/zero of=${DEST}${IMAGE_NAME} bs=1 count=0 seek=$IMAGE_SIZE
+      # Format to ext2 linux kernel revision 0
+      - run: sudo mkfs.ext2 -r 0 -F ${DEST}${IMAGE_NAME}
+      # We mount the ext2 image in order to modify it.
+      - run: | 
+          sudo mkdir -p /mnt/ext2_image
+          sudo mount -o loop -t ext2 ${DEST}/${IMAGE_NAME} /mnt/ext2_image
+      # We export our container its filesystem and unpack it into the mounted ext2 image.
+      - run: docker export $(sudo docker ps -aq) | sudo tar -x -C /mnt/ext2_image
+      # We kill the container.
+      - run: |
+          docker kill $(docker ps -a -q)
+          sudo umount /mnt/ext2_image
+      
+      # Result is a nice ext2 image for webvm.
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v1.0.7
+        with:
+          # Artifact name
+          name: github-pages # optional, default is github-pages
+          # Path of the directory containing the static assets.
+          path: /assets/images/tmp/ # default is _site/
+          # Duration after which artifact will expire in days.
+          retention-days: 1 # optional, default is 1
+  
+  deploy:
+    if: ${{ github.event.inputs.deploy_to_pages == 'true'}}
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+  
+    runs-on: ubuntu-latest
+    steps:
+      # Specify runner + deployment step
+      - name: Deploy GitHub Pages site
+        id: deployment
+        uses: actions/deploy-pages@v2.0.0
+        with:
+          # GitHub token
+          token: ${{ github.token }} # default is ${{ github.token }}
+
+          # Time in milliseconds after which to timeout and cancel the deployment (default: 10 minutes)
+          timeout: 600000 # optional, default is 600000
+
+          # Maximum number of status report errors before cancelling a deployment (default: 10)
+          error_count: 10 # optional, default is 10
+
+          # Time in milliseconds between two deployment status report (default: 5 seconds)
+          reporting_interval: 5000 # optional, default is 5000
+
+          # Name of the artifact to deploy
+          artifact_name: github-pages # optional, default is github-pages
