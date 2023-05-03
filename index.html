@@ -253,7 +253,8 @@
 			consoleDiv.addEventListener("dragleave", preventDefaults, false);
 			consoleDiv.addEventListener("drop", preventDefaults, false);
 
-			var opts = {env:structure.env, cwd:"/home/user"};
+			// The variables UID and GID are replaced by Github Actions.
+			var opts = {env:structure.env, cwd:"/home/user", uid: UID, gid: GID};
 			while (true)
 			{
 				await cxLogAndRun(cx, structure.cmd, structure.args, opts);
@@ -263,7 +264,8 @@
 		{
 			printOnTerm.printError(printOnTerm.getErrorMessage(err));
 		}
-					CheerpXApp.create({devices:[{type:"block",url:"https://disks.leaningtech.com/webvm_20221004.ext2",name:"block1"}],mounts:[{type:"ext2",dev:"block1",path:"/"},{type:"cheerpOS",dev:"/app",path:"/app"},{type:"cheerpOS",dev:"/str",path:"/data"},{type:"devs",dev:"",path:"/dev"}], networkInterface}).then(runTest, failCallback);
+			// The variable IMAGE_URL is replaced by Github Actions.
+			CheerpXApp.create({devices:[{type:"bytes",url:IMAGE_URL,name:"block1"}],mounts:[{type:"ext2",dev:"block1",path:"/"},{type:"cheerpOS",dev:"/app",path:"/app"},{type:"cheerpOS",dev:"/str",path:"/data"},{type:"devs",dev:"",path:"/dev"}], networkInterface}).then(runTest, failCallback);
 	}
 	function initialMessage()
 	{
@@ -280,6 +282,7 @@
 	var script = document.createElement('script');
 	script.type = 'text/javascript';
 
+	// The variable CX_VERSION is replaced by Github Actions.
 	var cxFile = "https://cheerpxdemos.leaningtech.com/publicdeploy/CX_VERSION/cx.js";
 	script.src = cxFile;
 	script.addEventListener("load", runBash, false);
