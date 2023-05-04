@@ -1,3 +1,4 @@
+#!/usr/bin/env luajit
 A = { ["John"] = true, ["Bob"] = true, ["Mary"] = true, ["Elena"] = true }
 B = { ["Jim"] = true, ["Mary"] = true, ["John"] = true, ["Bob"] = true }
 
