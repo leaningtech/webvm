@@ -1,3 +1,4 @@
+#!/usr/bin/env luajit
 fruits = {"banana","orange","apple","grapes"}
 
 for k,v in ipairs(fruits) do
