@@ -121,15 +121,17 @@ jobs:
       # Move required files for gh-pages deployment to the deployment directory $DEPLOY_DIR.
       - run: sudo mv assets examples tun xterm favicon.ico index.html login.html network.js scrollbar.css serviceWorker.js tower.ico $DEPLOY_DIR
       
-      # This step updates the default index.html file by performing the following steps:
+      # This step updates the default index.html file by performing the following actions:
       #   1. Replaces all occurrences of UID, GID, and CX_VERSION with their respective input parameters.
       #   2. Replaces all occurrences of IMAGE_URL with the URL to the image.
+      #   3. Replaces all occurrences of DEVICE_TYPE to bytes.
       - name: Adjust index.html
         run: |
           sudo sed -i 's#UID#"${{ github.event.inputs.LOGIN_UID }}"#g' ${{ env.DEPLOY_DIR }}index.html
           sudo sed -i 's#GID#"${{ github.event.inputs.LOGIN_GID }}"#g' ${{ env.DEPLOY_DIR }}index.html
           sudo sed -i 's#CX_VERSION#${{ github.event.inputs.CX_VERSION }}#g' ${{ env.DEPLOY_DIR }}index.html
           sudo sed -i 's#IMAGE_URL#"${{ env.IMAGE_NAME }}"#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#DEVICE_TYPE#"bytes"#g' ${{ env.DEPLOY_DIR }}index.html
 
       # We generate index.list files for our httpfs to function properly.
       - name: make index.list
