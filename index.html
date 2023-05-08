@@ -1,9 +1,6 @@
 <!DOCTYPE html>
-
-<!-- Serviceworker script that adds the COI and CORS headers to the response headers in cases where the server does not support it. -->
-<script src="serviceWorker.js"></script>
-
 <html lang="en" style="height:100%;">
+  <meta property="og:image" content="https://webvm.io/assets/reddit.png"/>
   <head>
     <meta charset="utf-8">
     <title>WebVM - Linux virtualization in WebAssembly</title>
@@ -13,13 +10,12 @@
     <meta property="og:title" content="WebVM - Linux virtualization in WebAssembly" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="WebVM"/>
-    <meta property="og:url" content="https://webvm.io/">
-    <meta property="og:image" content="https://webvm.io/assets/welcome_to_WebVM_.png" />
+    <meta property="og:image" content="https://webvm.io/assets/social.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@leaningtech" />
     <meta name="twitter:title" content="WebVM - Linux virtualization in WebAssembly" />
     <meta name="twitter:description" content="Server-less virtual machine, networking included, running browser-side in HTML5/WebAssembly. Code in any programming language inside this Linux terminal.">
-    <meta name="twitter:image" content="https://webvm.io/assets/welcome_to_WebVM_.png" />
+    <meta name="twitter:image" content="https://webvm.io/assets/social.png" />
 
     <!-- Apple iOS web clip compatibility tags -->
     <meta name="application-name" content="WebVM" />
@@ -35,6 +31,8 @@
     <link rel="stylesheet" id="us-fonts-css" href="https://fonts.googleapis.com/css?family=Montserrat%3A300%2C400%2C500%2C600%2C700&amp;display=swap&amp;ver=6.0.2" media="all">
     <link rel="stylesheet" href="./xterm/xterm.css" />
     <link rel="stylesheet" href="./scrollbar.css" />
+    <!-- Serviceworker script that adds the COI and CORS headers to the response headers in cases where the server does not support it. -->
+    <script src="serviceWorker.js"></script>
     <script src="./xterm/xterm.js"></script>
     <script src="./xterm/xterm-addon-fit.js"></script>
     <script>
