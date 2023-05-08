@@ -45,32 +45,57 @@
 
   <body style="margin:0;height:100%;background:black;color:white;overflow:hidden; display:flex; flex-direction: column; justify-content: space-between; height: 100%;">
 
-    <header style="flex-grow:0; flex-srink: 0;height:80px; width: 100%; margin: 2px 0 2px 0;">
-      <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
-        <div style="display: flex; flex-direction: row;">
-          <a href="https://leaningtech.com/" target="_blank">
-            <img src="./assets/leaningtech.png" style="margin-left: 10px; height: 60px; margin-top: 10px;">
-          </a>
-        </div>
-        <div style="display: flex; flex-direction: row; justify-content: space-before;">
-          <li style=" margin-right: 50px; height: 100%; display: flex; align-items: center;">
-            <a href="https://discord.leaningtech.com" target="_blank"  style="text-decoration: none">
-              <div style="color: white; font-family: montserrat; font-weight: 700; font-size: large;">Discord</div>
-            </a>
-          </li>
-          <li style=" margin-right: 50px; height: 100%; display: flex; align-items: center;">
-            <a href="https://github.com/leaningtech/webvm" target="_blank" style="text-decoration: none" >
-              <div style="color: white; font-family: montserrat; font-weight: 700; font-size: large;">Github</div>
-            </a>
-          </li>
-          <li style=" margin-right: 50px; height: 100%; display: flex; align-items: center;">
-            <a id="loginLink" style="text-decoration: none; cursor:not-allowed;">
-              <div id="networkStatus" style="color: grey; font-family: montserrat; font-weight: 700; font-size: large;">Tailscale Login</div>
-            </a>
-          </li>
+    <div>
+      <div style="padding-top: 0.7em;padding-bottom: 0.7em;font-size: 0.3em; font-weight: 200;vertical-align:center;height: 120px;">
+        <div style="margin-left: 20px; height: 100%; display: flex; align-items: center; justify-content: space-between;">
+          <pre style="font-family: monospace; font-weight: 600; font-size: large; color: #ad7fa8;">
+
+__      __   _  __   ____  __
+\ \    / /__| |_\ \ / /  \/  |
+ \ \/\/ / -_) '_ \ V /| |\/| |
+  \_/\_/\___|_.__/\_/ |_|  |_|
+          </pre>
+          <div style="height:100%;display: flex; flex-direction: column;justify-content: space-between;">
+            <div style="padding-top: 0.7em;font-size: 0.3em; font-weight: 200;vertical-align:center;height:50px;">
+              <div style="margin-right: 10px; margin-left: 20px; height: 100%; display: flex; align-items: center; justify-content: flex-end;gap: 50px;">
+                  <div style="padding-top: 0.7em;font-size: 0.3em; font-weight: 200;vertical-align:center;">
+                    <a href="https://leaningtech.com" style="text-decoration: none; height: 100%;" target="_blank">
+                      <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
+                        <span>Made with &#10084;&#65039; by </span>
+                        <img src="assets/leaningtech.png" height="40px" style="margin-left: 5px;">
+                      </div>
+                    </a>
+                  </div>
+              </div>
+            </div>
+            <div style="padding-top: 0.7em;font-size: 0.3em; font-weight: 200;vertical-align:center;height:50px;">
+              <div style="margin-right: 10px; margin-left: 20px; height: 100%; display: flex; align-items: center; justify-content: flex-end;gap: 50px;">
+                <a id="loginLink" style="text-decoration: none; height: 100%; cursor:not-allowed;">
+                  <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
+                    <span id="networkStatus">Connect via Tailscale </span>
+                    <img src="assets/tailscale.svg" height="40px" style="margin-left: 7px;">
+                  </div>
+                </a>
+                <a href="https://discord.com/invite/3nAYPEGD" style="text-decoration: none; height: 100%;" target="_blank">
+                  <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
+                    <span>Discord chat </span>
+                    <img src="assets/discord-mark-blue.svg" height="40px" style="margin-left: 7px;">
+                  </div>
+                </a>
+                <a href="https://www.leaningtech.com/pages/cheerpj.html" style="text-decoration: none; height: 100%;" target="_blank">
+                  <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
+                    <span>GitHub issues </span>
+                    <img src="assets/github-mark-white.svg" height="40px" style="margin-left: 5px;">
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </header>
+    </div>
+    <div>
+    </div>
     <div style="flex-grow:0; flex-shrink: 0; height:1px; width: 100%; background-color: white;">
     </div>
     <main style="display: flex; flex-direction: row; justify-content: space-between; margin:0; height:100%;">
@@ -269,7 +294,6 @@
 	}
 	function initialMessage()
 	{
-		printOnTerm.printMessage(printOnTerm.getAsciiTitle());
 		printOnTerm.printMessage([""]);
 		printOnTerm.printMessage(printOnTerm.getAsciiText());
 		term.registerLinkMatcher(/https:\/\/leaningtech.com\/webvm-virtual-machine-with-networking-via-tailscale/, function(mouseEvent, matchedString) {
