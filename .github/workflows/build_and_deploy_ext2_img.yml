@@ -17,7 +17,7 @@ on:
         type: string
         description: 'Size of the base ext2 image. 950GB is the max size for Github pages, 2GB for Github release. Refer to the fallocate(1) manpage for multiplicative suffixes'
         required: true
-        default: '950MB'
+        default: '600MB'
 
       IMAGE_NAME:
         type: string
