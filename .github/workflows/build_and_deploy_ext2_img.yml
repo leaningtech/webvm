@@ -177,7 +177,9 @@ jobs:
       - name: Deploy GitHub Pages site
         id: deployment
         uses: actions/deploy-pages@v2.0.0
-      - name: Print final url
+
+      - name:  Print final url as job summary
         run: |
-          echo "::notice::URL to the image ${{ steps.deployment.outputs.page_url }}${{ github.event.inputs.IMAGE_NAME }}"
-          echo "::notice::URL to the Github pages site ${{ steps.deployment.outputs.page_url }}"
+          echo "| Final URL to the Github pages site |" >> $GITHUB_STEP_SUMMARY
+          echo "| ---------------------------------- |" >> $GITHUB_STEP_SUMMARY
+          echo "| ${{ steps.deployment.outputs.page_url }} |" >> $GITHUB_STEP_SUMMARY
