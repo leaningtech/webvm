@@ -300,7 +300,7 @@ __      __   _  __   ____  __
 			if(state == "ready")
 				h.textContent = "\u{1F7E2}";
 			else
-				h.textContent = "\u{1F7E1}";
+				h.textContent = "\u{1F7E0}";
 		}
 		function cpuCallback(state)
 		{
@@ -308,7 +308,7 @@ __      __   _  __   ____  __
 			if(state == "ready")
 				h.textContent = "\u{1F7E2}";
 			else
-				h.textContent = "\u{1F7E1}";
+				h.textContent = "\u{1F7E0}";
 		}
 		// The variables IMAGE_URL and DEVICE_TYPE are replaced by Github Actions.
 		CheerpXApp.create({devices:[{type:DEVICE_TYPE,url:IMAGE_URL,name:"block1"}],mounts:[{type:"ext2",dev:"block1",path:"/"},{type:"cheerpOS",dev:"/app",path:"/app"},{type:"cheerpOS",dev:"/str",path:"/data"},{type:"devs",dev:"",path:"/dev"}], networkInterface: networkInterface, activityInterface: {cpu: cpuCallback, dev: devCallback}}).then(runTest, failCallback);
