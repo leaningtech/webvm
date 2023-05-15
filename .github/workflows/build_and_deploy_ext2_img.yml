@@ -1,4 +1,4 @@
-name: Create and deploy ext2 image to pages
+name: Deploy
 
 # Define when the workflow should run
 on:
@@ -9,33 +9,21 @@ on:
     inputs:
       DOCKERFILE_PATH:
         type: string
-        description: 'Absolute path to the Dockerfile. The Docker build context is the repository root.'
+        description: 'Absolute path to the Dockerfile.'
         required: true
         default: 'dockerfiles/example/Dockerfile'
 
       IMAGE_SIZE:
         type: string
-        description: 'Size of the base ext2 image. 950GB is the max size for Github pages, 2GB for Github release. Refer to the fallocate(1) manpage for multiplicative suffixes'
+        description: 'Image size, 950MB max.'
         required: true
         default: '600MB'
 
-      IMAGE_NAME:
-        type: string
-        description: 'Name of final image. Example final url: https://www.github.io/<owner>/<repositoryName>/<image_name>'
-        required: true
-        default: 'base_image.ext2'
-
-      LOGIN_UID:
+      LOGIN_UGID:
           type: string
-          description: 'UID of the starting process.'
+          description: 'UID:GID of the starting process.'
           required: true
-          default: "1000"
-
-      LOGIN_GID:
-        type: string
-        description: 'GID of the starting process.'
-        required: true
-        default: "1000"
+          default: "1000:1000"
 
       DEPLOY_TO_GITHUB_PAGES:
         type: boolean
@@ -63,9 +51,8 @@ jobs:
     env:
       TAG: "ext2-webvm-base-image" # Tag of docker image.
       IMAGE_SIZE: '${{ github.event.inputs.IMAGE_SIZE }}'
-      IMAGE_NAME: '${{ github.event.inputs.IMAGE_NAME }}'
       DEPLOY_DIR: /webvm_deploy/ # Path to directory where we host the final image from.
-  
+
     permissions: # Permissions to grant the GITHUB_TOKEN.
       contents: write  # Required permission to make a github release.
       actions: 'write' # Required for the Dockerfile path guard clause.
@@ -85,6 +72,13 @@ jobs:
           fi
         env:
           GH_TOKEN: ${{ github.token }} # As required by the GitHub-CLI
+
+      # Setting the IMAGE_NAME env to <Dockerfile name>_<date>_<run_id>.ext2.
+      - run: echo "IMAGE_NAME=$(basename ${{ github.event.inputs.DOCKERFILE_PATH }})_$(date +%Y%m%d)_${{ github.run_id }}.ext2" >> $GITHUB_ENV
+      # We extract the uid and gid from the uid:gid input.
+      - run: |
+          echo "LOGIN_UID=$(echo ${{ github.event.inputs.LOGIN_UGID }} | cut -d ':' -f1)" >> $GITHUB_ENV
+          echo "LOGIN_GID=$(echo ${{ github.event.inputs.LOGIN_UGID }} | cut -d ':' -f2)" >> $GITHUB_ENV
 
       # Create directory to host the image from.
       - run: sudo mkdir -p $DEPLOY_DIR
@@ -124,8 +118,8 @@ jobs:
       #   3. Replaces all occurrences of DEVICE_TYPE to bytes.
       - name: Adjust index.html
         run: |
-          sudo sed -i 's#UID#"${{ github.event.inputs.LOGIN_UID }}"#g' ${{ env.DEPLOY_DIR }}index.html
-          sudo sed -i 's#GID#"${{ github.event.inputs.LOGIN_GID }}"#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#UID#"${{ env.LOGIN_UID }}"#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#GID#"${{ env.LOGIN_GID }}"#g' ${{ env.DEPLOY_DIR }}index.html
           sudo sed -i 's#IMAGE_URL#"${{ env.IMAGE_NAME }}"#g' ${{ env.DEPLOY_DIR }}index.html
           sudo sed -i 's#DEVICE_TYPE#"bytes"#g' ${{ env.DEPLOY_DIR }}index.html
 
