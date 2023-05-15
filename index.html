@@ -69,6 +69,14 @@ __      __   _  __   ____  __
             </div>
             <div style="padding-top: 0.7em;font-size: 0.3em; font-weight: 200;vertical-align:center;height:50px;">
               <div style="margin-right: 10px; margin-left: 20px; height: 100%; display: flex; align-items: center; justify-content: flex-end;gap: 50px;">
+                <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
+                  <span>CPU </span>
+                  <span id="cpuactivity" style="margin-left: 7px;">&#x1F7E2;</span>
+                </div>
+                <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
+                  <span>HDD </span>
+                  <span id="hddactivity" style="margin-left: 7px;">&#x1F7E2;</span>
+                </div>
                 <a id="loginLink" style="text-decoration: none; height: 100%; cursor:not-allowed;">
                   <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
                     <span id="networkStatus">Connect via Tailscale </span>
@@ -286,8 +294,24 @@ __      __   _  __   ____  __
 		{
 			printOnTerm.printError(printOnTerm.getErrorMessage(err));
 		}
-			// The variables IMAGE_URL and DEVICE_TYPE are replaced by Github Actions.
-			CheerpXApp.create({devices:[{type:DEVICE_TYPE,url:IMAGE_URL,name:"block1"}],mounts:[{type:"ext2",dev:"block1",path:"/"},{type:"cheerpOS",dev:"/app",path:"/app"},{type:"cheerpOS",dev:"/str",path:"/data"},{type:"devs",dev:"",path:"/dev"}], networkInterface}).then(runTest, failCallback);
+		function devCallback(state)
+		{
+			var h = document.getElementById("hddactivity");
+			if(state == "ready")
+				h.textContent = "\u{1F7E2}";
+			else
+				h.textContent = "\u{1F7E1}";
+		}
+		function cpuCallback(state)
+		{
+			var h = document.getElementById("cpuactivity");
+			if(state == "ready")
+				h.textContent = "\u{1F7E2}";
+			else
+				h.textContent = "\u{1F7E1}";
+		}
+		// The variables IMAGE_URL and DEVICE_TYPE are replaced by Github Actions.
+		CheerpXApp.create({devices:[{type:DEVICE_TYPE,url:IMAGE_URL,name:"block1"}],mounts:[{type:"ext2",dev:"block1",path:"/"},{type:"cheerpOS",dev:"/app",path:"/app"},{type:"cheerpOS",dev:"/str",path:"/data"},{type:"devs",dev:"",path:"/dev"}], networkInterface: networkInterface, activityInterface: {cpu: cpuCallback, dev: devCallback}}).then(runTest, failCallback);
 	}
 	function initialMessage()
 	{
