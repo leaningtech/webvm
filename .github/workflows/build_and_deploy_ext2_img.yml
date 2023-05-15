@@ -29,7 +29,7 @@ on:
         type: string
         description: Version of CX to use.
         required: true
-        default: "20230419"
+        default: "20230515_78"
 
       LOGIN_UID:
           type: string
