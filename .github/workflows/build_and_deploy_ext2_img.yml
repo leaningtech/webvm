@@ -93,7 +93,8 @@ jobs:
       - run: docker build . --tag $TAG --file ${{ github.event.inputs.DOCKERFILE_PATH }} --platform=i386
       
       # Run the docker image so that we can export the container.
-      - run: docker run -d $TAG
+      # Run the Docker container with the Google Public DNS nameservers: 8.8.8.8, 8.8.4.4
+      - run: docker run --dns 8.8.8.8 --dns 8.8.4.4 -d $TAG
 
       # We create and mount the base ext2 image to extract the Docker container's filesystem its contents into.
       - name: Create ext2 image.
@@ -104,11 +105,13 @@ jobs:
          sudo mkfs.ext2 -r 0 ${DEPLOY_DIR}/${IMAGE_NAME}
          # Mount the ext2 image to modify it
          sudo mount -o loop -t ext2 ${DEPLOY_DIR}/${IMAGE_NAME} /mnt/
-      
-      # We choose to use Docker export instead of Docker save because we only care about the final result and not the metadata and separate layers of the Docker image.
+
+      # We opt for 'docker cp --archive' over 'docker save' since our focus is solely on the end product rather than individual layers and metadata.
+      # However, it's important to note that despite being specified in the documentation, the '--archive' flag does not currently preserve uid/gid information when copying files from the container to the host machine.
+      # Another compelling reason to use 'docker cp' is that it preserves resolv.conf.
       - name: Export and unpack container filesystem contents into mounted ext2 image.
         run: | 
-          docker export $(sudo docker ps -aq) | sudo tar -x -C /mnt/
+          sudo docker cp -a $(sudo docker ps -aq):/ /mnt/
           sudo umount /mnt/
       # Result is an ext2 image for webvm.
 
