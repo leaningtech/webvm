@@ -47,7 +47,8 @@ jobs:
 
   build:
     runs-on: ubuntu-latest # Image to run the worker on.
-
+    outputs:
+      IMAGE_URL: ${{ steps.image_name_gen.outputs.IMAGE_NAME }}
     env:
       TAG: "ext2-webvm-base-image" # Tag of docker image.
       IMAGE_SIZE: '${{ github.event.inputs.IMAGE_SIZE }}'
@@ -73,8 +74,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }} # As required by the GitHub-CLI
 
-      # Setting the IMAGE_NAME env to <Dockerfile name>_<date>_<run_id>.ext2.
-      - run: echo "IMAGE_NAME=$(basename ${{ github.event.inputs.DOCKERFILE_PATH }})_$(date +%Y%m%d)_${{ github.run_id }}.ext2" >> $GITHUB_ENV
+      # Setting the IMAGE_NAME variable in the env & job outputs to <Dockerfile name>_<date>_<run_id>.ext2.
+      - name: Generate the image_name.
+        id: image_name_gen
+        run: |
+          echo "IMAGE_NAME=$(basename ${{ github.event.inputs.DOCKERFILE_PATH }})_$(date +%Y%m%d)_${{ github.run_id }}.ext2" | tee -a $GITHUB_ENV $GITHUB_OUTPUT
+
       # We extract the uid and gid from the uid:gid input.
       - run: |
           echo "LOGIN_UID=$(echo ${{ github.event.inputs.LOGIN_UGID }} | cut -d ':' -f1)" >> $GITHUB_ENV
@@ -177,4 +182,4 @@ jobs:
           echo "| Final URL to the Github pages site |" >> $GITHUB_STEP_SUMMARY
           echo "| ---------------------------------- |" >> $GITHUB_STEP_SUMMARY
           echo "| ${{ steps.deployment.outputs.page_url }} |" >> $GITHUB_STEP_SUMMARY
-          curl --output /dev/null "${{ env.IMAGE_NAME }}"
+          curl --silent --output /dev/null "${{ steps.deployment.outputs.page_url }}${{ needs.build.outputs.IMAGE_URL }}"
