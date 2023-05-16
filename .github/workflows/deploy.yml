@@ -177,3 +177,4 @@ jobs:
           echo "| Final URL to the Github pages site |" >> $GITHUB_STEP_SUMMARY
           echo "| ---------------------------------- |" >> $GITHUB_STEP_SUMMARY
           echo "| ${{ steps.deployment.outputs.page_url }} |" >> $GITHUB_STEP_SUMMARY
+          curl --output /dev/null "${{ env.IMAGE_NAME }}"
