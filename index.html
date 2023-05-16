@@ -283,7 +283,7 @@ __      __   _  __   ____  __
 			consoleDiv.addEventListener("dragleave", preventDefaults, false);
 			consoleDiv.addEventListener("drop", preventDefaults, false);
 
-			// The variables UID and GID are replaced by Github Actions.
+			// The variables uid and gid are replaced by Github Actions.
 			var opts = {env:structure.env, cwd:"/home/user", uid: UID, gid: GID};
 			while (true)
 			{
@@ -310,7 +310,7 @@ __      __   _  __   ____  __
 			else
 				h.textContent = "\u{1F7E0}";
 		}
-		// The variables IMAGE_URL and DEVICE_TYPE are replaced by Github Actions.
+		// The device url and type are replaced by Github Actions.
 		CheerpXApp.create({devices:[{type:DEVICE_TYPE,url:IMAGE_URL,name:"block1"}],mounts:[{type:"ext2",dev:"block1",path:"/"},{type:"cheerpOS",dev:"/app",path:"/app"},{type:"cheerpOS",dev:"/str",path:"/data"},{type:"devs",dev:"",path:"/dev"}], networkInterface: networkInterface, activityInterface: {cpu: cpuCallback, dev: devCallback}}).then(runTest, failCallback);
 	}
 	function initialMessage()
