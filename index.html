@@ -148,7 +148,7 @@ __      __   _  __   ____  __
 				"|                                                                             |",
 				"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 				"",
-				"   Welcome to WebVM (build CX_VERSION). If unsure, try these examples:",
+				"   Welcome to WebVM. If unsure, try these examples:",
 				"",
 				"     python3 examples/python3/fibonacci.py ",
 				"     gcc -o helloworld examples/c/helloworld.c && ./helloworld",
@@ -323,17 +323,19 @@ __      __   _  __   ____  __
 		console.log("Welcome. We appreciate curiosity, but be warned that keeping the DevTools open causes significant performance degradation and crashes.");
 	}
 	initialMessage();
-
-	var script = document.createElement('script');
-	script.type = 'text/javascript';
-
-	// The variable CX_VERSION is replaced by Github Actions.
-	var cxFile = "https://cheerpxdemos.leaningtech.com/publicdeploy/CX_VERSION/cx.js";
-	script.src = cxFile;
-	script.addEventListener("load", runBash, false);
-
-	document.head.appendChild(script);
-
+	async function loadCX()
+	{
+		// Find the latest build
+		var r = await fetch("https://cheerpxdemos.leaningtech.com/publicdeploy/LATEST.txt");
+		var url = await r.text();
+		url = url.trim();
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = url;
+		script.addEventListener("load", runBash, false);
+		document.head.appendChild(script);
+	}
+	loadCX();
     </script>
 <!-- Google tag (gtag.js) -->
 <script defer src="https://www.googletagmanager.com/gtag/js?id=G-818T3Y0PEY"></script>
