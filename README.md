@@ -2,7 +2,7 @@
 
 This repository hosts the source code for [https://webvm.io](https://webvm.io), a Linux virtual machine that runs in your browser.
 
-<img src="assets/welcome_to_WebVM_slim.png" width="100%">
+<img src="assets/welcome_to_WebVM_slim.png" width="95%">
 
 WebVM is a server-less virtual environment running fully client-side in HTML5/WebAssembly. It's designed to be Linux ABI-compatible. It runs an unmodified Debian distribution including many native development toolchains.
 
