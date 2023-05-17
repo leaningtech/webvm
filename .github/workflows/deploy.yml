@@ -115,7 +115,7 @@ jobs:
       # Result is an ext2 image for webvm.
 
       # Move required files for gh-pages deployment to the deployment directory $DEPLOY_DIR.
-      - run: sudo mv assets examples tun xterm favicon.ico index.html login.html network.js scrollbar.css serviceWorker.js tower.ico $DEPLOY_DIR
+      - run: sudo mv assets examples xterm favicon.ico index.html login.html network.js scrollbar.css serviceWorker.js tower.ico $DEPLOY_DIR
       
       # This step updates the default index.html file by performing the following actions:
       #   1. Replaces all occurrences of UID and GID with their respective input parameters.
