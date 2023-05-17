@@ -29,7 +29,7 @@ WebVM is powered by the CheerpX virtualization engine, and enables safe, sandbox
 
 <img src="/assets/fork_deploy_instructions.gif" alt="deploy_instructions_gif" width="90%">
 
-After the action completes, it will show the URL to the GitHub Pages site below the `deploy_to_github_pages` job.
+After the action completes, which takes a few minutes, it will show the URL to the GitHub Pages site below the `deploy_to_github_pages` job.
 
 <img src="/assets/result.png" width="70%" >
 
