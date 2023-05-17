@@ -33,13 +33,6 @@ After the action completes, it will show the URL to the GitHub Pages site below 
 
 <img src="/assets/result.png" width="70%" >
 
-
-# How to: host WebVM locally
-
-- Replace `UID` and `GID` with the requested uid and gid in double quotes.
-- Replace `DEVICE_TYPE` with `"bytes"`.
-- Run nginx -p . -c nginx.conf in the root of the WebVM directory. WebVM can then be found at `http://localhost:8081`.
-
 # Bugs and Issues
 
 Please use [Issues](https://github.com/leaningtech/webvm/issues) to report any bug.
