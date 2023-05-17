@@ -10,14 +10,10 @@ WebVM is powered by the CheerpX virtualization engine, and enables safe, sandbox
 
 # How to: enable networking
 
-- go to [https://webvm.io](https://webvm.io)
-- click "Tailscale Login" in the top right corner
-- log in to Tailscale (create an accout if you don't have one)
-- if you want to access the public internet, you need an Exit Node. See [here](https://tailscale.com/kb/1103/exit-nodes/) for how to set one up. If you just want to access a machine in your Tailscale Network, you don't need it
-- depending on your network speed, you may need to wait a few moments for the Tailscale Wasm module to be downloaded
-- log in with your Tailscale credentials
-- go back to the WebVM tab. You will see your IP address in the top right
-- start firing network requests!
+- Go to [https://webvm.io](https://webvm.io).
+- Click "Tailscale Login" in the top right corner.
+- Log in to Tailscale (create an account if you don't have one).
+- If you are unfamiliar with Tailscale or would like additional information see [WebVM and Tailscale](/docs/Tailscale.md).
 
 # How to: fork and deploy
 - Fork the repository.
