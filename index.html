@@ -102,7 +102,7 @@ __      __   _  __   ____  __
     </div>
     <div style="flex-grow:0; flex-shrink: 0; height:1px; width: 100%; background-color: white;">
     </div>
-    <main style="display: flex; flex-direction: row; justify-content: space-between; margin:0; height:100%;">
+    <main style="display: flex; flex-direction: row; justify-content: space-between; margin: 5px; height: 100%;">
       <div style="flex-grow:1; height:100%;display:inline-block;margin:0;" class="scrollbar" id="console">
       </div>
 
@@ -320,7 +320,6 @@ __      __   _  __   ____  __
 	}
 	function initialMessage()
 	{
-		printOnTerm.printMessage([""]);
 		printOnTerm.printMessage(printOnTerm.getAsciiText());
 		term.registerLinkMatcher(/https:\/\/leaningtech.com\/webvm-virtual-machine-with-networking-via-tailscale/, function(mouseEvent, matchedString) {
 			window.open(matchedString, "_blank")
