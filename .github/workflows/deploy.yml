@@ -98,11 +98,11 @@ jobs:
       - name: Create ext2 image.
         run: |
          # Preallocate space for the ext2 image
-         sudo fallocate -l $IMAGE_SIZE ${DEPLOY_DIR}/${IMAGE_NAME}
+         sudo fallocate -l $IMAGE_SIZE ${IMAGE_NAME}
          # Format to ext2 linux kernel revision 0
-         sudo mkfs.ext2 -r 0 ${DEPLOY_DIR}/${IMAGE_NAME}
+         sudo mkfs.ext2 -r 0 ${IMAGE_NAME}
          # Mount the ext2 image to modify it
-         sudo mount -o loop -t ext2 ${DEPLOY_DIR}/${IMAGE_NAME} /mnt/
+         sudo mount -o loop -t ext2 ${IMAGE_NAME} /mnt/
 
       # We opt for 'docker cp --archive' over 'docker save' since our focus is solely on the end product rather than individual layers and metadata.
       # However, it's important to note that despite being specified in the documentation, the '--archive' flag does not currently preserve uid/gid information when copying files from the container to the host machine.
@@ -116,6 +116,11 @@ jobs:
       # Move required files for gh-pages deployment to the deployment directory $DEPLOY_DIR.
       - run: sudo mv assets examples xterm favicon.ico index.html login.html network.js scrollbar.css serviceWorker.js tower.ico $DEPLOY_DIR
       
+      # The .txt suffix enabled HTTP compression for free
+      - name: Generate image split chunks and .meta file
+        run: |
+          sudo split ${{ env.IMAGE_NAME }} ${{ env.DEPLOY_DIR }}/${{ env.IMAGE_NAME }}.c -a 6 -b 128k -x --additional-suffix=.txt
+          sudo bash -c "stat -c%s ${{ env.IMAGE_NAME }} > ${{ env.DEPLOY_DIR }}/${{ env.IMAGE_NAME }}.meta"
       # This step updates the default index.html file by performing the following actions:
       #   1. Replaces all occurrences of UID and GID with their respective input parameters.
       #   2. Replaces all occurrences of IMAGE_URL with the URL to the image.
@@ -125,7 +130,7 @@ jobs:
           sudo sed -i 's#UID#"${{ env.LOGIN_UID }}"#g' ${{ env.DEPLOY_DIR }}index.html
           sudo sed -i 's#GID#"${{ env.LOGIN_GID }}"#g' ${{ env.DEPLOY_DIR }}index.html
           sudo sed -i 's#IMAGE_URL#"${{ env.IMAGE_NAME }}"#g' ${{ env.DEPLOY_DIR }}index.html
-          sudo sed -i 's#DEVICE_TYPE#"bytes"#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#DEVICE_TYPE#"split"#g' ${{ env.DEPLOY_DIR }}index.html
 
       # We generate index.list files for our httpfs to function properly.
       - name: make index.list
@@ -155,7 +160,7 @@ jobs:
           tag_name: ${{ github.event.inputs.GITHUB_RELEASE_TAG }} # Tag of the release.
           fail_on_unmatched_files: 'true' # Fail in case of no matches with the file(s) glob(s).
           files: | # Assets to upload as release.
-            ${{ env.DEPLOY_DIR }}${{ env.IMAGE_NAME }}
+            ${{ env.IMAGE_NAME }}
 
   deploy_to_github_pages: # Job that deploys the github-pages artifact to github-pages.
     if: ${{ github.event.inputs.DEPLOY_TO_GITHUB_PAGES == 'true' }}
