@@ -15,9 +15,9 @@ on:
 
       IMAGE_SIZE:
         type: string
-        description: 'Image size, 950MB max.'
+        description: 'Image size, 950M max.'
         required: true
-        default: '600MB'
+        default: '600M'
 
       LOGIN_UGID:
           type: string
