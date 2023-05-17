@@ -6,7 +6,7 @@ RUN apt-get -y install apt-utils gcc \
 	fakeroot dbus base whiptail hexedit \
 	patch wamerican ucf manpages \
 	file luajit make lua50 dialog curl \
-	less
+	less cowsay netcat-openbsd
 RUN useradd -m user
 COPY --chown=user:user ./examples /home/user/examples
 RUN chmod -R +x  /home/user/examples/lua
