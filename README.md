@@ -16,6 +16,8 @@ WebVM is powered by the CheerpX virtualization engine, and enables safe, sandbox
 
 # Fork, deploy, customize
 
+<img src="/assets/fork_deploy_instructions.gif" alt="deploy_instructions_gif" width="90%">
+
 - Fork the repository.
 - Enable Github pages in settings.
 	- Click on `Settings`.
@@ -26,14 +28,12 @@ WebVM is powered by the CheerpX virtualization engine, and enables safe, sandbox
 	- Accept the prompt. This is required only once to enable Actions for your fork.
 	- Click on the workflow named `Deploy`.
 	- Click `Run workflow` and then once more `Run workflow` in the menu.
-- Customize `dockerfiles/debian_mini` to suits your needs.
-- You can also make a new Dockerfile from scratch. Use the "Path to Dockerfile" workflow parameter to select it.
-
-<img src="/assets/fork_deploy_instructions.gif" alt="deploy_instructions_gif" width="90%">
-
-After the workflow completes, which takes a few minutes, it will show the URL below the `deploy_to_github_pages` job.
+- After a few seconds a new `Deploy` workflow will start, click on it to see details.
+- After the workflow completes, which takes a few minutes, it will show the URL below the `deploy_to_github_pages` job.
 
 <img src="/assets/result.png" width="70%" >
+
+You can now customize `dockerfiles/debian_mini` to suits your needs, or make a new Dockerfile from scratch. Use the "Path to Dockerfile" workflow parameter to select it.
 
 # Local deployment
 
