@@ -22,7 +22,6 @@ WebVM is powered by the CheerpX virtualization engine, and enables safe, sandbox
 	- Go to the `Pages` section.
 	- Select `Github Actions` as the source.
 - Run the workflow.
-	- Go back to your fork.
 	- Click on `Actions.
 	- Accept the prompt. This is required only once to enable Actions for your fork.
 	- Click on the workflow named `Deploy`.
@@ -40,7 +39,7 @@ From a local `git clone`
 
 - Download the `debian_mini` Ext2 image from [https://github.com/leaningtech/webvm/releases/](https://github.com/leaningtech/webvm/releases/)
 	- You can also build your own by selecting the "Upload GitHub release" workflow option.
-	- Plase the image in the repository root folder.
+	- Place the image in the repository root folder.
 - Edit `index.html`
 	- Replace the `UID`/`GID` variables with `1000`
 	- Replace `DEVICE_TYPE` with `"bytes"`
