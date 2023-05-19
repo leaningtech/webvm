@@ -50,7 +50,7 @@ From a local `git clone`
 # Bugs and Issues
 
 Please use [Issues](https://github.com/leaningtech/webvm/issues) to report any bug.
-Or come to say hello / share your feedback on [Discord](https://discord.leaningtech.com).
+Or come to say hello / share your feedback on [Discord](https://discord.gg/yTNZgySKGa).
 
 # More links
 
