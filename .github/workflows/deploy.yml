@@ -19,12 +19,6 @@ on:
         required: true
         default: '600M'
 
-      LOGIN_UGID:
-          type: string
-          description: 'UID:GID of the starting process'
-          required: true
-          default: "1000:1000"
-
       DEPLOY_TO_GITHUB_PAGES:
         type: boolean
         description: 'Deploy to Github pages'
@@ -36,12 +30,6 @@ on:
         description: 'Upload GitHub release'
         required: true
         default: false
-
-      GITHUB_RELEASE_TAG:
-        type: string
-        description: 'Tag for the GitHub release'
-        required: true
-        default: "ext2_image"
 
 jobs:
 
@@ -78,11 +66,6 @@ jobs:
         id: image_name_gen
         run: |
           echo "IMAGE_NAME=$(basename ${{ github.event.inputs.DOCKERFILE_PATH }})_$(date +%Y%m%d)_${{ github.run_id }}.ext2" >> $GITHUB_ENV
-
-      # We extract the uid and gid from the uid:gid input.
-      - run: |
-          echo "LOGIN_UID=$(echo ${{ github.event.inputs.LOGIN_UGID }} | cut -d ':' -f1)" >> $GITHUB_ENV
-          echo "LOGIN_GID=$(echo ${{ github.event.inputs.LOGIN_UGID }} | cut -d ':' -f2)" >> $GITHUB_ENV
 
       # Create directory to host the image from.
       - run: sudo mkdir -p $DEPLOY_DIR
@@ -122,13 +105,10 @@ jobs:
           sudo split ${{ env.IMAGE_NAME }} ${{ env.DEPLOY_DIR }}/${{ env.IMAGE_NAME }}.c -a 6 -b 128k -x --additional-suffix=.txt
           sudo bash -c "stat -c%s ${{ env.IMAGE_NAME }} > ${{ env.DEPLOY_DIR }}/${{ env.IMAGE_NAME }}.meta"
       # This step updates the default index.html file by performing the following actions:
-      #   1. Replaces all occurrences of UID and GID with their respective input parameters.
       #   2. Replaces all occurrences of IMAGE_URL with the URL to the image.
       #   3. Replaces all occurrences of DEVICE_TYPE to bytes.
       - name: Adjust index.html
         run: |
-          sudo sed -i 's#UID#"${{ env.LOGIN_UID }}"#g' ${{ env.DEPLOY_DIR }}index.html
-          sudo sed -i 's#GID#"${{ env.LOGIN_GID }}"#g' ${{ env.DEPLOY_DIR }}index.html
           sudo sed -i 's#IMAGE_URL#"${{ env.IMAGE_NAME }}"#g' ${{ env.DEPLOY_DIR }}index.html
           sudo sed -i 's#DEVICE_TYPE#"split"#g' ${{ env.DEPLOY_DIR }}index.html
 
@@ -157,7 +137,7 @@ jobs:
         uses: softprops/action-gh-release@v0.1.15
         with:
           target_commitish: ${{ github.sha }} # Last commit on the GITHUB_REF branch or tag
-          tag_name: ${{ github.event.inputs.GITHUB_RELEASE_TAG }} # Tag of the release.
+          tag_name: ext2_image
           fail_on_unmatched_files: 'true' # Fail in case of no matches with the file(s) glob(s).
           files: | # Assets to upload as release.
             ${{ env.IMAGE_NAME }}

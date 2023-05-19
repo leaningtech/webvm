@@ -286,8 +286,7 @@ __      __   _  __   ____  __
 			consoleDiv.addEventListener("dragleave", preventDefaults, false);
 			consoleDiv.addEventListener("drop", preventDefaults, false);
 
-			// The variables uid and gid are replaced by Github Actions.
-			var opts = {env:structure.env, cwd:"/home/user", uid: UID, gid: GID};
+			var opts = {env:structure.env, cwd:"/home/user", uid: 1000, gid: 1000};
 			while (true)
 			{
 				await cxLogAndRun(cx, structure.cmd, structure.args, opts);

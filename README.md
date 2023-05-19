@@ -43,7 +43,6 @@ From a local `git clone`
 	- You can also build your own by selecting the "Upload GitHub release" workflow option.
 	- Place the image in the repository root folder.
 - Edit `index.html`
-	- Replace the `UID`/`GID` variables with `1000`
 	- Replace `DEVICE_TYPE` with `"bytes"`
 	- Replace `IMAGE_URL` with the name of the Ext2 image. For example `"debian_mini_20230519_5022088024.ext2"`
 - Start a local HTTP server
