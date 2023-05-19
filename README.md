@@ -22,7 +22,7 @@ WebVM is powered by the CheerpX virtualization engine, and enables safe, sandbox
 	- Go to the `Pages` section.
 	- Select `Github Actions` as the source.
 - Run the workflow.
-	- Click on `Actions.
+	- Click on `Actions`.
 	- Accept the prompt. This is required only once to enable Actions for your fork.
 	- Click on the workflow named `Deploy`.
 	- Click `Run workflow` and then once more `Run workflow` in the menu.
