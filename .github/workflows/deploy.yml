@@ -33,7 +33,7 @@ on:
 
       GITHUB_RELEASE:
         type: boolean
-        description: 'Upload github release.'
+        description: 'Upload GitHub release.'
         required: true
         default: false
 

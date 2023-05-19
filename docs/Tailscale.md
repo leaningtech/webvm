@@ -1,12 +1,13 @@
-# Enabling networking
+# Enable networking
+
 - In order to access the public internet, you will need an Exit Node. See [Tailscale Exit Nodes](https://tailscale.com/kb/1103/exit-nodes/) for detailed instructions.
 	- ***Note:*** This is not required to access machines in your own Tailscale Network.
-- depending on your network speed, you may need to wait a few moments for the Tailscale Wasm module to be downloaded.
+- Depending on your network speed, you may need to wait a few moments for the Tailscale Wasm module to be downloaded.
 
 **When all set:**
 - Log in with your Tailscale credentials.
-- Go back to the WebVM tab. `Connect to Tailscale` should be replaced by your IP address.
-- Start firing network requests!
+- Go back to the WebVM tab.
+- `Connect via Tailscale` should be replaced by your IP address.
 
 # Log in to Tailscale with an Auth key
 
