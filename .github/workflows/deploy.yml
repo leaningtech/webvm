@@ -9,37 +9,37 @@ on:
     inputs:
       DOCKERFILE_PATH:
         type: string
-        description: 'Absolute path to the Dockerfile.'
+        description: 'Path to the Dockerfile'
         required: true
         default: 'dockerfiles/debian_mini'
 
       IMAGE_SIZE:
         type: string
-        description: 'Image size, 950M max.'
+        description: 'Image size, 950M max'
         required: true
         default: '600M'
 
       LOGIN_UGID:
           type: string
-          description: 'UID:GID of the starting process.'
+          description: 'UID:GID of the starting process'
           required: true
           default: "1000:1000"
 
       DEPLOY_TO_GITHUB_PAGES:
         type: boolean
-        description: 'Deploy to Github pages.'
+        description: 'Deploy to Github pages'
         required: true
         default: true
 
       GITHUB_RELEASE:
         type: boolean
-        description: 'Upload GitHub release.'
+        description: 'Upload GitHub release'
         required: true
         default: false
 
       GITHUB_RELEASE_TAG:
         type: string
-        description: 'Tag for the github release.'
+        description: 'Tag for the GitHub release'
         required: true
         default: "ext2_image"
 
