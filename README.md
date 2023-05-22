@@ -48,6 +48,23 @@ From a local `git clone`
 - Start a local HTTP server
 - Enjoy your local WebVM.
 
+# Example customization: Python3 REPL
+
+The `Deploy` workflow takes into account the `CMD` specified in the Dockerfile. To build a REPL you can simply apply this patch and deploy.
+
+```diff
+diff --git a/dockerfiles/debian_mini b/dockerfiles/debian_mini
+index 2878332..1f3103a 100644
+--- a/dockerfiles/debian_mini
++++ b/dockerfiles/debian_mini
+@@ -15,4 +15,4 @@ WORKDIR /home/user/
+ # We set env, as this gets extracted by Webvm. This is optional.
+ ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="vim" LANG="en_US.UTF-8" LC_ALL="C"
+ RUN echo 'root:password' | chpasswd
+-CMD [ "/bin/bash" ]
++CMD [ "/usr/bin/python3" ]
+```
+
 # Bugs and Issues
 
 Please use [Issues](https://github.com/leaningtech/webvm/issues) to report any bug.
