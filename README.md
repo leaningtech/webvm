@@ -73,10 +73,10 @@ WebVM is released under the Apache License, Version 2.0.
 
 You are welcome to use WebVM as the basis for your own projects.
 
-WebVM depends on the CheerpX x86-to-WebAssembly virtualization technology. A link to the current latest build is always available at [https://cheerpxdemos.leaningtech.com/publicdeploy/LATEST.txt](https://cheerpxdemos.leaningtech.com/publicdeploy/LATEST.txt). At the time of this writing, it corresponds to.
+WebVM depends on the CheerpX x86-to-WebAssembly virtualization technology. A link to the current latest build is always available at [https://cheerpxdemos.leaningtech.com/publicdeploy/LATEST.txt](https://cheerpxdemos.leaningtech.com/publicdeploy/LATEST.txt). At the time of this writing, it corresponds to:
 
 `https://cheerpxdemos.leaningtech.com/publicdeploy/20230517_94/cx.js`
 
-These up-to-date builds are provided *as-is* and are *free to use* for technological exploration, testing and non-commercial uses. Downloading the CheerpX build and hosting it elewhere is not permitted.
+These up-to-date builds are provided **as-is** and are **free to use** for technological exploration, testing and non-commercial uses. Downloading the CheerpX build and hosting it elewhere is not permitted.
 
 If you want to build a product on top of CheerpX/WebVM, please get in touch: sales@leaningtech.com
