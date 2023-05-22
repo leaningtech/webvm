@@ -33,7 +33,7 @@ WebVM is powered by the CheerpX virtualization engine, and enables safe, sandbox
 
 <img src="/assets/result.png" width="70%" >
 
-You can now customize `dockerfiles/debian_mini` to suits your needs, or make a new Dockerfile from scratch. Use the "Path to Dockerfile" workflow parameter to select it.
+You can now customize `dockerfiles/debian_mini` to suits your needs, or make a new Dockerfile from scratch. Use the `Path to Dockerfile` workflow parameter to select it.
 
 # Local deployment
 
