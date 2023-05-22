@@ -39,13 +39,14 @@ You can now customize `dockerfiles/debian_mini` to suits your needs, or make a n
 
 From a local `git clone`
 
-- Download the `debian_mini` Ext2 image from [https://github.com/leaningtech/webvm/releases/](https://github.com/leaningtech/webvm/releases/)
+- Download the `debian_mini` Ext2 image from [https://github.com/leaningtech/webvm/releases/](https://github.com/leaningtech/webvm/releases/).
 	- You can also build your own by selecting the "Upload GitHub release" workflow option.
 	- Place the image in the repository root folder.
-- Edit `index.html`
-	- Replace `DEVICE_TYPE` with `"bytes"`
-	- Replace `IMAGE_URL` with the name of the Ext2 image. For example `"debian_mini_20230519_5022088024.ext2"`
-- Start a local HTTP server
+- Edit `index.html`.
+	- Uncomment the default values for `CMD`, `ARGS`, `ENV` and `CWD`.
+	- Replace `DEVICE_TYPE` with `"bytes"`.
+	- Replace `IMAGE_URL` with the name of the Ext2 image. For example `"debian_mini_20230519_5022088024.ext2"`.
+- Start a local HTTP server.
 - Enjoy your local WebVM.
 
 # Example customization: Python3 REPL
