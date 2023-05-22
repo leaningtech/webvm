@@ -67,11 +67,7 @@ This project depends on:
 - [Tailscale](https://tailscale.com/), for the networking component
 - [lwIP](https://savannah.nongnu.org/projects/lwip/), for the TCP/IP stack, compiled for the Web via [Cheerp](https://github.com/leaningtech/cheerp-meta)
 
-# License
-
-WebVM is released under the Apache License, Version 2.0.
-
-You are welcome to use, modify, and redistribute the contents of this repository.
+# Versioning
 
 WebVM depends on the CheerpX x86-to-WebAssembly virtualization technology. A link to the current latest build is always available at [https://cheerpxdemos.leaningtech.com/publicdeploy/LATEST.txt](https://cheerpxdemos.leaningtech.com/publicdeploy/LATEST.txt). Builds of CheerpX are immutable and uniquely versioned. An example link would be:
 
@@ -79,6 +75,12 @@ WebVM depends on the CheerpX x86-to-WebAssembly virtualization technology. A lin
 
 We strongly encourage users _not_ to use the latest build. Plase directly use a specific build to avoid unexpected regressions. Since builds are immutable, if they work for you now they will keep working forever.
 
-These up-to-date builds are provided **as-is** and are **free to use** for technological exploration, testing and non-commercial uses. Downloading the CheerpX build for the purpose of hosting it elsewhere is not permitted.
+# License
+
+WebVM is released under the Apache License, Version 2.0.
+
+You are welcome to use, modify, and redistribute the contents of this repository.
+
+The public CheerpX deployment is provided **as-is** and is **free to use** for technological exploration, testing and non-commercial uses. Downloading a CheerpX build for the purpose of hosting it elsewhere is not permitted.
 
 If you want to build a product on top of CheerpX/WebVM, please get in touch: sales@leaningtech.com
