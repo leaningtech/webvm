@@ -75,7 +75,33 @@ jobs:
       
       # Run the docker image so that we can export the container.
       # Run the Docker container with the Google Public DNS nameservers: 8.8.8.8, 8.8.4.4
-      - run: docker run --dns 8.8.8.8 --dns 8.8.4.4 -d $TAG
+      - run: |
+          docker run --dns 8.8.8.8 --dns 8.8.4.4 -d $TAG
+          echo "CONTAINER_ID=$(sudo docker ps -aq)" >> $GITHUB_ENV
+
+      # We extract the CMD, we first need to figure whether the Dockerfile uses CMD or an Entrypoint.
+      - name: Extracting CMD / Entrypoint and args
+        shell: bash
+        run: |
+          cmd=$(sudo docker inspect --format='{{json .Config.Cmd}}' $CONTAINER_ID)
+          entrypoint=$(sudo docker inspect --format='{{json .Config.Entrypoint}}' $CONTAINER_ID)
+          if [[ $entrypoint != "null" && $cmd != "null" ]]; then
+            echo "CMD=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.Entrypoint' )" >> $GITHUB_ENV
+            echo "ARGS=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.Cmd' )" >> $GITHUB_ENV
+          elif [[ $cmd != "null" ]]; then
+            echo "CMD=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.Cmd[:1]' )" >> $GITHUB_ENV
+            echo "ARGS=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.Cmd[1:]' )" >> $GITHUB_ENV
+          else
+            echo "CMD=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.Entrypoint[:1]' )" >> $GITHUB_ENV
+            echo "ARGS=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.Entrypoint[1:]' )" >> $GITHUB_ENV
+          fi
+
+      # We extract the ENV, CMD/Entrypoint and cwd from the Docker container with docker inspect.
+      - name: Extracting env, args and cwd.
+        shell: bash
+        run: |
+          echo "ENV=$( sudo docker inspect $CONTAINER_ID | jq --compact-output  '.[0].Config.Env' )" >> $GITHUB_ENV
+          echo "CWD=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.WorkingDir' )" >> $GITHUB_ENV
 
       # We create and mount the base ext2 image to extract the Docker container's filesystem its contents into.
       - name: Create ext2 image.
@@ -92,7 +118,7 @@ jobs:
       # Another compelling reason to use 'docker cp' is that it preserves resolv.conf.
       - name: Export and unpack container filesystem contents into mounted ext2 image.
         run: | 
-          sudo docker cp -a $(sudo docker ps -aq):/ /mnt/
+          sudo docker cp -a ${CONTAINER_ID}:/ /mnt/
           sudo umount /mnt/
       # Result is an ext2 image for webvm.
 
@@ -105,12 +131,19 @@ jobs:
           sudo split ${{ env.IMAGE_NAME }} ${{ env.DEPLOY_DIR }}/${{ env.IMAGE_NAME }}.c -a 6 -b 128k -x --additional-suffix=.txt
           sudo bash -c "stat -c%s ${{ env.IMAGE_NAME }} > ${{ env.DEPLOY_DIR }}/${{ env.IMAGE_NAME }}.meta"
       # This step updates the default index.html file by performing the following actions:
-      #   2. Replaces all occurrences of IMAGE_URL with the URL to the image.
-      #   3. Replaces all occurrences of DEVICE_TYPE to bytes.
+      #   1. Replaces all occurrences of IMAGE_URL with the URL to the image.
+      #   2. Replaces all occurrences of DEVICE_TYPE to bytes.
+      #   3. Replace CMD with the Dockerfile entry command.
+      #   4. Replace args with the Dockerfile CMD / Entrypoint args.
+      #   5. Replace ENV with the container's environment values.
       - name: Adjust index.html
         run: |
           sudo sed -i 's#IMAGE_URL#"${{ env.IMAGE_NAME }}"#g' ${{ env.DEPLOY_DIR }}index.html
           sudo sed -i 's#DEVICE_TYPE#"split"#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#CMD#${{ env.CMD }}#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#ARGS#${{ env.ARGS }}#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#ENV#${{ env.ENV }}#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#CWD#${{ env.CWD }}#g' ${{ env.DEPLOY_DIR }}index.html
 
       # We generate index.list files for our httpfs to function properly.
       - name: make index.list

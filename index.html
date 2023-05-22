@@ -244,15 +244,12 @@ __      __   _  __   ____  __
 	//Actual CheerpX and bash specific logic
 	function runBash()
 	{
+		// cmd, cwd, args and env are replaced by the Github actions workflow.
 		const structure = {
-			name: "bash",
-			cmd: "/bin/bash",
-			args: ["--login"],
-			env: ["HOME=/home/user", "TERM=xterm", "USER=user", "SHELL=/bin/bash", "EDITOR=vim", "LANG=en_US.UTF-8", "LC_ALL=C"],
-			expectedPrompt: ">",
-			versionOpt: "--version",
-			comment_line: "#",
-			description_line: "The original Bourne Again SHell",
+			cmd: CMD,
+			args: ARGS,
+			env: ENV,
+			cwd: CWD
 		}
 		if (typeof SharedArrayBuffer === "undefined")
 		{
@@ -285,7 +282,7 @@ __      __   _  __   ____  __
 			consoleDiv.addEventListener("dragleave", preventDefaults, false);
 			consoleDiv.addEventListener("drop", preventDefaults, false);
 
-			var opts = {env:structure.env, cwd:"/home/user", uid: 1000, gid: 1000};
+			var opts = {env:structure.env, cwd:structure.cwd, uid: 1000, gid: 1000};
 			while (true)
 			{
 				await cxLogAndRun(cx, structure.cmd, structure.args, opts);
