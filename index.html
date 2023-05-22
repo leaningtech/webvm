@@ -140,10 +140,9 @@ __      __   _  __   ____  __
 				"| CheerpX includes an x86-to-WebAssembly JIT compiler, a virtual block-based  |",
 				"| file system, and a Linux syscall emulator.                                  |",
 				"|                                                                             |",
-				"| [NEW!] WebVM now supports full TCP and UDP networking via Tailscale!        |",
-				"| Click on 'Tailscale Login' to enable it. Read the announcement:             |",
+				"| [NEW!] Your own WebVM with custom images via Dockerfile:                    |",
 				"|                                                                             |",
-				"| " + underline + "https://leaningtech.com/webvm-virtual-machine-with-networking-via-tailscale" + normal +" |",
+				"| " + underline + "https://leaningtech.com/mini-webvm-your-linux-box-from-dockerfile-via-wasm" + normal +"  |",
 				"|                                                                             |",
 				"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 				"",
@@ -318,7 +317,7 @@ __      __   _  __   ____  __
 	function initialMessage()
 	{
 		printOnTerm.printMessage(printOnTerm.getAsciiText());
-		term.registerLinkMatcher(/https:\/\/leaningtech.com\/webvm-virtual-machine-with-networking-via-tailscale/, function(mouseEvent, matchedString) {
+		term.registerLinkMatcher(/https:\/\/leaningtech.com\/[a-z-]+/, function(mouseEvent, matchedString) {
 			window.open(matchedString, "_blank")
 		});
 		console.log("Welcome. We appreciate curiosity, but be warned that keeping the DevTools open causes significant performance degradation and crashes.");
