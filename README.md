@@ -64,8 +64,8 @@ Or come to say hello / share your feedback on [Discord](https://discord.gg/yTNZg
 This project depends on:
 - CheerpX, made by [Leaning Technologies](https://leaningtech.com) for x86 virtualization and Linux emulation
 - xterm.js, [https://xtermjs.org/](https://xtermjs.org/), for providing the Web-based terminal emulator
-- [Tailscale](https://tailscale.com/) for the networking component
-- [lwIP](https://savannah.nongnu.org/projects/lwip/) for the TCP/IP stack, compiled for the Web via [Cheerp](https://github.com/leaningtech/cheerp-meta)
+- [Tailscale](https://tailscale.com/), for the networking component
+- [lwIP](https://savannah.nongnu.org/projects/lwip/), for the TCP/IP stack, compiled for the Web via [Cheerp](https://github.com/leaningtech/cheerp-meta)
 
 # License
 
