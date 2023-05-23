@@ -66,6 +66,7 @@ function registerNetworkLogin(cx, { authKey, statusElem, loginElem, loginElemUrl
                 await cx.networkLogin();
                 statusElem.innerHTML = "Starting login...";
                 const url = await loginPromise;
+                statusElem.innerHTML = "Login URL ready...";
                 w.location.href = url;
             }
             waitLogin();
