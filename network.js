@@ -32,9 +32,40 @@ function setupNetworkInterface()
     };
     const netmapUpdateCb = (map) => {
         const ip = map.self.addresses[0];
-        statusElem.innerHTML = "IP: "+ip;
+        statusElem.innerText = "IP: "+ip;
+		loginElem.title = "Right click to copy the IP"
+		loginElem.draggable = false;
+		const rmb_to_copy = (event) => {
+			// To prevent the default contexmenu from showing up when right-clicking..
+			event.preventDefault();
+			// Copy the IP to the clipboard.
+			window.navigator.clipboard.writeText(ip)
+			.catch((msg) => { console.log("network.js: Copy ip to clipboard: Error: " + msg) });
+
+			// We add the tooltip to the DOM and create the div element.
+			const tooltip = document.createElement("div");
+			statusElem.classList.add("clicked");
+			tooltip.classList.add("tooltip");
+			
+			// Show tooltip underneath mouse when copied to clipboard.
+			tooltip.style.fontSize = "13px"
+			tooltip.style.position = "absolute"
+			tooltip.style.left = `${event.clientX}px`
+			tooltip.style.top = `${event.clientY}px`
+			tooltip.style.fontWeight = "bold"
+			tooltip.innerText = "Copied to clipboard";
+			statusElem.appendChild(tooltip);
+
+			// To remove the tooltip again after some time passes.
+			setTimeout(() => {
+				tooltip.remove();
+				statusElem.classList.remove("clicked");
+			}, 1500);
+		};
+		loginElem.addEventListener("contextmenu", rmb_to_copy);
     };
     loginElem.style.cursor = "pointer";
+    loginElem.title = "Connect to Tailscale";
     statusElem.style.color = "white";
     return {
         loginUrlCb,
