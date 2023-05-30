@@ -76,12 +76,15 @@ __      __   _  __   ____  __
                   <span>HDD </span>
                   <span id="hddactivity" style="margin-left: 7px;">&#x1F7E2;</span>
                 </div>
-				<a id="loginLink" style="user-select: text ;text-decoration: none; height: 100%;">
-				<div  style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
-						<span style="cursor: pointer" id="networkStatus">Connect via Tailscale </span>
-						  <img src="assets/tailscale.svg" height="35px" style="margin-left: 7px;">
-						</div>
-					  </a>
+		<a id="loginLink" style="user-select: text ;text-decoration: none; height: 100%;">
+		  <div  style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
+                    <div style="position: relative;">
+	              <span style="cursor: pointer" id="networkStatus">Connect via Tailscale </span>
+	              <span style="cursor: pointer; position: absolute; right: 0px; visibility: hidden;" id="ipCopied">Copied! </span>
+                    </div>
+	            <img src="assets/tailscale.svg" height="35px" style="margin-left: 7px;">
+		  </div>
+		</a>
                 <a href="https://discord.gg/yTNZgySKGa" style="text-decoration: none; height: 100%;" target="_blank">
                   <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
                     <span>Join Discord </span>
