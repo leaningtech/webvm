@@ -92,7 +92,7 @@ WebVM depends on the CheerpX x86-to-WebAssembly virtualization technology. A lin
 
 `https://cheerpxdemos.leaningtech.com/publicdeploy/20230517_94/cx.js`
 
-We strongly encourage users _not_ to use the latest build. Plase directly use a specific build to avoid unexpected regressions. Since builds are immutable, if they work for you now they will keep working forever.
+We strongly encourage users _not_ to use the latest build. Please directly use a specific build to avoid unexpected regressions. Since builds are immutable, if they work for you now they will keep working forever.
 
 # License
 
