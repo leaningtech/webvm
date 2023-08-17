@@ -1,5 +1,8 @@
 # WebVM
 
+[![Discord server](https://img.shields.io/discord/988743885121548329?color=%235865F2&logo=discord&logoColor=%23fff)](https://discord.gg/yWRr2YnD9c)
+[![Issues](https://img.shields.io/github/issues/leaningtech/webvm)](https://github.com/leaningtech/webvm/issues)
+
 This repository hosts the source code for [https://webvm.io](https://webvm.io), a Linux virtual machine that runs in your browser.
 
 <img src="assets/welcome_to_WebVM_slim.png" width="95%">
@@ -81,7 +84,7 @@ Or come to say hello / share your feedback on [Discord](https://discord.gg/yTNZg
 
 # Thanks to... 
 This project depends on:
-- CheerpX, made by [Leaning Technologies](https://leaningtech.com) for x86 virtualization and Linux emulation
+- [CheerpX](https://labs.leaningtech.com/cheerpx), made by [Leaning Technologies](https://leaningtech.com) for x86 virtualization and Linux emulation
 - xterm.js, [https://xtermjs.org/](https://xtermjs.org/), for providing the Web-based terminal emulator
 - [Tailscale](https://tailscale.com/), for the networking component
 - [lwIP](https://savannah.nongnu.org/projects/lwip/), for the TCP/IP stack, compiled for the Web via [Cheerp](https://github.com/leaningtech/cheerp-meta)
