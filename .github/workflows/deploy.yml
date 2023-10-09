@@ -11,7 +11,7 @@ on:
         type: string
         description: 'Path to the Dockerfile'
         required: true
-        default: 'dockerfiles/debian_mini'
+        default: 'dockerfiles/debian_large'
 
       IMAGE_SIZE:
         type: string
