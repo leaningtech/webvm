@@ -163,20 +163,23 @@ __      __   _  __   ____  __
 		},
 		getSharedArrayBufferMissingMessage: function ()
 		{
+			const isCustom = window.location.hostname !== "webvm.io";
+			const isSecureContext = window.isSecureContext;
 			const text = [
 				"",
 				"",
 				color + "CheerpX could not start" + normal,
 				"",
-				"CheerpX depends on JavaScript's SharedArrayBuffer, that your browser",
-				"     does not support.",
+				"CheerpX uses SharedArrayBuffer, which is not available right now.",
 				"",
-				"SharedArrayBuffer is currently enabled by default on recent",
-				"     versions of Chrome, Edge, Firefox and Safari.",
-				"",
-				"",
-				"Give it a try from another browser!",
-				]
+				!isSecureContext && "  -  This page is not in a secure context. Serve over HTTPS or WSS.",
+				!isSecureContext && "    " + underline + "https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts" + noral,
+				isCustom && "  -  The document is not cross-origin isolated.",
+				isCustom && "     " + underline + "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer#security_requirements" + normal, 
+				"  - Your browser might not support SharedArrayBuffer.",
+				"    Since 2022, all major browsers support this feature.",
+				"    " + underline + "https://caniuse.com/sharedarraybuffer" + normal,
+			].filter(Boolean);
 
 			return text;
 		},
