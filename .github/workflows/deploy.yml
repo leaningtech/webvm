@@ -234,4 +234,4 @@ jobs:
       # Deployment to github pages
       - name: Deploy GitHub Pages site
         id: deployment
-        uses: actions/deploy-pages@v2.0.0
+        uses: actions/deploy-pages@v3.0.0
