@@ -202,7 +202,7 @@ jobs:
 
       # Create a gh-pages artifact in order to deploy to gh-pages.
       - name: Upload GitHub Pages artifact
-        uses: actions/upload-pages-artifact@v1.0.7
+        uses: actions/upload-pages-artifact@v3
         with:
           # Path of the directory containing the static assets for our gh pages deployment.
           path: ${{ env.DEPLOY_DIR }} # optional, default is _site/
@@ -234,4 +234,4 @@ jobs:
       # Deployment to github pages
       - name: Deploy GitHub Pages site
         id: deployment
-        uses: actions/deploy-pages@v3.0.0
+        uses: actions/deploy-pages@v4
