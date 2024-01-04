@@ -42,7 +42,6 @@
     <script defer data-domain="webvm.io" src="https://plausible.leaningtech.com/js/script.js"></script>
   </head>
 
-  <body style="margin:0;height:100%;background:black;color:white;overflow:hidden; display:flex; flex-direction: column; justify-content: space-between; height: 100%;">
 
     <div>
       <div style="padding-top: 0.7em;padding-bottom: 0.7em;font-size: 0.3em; font-weight: 200;vertical-align:center;height: 120px;">
@@ -60,8 +59,8 @@ __      __   _  __   ____  __
                   <div style="padding-top: 0.7em;font-size: 0.3em; font-weight: 200;vertical-align:center;">
                     <a href="https://leaningtech.com" style="text-decoration: none; height: 100%;" target="_blank">
                       <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
-                        <span>Made with &#10084;&#65039; </span>
-                        
+                        <span>Made with &#10084;&#65039; by </span>
+                        <img src="assets/leaningtech.png" height="40px" style="margin-left: 5px;">
                       </div>
                     </a>
                   </div>
@@ -77,7 +76,22 @@ __      __   _  __   ____  __
                   <span>HDD </span>
                   <span id="hddactivity" style="margin-left: 7px;">&#x1F7E2;</span>
                 </div>
-                <a href="https://github.com/austriandatalab/webvm/issues" style="text-decoration: none; height: 100%;" target="_blank">
+		<a id="loginLink" style="user-select: text ;text-decoration: none; height: 100%;">
+		  <div  style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
+                    <div style="position: relative;">
+	              <span style="cursor: pointer" id="networkStatus">Connect via Tailscale </span>
+	              <span style="cursor: pointer; position: absolute; right: 0px; visibility: hidden;" id="ipCopied">Copied! </span>
+                    </div>
+	            <img src="assets/tailscale.svg" height="35px" style="margin-left: 7px;">
+		  </div>
+		</a>
+                <a href="https://discord.gg/yTNZgySKGa" style="text-decoration: none; height: 100%;" target="_blank">
+                  <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
+                    <span>Join Discord </span>
+                    <img src="assets/discord-mark-blue.svg" height="35px" style="margin-left: 7px;">
+                  </div>
+                </a>
+                <a href="https://github.com/leaningtech/webvm/issues" style="text-decoration: none; height: 100%;" target="_blank">
                   <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
                     <span>GitHub Issues </span>
                     <img src="assets/github-mark-white.svg" height="35px" style="margin-left: 5px;">
@@ -120,16 +134,27 @@ __      __   _  __   ____  __
 			var text = [
 				"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 				"|                                                                             |",
-				"| A server-less virtual Linux env running client-side in HTML5/WebAssembly.   |",
+				"| WebVM is a server-less virtual Linux environment running fully client-side  |",
+				"| in HTML5/WebAssembly.                                                       |",
+				"|                                                                             |",
+				"| WebVM is powered by the CheerpX virtualization engine, which enables safe,  |",
+				"| sandboxed client-side execution of x86 binaries on any browser.             |",
+				"|                                                                             |",
+				"| CheerpX includes an x86-to-WebAssembly JIT compiler, a virtual block-based  |",
+				"| file system, and a Linux syscall emulator.                                  |",
+
+				"|                                                                             |",
+				"| " + underline + "https://leaningtech.com/mini-webvm-your-linux-box-from-dockerfile-via-wasm" + normal +"  |",
 				"|                                                                             |",
 				"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 				"",
-				"   Welcome ! If unsure, try these examples:",
+				"   Welcome to WebVM. If unsure, try these examples:",
 				"",
 				"     python3 examples/python3/fibonacci.py ",
 				"     gcc -o helloworld examples/c/helloworld.c && ./helloworld",
 				"     objdump -d ./helloworld | less -M",
 				"     vim examples/c/helloworld.c",
+				"     curl --max-time 15 parrot.live  # requires networking",
 				"",
 				];
 			return text;
