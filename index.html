@@ -294,6 +294,18 @@ __      __   _  __   ____  __
 
 		async function runTest(cx)
 		{
+			var processCount = 0;
+			function handleProcessCreated()
+			{
+				processCount++;
+				plausible(`Process started: ${processCount}`);
+				if(processCount == 5)
+				{
+					// Make sure no further event is reported
+					cx.unregisterCallback("processCreated", handleProcessCreated);
+				}
+			}
+			cx.registerCallback("processCreated", handleProcessCreated);
 			cx.registerCallback("cpuActivity", cpuCallback);
 			cx.registerCallback("diskActivity", hddCallback);
 			registerNetworkLogin(cx, networkInterface);
