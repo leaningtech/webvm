@@ -26,6 +26,7 @@ WebVM is powered by the CheerpX virtualization engine, and enables safe, sandbox
 	- Click on `Settings`.
 	- Go to the `Pages` section.
 	- Select `Github Actions` as the source.
+        - If you are using a custom domain, ensure `Enforce HTTPS` is enabled. 
 - Run the workflow.
 	- Click on `Actions`.
 	- Accept the prompt. This is required only once to enable Actions for your fork.
