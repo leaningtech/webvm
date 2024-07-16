@@ -1,0 +1,1572 @@
+# File: webvm-main/.github/workflows/deploy.yml
+name: Deploy
+
+# Define when the workflow should run
+on:
+  # Allow manual triggering of the workflow from the Actions tab
+  workflow_dispatch:
+
+  # Allow inputs to be passed when manually triggering the workflow from the Actions tab
+    inputs:
+      DOCKERFILE_PATH:
+        type: string
+        description: 'Path to the Dockerfile'
+        required: true
+        default: 'dockerfiles/debian_mini'
+
+      IMAGE_SIZE:
+        type: string
+        description: 'Image size, 950M max'
+        required: true
+        default: '600M'
+
+      DEPLOY_TO_GITHUB_PAGES:
+        type: boolean
+        description: 'Deploy to Github pages'
+        required: true
+        default: true
+
+      GITHUB_RELEASE:
+        type: boolean
+        description: 'Upload GitHub release'
+        required: true
+        default: false
+
+jobs:
+
+  guard_clause:
+      runs-on: ubuntu-latest
+  
+      env:
+        GH_TOKEN: ${{ github.token }} # As required by the GitHub-CLI  
+
+      permissions:
+        actions: 'write' # Required in order to terminate the workflow run.
+  
+      steps:
+        - uses: actions/checkout@v3
+        # Guard clause that cancels the workflow in case of an invalid DOCKERFILE_PATH and/or incorrectly configured Github Pages. 
+        # The main reason for choosing this workaround for aborting the workflow is the fact that it does not display the workflow as successful, which can set false expectations.
+        - name: DOCKERFILE_PATH.
+          shell: bash
+          run: |
+            # We check whether the Dockerfile_path is valid. 
+            if [ ! -f ${{ github.event.inputs.DOCKERFILE_PATH }} ]; then
+                echo "::error title=Invalid Dockerfile path::No file found at ${{ github.event.inputs.DOCKERFILE_PATH }}"
+                echo "terminate=true" >> $GITHUB_ENV
+            fi
+
+        - name: Github Pages config guard clause
+          if: ${{ github.event.inputs.DEPLOY_TO_GITHUB_PAGES == 'true' }}
+          run: |
+            # We use the Github Rest api to get information regarding pages for the Github Repository and store it into a temporary file named "pages_response".
+            set +e
+            gh api \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              /repos/${{ github.repository_owner }}/$(basename ${{ github.repository }})/pages > pages_response
+
+            # We make sure Github Pages has been enabled for this repository.
+            if [ "$?" -ne 0 ]; then
+              echo "::error title=Potential pages configuration error.::Please make sure you have enabled Github pages for the ${{ github.repository }} repository. If already enabled then Github pages might be down"
+              echo "terminate=true" >> $GITHUB_ENV
+            fi
+            set -e
+
+            # We make sure the Github pages build & deployment source is set to "workflow" (Github Actions). Instead of a "legacy" (branch).
+            if [[ "$(jq --compact-output --raw-output .build_type pages_response)" != "workflow" ]]; then
+                echo "Undefined behaviour, Make sure the Github Pages source is correctly configured in the Github Pages settings."
+                echo "::error title=Pages configuration error.::Please make sure you have correctly picked \"Github Actions\" as the build and deployment source for the Github Pages."
+                echo "terminate=true" >> $GITHUB_ENV
+            fi
+            rm pages_response
+
+        - name: Terminate run if error occurred.
+          run: |
+            if [[ $terminate == "true" ]]; then
+              gh run cancel ${{ github.run_id }}
+              gh run watch ${{ github.run_id }}
+            fi
+
+  build:
+    needs: guard_clause # Dependency
+    runs-on: ubuntu-latest # Image to run the worker on.
+
+    env:
+      TAG: "ext2-webvm-base-image" # Tag of docker image.
+      IMAGE_SIZE: '${{ github.event.inputs.IMAGE_SIZE }}'
+      DEPLOY_DIR: /webvm_deploy/ # Path to directory where we host the final image from.
+
+    permissions: # Permissions to grant the GITHUB_TOKEN.
+      contents: write  # Required permission to make a github release.
+
+    steps:
+      # Checks-out our repository under $GITHUB_WORKSPACE, so our job can access it
+      - uses: actions/checkout@v3
+
+      # Setting the IMAGE_NAME variable in GITHUB_ENV to <Dockerfile name>_<date>_<run_id>.ext2.
+      - name: Generate the image_name.
+        id: image_name_gen
+        run: |
+          echo "IMAGE_NAME=$(basename ${{ github.event.inputs.DOCKERFILE_PATH }})_$(date +%Y%m%d)_${{ github.run_id }}.ext2" >> $GITHUB_ENV
+
+      # Create directory to host the image from.
+      - run: sudo mkdir -p $DEPLOY_DIR
+
+      # Build the i386 Dockerfile image.
+      - run: docker build . --tag $TAG --file ${{ github.event.inputs.DOCKERFILE_PATH }} --platform=i386
+      
+      # Run the docker image so that we can export the container.
+      # Run the Docker container with the Google Public DNS nameservers: 8.8.8.8, 8.8.4.4
+      - run: |
+          docker run --dns 8.8.8.8 --dns 8.8.4.4 -d $TAG
+          echo "CONTAINER_ID=$(sudo docker ps -aq)" >> $GITHUB_ENV
+
+      # We extract the CMD, we first need to figure whether the Dockerfile uses CMD or an Entrypoint.
+      - name: Extracting CMD / Entrypoint and args
+        shell: bash
+        run: |
+          cmd=$(sudo docker inspect --format='{{json .Config.Cmd}}' $CONTAINER_ID)
+          entrypoint=$(sudo docker inspect --format='{{json .Config.Entrypoint}}' $CONTAINER_ID)
+          if [[ $entrypoint != "null" && $cmd != "null" ]]; then
+            echo "CMD=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.Entrypoint' )" >> $GITHUB_ENV
+            echo "ARGS=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.Cmd' )" >> $GITHUB_ENV
+          elif [[ $cmd != "null" ]]; then
+            echo "CMD=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.Cmd[:1]' )" >> $GITHUB_ENV
+            echo "ARGS=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.Cmd[1:]' )" >> $GITHUB_ENV
+          else
+            echo "CMD=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.Entrypoint[:1]' )" >> $GITHUB_ENV
+            echo "ARGS=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.Entrypoint[1:]' )" >> $GITHUB_ENV
+          fi
+
+      # We extract the ENV, CMD/Entrypoint and cwd from the Docker container with docker inspect.
+      - name: Extracting env, args and cwd.
+        shell: bash
+        run: |
+          echo "ENV=$( sudo docker inspect $CONTAINER_ID | jq --compact-output  '.[0].Config.Env' )" >> $GITHUB_ENV
+          echo "CWD=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.WorkingDir' )" >> $GITHUB_ENV
+
+      # We create and mount the base ext2 image to extract the Docker container's filesystem its contents into.
+      - name: Create ext2 image.
+        run: |
+         # Preallocate space for the ext2 image
+         sudo fallocate -l $IMAGE_SIZE ${IMAGE_NAME}
+         # Format to ext2 linux kernel revision 0
+         sudo mkfs.ext2 -r 0 ${IMAGE_NAME}
+         # Mount the ext2 image to modify it
+         sudo mount -o loop -t ext2 ${IMAGE_NAME} /mnt/
+
+      # We opt for 'docker cp --archive' over 'docker save' since our focus is solely on the end product rather than individual layers and metadata.
+      # However, it's important to note that despite being specified in the documentation, the '--archive' flag does not currently preserve uid/gid information when copying files from the container to the host machine.
+      # Another compelling reason to use 'docker cp' is that it preserves resolv.conf.
+      - name: Export and unpack container filesystem contents into mounted ext2 image.
+        run: | 
+          sudo docker cp -a ${CONTAINER_ID}:/ /mnt/
+          sudo umount /mnt/
+      # Result is an ext2 image for webvm.
+
+      # Move required files for gh-pages deployment to the deployment directory $DEPLOY_DIR.
+      - run: sudo mv assets examples xterm favicon.ico index.html login.html network.js scrollbar.css serviceWorker.js tower.ico $DEPLOY_DIR
+      
+      # The .txt suffix enabled HTTP compression for free
+      - name: Generate image split chunks and .meta file
+        run: |
+          sudo split ${{ env.IMAGE_NAME }} ${{ env.DEPLOY_DIR }}/${{ env.IMAGE_NAME }}.c -a 6 -b 128k -x --additional-suffix=.txt
+          sudo bash -c "stat -c%s ${{ env.IMAGE_NAME }} > ${{ env.DEPLOY_DIR }}/${{ env.IMAGE_NAME }}.meta"
+      # This step updates the default index.html file by performing the following actions:
+      #   1. Replaces all occurrences of IMAGE_URL with the URL to the image.
+      #   2. Replaces all occurrences of DEVICE_TYPE to bytes.
+      #   3. Replace CMD with the Dockerfile entry command.
+      #   4. Replace args with the Dockerfile CMD / Entrypoint args.
+      #   5. Replace ENV with the container's environment values.
+      - name: Adjust index.html
+        run: |
+          sudo sed -i 's#IMAGE_URL#"${{ env.IMAGE_NAME }}"#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#DEVICE_TYPE#"split"#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#CMD#${{ env.CMD }}#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#ARGS#${{ env.ARGS }}#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#ENV#${{ env.ENV }}#g' ${{ env.DEPLOY_DIR }}index.html
+          sudo sed -i 's#CWD#${{ env.CWD }}#g' ${{ env.DEPLOY_DIR }}index.html
+
+      # We generate index.list files for our httpfs to function properly.
+      - name: make index.list
+        shell: bash
+        run: |
+          find $DEPLOY_DIR -type d | while read -r dir;
+          do
+            index_list="$dir/index.list";
+            sudo rm -f "$index_list";
+            sudo ls "$dir" | sudo tee "$index_list" > /dev/null;
+            sudo chmod +rw "$index_list";     
+            sudo echo "created $index_list"; 
+          done
+
+      # Create a gh-pages artifact in order to deploy to gh-pages.
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          # Path of the directory containing the static assets for our gh pages deployment.
+          path: ${{ env.DEPLOY_DIR }} # optional, default is _site/
+
+      - name: github release # To upload our final ext2 image as a github release.
+        if: ${{ github.event.inputs.GITHUB_RELEASE == 'true' }}
+        uses: softprops/action-gh-release@v0.1.15
+        with:
+          target_commitish: ${{ github.sha }} # Last commit on the GITHUB_REF branch or tag
+          tag_name: ext2_image
+          fail_on_unmatched_files: 'true' # Fail in case of no matches with the file(s) glob(s).
+          files: | # Assets to upload as release.
+            ${{ env.IMAGE_NAME }}
+
+  deploy_to_github_pages: # Job that deploys the github-pages artifact to github-pages.
+    if: ${{ github.event.inputs.DEPLOY_TO_GITHUB_PAGES == 'true' }}
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    runs-on: ubuntu-latest
+    steps:
+      # Deployment to github pages
+      - name: Deploy GitHub Pages site
+        id: deployment
+        uses: actions/deploy-pages@v3
+
+
+# File: webvm-main/assets/tailscale.svg
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="2.89214" cy="11.7148" rx="2.89214" ry="2.88514" fill="white"></ellipse>
+          <ellipse cx="11.5685" cy="11.7148" rx="2.89214" ry="2.88514" fill="white"></ellipse>
+          <ellipse opacity="0.2" cx="2.89214" cy="20.3703" rx="2.89214" ry="2.88514" fill="white"></ellipse>
+          <ellipse opacity="0.2" cx="20.245" cy="20.3703" rx="2.89214" ry="2.88514" fill="white"></ellipse>
+          <ellipse cx="11.5685" cy="20.3703" rx="2.89214" ry="2.88514" fill="white"></ellipse>
+          <ellipse cx="20.245" cy="11.7148" rx="2.89214" ry="2.88514" fill="white"></ellipse>
+          <ellipse opacity="0.2" cx="2.89214" cy="3.0594" rx="2.89214" ry="2.88514" fill="white"></ellipse>
+          <ellipse opacity="0.2" cx="11.5685" cy="3.0594" rx="2.89214" ry="2.88514" fill="white"></ellipse>
+          <ellipse opacity="0.2" cx="20.245" cy="3.0594" rx="2.89214" ry="2.88514" fill="white"></ellipse>
+        </svg>
+
+
+# File: webvm-main/dockerfiles/debian_large
+FROM --platform=i386 i386/debian:buster
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get -y upgrade && \
+	apt-get install -y apt-utils beef bsdgames bsdmainutils ca-certificates clang \
+	cowsay cpio cron curl dmidecode dmsetup g++ gcc gdbm-l10n git  \
+	hexedit  ifupdown init logrotate lsb-base lshw lua50 luajit lynx make \
+	nano netbase nodejs openssl procps python3 python3-cryptography \
+	python3-jinja2 python3-numpy python3-pandas python3-pip python3-scipy \
+	python3-six python3-yaml readline-common rsyslog ruby sensible-utils \
+	ssh systemd systemd-sysv tasksel tasksel-data udev vim wget whiptail \
+	xxd iptables isc-dhcp-client isc-dhcp-common kmod less netcat-openbsd
+
+# Make a user, then copy over the /example directory
+RUN useradd -m user && echo "user:password" | chpasswd
+COPY --chown=user:user ./examples /home/user/examples
+RUN chmod -R +x  /home/user/examples/lua
+RUN echo 'root:password' | chpasswd
+CMD [ "/bin/bash" ]
+
+
+# File: webvm-main/dockerfiles/debian_mini
+FROM --platform=i386 i386/debian:buster
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get clean && apt-get update && apt-get -y upgrade
+RUN apt-get -y install apt-utils gcc \
+	python3 vim unzip ruby nodejs \
+	fakeroot dbus base whiptail hexedit \
+	patch wamerican ucf manpages \
+	file luajit make lua50 dialog curl \
+	less cowsay netcat-openbsd
+RUN useradd -m user && echo "user:password" | chpasswd
+COPY --chown=user:user ./examples /home/user/examples
+RUN chmod -R +x  /home/user/examples/lua
+# We set WORKDIR, as this gets extracted by Webvm to be used as the cwd. This is optional.
+WORKDIR /home/user/
+# We set env, as this gets extracted by Webvm. This is optional.
+ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="vim" LANG="en_US.UTF-8" LC_ALL="C"
+RUN echo 'root:password' | chpasswd
+CMD [ "/bin/bash" ]
+
+
+# File: webvm-main/docs/Tailscale.md
+# Enable networking
+
+- In order to access the public internet, you will need an Exit Node. See [Tailscale Exit Nodes](https://tailscale.com/kb/1103/exit-nodes/) for detailed instructions.
+	- ***Note:*** This is not required to access machines in your own Tailscale Network.
+- Depending on your network speed, you may need to wait a few moments for the Tailscale Wasm module to be downloaded.
+
+**When all set:**
+- Log in with your Tailscale credentials.
+- Go back to the WebVM tab.
+- `Connect via Tailscale` should be replaced by your IP address.
+
+# Log in to Tailscale with an Auth key
+
+- Add `#authKey=<your-key>` at the end of the URL.
+- Done, you don't need to manually log in anymore.
+
+It is recommended to use an ephemeral key.
+
+# Log in to a self-hosted Tailscale network (Headscale)
+
+- Add `#controlUrl=<your-control-url>` at the end of the URL.
+- You can combine this option with `authKey` with a `&`: `#controlUrl=<url>&authKey=<key>`.
+
+
+# File: webvm-main/examples/c/env.c
+#include <stdio.h>
+  
+// Most of the C compilers support a third parameter to main which
+// store all envorinment variables
+int main(int argc, char *argv[], char * envp[])
+{
+    int i;
+    for (i = 0; envp[i] != NULL; i++)
+        printf("\n%s", envp[i]);
+    getchar();
+    return 0;
+}
+
+
+# File: webvm-main/examples/c/waitpid.c
+#include <sys/wait.h>
+#include <unistd.h>
+#include <errno.h>
+#include <stdio.h>
+
+int main()
+{
+	int status;
+
+	pid_t p = getpid();
+	// waitpid takes a children's pid, not the current process one
+	// if the pid is not a children of the current process, it returns -ECHILD
+	pid_t res = waitpid(1001, &status, WNOHANG);
+
+	printf("res is %d, p is %d and errno is %d\n", res, p, errno);
+
+}
+
+
+# File: webvm-main/examples/lua/fizzbuzz.lua
+#!/usr/bin/env luajit
+cfizz,cbuzz=0,0
+for i=1,20 do
+	cfizz=cfizz+1
+	cbuzz=cbuzz+1
+	io.write(i .. ": ")
+	if cfizz~=3 and cbuzz~=5 then
+		io.write(i)
+	else
+		if cfizz==3 then
+			io.write("Fizz")
+			cfizz=0
+		end
+		if cbuzz==5 then
+			io.write("Buzz")
+			cbuzz=0
+		end
+	end
+	io.write("\n")
+end
+
+
+# File: webvm-main/examples/lua/sorting.lua
+#!/usr/bin/env luajit
+fruits = {"banana","orange","apple","grapes"}
+
+for k,v in ipairs(fruits) do
+   print(k,v)
+end
+
+table.sort(fruits)
+print("sorted table")
+
+for k,v in ipairs(fruits) do
+   print(k,v)
+end
+
+
+# File: webvm-main/examples/lua/symmetric_difference.lua
+#!/usr/bin/env luajit
+A = { ["John"] = true, ["Bob"] = true, ["Mary"] = true, ["Elena"] = true }
+B = { ["Jim"] = true, ["Mary"] = true, ["John"] = true, ["Bob"] = true }
+
+A_B = {}
+for a in pairs(A) do
+    if not B[a] then A_B[a] = true end
+end
+
+B_A = {}
+for b in pairs(B) do
+    if not A[b] then B_A[b] = true end
+end
+
+for a_b in pairs(A_B) do
+    print( a_b )
+end
+for b_a in pairs(B_A) do
+    print( b_a )
+end
+
+
+# File: webvm-main/examples/nodejs/nbody.js
+const PI = Math.PI;
+const SOLAR_MASS = 4 * PI * PI;
+const DAYS_PER_YEAR = 365.24;
+
+function Body(x, y, z, vx, vy, vz, mass) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    this.vx = vx;
+    this.vy = vy;
+    this.vz = vz;
+    this.mass = mass;
+}
+
+function Jupiter() {
+    return new Body(
+        4.84143144246472090e+00,
+        -1.16032004402742839e+00,
+        -1.03622044471123109e-01,
+        1.66007664274403694e-03 * DAYS_PER_YEAR,
+        7.69901118419740425e-03 * DAYS_PER_YEAR,
+        -6.90460016972063023e-05 * DAYS_PER_YEAR,
+        9.54791938424326609e-04 * SOLAR_MASS
+    );
+}
+
+function Saturn() {
+    return new Body(
+        8.34336671824457987e+00,
+        4.12479856412430479e+00,
+        -4.03523417114321381e-01,
+        -2.76742510726862411e-03 * DAYS_PER_YEAR,
+        4.99852801234917238e-03 * DAYS_PER_YEAR,
+        2.30417297573763929e-05 * DAYS_PER_YEAR,
+        2.85885980666130812e-04 * SOLAR_MASS
+    );
+}
+
+function Uranus() {
+    return new Body(
+        1.28943695621391310e+01,
+        -1.51111514016986312e+01,
+        -2.23307578892655734e-01,
+        2.96460137564761618e-03 * DAYS_PER_YEAR,
+        2.37847173959480950e-03 * DAYS_PER_YEAR,
+        -2.96589568540237556e-05 * DAYS_PER_YEAR,
+        4.36624404335156298e-05 * SOLAR_MASS
+    );
+}
+
+function Neptune() {
+    return new Body(
+        1.53796971148509165e+01,
+        -2.59193146099879641e+01,
+        1.79258772950371181e-01,
+        2.68067772490389322e-03 * DAYS_PER_YEAR,
+        1.62824170038242295e-03 * DAYS_PER_YEAR,
+        -9.51592254519715870e-05 * DAYS_PER_YEAR,
+        5.15138902046611451e-05 * SOLAR_MASS
+    );
+}
+
+function Sun() {
+    return new Body(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SOLAR_MASS);
+}
+
+const bodies = Array(Sun(), Jupiter(), Saturn(), Uranus(), Neptune());
+
+function offsetMomentum() {
+    let px = 0;
+    let py = 0;
+    let pz = 0;
+    const size = bodies.length;
+    for (let i = 0; i < size; i++) {
+        const body = bodies[i];
+        const mass = body.mass;
+        px += body.vx * mass;
+        py += body.vy * mass;
+        pz += body.vz * mass;
+    }
+
+    const body = bodies[0];
+    body.vx = -px / SOLAR_MASS;
+    body.vy = -py / SOLAR_MASS;
+    body.vz = -pz / SOLAR_MASS;
+}
+
+function advance(dt) {
+    const size = bodies.length;
+
+    for (let i = 0; i < size; i++) {
+        const bodyi = bodies[i];
+        let vxi = bodyi.vx;
+        let vyi = bodyi.vy;
+        let vzi = bodyi.vz;
+        for (let j = i + 1; j < size; j++) {
+            const bodyj = bodies[j];
+            const dx = bodyi.x - bodyj.x;
+            const dy = bodyi.y - bodyj.y;
+            const dz = bodyi.z - bodyj.z;
+
+            const d2 = dx * dx + dy * dy + dz * dz;
+            const mag = dt / (d2 * Math.sqrt(d2));
+
+            const massj = bodyj.mass;
+            vxi -= dx * massj * mag;
+            vyi -= dy * massj * mag;
+            vzi -= dz * massj * mag;
+
+            const massi = bodyi.mass;
+            bodyj.vx += dx * massi * mag;
+            bodyj.vy += dy * massi * mag;
+            bodyj.vz += dz * massi * mag;
+        }
+        bodyi.vx = vxi;
+        bodyi.vy = vyi;
+        bodyi.vz = vzi;
+    }
+
+    for (let i = 0; i < size; i++) {
+        const body = bodies[i];
+        body.x += dt * body.vx;
+        body.y += dt * body.vy;
+        body.z += dt * body.vz;
+    }
+}
+
+function energy() {
+    let e = 0;
+    const size = bodies.length;
+
+    for (let i = 0; i < size; i++) {
+        const bodyi = bodies[i];
+
+        e += 0.5 * bodyi.mass * ( bodyi.vx * bodyi.vx + bodyi.vy * bodyi.vy + bodyi.vz * bodyi.vz );
+
+        for (let j = i + 1; j < size; j++) {
+            const bodyj = bodies[j];
+            const dx = bodyi.x - bodyj.x;
+            const dy = bodyi.y - bodyj.y;
+            const dz = bodyi.z - bodyj.z;
+
+            const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            e -= (bodyi.mass * bodyj.mass) / distance;
+        }
+    }
+    return e;
+}
+
+const n = +50000000;
+
+offsetMomentum();
+
+console.log(energy().toFixed(9));
+const start = Date.now();
+for (let i = 0; i < n; i++) {
+    advance(0.01);
+}
+const end = Date.now();
+console.log(energy().toFixed(9));
+console.log("elapsed:",end-start);
+
+
+# File: webvm-main/examples/nodejs/primes.js
+(function () {
+
+function isPrime(p) {
+    const upper = Math.sqrt(p);
+    for(let i = 2; i <= upper; i++) {
+        if (p % i === 0 ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Return n-th prime
+function prime(n) {
+    if (n < 1) {
+        throw Error("n too small: " + n);
+    }
+    let count = 0;
+    let result = 1;
+    while(count < n) {
+        result++;        
+        if (isPrime(result)) {
+            count++;
+        }
+    }
+    return result;
+}
+
+console.log("your prime is ", prime(100000));
+
+}());
+
+
+# File: webvm-main/examples/nodejs/wasm.js
+(function (){
+let bytes = new Uint8Array([
+  0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00,
+  0x01, 0x07, 0x01, 0x60, 0x02, 0x7f, 0x7f, 0x01,
+  0x7f, 0x03, 0x02, 0x01, 0x00, 0x07, 0x07, 0x01,
+  0x03, 0x73, 0x75, 0x6d, 0x00, 0x00, 0x0a, 0x0a,
+  0x01, 0x08, 0x00, 0x20, 0x00, 0x20, 0x01, 0x6a,
+  0x0f, 0x0b
+]);
+
+console.log(bytes);
+let mod = new WebAssembly.Module(bytes);
+let instance = new WebAssembly.Instance(mod, {});
+console.log(instance.exports);
+return instance.exports.sum(2020, 1);
+}());
+
+
+# File: webvm-main/examples/python3/pi.py
+from decimal import Decimal, getcontext
+getcontext().prec=60
+summation = 0
+for k in range(50):
+	summation = summation + 1/Decimal(16)**k * (
+		Decimal(4)/(8*k+1)
+		- Decimal(2)/(8*k+4)
+		- Decimal(1)/(8*k+5)
+		- Decimal(1)/(8*k+6)
+		)
+	print(summation)
+
+
+
+# File: webvm-main/examples/ruby/helloWorld.rb
+=begin
+# The famous Hello World
+# Program is trivial in
+# Ruby. Superfluous:
+#
+# * A "main" method
+# * Newline
+# * Semicolons
+#
+# Here is the Code:
+=end
+
+puts "Hello World!"
+
+
+
+# File: webvm-main/index.html
+<!DOCTYPE html>
+<html lang="en" style="height:100%;">
+  <meta property="og:image" content="https://webvm.io/assets/reddit.png"/>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=1100, initial-scale=1.0">
+    <title>WebVM - Linux virtualization in WebAssembly</title>
+
+    <meta name="description" content="Server-less virtual machine, networking included, running browser-side in HTML5/WebAssembly. Code in any programming language inside this Linux terminal.">
+    <meta name="keywords" content="WebVM, Virtual Machine, CheerpX, x86 virtualization, WebAssembly, Tailscale, JIT">
+    <meta property="og:title" content="WebVM - Linux virtualization in WebAssembly" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="WebVM"/>
+    <meta property="og:image" content="https://webvm.io/assets/social.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@leaningtech" />
+    <meta name="twitter:title" content="WebVM - Linux virtualization in WebAssembly" />
+    <meta name="twitter:description" content="Server-less virtual machine, networking included, running browser-side in HTML5/WebAssembly. Code in any programming language inside this Linux terminal.">
+    <meta name="twitter:image" content="https://webvm.io/assets/social.png" />
+
+    <!-- Apple iOS web clip compatibility tags -->
+    <meta name="application-name" content="WebVM" />
+    <meta name="apple-mobile-web-app-title" content="WebVM" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	 
+
+    <link rel="shortcut icon" href="./tower.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" id="us-fonts-css" href="https://fonts.googleapis.com/css?family=Montserrat%3A300%2C400%2C500%2C600%2C700&amp;display=swap&amp;ver=6.0.2" media="all">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
+    <link rel="stylesheet" href="./xterm/xterm.css" />
+    <link rel="stylesheet" href="./scrollbar.css" />
+    <style>.github-fork-ribbon:before { background-color: #ea1e69; }</style>
+    <!-- Serviceworker script that adds the COI and CORS headers to the response headers in cases where the server does not support it. -->
+    <script src="serviceWorker.js"></script>
+    <script src="./xterm/xterm.js"></script>
+    <script src="./xterm/xterm-addon-fit.js"></script>
+    <script src="./xterm/xterm-addon-web-links.js"></script>
+    <script src="network.js"></script>
+    <script defer data-domain="webvm.io" src="https://plausible.leaningtech.com/js/script.js"></script>
+  </head>
+
+  <body style="margin:0;height:100%;background:black;color:white;overflow:hidden; display:flex; flex-direction: column; justify-content: space-between; height: 100%;">
+    <a class="github-fork-ribbon right-bottom" href="https://github.com/leaningtech/webvm/" target="_blank" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
+    <div>
+      <div style="padding-top: 0.7em;padding-bottom: 0.7em;font-size: 0.3em; font-weight: 200;vertical-align:center;height: 120px;">
+        <div style="margin-left: 20px; height: 100%; display: flex; align-items: center; justify-content: space-between;">
+          <pre style="font-family: monospace; font-weight: 600; font-size: large; color: #ad7fa8;">
+
+__      __   _  __   ____  __
+\ \    / /__| |_\ \ / /  \/  |
+ \ \/\/ / -_) '_ \ V /| |\/| |
+  \_/\_/\___|_.__/\_/ |_|  |_|
+          </pre>
+          <div style="height:100%;display: flex; flex-direction: column;justify-content: space-between;">
+            <div style="padding-top: 0.7em;font-size: 0.3em; font-weight: 200;vertical-align:center;height:50px;">
+              <div style="margin-right: 10px; margin-left: 20px; height: 100%; display: flex; align-items: center; justify-content: flex-end;gap: 50px;">
+                  <div style="padding-top: 0.7em;font-size: 0.3em; font-weight: 200;vertical-align:center;">
+                    <a href="https://leaningtech.com" style="text-decoration: none; height: 100%;" target="_blank">
+                      <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
+                        <span>Made with &#10084;&#65039; by </span>
+                        <img src="assets/leaningtech.png" height="40px" style="margin-left: 5px;">
+                      </div>
+                    </a>
+                  </div>
+              </div>
+            </div>
+            <div style="padding-top: 0.7em;font-size: 0.3em; font-weight: 200;vertical-align:center;height:50px;">
+              <div style="margin-right: 10px; margin-left: 20px; height: 100%; display: flex; align-items: center; justify-content: flex-end;gap: 50px;">
+                <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
+                  <span>CPU </span>
+                  <span id="cpuactivity" style="margin-left: 7px;">&#x1F7E2;</span>
+                </div>
+                <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
+                  <span>HDD </span>
+                  <span id="hddactivity" style="margin-left: 7px;">&#x1F7E2;</span>
+                </div>
+		<a id="loginLink" style="user-select: text ;text-decoration: none; height: 100%;">
+		  <div  style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
+                    <div style="position: relative;">
+	              <span style="cursor: pointer" id="networkStatus">Connect via Tailscale </span>
+	              <span style="cursor: pointer; position: absolute; right: 0px; visibility: hidden;" id="ipCopied">Copied! </span>
+                    </div>
+	            <img src="assets/tailscale.svg" height="35px" style="margin-left: 7px;">
+		  </div>
+		</a>
+                <a href="https://discord.gg/yTNZgySKGa" style="text-decoration: none; height: 100%;" target="_blank">
+                  <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
+                    <span>Join Discord </span>
+                    <img src="assets/discord-mark-blue.svg" height="35px" style="margin-left: 7px;">
+                  </div>
+                </a>
+                <a href="https://github.com/leaningtech/webvm/issues" style="text-decoration: none; height: 100%;" target="_blank">
+                  <div style="color: white; font-family: montserrat; font-weight: 400; font-size: large; height: 100%; display: flex; align-items: center;">
+                    <span>GitHub Issues </span>
+                    <img src="assets/github-mark-white.svg" height="35px" style="margin-left: 5px;">
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="flex-grow:0; flex-shrink: 0; height:1px; width: 100%; background-color: white;">
+    </div>
+    <main style="display: flex; flex-direction: row; justify-content: space-between; margin: 5px; height: 100%;">
+      <div style="flex-grow:1; height:100%;display:inline-block;margin:0;" class="scrollbar" id="console">
+      </div>
+
+    </main>
+    <script>
+
+	//Utility namespace to group all functionality related to printing (both error and non error) messages
+	const color= "\x1b[1;35m";
+	const bold= "\x1b[1;37m";
+	const underline= "\x1b[94;4m";
+	const normal= "\x1b[0m";
+	var printOnTerm = {
+		getAsciiText: function ()
+		{
+			var text = [
+				"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
+				"|                                                                             |",
+				"| WebVM is a server-less virtual Linux environment running fully client-side  |",
+				"| in HTML5/WebAssembly.                                                       |",
+				"|                                                                             |",
+				"| WebVM is powered by the CheerpX virtualization engine, which enables safe,  |",
+				"| sandboxed client-side execution of x86 binaries on any browser.             |",
+				"|                                                                             |",
+				"| CheerpX includes an x86-to-WebAssembly JIT compiler, a virtual block-based  |",
+				"| file system, and a Linux syscall emulator.                                  |",
+				"|                                                                             |",
+				"| [NEW!] Your own WebVM with custom images via Dockerfile:                    |",
+				"|                                                                             |",
+				"| " + underline + "https://leaningtech.com/mini-webvm-your-linux-box-from-dockerfile-via-wasm" + normal +"  |",
+				"|                                                                             |",
+				"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
+				"",
+				"   Welcome to WebVM. If unsure, try these examples:",
+				"",
+				"     python3 examples/python3/fibonacci.py ",
+				"     gcc -o helloworld examples/c/helloworld.c && ./helloworld",
+				"     objdump -d ./helloworld | less -M",
+				"     vim examples/c/helloworld.c",
+				"     curl --max-time 15 parrot.live  # requires networking",
+				"",
+				];
+			return text;
+		},
+		getSharedArrayBufferMissingMessage: function ()
+		{
+			const isCustom = window.location.hostname !== "webvm.io";
+			const isSecureContext = window.isSecureContext;
+			const text = [
+				"",
+				"",
+				color + "CheerpX could not start" + normal,
+				"",
+				"CheerpX uses SharedArrayBuffer, which is not available right now.",
+				"",
+				!isSecureContext && "  -  This page is not in a secure context. Serve over HTTPS or WSS.",
+				!isSecureContext && "    " + underline + "https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts" + normal,
+				isCustom && "  -  The document is not cross-origin isolated.",
+				isCustom && "     " + underline + "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer#security_requirements" + normal, 
+				"  - Your browser might not support SharedArrayBuffer.",
+				"    Since 2022, all major browsers support this feature.",
+				"    " + underline + "https://caniuse.com/sharedarraybuffer" + normal,
+			].filter(Boolean);
+
+			return text;
+		},
+		getErrorMessage: function (error_message)
+		{
+			const text = [
+				"",
+				"",
+				color + "CheerpX could not start" + normal,
+				"",
+				"CheerpX internal error message is:",
+				error_message,
+				"",
+				"",
+				"CheerpX is expected to work with recent desktop versions of Chrome, Edge, Firefox and Safari",
+				"",
+				"",
+				"Give it a try from a desktop version / another browser!",
+				]
+
+			return text;
+		},
+		printMessage: function (text) {
+			for (var i=0; i<text.length; i++)
+			{
+				term.write(text[i]);
+				term.write('\n');
+			}
+		},
+		printError: function (message)
+		{
+			this.printMessage(message);
+
+			term.write("\n\n");
+
+			function writeCustom(something)
+			{
+				term.write(something);
+			}
+		},
+	};
+
+	var consoleDiv = document.getElementById("console");
+
+	//xterm.js related logic
+	var term = new Terminal({cursorBlink:true,convertEol:true, fontFamily:"monospace", fontWeight: 400, fontWeightBold: 700});
+	var fitAddon = new FitAddon.FitAddon();
+	term.loadAddon(fitAddon);
+	var linkAddon = new WebLinksAddon.WebLinksAddon();
+	term.loadAddon(linkAddon);
+	term.open(consoleDiv);
+	term.scrollToTop();
+
+	fitAddon.fit();
+	window.addEventListener("resize", function(ev){fitAddon.fit();}, false);
+	term.focus();
+	var cxReadFunc = null;
+	function writeData(buf)
+	{
+		term.write(new Uint8Array(buf));
+	}
+	function readData(str)
+	{
+		if(cxReadFunc == null)
+			return;
+		for(var i=0;i<str.length;i++)
+			cxReadFunc(str.charCodeAt(i));
+	}
+	term.onData(readData);
+
+	function hddCallback(state)
+	{
+		var h = document.getElementById("hddactivity");
+		if(state == "ready")
+			h.textContent = "\u{1F7E2}";
+		else
+			h.textContent = "\u{1F7E0}";
+	}
+	function cpuCallback(state)
+	{
+		var h = document.getElementById("cpuactivity");
+		if(state == "ready")
+			h.textContent = "\u{1F7E2}";
+		else
+			h.textContent = "\u{1F7E0}";
+	}
+
+	//Actual CheerpX and bash specific logic
+	function runBash()
+	{
+		// cmd, cwd, args and env are replaced by the Github actions workflow.
+		var cmd = CMD;
+		var args = ARGS;
+		var env = ENV;
+		var cwd = CWD;
+		// Reasonable defaults for local deployments
+		// var cmd = "/bin/bash";
+		// var args = ["--login"];
+		// var env = ["HOME=/home/user", "TERM=xterm", "USER=user", "SHELL=/bin/bash", "EDITOR=vim", "LANG=en_US.UTF-8", "LC_ALL=C"];
+		// var cwd = "/home/user";
+		const structure = {
+			cmd: cmd,
+			args: args,
+			env: env,
+			cwd: cwd
+		}
+		if (typeof SharedArrayBuffer === "undefined")
+		{
+			printOnTerm.printError(printOnTerm.getSharedArrayBufferMissingMessage());
+			return;
+		}
+
+		let networkInterface = setupNetworkInterface();
+
+		async function runTest(cx)
+		{
+			var processCount = 0;
+			function handleProcessCreated()
+			{
+				processCount++;
+				plausible(`Process started: ${processCount}`);
+				if(processCount == 5)
+				{
+					// Make sure no further event is reported
+					cx.unregisterCallback("processCreated", handleProcessCreated);
+				}
+			}
+			cx.registerCallback("processCreated", handleProcessCreated);
+			cx.registerCallback("cpuActivity", cpuCallback);
+			cx.registerCallback("diskActivity", hddCallback);
+			registerNetworkLogin(cx, networkInterface);
+
+			term.scrollToBottom();
+
+			async function cxLogAndRun(cheerpx, cmd, args, env)
+			{
+				await cheerpx.run(cmd, args, env);
+				printOnTerm.printMessage(" ");
+			}
+
+			cxReadFunc = cx.setCustomConsole(writeData, term.cols, term.rows);
+
+			function preventDefaults (e) {
+				e.preventDefault()
+				e.stopPropagation()
+			}
+			consoleDiv.addEventListener("dragover", preventDefaults, false);
+			consoleDiv.addEventListener("dragenter", preventDefaults, false);
+			consoleDiv.addEventListener("dragleave", preventDefaults, false);
+			consoleDiv.addEventListener("drop", preventDefaults, false);
+
+			var opts = {env:structure.env, cwd:structure.cwd, uid: 1000, gid: 1000};
+			while (true)
+			{
+				await cxLogAndRun(cx, structure.cmd, structure.args, opts);
+			}
+		}
+		function failCallback(err)
+		{
+			printOnTerm.printError(printOnTerm.getErrorMessage(err));
+		}
+		// The device url and type are replaced by Github Actions.
+		CheerpXApp.create({devices:[{type:DEVICE_TYPE,url:IMAGE_URL,name:"block1"}],mounts:[{type:"ext2",dev:"block1",path:"/"},{type:"cheerpOS",dev:"/app",path:"/app"},{type:"cheerpOS",dev:"/str",path:"/data"},{type:"devs",dev:"",path:"/dev"}], networkInterface: networkInterface}).then(runTest, failCallback);
+	}
+	function initialMessage()
+	{
+		printOnTerm.printMessage(printOnTerm.getAsciiText());
+		console.log("Welcome. We appreciate curiosity, but be warned that keeping the DevTools open causes significant performance degradation and crashes.");
+	}
+	initialMessage();
+	async function loadCX()
+	{
+		// Find the latest build
+		var r = await fetch("https://cheerpxdemos.leaningtech.com/publicdeploy/LATEST.txt");
+		var url = await r.text();
+		url = url.trim();
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = url;
+		script.addEventListener("load", runBash, false);
+		document.head.appendChild(script);
+	}
+	loadCX();
+    </script>
+<!-- Google tag (gtag.js) -->
+<script defer src="https://www.googletagmanager.com/gtag/js?id=G-818T3Y0PEY"></script>
+<script defer>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-818T3Y0PEY');
+</script>
+  </body>
+</html>
+
+
+
+# File: webvm-main/login.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tailscale login</title>
+</head>
+<body>
+    Loading network code...
+</body>
+</html>
+
+
+# File: webvm-main/network.js
+function setupNetworkInterface()
+{
+    let params = new URLSearchParams("?"+window.location.hash.substr(1));
+    let authKey = params.get("authKey") || undefined;
+    let controlUrl = params.get("controlUrl") || undefined;
+    console.log(authKey, controlUrl);
+    let loginElemUrl = controlUrl ? null : "https://login.tailscale.com/admin/machines";
+
+    let resolveLogin = null;
+    let loginPromise = new Promise((f,r) => {
+        resolveLogin = f;
+    });
+    const loginElem = document.getElementById("loginLink");
+    const statusElem = document.getElementById("networkStatus");
+    const ipCopiedElem = document.getElementById("ipCopied");
+    const loginUrlCb = (url) => {
+        loginElem.href = url;
+        loginElem.target = "_blank";
+        statusElem.innerHTML = "Tailscale Login";
+        resolveLogin(url);
+    };
+    const stateUpdateCb = (state) => {
+        switch(state)
+        {
+            case 6 /*Running*/:
+            {
+                if (loginElemUrl) {
+                    loginElem.href = loginElemUrl;
+                }
+                break;
+            }
+        }
+    };
+    const netmapUpdateCb = (map) => {
+        const ip = map.self.addresses[0];
+        statusElem.innerText = "IP: "+ip;
+	loginElem.title = "Right click to copy"
+	const rmb_to_copy = (event) => {
+		// To prevent the default contexmenu from showing up when right-clicking..
+		event.preventDefault();
+		// Copy the IP to the clipboard.
+		window.navigator.clipboard.writeText(ip)
+		.catch((msg) => { console.log("network.js: Copy ip to clipboard: Error: " + msg) });
+		statusElem.style.visibility = "hidden";
+		ipCopiedElem.style.visibility = "unset";
+		setTimeout(() => {
+			statusElem.style.visibility = "unset";
+			ipCopiedElem.style.visibility = "hidden";
+		}, 2000);
+	};
+	loginElem.addEventListener("contextmenu", rmb_to_copy);
+    };
+    loginElem.style.cursor = "pointer";
+    loginElem.title = "Connect to Tailscale";
+    statusElem.style.color = "white";
+    return {
+        loginUrlCb,
+        stateUpdateCb,
+        netmapUpdateCb,
+        authKey,
+        controlUrl,
+
+        loginElem,
+        statusElem,
+        loginElemUrl,
+        loginPromise,
+    };
+}
+function registerNetworkLogin(cx, { authKey, statusElem, loginElem, loginElemUrl, loginPromise })
+{
+    if (authKey) {
+        if (loginElemUrl) {
+            loginElem.href = loginElemUrl;
+            loginElem.target = "_blank";
+        }
+        cx.networkLogin();
+    } else {
+        loginElem.onclick = () => {
+            loginElem.onclick = null;
+            statusElem.innerHTML = "Downloading network code...";
+            const w = window.open("login.html", "_blank");
+            async function waitLogin() {
+                await cx.networkLogin();
+                statusElem.innerHTML = "Starting login...";
+                const url = await loginPromise;
+                statusElem.innerHTML = "Login URL ready...";
+                w.location.href = url;
+            }
+            waitLogin();
+        };
+    }
+}
+
+
+# File: webvm-main/nginx.conf
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+error_log   nginx_main_error.log info;
+pid nginx_user.pid;
+daemon off;
+
+http {
+    access_log  nginx_access.log;
+    error_log   nginx_error.log info;
+
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    sendfile        on;
+    
+    server {
+#	listen       8080 ssl;
+	listen       8081;
+        server_name  localhost;
+
+	gzip on;
+        # Enable compression for .wasm, .js and .txt files (used for the runtime chunks)
+	gzip_types      application/javascript application/wasm text/plain application/octet-stream;
+
+        charset utf-8;
+
+#	ssl_certificate nginx.crt;
+#	ssl_certificate_key nginx.key;
+
+        location / {
+            root .;
+            autoindex on;
+            index  index.html index.htm;
+            add_header 'Access-Control-Allow-Origin' '*' always;
+            add_header 'Access-Control-Expose-Headers' 'content-length' always;
+            add_header 'Cross-Origin-Opener-Policy' 'same-origin' always;
+            add_header 'Cross-Origin-Embedder-Policy' 'require-corp' always;
+            add_header 'Cross-Origin-Resource-Policy' 'cross-origin' always;
+            #auth_basic "CX Demo";
+            #auth_basic_user_file basicauth;
+        }
+
+        location /images/ {
+            root .;
+            if ($arg_s != "") {
+                rewrite ^/images/(.*)$ $1 break;
+            }
+            if ($arg_s = "") {
+                gzip off;
+            }
+            error_page 404 =200 /images_slicer/$uri?$args;
+        }
+
+        location /images_slicer/ {
+            proxy_pass       http://localhost:8082/images/;
+            proxy_http_version 1.0;
+            proxy_set_header Range bytes=$arg_s-$arg_e;
+            proxy_hide_header Content-Range;
+        }
+    }
+
+    server {
+	listen       127.0.0.1:8082;
+        server_name  localhost;
+
+        charset utf-8;
+
+        location / {
+            root .;
+        }
+    }
+}
+
+
+# File: webvm-main/scrollbar.css
+.scrollbar {
+  scrollbar-color: #777 #0000;
+}
+
+.scrollbar *::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+  background-color: #0000;
+}
+
+/* Add a thumb */
+.scrollbar *::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  height: 6px;
+  width: 6px;
+    background: #777;
+}
+
+.scrollbar *::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+# File: webvm-main/serviceWorker.js
+async function handleFetch(request) {
+	// Perform the original fetch request and store the result in order to modify the response.
+	try {
+		var r = await fetch(request);
+	}
+	catch (e) {
+		console.error(e)
+	}
+	if (r.status === 0) {
+		return r;
+	}
+	// We add headers to the original response its headers, in order to enable cross-origin-isolation. And make it independent of the server config.
+	const newHeaders = new Headers(r.headers);
+	// COEP & COOP for cross-origin-isolation.
+	newHeaders.set("Cross-Origin-Embedder-Policy", "require-corp");
+	newHeaders.set("Cross-Origin-Opener-Policy", "same-origin");
+	newHeaders.set("Cross-Origin-Resource-Policy", "cross-origin");
+	/**
+	 * This workaround is necessary due to a limitation of CheerpOS, which relies on the response URL being set to the resolved URL.
+	 * When constructing a new response object, the URL is not set by the Response() constructor and the serviceworker respondwith() method will set the url to event.request.url in case of an empty string.
+	 * To address this, we set the location URL to the resolved response URL and set the status code to 301 in the new Response object.
+	 * This causes the request to bounce back to the serviceworker from Cheerpos, with the event.request.url now set to the resolved URL, which allows the respondWith method to properly set the response URL in our new response.
+	 * https://developer.mozilla.org/en-US/docs/Web/API/FetchEvent/respondWith.
+	*/
+	if (r.redirected === true)
+		newHeaders.set("location", r.url);
+	// In case of a redirection, we set the status to 301, and body to null, in order to not transfer too much data needlessly
+	const moddedResponse = new Response(r.redirected === true ? null : r.body, {
+		headers: newHeaders,
+		status: r.redirected === true ? 301 : r.status,
+		statusText: r.statusText,
+	});
+	return moddedResponse;
+}
+
+function serviceWorkerInit() {
+	// Init the service worker.
+	self.addEventListener("install", () => self.skipWaiting());
+	self.addEventListener("activate", e => e.waitUntil(self.clients.claim()));
+	// Listen for fetch requests and call handleFetch function.
+	self.addEventListener("fetch", function (e) {
+		try {
+			e.respondWith(handleFetch(e.request));
+		} catch (err) {
+			console.log("Serviceworker NetworkError:" + err);
+		}
+	});
+}
+
+async function doRegister() {
+	try {
+		const registration = await navigator.serviceWorker.register(window.document.currentScript.src);
+		console.log("Service Worker registered", registration.scope);
+		// EventListener to make sure that the page gets reloaded when a new serviceworker gets installed.
+		// f.e on first access.
+		registration.addEventListener("updatefound", () => {
+			console.log("Reloading the page to transfer control to the Service Worker.");
+			try {
+				window.location.reload();
+			} catch (err) {
+				console.log("Service Worker failed reloading the page. ERROR:" + err);
+			};
+		});
+		// When the registration is active, but it's not controlling the page, we reload the page to have it take control.
+		// This f.e occurs when you hard-reload (shift + refresh). https://www.w3.org/TR/service-workers/#navigator-service-worker-controller
+		if (registration.active && !navigator.serviceWorker.controller) {
+			console.log("Reloading the page to transfer control to the Service Worker.");
+			try {
+				window.location.reload();
+			} catch (err) {
+				console.log("Service Worker failed reloading the page. ERROR:" + err);
+			};
+		}
+	}
+	catch {
+		console.error("Service Worker failed to register:", e)
+	}
+}
+
+async function serviceWorkerRegister() {
+	if (window.crossOriginIsolated) return;
+	if (!window.isSecureContext) {
+		console.log("Service Worker not registered, a secure context is required.");
+		return;
+	}
+	// Register the service worker and reload the page to transfer control to the serviceworker.
+	if ("serviceWorker" in navigator)
+		await doRegister();
+	else
+		console.log("Service worker is not supported in this browser");
+}
+
+if (typeof window === 'undefined') // If the script is running in a Service Worker context
+	serviceWorkerInit()
+else // If the script is running in the browser context
+	serviceWorkerRegister();
+
+
+# File: webvm-main/xterm/xterm.css
+/**
+ * Copyright (c) 2014 The xterm.js authors. All rights reserved.
+ * Copyright (c) 2012-2013, Christopher Jeffrey (MIT License)
+ * https://github.com/chjj/term.js
+ * @license MIT
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * Originally forked from (with the author's permission):
+ *   Fabrice Bellard's javascript vt100 for jslinux:
+ *   http://bellard.org/jslinux/
+ *   Copyright (c) 2011 Fabrice Bellard
+ *   The original design remains. The terminal itself
+ *   has been extended to include xterm CSI codes, among
+ *   other features.
+ */
+
+/**
+ *  Default styles for xterm.js
+ */
+
+.xterm {
+    cursor: text;
+    position: relative;
+    user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+
+.xterm.focus,
+.xterm:focus {
+    outline: none;
+}
+
+.xterm .xterm-helpers {
+    position: absolute;
+    top: 0;
+    /**
+     * The z-index of the helpers must be higher than the canvases in order for
+     * IMEs to appear on top.
+     */
+    z-index: 5;
+}
+
+.xterm .xterm-helper-textarea {
+    padding: 0;
+    border: 0;
+    margin: 0;
+    /* Move textarea out of the screen to the far left, so that the cursor is not visible */
+    position: absolute;
+    opacity: 0;
+    left: -9999em;
+    top: 0;
+    width: 0;
+    height: 0;
+    z-index: -5;
+    /** Prevent wrapping so the IME appears against the textarea at the correct position */
+    white-space: nowrap;
+    overflow: hidden;
+    resize: none;
+}
+
+.xterm .composition-view {
+    /* TODO: Composition position got messed up somewhere */
+    background: #000;
+    color: #FFF;
+    display: none;
+    position: absolute;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+.xterm .composition-view.active {
+    display: block;
+}
+
+.xterm .xterm-viewport {
+    /* On OS X this is required in order for the scroll bar to appear fully opaque */
+    background-color: #000;
+    overflow-y: scroll;
+    cursor: default;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.xterm .xterm-screen {
+    position: relative;
+}
+
+.xterm .xterm-screen canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.xterm .xterm-scroll-area {
+    visibility: hidden;
+}
+
+.xterm-char-measure-element {
+    display: inline-block;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: -9999em;
+    line-height: normal;
+}
+
+.xterm.enable-mouse-events {
+    /* When mouse events are enabled (eg. tmux), revert to the standard pointer cursor */
+    cursor: default;
+}
+
+.xterm.xterm-cursor-pointer,
+.xterm .xterm-cursor-pointer {
+    cursor: pointer;
+}
+
+.xterm.column-select.focus {
+    /* Column selection mode */
+    cursor: crosshair;
+}
+
+.xterm .xterm-accessibility:not(.debug),
+.xterm .xterm-message {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+    color: transparent;
+    pointer-events: none;
+}
+
+.xterm .xterm-accessibility-tree:not(.debug) *::selection {
+  color: transparent;
+}
+
+.xterm .xterm-accessibility-tree {
+  user-select: text;
+  white-space: pre;
+}
+
+.xterm .live-region {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.xterm-dim {
+    /* Dim should not apply to background, so the opacity of the foreground color is applied
+     * explicitly in the generated class and reset to 1 here */
+    opacity: 1 !important;
+}
+
+.xterm-underline-1 { text-decoration: underline; }
+.xterm-underline-2 { text-decoration: double underline; }
+.xterm-underline-3 { text-decoration: wavy underline; }
+.xterm-underline-4 { text-decoration: dotted underline; }
+.xterm-underline-5 { text-decoration: dashed underline; }
+
+.xterm-overline {
+    text-decoration: overline;
+}
+
+.xterm-overline.xterm-underline-1 { text-decoration: overline underline; }
+.xterm-overline.xterm-underline-2 { text-decoration: overline double underline; }
+.xterm-overline.xterm-underline-3 { text-decoration: overline wavy underline; }
+.xterm-overline.xterm-underline-4 { text-decoration: overline dotted underline; }
+.xterm-overline.xterm-underline-5 { text-decoration: overline dashed underline; }
+
+.xterm-strikethrough {
+    text-decoration: line-through;
+}
+
+.xterm-screen .xterm-decoration-container .xterm-decoration {
+	z-index: 6;
+	position: absolute;
+}
+
+.xterm-screen .xterm-decoration-container .xterm-decoration.xterm-decoration-top-layer {
+	z-index: 7;
+}
+
+.xterm-decoration-overview-ruler {
+    z-index: 8;
+    position: absolute;
+    top: 0;
+    right: 0;
+    pointer-events: none;
+}
+
+.xterm-decoration-top {
+    z-index: 2;
+    position: relative;
+}
+
+
