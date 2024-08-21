@@ -11,6 +11,7 @@ RUN useradd -m user && echo "user:password" | chpasswd
 
 RUN cd /home/user && git clone --depth=1 https://github.com/ArduPilot/ardupilot
 RUN cd /home/user && chown -R user:user ./ardupilot
+RUN cd /home/user && ./Tools/gittools/submodule-sync.sh
 
 COPY --chown=user:user ./examples /home/user/examples
 RUN chmod -R +x  /home/user/examples/lua
@@ -19,4 +20,4 @@ WORKDIR /home/user/
 # We set env, as this gets extracted by Webvm. This is optional.
 ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="vim" LANG="en_US.UTF-8" LC_ALL="C"
 RUN echo 'root:password' | chpasswd
-CMD [ "/bin/bash", "whoami" ]
+CMD [ "/bin/bash" ]
