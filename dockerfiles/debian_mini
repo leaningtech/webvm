@@ -21,8 +21,8 @@ RUN cd /home/user && chown -R user:user ./ardupilot
 # RUN cd /home/user/ardupilot && git submodule update --depth=1 --force --init
 # RUN cd /home/user/ardupilot/modules/ChibiOS && git submodule update --depth=1 --force --init
 
-COPY --chown=user:user ./examples /home/user/examples
-RUN chmod -R +x  /home/user/examples/lua
+#COPY --chown=user:user ./examples /home/user/examples
+#RUN chmod -R +x  /home/user/examples/lua
 # We set WORKDIR, as this gets extracted by Webvm to be used as the cwd. This is optional.
 WORKDIR /home/user/
 # We set env, as this gets extracted by Webvm. This is optional.
