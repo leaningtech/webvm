@@ -11,7 +11,7 @@ RUN useradd -m user && echo "user:password" | chpasswd
 
 RUN cd /home/user && git clone --depth=1 https://github.com/ArduPilot/ardupilot
 RUN cd /home/user && chown -R user:user ./ardupilot
-RUN cd /home/user && ./Tools/gittools/submodule-sync.sh
+RUN cd /home/user && bash -c './Tools/gittools/submodule-sync.sh'
 
 COPY --chown=user:user ./examples /home/user/examples
 RUN chmod -R +x  /home/user/examples/lua
