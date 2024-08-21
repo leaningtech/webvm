@@ -2,7 +2,7 @@ FROM --platform=i386 i386/debian:buster-slim
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get clean && apt-get update 
 # && apt-get -y upgrade
-RUN apt-get -y install gcc fakeroot python3 base patch file make git sudo g++
+RUN apt-get -y install gcc fakeroot python3 base patch file make git sudo g++ rsync
 RUN apt-get clean
 RUN useradd -m user && echo "user:password" | chpasswd
 
