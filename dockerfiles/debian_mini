@@ -7,6 +7,7 @@ RUN apt-get clean
 RUN useradd -m user && echo "user:password" | chpasswd
 
 # leave enough to hopefully buld sitl.
+RUN echo "getting some ardupilot sources..."
 RUN cd /home/user && git clone --depth=1 --recurse-submodules --shallow-submodules https://github.com/ArduPilot/ardupilot
 RUN rm -rf /home/user/ardupilot/modules/gsoap
 RUN rm -rf /home/user/ardupilot/modules/CrashDebug
@@ -17,8 +18,10 @@ RUN rm -rf /home/user/ardupilot/modules/gtest
 RUN rm -rf /home/user/ardupilot/modules/ChibiOS
 RUN rm -rf /home/user/ardupilot/modules/lwip
 
+RUN echo "getting git right..."
 RUN git config --global --add safe.directory /home/user/ardupilot
 RUN git config --global --add safe.directory /home/user/ardupilot/modules/ChibiOS
+RUN echo "setting user permissions..."
 RUN cd /home/user && chown -R user:user .
 RUN cd /home/user && chown -R user:user ./ardupilot
 RUN cd /home/user && chown -R user:user ./ardupilot/.git
