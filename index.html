@@ -243,8 +243,10 @@ __      __   _  __   ____  __
 		var h = document.getElementById("hddactivity");
 		if(state == "ready")
 			h.textContent = "\u{1F7E2}";
+			printOnTerm.printMessage("[HDDready.]");
 		else
 			h.textContent = "\u{1F7E0}";
+			printOnTerm.printMessage("[HDDreading...]");
 	}
 	function cpuCallback(state)
 	{
