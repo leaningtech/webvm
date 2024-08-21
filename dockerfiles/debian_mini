@@ -26,6 +26,9 @@ RUN rm -rf /home/user/ardupilot/modules/gtest
 RUN rm -rf /home/user/ardupilot/modules/ChibiOS
 RUN rm -rf /home/user/ardupilot/modules/lwip
 
+#dont do this. 
+RUN rm -rf /home/user/ardupilot/modules
+
 RUN echo "getting git right..."
 RUN git config --global --add safe.directory /home/user/ardupilot
 RUN git config --global --add safe.directory /home/user/ardupilot/modules/ChibiOS
