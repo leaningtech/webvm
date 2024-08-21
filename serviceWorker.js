@@ -15,6 +15,7 @@ async function handleFetch(request) {
 	newHeaders.set("Cross-Origin-Embedder-Policy", "require-corp");
 	newHeaders.set("Cross-Origin-Opener-Policy", "same-origin");
 	newHeaders.set("Cross-Origin-Resource-Policy", "cross-origin");
+	newHeaders.set("Access-Control-Allow-Origin", "*");
 	/**
 	 * This workaround is necessary due to a limitation of CheerpOS, which relies on the response URL being set to the resolved URL.
 	 * When constructing a new response object, the URL is not set by the Response() constructor and the serviceworker respondwith() method will set the url to event.request.url in case of an empty string.
