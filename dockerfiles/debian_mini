@@ -36,6 +36,8 @@ RUN cd /home/user && chown -R user:user ./ardupilot/.*
 # We set WORKDIR, as this gets extracted by Webvm to be used as the cwd. This is optional.
 WORKDIR /home/user/
 # We set env, as this gets extracted by Webvm. This is optional.
+CMD [ "/bin/bash","-c","chown -R user:user /home/user"]
 ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="vim" LANG="en_US.UTF-8" LC_ALL="C"
 RUN git config --global --add safe.directory /home/user/ardupilot
+CMD [ "/bin/bash","-c","chown -R user:user /home/user"]
 CMD [ "/bin/bash" ]
