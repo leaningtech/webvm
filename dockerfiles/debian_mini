@@ -5,6 +5,7 @@ RUN apt-get clean && apt-get update
 RUN apt-get -y install gcc fakeroot python3 base patch file make git sudo g++ rsync curl iputils-ping
 RUN apt-get clean
 RUN useradd -m user && echo "user:password" | chpasswd
+RUN echo 'root:password' | chpasswd
 RUN echo "your current 'user' password is 'password'."
 RUN echo "use 'su -' to become root, and enter the root password , also 'password' if youd like."
 
@@ -36,5 +37,4 @@ RUN cd /home/user && chown -R user:user ./ardupilot/.*
 WORKDIR /home/user/
 # We set env, as this gets extracted by Webvm. This is optional.
 ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="vim" LANG="en_US.UTF-8" LC_ALL="C"
-RUN echo 'root:password' | chpasswd
 CMD [ "/bin/bash" ]
