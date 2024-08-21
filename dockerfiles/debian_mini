@@ -2,11 +2,11 @@ FROM --platform=i386 i386/debian:buster
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get clean && apt-get update && apt-get -y upgrade
 RUN apt-get -y install apt-utils gcc \
-	python3 vim unzip \
-	fakeroot dbus base whiptail hexedit \
-	patch ucf \
-	file make lua50 dialog curl \
-	less netcat-openbsd git
+	python3 vim \
+	fakeroot dbus base \
+	patch \
+	file make dialog curl \
+	less git
 RUN useradd -m user && echo "user:password" | chpasswd
 
 RUN cd /home/user && git clone --depth=1 --recurse-submodules --shallow-submodules https://github.com/ArduPilot/ardupilot
