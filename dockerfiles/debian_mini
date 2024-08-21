@@ -9,6 +9,10 @@ RUN echo 'root:password' | chpasswd
 RUN echo "your current 'user' password is 'password'."
 RUN echo "use 'su -' to become root, and enter the root password , also 'password' if youd like."
 
+# ardupilot build deps - these come from the network, so we need to bake them in so that tailscale/networking is optional later on.
+RUN apt-get -y install python3-pip
+RUN python3 -m pip install empy==3.3.4
+
 
 # leave enough to hopefully buld sitl.
 RUN echo "getting some ardupilot sources..."
