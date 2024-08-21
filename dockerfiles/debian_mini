@@ -22,6 +22,7 @@ RUN git config --global --add safe.directory /home/user/ardupilot/modules/ChibiO
 RUN cd /home/user && chown -R user:user .
 RUN cd /home/user && chown -R user:user ./ardupilot
 RUN cd /home/user && chown -R user:user ./ardupilot/.git
+RUN cd /home/user && chown -R user:user ./ardupilot/.*
 
 #COPY --chown=user:user ./examples /home/user/examples
 #RUN chmod -R +x  /home/user/examples/lua
