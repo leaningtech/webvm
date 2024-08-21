@@ -6,6 +6,7 @@ RUN apt-get -y install gcc fakeroot python3 base patch file make git sudo g++ rs
 RUN apt-get clean
 RUN useradd -m user && echo "user:password" | chpasswd
 
+# leave enough to hopefully buld sitl.
 RUN cd /home/user && git clone --depth=1 --recurse-submodules --shallow-submodules https://github.com/ArduPilot/ardupilot
 RUN rm -rf /home/user/ardupilot/modules/gsoap
 RUN rm -rf /home/user/ardupilot/modules/CrashDebug
@@ -18,10 +19,9 @@ RUN rm -rf /home/user/ardupilot/modules/lwip
 
 RUN git config --global --add safe.directory /home/user/ardupilot
 RUN git config --global --add safe.directory /home/user/ardupilot/modules/ChibiOS
+RUN cd /home/user && chown -R user:user .
 RUN cd /home/user && chown -R user:user ./ardupilot
-# RUN cd /home/user/ardupilot && bash -c './Tools/gittools/submodule-sync.sh'
-# RUN cd /home/user/ardupilot && git submodule update --depth=1 --force --init
-# RUN cd /home/user/ardupilot/modules/ChibiOS && git submodule update --depth=1 --force --init
+RUN cd /home/user && chown -R user:user ./ardupilot/.git
 
 #COPY --chown=user:user ./examples /home/user/examples
 #RUN chmod -R +x  /home/user/examples/lua
