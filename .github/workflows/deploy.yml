@@ -17,7 +17,7 @@ on:
         type: string
         description: 'Image size, 950M max'
         required: true
-        default: '600M'
+        default: '950M'
 
       DEPLOY_TO_GITHUB_PAGES:
         type: boolean
