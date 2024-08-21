@@ -17,6 +17,7 @@ RUN python3 -m pip install empy==3.3.4
 
 # leave enough to hopefully buld sitl.
 RUN echo "getting some ardupilot sources..."
+RUN mkdir -p /home/user/ardupilot/modules/mavlink
 #RUN cd /home/user && git clone --depth=1 --recurse-submodules --shallow-submodules https://github.com/ArduPilot/ardupilot
 RUN rm -rf /home/user/ardupilot/modules/gsoap
 RUN rm -rf /home/user/ardupilot/modules/CrashDebug
