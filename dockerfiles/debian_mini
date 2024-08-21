@@ -6,6 +6,13 @@ RUN apt-get clean
 RUN useradd -m user && echo "user:password" | chpasswd
 
 RUN cd /home/user && git clone --depth=1 --recurse-submodules --shallow-submodules https://github.com/ArduPilot/ardupilot
+RUN rm -rf /home/user/ardupilot/modules/gsoap
+RUN rm -rf /home/user/ardupilot/modules/CrashDebug
+RUN rm -rf /home/user/ardupilot/modules/gbenchmark
+RUN rm -rf /home/user/ardupilot/modules/Micro-XRCE-DDS-Client
+RUN rm -rf /home/user/ardupilot/modules/gtest
+
+
 RUN git config --global --add safe.directory /home/user/ardupilot
 RUN git config --global --add safe.directory /home/user/ardupilot/modules/ChibiOS
 RUN cd /home/user && chown -R user:user ./ardupilot
