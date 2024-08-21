@@ -1,4 +1,4 @@
-FROM --platform=i386 i386/debian:buster
+FROM --platform=i386 i386/debian:buster-slim
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get clean && apt-get update && apt-get -y upgrade
 RUN apt-get -y install gcc fakeroot  base patch file make git
