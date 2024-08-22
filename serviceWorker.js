@@ -85,12 +85,13 @@ async function serviceWorkerRegister() {
 		return;
 	}
 	// Register the service worker and reload the page to transfer control to the serviceworker.
-	if ("serviceWorker" in navigator)
+	if ("serviceWorker" in navigator){
 		// show in gui were fetching/busy doing disk read/s...
 		document.getElementById("loading").style.display = "inline";
 		await doRegister();
-	else
+	}else{
 		console.log("Service worker is not supported in this browser");
+	}
 }
 
 if (typeof window === 'undefined') // If the script is running in a Service Worker context
