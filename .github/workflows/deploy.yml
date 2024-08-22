@@ -58,7 +58,8 @@ jobs:
             fi
 
         - name: Github Pages config guard clause
-          if: ${{ github.event.inputs.DEPLOY_TO_GITHUB_PAGES == 'true' }}
+          # if: ${{ github.event.inputs.DEPLOY_TO_GITHUB_PAGES == 'true' }}
+          if: ${{ 'true' == 'true' }}
           run: |
             # We use the Github Rest api to get information regarding pages for the Github Repository and store it into a temporary file named "pages_response".
             set +e
@@ -95,7 +96,8 @@ jobs:
 
     env:
       TAG: "ext2-webvm-base-image" # Tag of docker image.
-      IMAGE_SIZE: '${{ github.event.inputs.IMAGE_SIZE }}'
+      # IMAGE_SIZE: '${{ github.event.inputs.IMAGE_SIZE }}'
+      IMAGE_SIZE: '950M'
       DEPLOY_DIR: /webvm_deploy/ # Path to directory where we host the final image from.
 
     permissions: # Permissions to grant the GITHUB_TOKEN.
@@ -221,7 +223,8 @@ jobs:
             ${{ env.IMAGE_NAME }}
 
   deploy_to_github_pages: # Job that deploys the github-pages artifact to github-pages.
-    if: ${{ github.event.inputs.DEPLOY_TO_GITHUB_PAGES == 'true' }}
+    # if: ${{ github.event.inputs.DEPLOY_TO_GITHUB_PAGES == 'true' }}
+    if: ${{ 'true' == 'true' }}
     needs: build
     environment:
       name: github-pages
