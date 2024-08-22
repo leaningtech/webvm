@@ -1,8 +1,10 @@
 name: Deploy
 
-# Define when the workflow should run
 on:
-  # Allow manual triggering of the workflow from the Actions tab
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+  # also Allow manual triggering of the workflow from the Actions tab
   workflow_dispatch:
 
   # Allow inputs to be passed when manually triggering the workflow from the Actions tab
