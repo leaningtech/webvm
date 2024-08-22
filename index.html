@@ -334,7 +334,8 @@ __      __   _  __   ____  __
 		}
 		// The device url and type are replaced by Github Actions.
 		CheerpXApp.create({devices:[{type:DEVICE_TYPE,url:IMAGE_URL,name:"block1"},
-					    {type:"bytes",url:'https://davidbuzz.github.io/webvm2/extra.ext2',name:"extra"}
+					    {//type:"bytes",url:'https://davidbuzz.github.io/webvm2/extra.ext2',name:"extra"}
+					    {type:"split",url:'https://davidbuzz.github.io/webvm2/deploy/extra.ext2',name:"extra"}
 					   ], //webvm2/extra.ext2
 				   mounts:[{type:"ext2",dev:"block1",path:"/"},
 					   {type:"ext2",dev:"extra",path:"/mnt"},
