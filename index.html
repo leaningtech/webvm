@@ -55,6 +55,9 @@ __      __   _  __   ____  __
  \ \/\/ / -_) '_ \ V /| |\/| |
   \_/\_/\___|_.__/\_/ |_|  |_|
           </pre>
+	<div id="loading" style="display: none;">
+	  <p><img src="/images/please-wait.gif" width="100px"></p>
+	</div>
           <div style="height:100%;display: flex; flex-direction: column;justify-content: space-between;">
             <div style="padding-top: 0.7em;font-size: 0.3em; font-weight: 200;vertical-align:center;height:50px;">
               <div style="margin-right: 10px; margin-left: 20px; height: 100%; display: flex; align-items: center; justify-content: flex-end;gap: 50px;">
@@ -243,10 +246,10 @@ __      __   _  __   ____  __
 		var h = document.getElementById("hddactivity");
 		if(state == "ready"){
 			h.textContent = "\u{1F7E2}";
-			//printOnTerm.printMessage("/");
+			document.getElementById("loading").style.display.none;
 		}else{
 			h.textContent = "\u{1F7E0}";
-			//printOnTerm.printMessage("\");
+			document.getElementById("loading").style.display.inline;
 		}
 	}
 	function cpuCallback(state)
