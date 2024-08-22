@@ -1,6 +1,8 @@
 async function handleFetch(request) {
 	// Perform the original fetch request and store the result in order to modify the response.
 	try {
+		// show in gui were fetching/busy doing disk read/s...
+		document.getElementById("loading").style.display = "inline";
 		var r = await fetch(request);
 	}
 	catch (e) {
