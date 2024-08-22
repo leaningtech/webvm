@@ -1,8 +1,6 @@
 async function handleFetch(request) {
 	// Perform the original fetch request and store the result in order to modify the response.
 	try {
-		// show in gui were fetching/busy doing disk read/s...
-		document.getElementById("loading").style.display = "inline";
 		var r = await fetch(request);
 	}
 	catch (e) {
@@ -88,6 +86,8 @@ async function serviceWorkerRegister() {
 	}
 	// Register the service worker and reload the page to transfer control to the serviceworker.
 	if ("serviceWorker" in navigator)
+		// show in gui were fetching/busy doing disk read/s...
+		document.getElementById("loading").style.display = "inline";
 		await doRegister();
 	else
 		console.log("Service worker is not supported in this browser");
