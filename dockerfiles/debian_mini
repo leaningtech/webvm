@@ -35,6 +35,7 @@ RUN rm -rf /home/user/ardupilot/modules
 RUN echo "getting git right..."
 RUN git config --global --add safe.directory /home/user/ardupilot
 RUN git config --global --add safe.directory /home/user/ardupilot/modules/ChibiOS
+RUN git config --global --add safe.directory /mnt/ardupilot
 RUN echo "setting user permissions..."
 RUN cd /home/user && chown -R user:user .
 RUN cd /home/user && chown -R user:user ./ardupilot
