@@ -263,18 +263,20 @@ __      __   _  __   ____  __
 	}
 
 	//Actual CheerpX and bash specific logic
-	function runBash()
+	async function runBash()
 	{
 		// cmd, cwd, args and env are replaced by the Github actions workflow.
 		var cmd = CMD;
 		var args = ARGS;
 		var env = ENV;
 		var cwd = CWD;
+		var device_type = DEVICE_TYPE;
 		// Reasonable defaults for local deployments
 		// var cmd = "/bin/bash";
 		// var args = ["--login"];
 		// var env = ["HOME=/home/user", "TERM=xterm", "USER=user", "SHELL=/bin/bash", "EDITOR=vim", "LANG=en_US.UTF-8", "LC_ALL=C"];
 		// var cwd = "/home/user";
+		// var device_type = "bytes";
 		const structure = {
 			cmd: cmd,
 			args: args,
@@ -337,7 +339,26 @@ __      __   _  __   ____  __
 			printOnTerm.printError(printOnTerm.getErrorMessage(err));
 		}
 		// The device url and type are replaced by Github Actions.
-		CheerpXApp.create({devices:[{type:DEVICE_TYPE,url:IMAGE_URL,name:"block1"}],mounts:[{type:"ext2",dev:"block1",path:"/"},{type:"cheerpOS",dev:"/app",path:"/app"},{type:"cheerpOS",dev:"/str",path:"/data"},{type:"devs",dev:"",path:"/dev"},{type:"proc",dev:"",path:"/proc"}], networkInterface: networkInterface}).then(runTest, failCallback);
+		var blockDevice;
+		switch (device_type)
+		{
+			case "block":
+				blockDevice = await CheerpX.CloudDevice.create(IMAGE_URL);
+				break;
+			case "bytes":
+				blockDevice = await CheerpX.HttpBytesDevice.create(IMAGE_URL);
+				break;
+			case "split":
+				blockDevice = await CheerpX.GitHubDevice.create(IMAGE_URL);
+				break;
+			default:
+				console.log("Unrecognized device type");
+				return;
+		}
+		var overlayDevice = await CheerpX.OverlayDevice.create(blockDevice, await CheerpX.IDBDevice.create("block1"));
+		var webDevice = await CheerpX.WebDevice.create("");
+		var dataDevice = await CheerpX.DataDevice.create();
+		CheerpX.Linux.create({mounts:[{type:"ext2",dev:overlayDevice,path:"/"},{type:"tree",dev:webDevice,path:"/app"},{type:"tree",dev:dataDevice,path:"/data"},{type:"devs",path:"/dev"},{type:"proc",path:"/proc"}], networkInterface: networkInterface}).then(runTest, failCallback);
 	}
 	function initialMessage()
 	{
