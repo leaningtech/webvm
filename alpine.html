@@ -229,7 +229,7 @@ __      __   _  __   ____  __
 	}
 
 	//Actual CheerpX and init specific logic
-	function runInit()
+	async function runInit()
 	{
 		if (typeof SharedArrayBuffer === "undefined")
 		{
@@ -267,7 +267,15 @@ __      __   _  __   ____  __
 		{
 			printOnTerm.printError(printOnTerm.getErrorMessage(err));
 		}
-		CheerpXApp.create({devices:[{type:"block",url:"https://disks.webvm.io/alpine_20240307_i3_slimmed.ext2",name:"block_alpine"}],mounts:[{type:"ext2",dev:"block_alpine",path:"/"},{type:"cheerpOS",dev:"/app",path:"/app"},{type:"proc",dev:"",path:"/proc"},{type:"devs",dev:"",path:"/dev"}], networkInterface}).then(runTest, failCallback);
+		var params = new URLSearchParams(location.search);
+		var protocol = params.get("setProtocol");
+		if(!protocol)
+			protocol = "https:";
+		var blockDevice = await CheerpX.CloudDevice.create(protocol + "//disks-staging.webvm.io/alpine_20240307_i3_slimmed.ext2");
+		var overlayDevice = await CheerpX.OverlayDevice.create(blockDevice, await CheerpX.IDBDevice.create("block2"));
+		var webDevice = await CheerpX.WebDevice.create("");
+		var dataDevice = await CheerpX.DataDevice.create();
+		CheerpX.Linux.create({mounts:[{type:"ext2",dev:overlayDevice,path:"/"},{type:"tree",dev:webDevice,path:"/app"},{type:"tree",dev:dataDevice,path:"/data"},{type:"devs",path:"/dev"},{type:"proc",path:"/proc"}], networkInterface: networkInterface}).then(runTest, failCallback);
 	}
 	function initialMessage()
 	{
