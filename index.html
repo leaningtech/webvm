@@ -360,7 +360,7 @@ __      __   _  __   ____  __
 		var overlayDevice = await CheerpX.OverlayDevice.create(blockDevice, await CheerpX.IDBDevice.create("block1"));
 		var webDevice = await CheerpX.WebDevice.create("");
 		var dataDevice = await CheerpX.DataDevice.create();
-		CheerpX.Linux.create({mounts:[{type:"ext2",dev:overlayDevice,path:"/"},{type:"tree",dev:webDevice,path:"/app"},{type:"tree",dev:dataDevice,path:"/data"},{type:"devs",path:"/dev"},{type:"proc",path:"/proc"}], networkInterface: networkInterface}).then(runTest, failCallback);
+		CheerpX.Linux.create({mounts:[{type:"ext2",dev:overlayDevice,path:"/"},{type:"dir",dev:webDevice,path:"/app"},{type:"dir",dev:dataDevice,path:"/data"},{type:"devs",path:"/dev"},{type:"proc",path:"/proc"}], networkInterface: networkInterface}).then(runTest, failCallback);
 	}
 	function initialMessage()
 	{
