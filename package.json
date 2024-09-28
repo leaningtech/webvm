@@ -1,0 +1,20 @@
+{
+	"name": "webvm",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "rollup -c",
+		"build": "rollup -c -w"
+	},
+	"devDependencies": {
+		"@rollup/plugin-commonjs": "^24.0.0",
+		"@rollup/plugin-node-resolve": "^15.0.0",
+		"@rollup/plugin-terser": "^0.4.0",
+		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/kit": "^2.0.0",
+		"rollup-plugin-css-only": "^4.3.0",
+		"rollup-plugin-svelte": "^7.1.2",
+		"svelte": "^4.2.7"
+	},
+	"type": "module"
+}
