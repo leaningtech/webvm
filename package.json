@@ -12,6 +12,7 @@
 		"@rollup/plugin-terser": "^0.4.0",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
+		"labs": "git@github.com:leaningtech/labs.git",
 		"rollup-plugin-css-only": "^4.3.0",
 		"rollup-plugin-svelte": "^7.1.2",
 		"svelte": "^4.2.7"
