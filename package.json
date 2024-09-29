@@ -7,15 +7,20 @@
 		"build": "rollup -c -w"
 	},
 	"devDependencies": {
+		"@oddbird/popover-polyfill": "^0.4.4",
 		"@rollup/plugin-commonjs": "^24.0.0",
 		"@rollup/plugin-node-resolve": "^15.0.0",
 		"@rollup/plugin-terser": "^0.4.0",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
+		"autoprefixer": "^10.4.20",
 		"labs": "git@github.com:leaningtech/labs.git",
+		"postcss": "^8.4.47",
 		"rollup-plugin-css-only": "^4.3.0",
+		"rollup-plugin-postcss": "^4.0.2",
 		"rollup-plugin-svelte": "^7.1.2",
-		"svelte": "^4.2.7"
+		"svelte": "^4.2.7",
+		"tailwindcss": "^3.4.9"
 	},
 	"type": "module"
 }
