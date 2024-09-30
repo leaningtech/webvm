@@ -7,7 +7,7 @@
 </script>
 
 <div class="flex flex-row w-14 bg-neutral-700">
-	<div class="flex flex-col">
+	<div class="flex flex-col w-14 shrink-0">
 		{#each icons as { id, icon, info }}
 			<Icon
 				icon={icon}
