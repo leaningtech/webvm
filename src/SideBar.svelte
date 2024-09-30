@@ -15,4 +15,6 @@
 			/>
 		{/each}
 	</div>
+	<div class="shrink-0 w-52 h-full z-10 p-5 bg-neutral-600 text-gray-100">
+	</div>
 </div>
