@@ -4,7 +4,7 @@
 </script>
 
 <div 
-	class="p-2 cursor-pointer text-center text-3xl text-gray-300"
+	class="p-2 cursor-pointer text-center text-3xl"
 >
 	{icon}
 </div>
