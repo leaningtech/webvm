@@ -1,12 +1,13 @@
 <script>
 	import Nav from 'labs/packages/global-navbar/src/Nav.svelte';
-	export let name;
 </script>
 
-<Nav />
 <main class="flex flex-col w-full h-full">
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<Nav />
+	<div class="flex flex-row flex-grow">
+		<h1>Hello</h1>
+		<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	</div>
 </main>
 
 <style>
