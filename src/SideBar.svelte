@@ -5,7 +5,10 @@
 		{ icon: 'fas fa-info-circle', info: 'Information' },
 		{ icon: 'fas fa-wifi', info: 'Networking' },
 		{ icon: 'fas fa-microchip', info: 'CPU' },
-		{ icon: 'fas fa-compact-disc', info: 'Disk' }
+		{ icon: 'fas fa-compact-disc', info: 'Disk' },
+		null,
+		{ icon: 'fab fa-discord', info: 'Discord' },
+		{ icon: 'fab fa-github', info: 'GitHub' },
 	];
 
 	let activeInfo = null;
@@ -21,17 +24,18 @@
 
 <div class="flex flex-row w-14 bg-neutral-700">
 	<div class="flex flex-col shrink-0 w-14 text-gray-300">
-		{#each icons as { id, icon, info }}
-			<Icon
-				icon={icon}
-				info={info}
-				on:mouseover={(e) => showInfo(e.detail)}
-				on:mouseout={hideInfo}
-			/>
+		{#each icons as i}
+			{#if i}
+				<Icon
+					icon={i.icon}
+					info={i.info}
+					on:mouseover={(e) => showInfo(e.detail)}
+					on:mouseout={hideInfo}
+				/>
+			{:else}
+				<div class="grow"></div>
+			{/if}
 		{/each}
-		<div class="grow"></div>
-		<Icon icon='fab fa-discord' info='Discord' on:mouseover={(e) => showInfo(e.detail)} on:mouseout={hideInfo}/>
-		<Icon icon='fab fa-github' info='GitHub' on:mouseover={(e) => showInfo(e.detail)} on:mouseout={hideInfo}/>
 	</div>
 	<div class="flex flex-col shrink-0 w-52 h-full z-10 p-2 bg-neutral-600 text-gray-100" class:hidden={!activeInfo}>
 		<p>{activeInfo}</p>
