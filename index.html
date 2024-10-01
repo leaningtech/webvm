@@ -356,6 +356,7 @@ __      __   _  __   ____  __
 					if(image_url.startsWith(wssProtocol))
 					{
 						// WebSocket protocol failed, try agin using plain HTTP
+						plausible("WS Disk failure");
 						image_url = "https:" + image_url.substr(wssProtocol.length);
 						blockDevice = await CheerpX.CloudDevice.create(image_url);
 					}
