@@ -345,7 +345,26 @@ __      __   _  __   ____  __
 		switch (device_type)
 		{
 			case "cloud":
-				blockDevice = await CheerpX.CloudDevice.create(image_url);
+				try
+				{
+					blockDevice = await CheerpX.CloudDevice.create(image_url);
+				}
+				catch(e)
+				{
+					// Report the failure and try again with plain HTTP
+					var wssProtocol = "wss:";
+					if(image_url.startsWith(wssProtocol))
+					{
+						// WebSocket protocol failed, try agin using plain HTTP
+						image_url = "https:" + image_url.substr(wssProtocol.length);
+						blockDevice = await CheerpX.CloudDevice.create(image_url);
+					}
+					else
+					{
+						// No other recovery option
+						throw e;
+					}
+				}
 				break;
 			case "bytes":
 				blockDevice = await CheerpX.HttpBytesDevice.create(image_url);
