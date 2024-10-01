@@ -368,7 +368,15 @@ __      __   _  __   ____  __
 				}
 				break;
 			case "bytes":
-				blockDevice = await CheerpX.HttpBytesDevice.create(image_url);
+				try
+				{
+					blockDevice = await CheerpX.HttpBytesDevice.create(image_url);
+				}
+				catch(e)
+				{
+					printOnTerm.printError([e]);
+					throw e;
+				}
 				break;
 			case "github":
 				blockDevice = await CheerpX.GitHubDevice.create(image_url);
