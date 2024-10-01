@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+import copy from 'rollup-plugin-copy';
 import svelte from 'rollup-plugin-svelte';
 import postcss from 'rollup-plugin-postcss';
 import commonjs from '@rollup/plugin-commonjs';
@@ -33,6 +33,16 @@ export default {
 				tailwindcss,
 				autoprefixer,
 			],
+		}),
+
+		// Copy required font files
+		copy({
+			targets: [
+				{
+					src: 'node_modules/@fortawesome/fontawesome-free/webfonts',
+					dest: '.'
+				}
+			]
 		}),
 
 		// If you have external dependencies installed from

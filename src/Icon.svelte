@@ -15,9 +15,9 @@
 </script>
 
 <div 
-	class="p-2 cursor-pointer text-center text-3xl"
+	class="p-3 cursor-pointer text-center"
 	on:mouseenter={handleMouseover}
 	on:mouseleave={handleMouseout}
->
-	{icon}
+	>
+		<i class='{icon} fa-xl'></i>
 </div>

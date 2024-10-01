@@ -2,7 +2,10 @@
 	import Icon from './Icon.svelte';
 
 	const icons = [
-		{ icon: '\u{1F6C8}', info: 'Information' }
+		{ icon: 'fas fa-info-circle', info: 'Information' },
+		{ icon: 'fas fa-wifi', info: 'Networking' },
+		{ icon: 'fas fa-microchip', info: 'CPU' },
+		{ icon: 'fas fa-compact-disc', info: 'Disk' }
 	];
 
 	let activeInfo = null;
@@ -26,6 +29,9 @@
 				on:mouseout={hideInfo}
 			/>
 		{/each}
+		<div class="grow"></div>
+		<Icon icon='fab fa-discord' info='Discord' on:mouseover={(e) => showInfo(e.detail)} on:mouseout={hideInfo}/>
+		<Icon icon='fab fa-github' info='GitHub' on:mouseover={(e) => showInfo(e.detail)} on:mouseout={hideInfo}/>
 	</div>
 	<div class="flex flex-col shrink-0 w-52 h-full z-10 p-2 bg-neutral-600 text-gray-100" class:hidden={!activeInfo}>
 		<p>{activeInfo}</p>
