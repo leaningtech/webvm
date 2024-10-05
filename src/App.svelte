@@ -5,6 +5,7 @@
 	import { WebLinksAddon } from '@xterm/addon-web-links';
 	import Nav from 'labs/packages/global-navbar/src/Nav.svelte';
 	import SideBar from './SideBar.svelte';
+	import * as CheerpX from '@leaningtech/cheerpx';
 
 	var term = new Terminal({cursorBlink:true, convertEol:true, fontFamily:"monospace", fontWeight: 400, fontWeightBold: 700});
 	var fitAddon = new FitAddon();
