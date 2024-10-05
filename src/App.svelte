@@ -13,6 +13,19 @@
 	term.loadAddon(fitAddon);
 	var linkAddon = new WebLinksAddon();
 	term.loadAddon(linkAddon);
+	var cxReadFunc = null;
+	function writeData(buf)
+	{
+		term.write(new Uint8Array(buf));
+	}
+	function readData(str)
+	{
+		if(cxReadFunc == null)
+			return;
+		for(var i=0;i<str.length;i++)
+			cxReadFunc(str.charCodeAt(i));
+	}
+	term.onData(readData);
 	function initTerminal()
 	{
 		const consoleDiv = document.getElementById("console");
@@ -21,6 +34,15 @@
 		fitAddon.fit();
 		window.addEventListener("resize", function(ev){ fitAddon.fit(); });
 		term.focus();
+		// Avoid undesired default DnD handling
+		function preventDefaults (e) {
+			e.preventDefault()
+			e.stopPropagation()
+		}
+		consoleDiv.addEventListener("dragover", preventDefaults, false);
+		consoleDiv.addEventListener("dragenter", preventDefaults, false);
+		consoleDiv.addEventListener("dragleave", preventDefaults, false);
+		consoleDiv.addEventListener("drop", preventDefaults, false);
 		initCheerpX();
 	}
 	async function initCheerpX()
@@ -86,6 +108,9 @@
 			// TODO: Print error message on console
 			throw e;
 		}
+		// TODO: Register activity callbacks
+		term.scrollToBottom();
+		cxReadFunc = cx.setCustomConsole(writeData, term.cols, term.rows);
 	}
 	onMount(initTerminal);
 </script>
