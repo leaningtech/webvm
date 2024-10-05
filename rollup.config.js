@@ -14,7 +14,7 @@ export default {
 	input: 'src/main.js',
 	output: {
 		sourcemap: true,
-		format: 'iife',
+		format: 'esm',
 		name: 'app',
 		file: 'build/bundle.js'
 	},
