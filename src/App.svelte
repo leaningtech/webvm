@@ -13,8 +13,7 @@
 	term.loadAddon(fitAddon);
 	var linkAddon = new WebLinksAddon();
 	term.loadAddon(linkAddon);
-
-	onMount(function()
+	function initTerminal()
 	{
 		const consoleDiv = document.getElementById("console");
 		term.open(consoleDiv);
@@ -22,7 +21,8 @@
 		fitAddon.fit();
 		window.addEventListener("resize", function(ev){ fitAddon.fit(); });
 		term.focus();
-	});
+	}
+	onMount(initTerminal);
 </script>
 
 <main class="flex flex-col w-full h-full">
