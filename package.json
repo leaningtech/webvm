@@ -3,8 +3,8 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "rollup -c",
-		"build": "rollup -c -w"
+		"dev": "rollup -c -w",
+		"build": "rollup -c"
 	},
 	"devDependencies": {
 		"@fortawesome/fontawesome-free": "^6.6.0",
