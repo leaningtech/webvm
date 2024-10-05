@@ -61,6 +61,31 @@
 			default:
 				throw new Error("Unrecognized device type");
 		}
+		var overlayDevice = await CheerpX.OverlayDevice.create(blockDevice, await CheerpX.IDBDevice.create("block1"));
+		var webDevice = await CheerpX.WebDevice.create("");
+		var dataDevice = await CheerpX.DataDevice.create();
+		var mountPoints = [
+			// The root filesystem, as an Ext2 image
+			{type:"ext2", dev:overlayDevice, path:"/"},
+			// Access to files on the Web server, relative to the current page
+			{type:"dir", dev:webDevice, path:"/web"},
+			// Access to read-only data coming from JavaScript
+			{type:"dir", dev:dataDevice, path:"/data"},
+			// Automatically created device files
+			{type:"devs", path:"/dev"},
+			// The Linux 'proc' filesystem which provides information about running processes
+			{type:"proc", path:"/proc"}
+		];
+		var cx = null;
+		try
+		{
+			cx = await CheerpX.Linux.create({mounts: mountPoints});
+		}
+		catch(e)
+		{
+			// TODO: Print error message on console
+			throw e;
+		}
 	}
 	onMount(initTerminal);
 </script>
