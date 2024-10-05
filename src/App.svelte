@@ -111,6 +111,31 @@
 		// TODO: Register activity callbacks
 		term.scrollToBottom();
 		cxReadFunc = cx.setCustomConsole(writeData, term.cols, term.rows);
+		// Reasonable defaults for local deployments
+		// var cmd = "/bin/bash";
+		// var args = ["--login"];
+		// var env = ["HOME=/home/user", "TERM=xterm", "USER=user", "SHELL=/bin/bash", "EDITOR=vim", "LANG=en_US.UTF-8", "LC_ALL=C"];
+		// var cwd = "/home/user";
+		// Executable full path (Required)
+		var cmd = "/bin/bash";
+		// Arguments, as an array (Required)
+		var args = ["--login"]
+		// Optional extra parameters
+		var opts = {
+			// Environment variables
+			env: ["HOME=/home/user", "TERM=xterm", "USER=user", "SHELL=/bin/bash", "EDITOR=vim", "LANG=en_US.UTF-8", "LC_ALL=C"],
+			// Current working directory
+			cwd: "/home/user",
+			// User id
+			uid: 1000,
+			// Group id
+			gid: 1000
+		};
+		// Run the command in a loop, in case the user exits
+		while (true)
+		{
+			await cx.run(cmd, args, opts);
+		}
 	}
 	onMount(initTerminal);
 </script>
