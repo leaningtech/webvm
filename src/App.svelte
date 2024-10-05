@@ -119,7 +119,7 @@
 	<Nav />
 	<div class="flex flex-row flex-grow">
 		<SideBar />
-		<div class="grow h-full m-1 scrollbar" id="console">
+		<div class="grow h-full p-1 scrollbar" id="console">
 		</div>
 	</div>
 </main>
