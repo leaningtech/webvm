@@ -39,6 +39,7 @@ export default {
 		// a separate file - better for performance
 		postcss({
 			extract: true,
+			minimize: production,
 			plugins: [
 				tailwindcss,
 				autoprefixer,
