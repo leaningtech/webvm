@@ -22,6 +22,7 @@
 		"autoprefixer": "^10.4.20",
 		"labs": "git@github.com:leaningtech/labs.git",
 		"postcss": "^8.4.47",
+		"postcss-discard": "^2.0.0",
 		"rollup-plugin-copy": "^3.5.0",
 		"rollup-plugin-css-only": "^4.3.0",
 		"rollup-plugin-postcss": "^4.0.2",

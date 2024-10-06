@@ -7,6 +7,7 @@ import terser from '@rollup/plugin-terser';
 import resolve from '@rollup/plugin-node-resolve';
 import css from 'rollup-plugin-css-only';
 import autoprefixer from 'autoprefixer';
+import discard from 'postcss-discard';
 import path from 'path';
 import url from 'url';
 import tailwindcss from 'tailwindcss';
@@ -43,6 +44,22 @@ export default {
 			plugins: [
 				tailwindcss,
 				autoprefixer,
+				discard({rule: function(node, value)
+				{
+					if(!value.startsWith('.fa-') || !value.endsWith(":before"))
+						return false;
+					switch(value)
+					{
+						case '.fa-info-circle:before':
+						case '.fa-wifi:before':
+						case '.fa-microchip:before':
+						case '.fa-compact-disc:before':
+						case '.fa-discord:before':
+						case '.fa-github:before':
+							return false;
+					}
+					return true;
+				}})
 			],
 		}),
 
