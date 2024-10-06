@@ -19,7 +19,7 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 export default {
 	input: 'src/main.js',
 	output: {
-		sourcemap: true,
+		sourcemap: !production,
 		format: 'esm',
 		name: 'app',
 		file: 'build/bundle.js'
