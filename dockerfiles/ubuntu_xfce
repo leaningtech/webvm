@@ -11,6 +11,11 @@ RUN apt-get update && apt-get install -y \
     websockify \
     && rm -rf /var/lib/apt/lists/*
 
+# Pre-configure locale settings to avoid interactive prompt
+RUN echo "locales locales/default_environment_locale select en_US.UTF-8" | debconf-set-selections
+RUN echo "locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8" | debconf-set-selections
+RUN apt-get install -y --no-install-recommends locales
+
 # Set up locale
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG en_US.utf8
