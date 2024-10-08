@@ -22,8 +22,8 @@ RUN x11vnc -storepasswd webvm /root/.vnc/passwd
 # Set up noVNC
 RUN ln -s /usr/share/novnc/vnc.html /usr/share/novnc/index.html
 
-# Set up Supervisor to manage the services
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# Create supervisord.conf file
+RUN echo "[supervisord]\nnodaemon=true\n\n[program:x11vnc]\ncommand=/usr/bin/x11vnc -forever -usepw -create\nautorestart=true\npriority=10\n\n[program:novnc]\ncommand=/usr/bin/websockify --web /usr/share/novnc 6080 localhost:5900\nautorestart=true\npriority=20" > /etc/supervisor/conf.d/supervisord.conf
 
 # Expose the noVNC port
 EXPOSE 6080
