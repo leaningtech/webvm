@@ -1,0 +1,32 @@
+FROM i386/ubuntu:latest
+
+# Install necessary dependencies
+RUN apt-get update && apt-get install -y \
+    locales \
+    supervisor \
+    xfce4 \
+    xfce4-terminal \
+    x11vnc \
+    novnc \
+    websockify \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set up locale
+RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG en_US.utf8
+
+# Set up VNC server
+RUN mkdir -p /root/.vnc
+RUN x11vnc -storepasswd webvm /root/.vnc/passwd
+
+# Set up noVNC
+RUN ln -s /usr/share/novnc/vnc.html /usr/share/novnc/index.html
+
+# Set up Supervisor to manage the services
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Expose the noVNC port
+EXPOSE 6080
+
+# Start Supervisor
+CMD ["/usr/bin/supervisord"]
