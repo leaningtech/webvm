@@ -1,0 +1,58 @@
+FROM --platform=i386 i386/debian:buster-slim
+
+# Set non-interactive mode for apt-get
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Install necessary packages
+RUN apt-get update && apt-get install -y \
+    gcc \
+    python3 \
+    nano \
+    unzip \
+    ruby \
+    nodejs \
+    fakeroot \
+    dbus \
+    base \
+    whiptail \
+    hexedit \
+    patch \
+    wamerican \
+    ucf \
+    manpages \
+    file \
+    luajit \
+    make \
+    lua5.0 \
+    dialog \
+    curl \
+    less \
+    cowsay \
+    netcat-openbsd \
+    libevent-dev \
+    libssl-dev \
+    zlib1g-dev \
+    libffi-dev \
+    libncurses5-dev \
+    libncurses6-dev \
+    libreadline-dev
+
+# Create user and set password
+RUN useradd -m user && echo "user:password" | chpasswd
+
+# Copy examples and set permissions
+COPY --chown=user:user ./examples /home/user/examples
+RUN chmod -R +x /home/user/examples/lua
+
+# Set environment variables
+WORKDIR /home/user
+ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="nano" LANG="en_US.UTF-8" LC_ALL="C"
+
+# Install Ollama
+RUN curl -fsSL https://ollama.com/install.sh | sh
+
+# Copy TinyLlama model (if not already included)
+#COPY ./models/tinyllama.pt /home/user/models/tinyllama.pt  # Replace with your model path
+CMD ["ollama serve"]  # Or modify to ["ollama", "--model", "/home/user/models/tinyllama.pt"]
+# Set command to run Ollama (modify for TinyLlama)
+CMD ["ollama run tinyllama"]  # Or modify to ["ollama", "--model", "/home/user/models/tinyllama.pt"]
