@@ -4,7 +4,7 @@
 	import { FitAddon } from '@xterm/addon-fit';
 	import { WebLinksAddon } from '@xterm/addon-web-links';
 	import Nav from 'labs/packages/global-navbar/src/Nav.svelte';
-	import SideBar from './SideBar.svelte';
+	import SideBar from './lib/SideBar.svelte';
 	import * as CheerpX from '@leaningtech/cheerpx';
 	import { diskImageUrl, diskImageType } from 'diskConfig'
 
