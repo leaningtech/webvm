@@ -37,7 +37,7 @@
 			{/if}
 		{/each}
 	</div>
-	<div class="flex flex-col shrink-0 w-52 h-full z-10 p-2 bg-neutral-600 text-gray-100" class:hidden={!activeInfo}>
+	<div class="flex flex-col shrink-0 w-60 h-full z-10 p-2 bg-neutral-600 text-gray-100" class:hidden={!activeInfo}>
 		<p>{activeInfo}</p>
 		<div class="mt-auto text-sm text-gray-300">
 			<div class="pt-1 pb-1">
@@ -47,8 +47,8 @@
 				</a>
 			</div>
 			<hr class="border-t border-solid border-gray-300">
-			<div class="text-center pt-1 pb-1">
-				<a href="https://leaningtech.com/" target="”_blank”">© 2024 Leaning Technologies</a>
+			<div class="pt-1 pb-1">
+				<a href="https://leaningtech.com/" target="”_blank”">© 2022-2024 Leaning Technologies</a>
 			</div>
 		</div>
 	</div>
