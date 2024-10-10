@@ -7,6 +7,9 @@
 	import SideBar from './lib/SideBar.svelte';
 	import * as CheerpX from '@leaningtech/cheerpx';
 	import { diskImageUrl, diskImageType } from 'diskConfig'
+	import './global.css';
+	import '@xterm/xterm/css/xterm.css'
+	import '@fortawesome/fontawesome-free/css/all.min.css'
 
 	var term = new Terminal({cursorBlink:true, convertEol:true, fontFamily:"monospace", fontWeight: 400, fontWeightBold: 700});
 	var fitAddon = new FitAddon();
