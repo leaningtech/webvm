@@ -2,7 +2,7 @@
 	import Icon from './Icon.svelte';
 
 	const icons = [
-		{ icon: 'fas fa-info-circle', info: 'Information' },
+		//{ icon: 'fas fa-info-circle', info: 'Information' },
 		{ icon: 'fas fa-wifi', info: 'Networking' },
 		{ icon: 'fas fa-microchip', info: 'CPU' },
 		{ icon: 'fas fa-compact-disc', info: 'Disk' },
