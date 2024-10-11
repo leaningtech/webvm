@@ -22,7 +22,7 @@
 	}
 </script>
 
-<div class="flex flex-row w-14 bg-neutral-700">
+<div class="flex flex-row w-14 bg-neutral-700" on:mouseleave={hideInfo}>
 	<div class="flex flex-col shrink-0 w-14 text-gray-300">
 		{#each icons as i}
 			{#if i}
