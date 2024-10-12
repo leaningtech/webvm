@@ -1,5 +1,6 @@
 <script>
 	import Icon from './Icon.svelte';
+	import NetworkingTab from './NetworkingTab.svelte';
 
 	const icons = [
 		//{ icon: 'fas fa-info-circle', info: 'Information' },
@@ -37,8 +38,12 @@
 			{/if}
 		{/each}
 	</div>
-	<div class="flex flex-col shrink-0 w-60 h-full z-10 p-2 bg-neutral-600 text-gray-100" class:hidden={!activeInfo}>
-		<p>{activeInfo}</p>
+	<div class="flex flex-col gap-5 shrink-0 w-60 h-full z-10 p-2 bg-neutral-600 text-gray-100" class:hidden={!activeInfo}>
+		{#if activeInfo === 'Networking'}
+			<NetworkingTab />
+		{:else}
+			<p>{activeInfo}</p>
+		{/if}
 		<div class="mt-auto text-sm text-gray-300">
 			<div class="pt-1 pb-1">
 				<a href="https://cheerpx.io/" target="_blank">
