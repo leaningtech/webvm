@@ -40,7 +40,7 @@
 	</div>
 	<div class="flex flex-col gap-5 shrink-0 w-60 h-full z-10 p-2 bg-neutral-600 text-gray-100" class:hidden={!activeInfo}>
 		{#if activeInfo === 'Networking'}
-			<NetworkingTab />
+			<NetworkingTab on:connect/>
 		{:else}
 			<p>{activeInfo}</p>
 		{/if}
