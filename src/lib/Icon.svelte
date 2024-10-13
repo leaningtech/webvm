@@ -11,7 +11,7 @@
 </script>
 
 <div 
-	class="p-3 cursor-pointer text-center"
+	class="p-3 cursor-pointer text-center hover:text-gray-100"
 	on:mouseenter={handleMouseover}
 	>
 		<i class='{icon} fa-xl'></i>
