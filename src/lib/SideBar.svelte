@@ -2,6 +2,7 @@
 	import Icon from './Icon.svelte';
 	import NetworkingTab from './NetworkingTab.svelte';
 	import CpuTab from './CpuTab.svelte';
+	import DiskTab from './DiskTab.svelte';
 
 	const icons = [
 		//{ icon: 'fas fa-info-circle', info: 'Information' },
@@ -32,10 +33,9 @@
 					icon={i.icon}
 					info={i.info}
 					on:mouseover={(e) => showInfo(e.detail)}
-					on:mouseout={hideInfo}
 				/>
 			{:else}
-				<div class="grow"></div>
+				<div class="grow" on:mouseover={(e) => showInfo(null)}></div>
 			{/if}
 		{/each}
 	</div>
@@ -44,6 +44,8 @@
 			<NetworkingTab on:connect/>
 		{:else if activeInfo === 'CPU'}
 			<CpuTab/>
+		{:else if activeInfo === 'Disk'}
+			<DiskTab/>
 		{:else}
 			<p>{activeInfo}</p>
 		{/if}
