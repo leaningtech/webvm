@@ -11,6 +11,7 @@
 	import '@xterm/xterm/css/xterm.css'
 	import '@fortawesome/fontawesome-free/css/all.min.css'
 	import { networkInterface, startLogin } from '$lib/network.js'
+	import { cpuActivity, diskActivity } from '$lib/activities.js'
 
 	var term = new Terminal({cursorBlink:true, convertEol:true, fontFamily:"monospace", fontWeight: 400, fontWeightBold: 700});
 	var cx = null;
@@ -29,6 +30,14 @@
 			return;
 		for(var i=0;i<str.length;i++)
 			cxReadFunc(str.charCodeAt(i));
+	}
+	function hddCallback(state)
+	{
+		diskActivity.set(state != "ready");
+	}
+	function cpuCallback(state)
+	{
+		cpuActivity.set(state != "ready");
 	}
 	term.onData(readData);
 	function initTerminal()
@@ -111,7 +120,8 @@
 			// TODO: Print error message on console
 			throw e;
 		}
-		// TODO: Register activity callbacks
+		cx.registerCallback("cpuActivity", cpuCallback);
+		cx.registerCallback("diskActivity", hddCallback);
 		term.scrollToBottom();
 		cxReadFunc = cx.setCustomConsole(writeData, term.cols, term.rows);
 		// Reasonable defaults for local deployments

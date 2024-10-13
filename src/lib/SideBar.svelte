@@ -3,15 +3,16 @@
 	import NetworkingTab from './NetworkingTab.svelte';
 	import CpuTab from './CpuTab.svelte';
 	import DiskTab from './DiskTab.svelte';
+	import { cpuActivity, diskActivity } from './activities.js'
 
 	const icons = [
-		//{ icon: 'fas fa-info-circle', info: 'Information' },
-		{ icon: 'fas fa-wifi', info: 'Networking' },
-		{ icon: 'fas fa-microchip', info: 'CPU' },
-		{ icon: 'fas fa-compact-disc', info: 'Disk' },
+		//{ icon: 'fas fa-info-circle', info: 'Information', activity: null },
+		{ icon: 'fas fa-wifi', info: 'Networking', activity: null },
+		{ icon: 'fas fa-microchip', info: 'CPU', activity: cpuActivity },
+		{ icon: 'fas fa-compact-disc', info: 'Disk', activity: diskActivity },
 		null,
-		{ icon: 'fab fa-discord', info: 'Discord' },
-		{ icon: 'fab fa-github', info: 'GitHub' },
+		{ icon: 'fab fa-discord', info: 'Discord', activity: null },
+		{ icon: 'fab fa-github', info: 'GitHub', activity: null },
 	];
 
 	let activeInfo = null;
@@ -32,6 +33,7 @@
 				<Icon
 					icon={i.icon}
 					info={i.info}
+					activity={i.activity}
 					on:mouseover={(e) => showInfo(e.detail)}
 				/>
 			{:else}
