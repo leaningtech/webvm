@@ -12,6 +12,7 @@
 	import '@fortawesome/fontawesome-free/css/all.min.css'
 	import { networkInterface, startLogin } from '$lib/network.js'
 	import { cpuActivity, diskActivity } from '$lib/activities.js'
+	import { introMessage } from '$lib/messages.js'
 
 	var term = new Terminal({cursorBlink:true, convertEol:true, fontFamily:"monospace", fontWeight: 400, fontWeightBold: 700});
 	var cx = null;
@@ -30,6 +31,11 @@
 			return;
 		for(var i=0;i<str.length;i++)
 			cxReadFunc(str.charCodeAt(i));
+	}
+	function printMessage(msg)
+	{
+		for(var i=0;i<msg.length;i++)
+			term.write(msg[i] + "\n");
 	}
 	function hddCallback(state)
 	{
@@ -57,6 +63,7 @@
 		consoleDiv.addEventListener("dragenter", preventDefaults, false);
 		consoleDiv.addEventListener("dragleave", preventDefaults, false);
 		consoleDiv.addEventListener("drop", preventDefaults, false);
+		printMessage(introMessage);
 		initCheerpX();
 	}
 	async function initCheerpX()
