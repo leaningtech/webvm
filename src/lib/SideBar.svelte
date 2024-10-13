@@ -1,6 +1,7 @@
 <script>
 	import Icon from './Icon.svelte';
 	import NetworkingTab from './NetworkingTab.svelte';
+	import CpuTab from './CpuTab.svelte';
 
 	const icons = [
 		//{ icon: 'fas fa-info-circle', info: 'Information' },
@@ -41,6 +42,8 @@
 	<div class="flex flex-col gap-5 shrink-0 w-60 h-full z-10 p-2 bg-neutral-600 text-gray-100" class:hidden={!activeInfo}>
 		{#if activeInfo === 'Networking'}
 			<NetworkingTab on:connect/>
+		{:else if activeInfo === 'CPU'}
+			<CpuTab/>
 		{:else}
 			<p>{activeInfo}</p>
 		{/if}
