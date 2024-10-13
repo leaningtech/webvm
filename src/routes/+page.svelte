@@ -159,11 +159,11 @@
 	}
 </script>
 
-<main class="flex flex-col w-full h-full">
+<main class="relative w-full h-full">
 	<Nav />
-	<div class="flex flex-row flex-grow">
+	<div class="absolute top-10 bottom-0 left-0 right-0">
 		<SideBar on:connect={handleConnect}/>
-		<div class="grow h-full p-1 scrollbar" id="console">
+		<div class="absolute top-0 bottom-0 left-14 right-0 p-1 scrollbar" id="console">
 		</div>
 	</div>
 </main>
