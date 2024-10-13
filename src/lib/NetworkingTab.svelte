@@ -1,6 +1,7 @@
 <script>
 	import { networkData, startLogin } from '$lib/network.js'
 	import { createEventDispatcher } from 'svelte';
+	import PanelButton from './PanelButton.svelte';
 	var dispatch = createEventDispatcher();
 	var connectionState = networkData.connectionState;
 	function handleConnect() {
@@ -97,6 +98,6 @@
 	}
 </script>
 <h1 class="text-lg font-bold">Networking</h1>
-<a href={getClickUrl($connectionState)} target="_blank" on:click={getClickHandler($connectionState)} on:contextmenu={getRightClickHandler($connectionState)}><p class="bg-neutral-700 p-2 rounded-md {isClickableState($connectionState) ? "hover:bg-neutral-500 cursor-pointer" : ""}" title={getButtonTooltip($connectionState)}><img src="assets/tailscale.svg" class="inline w-8"/><span class="ml-1">{getButtonText($connectionState)}</span></p></a>
+<PanelButton buttonIcon="assets/tailscale.svg" clickUrl={getClickUrl($connectionState)} clickHandler={getClickHandler($connectionState)} rightClickHandler={getRightClickHandler($connectionState)} buttonTooltip={getButtonTooltip($connectionState)} buttonText={getButtonText($connectionState)}/>
 <p>WebVM can connect to the Internet via Tailscale</p>
 <p>Using Tailscale is required since browser do not support TCP/UDP sockets (yet!)</p>
