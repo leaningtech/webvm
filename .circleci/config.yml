@@ -26,6 +26,7 @@ jobs:
           name: Publish NPM packages
           command: |
             cd webvm/
+            npm install
             npm run build
       - run:
           name: Deploy webvm
