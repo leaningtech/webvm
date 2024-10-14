@@ -13,8 +13,7 @@
 	import { cpuActivity, diskActivity } from '$lib/activities.js'
 	import { introMessage, errorMessage } from '$lib/messages.js'
 
-	export let diskImageUrl = null;
-	export let diskImageType = null;
+	export let configObj = null;
 
 	var term = new Terminal({cursorBlink:true, convertEol:true, fontFamily:"monospace", fontWeight: 400, fontWeightBold: 700});
 	var cx = null;
@@ -72,22 +71,22 @@
 	{
 		// TODO: Check for SAB support
 		var blockDevice = null;
-		switch(diskImageType)
+		switch(configObj.diskImageType)
 		{
 			case "cloud":
 				try
 				{
-					blockDevice = await CheerpX.CloudDevice.create(diskImageUrl);
+					blockDevice = await CheerpX.CloudDevice.create(configObj.diskImageUrl);
 				}
 				catch(e)
 				{
 					// Report the failure and try again with plain HTTP
 					var wssProtocol = "wss:";
-					if(diskImageUrl.startsWith(wssProtocol))
+					if(configObj.diskImageUrl.startsWith(wssProtocol))
 					{
 						// WebSocket protocol failed, try agin using plain HTTP
 						plausible("WS Disk failure");
-						blockDevice = await CheerpX.CloudDevice.create("https:" + diskImageUrl.substr(wssProtocol.length));
+						blockDevice = await CheerpX.CloudDevice.create("https:" + configObj.diskImageUrl.substr(wssProtocol.length));
 					}
 					else
 					{
@@ -97,10 +96,10 @@
 				}
 				break;
 			case "bytes":
-				blockDevice = await CheerpX.HttpBytesDevice.create(diskImageUrl);
+				blockDevice = await CheerpX.HttpBytesDevice.create(configObj.diskImageUrl);
 				break;
 			case "github":
-				blockDevice = await CheerpX.GitHubDevice.create(diskImageUrl);
+				blockDevice = await CheerpX.GitHubDevice.create(configObj.diskImageUrl);
 				break;
 			default:
 				throw new Error("Unrecognized device type");
