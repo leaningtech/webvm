@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   deploy:
     docker:
-      - image: cimg/base:2022.10
+      - image: cimg/base:2024.10
     resource_class: medium
     steps:
       - add_ssh_keys:
