@@ -24,7 +24,7 @@ jobs:
           command: |
             git clone --branch $CIRCLE_BRANCH --single-branch git@github.com:leaningtech/webvm.git
       - run:
-          name: Publish NPM packages
+          name: Build WebVM
           command: |
             cd webvm/
             npm install
@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Deploy webvm
           command: |
-            scp -rP $SSH_PORT webvm/build/* leaningtech@${SSH_HOST}:/srv/web/webvm_next/
+            rsync -avz -e "ssh -p ${SSH_PORT}" webvm/build/ leaningtech@${SSH_HOST}:/srv/web/webvm_next/
 
 workflows:
   deploy:
