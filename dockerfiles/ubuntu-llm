@@ -1,0 +1,15 @@
+FROM i386/ubuntu:latest
+
+# Install necessary packages and set up locale
+RUN apt-get update && apt-get install -y locales wget && rm -rf /var/lib/apt/lists/* \
+    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG en_US.utf8
+
+# Download the llamafile
+RUN wget https://huggingface.co/TimeSurgeLabs/TinyLlama-llamafile/resolve/main/tinyllama-1.1b-1t-openorca.Q4_K_M-server.llamafile -O /tinyllama-1.1b-1t-openorca.Q4_K_M-server.llamafile
+
+# Make the llamafile executable
+RUN chmod +x /tinyllama-1.1b-1t-openorca.Q4_K_M-server.llamafile
+
+# Run the llamafile
+CMD ["./tinyllama-1.1b-1t-openorca.Q4_K_M-server.llamafile"]
