@@ -31,7 +31,7 @@ jobs:
       - run:
           name: Deploy webvm
           command: |
-            scp -rP $SSH_PORT webvm/build/* leaningtech@SSH_HOST:/srv/web/webvm_next/
+            scp -rP $SSH_PORT webvm/build/* leaningtech@${SSH_HOST}:/srv/web/webvm_next/
 
 workflows:
   deploy:
