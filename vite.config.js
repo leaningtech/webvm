@@ -5,7 +5,7 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 export default defineConfig({
 	resolve: {
 		alias: {
-			'diskConfig': 'diskConfig.cloud.js'
+			'config_terminal': 'config_public_terminal.js'
 		}
 	},
 	build: {
