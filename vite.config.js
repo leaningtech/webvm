@@ -20,6 +20,7 @@ export default defineConfig({
 				{ src: 'serviceWorker.js', dest: '' },
 				{ src: 'login.html', dest: '' },
 				{ src: 'assets/', dest: '' }
+				{ src: 'alpine/', dest: '' }
 			]
 		})
 	]
