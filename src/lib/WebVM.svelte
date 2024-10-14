@@ -22,8 +22,10 @@
 	var linkAddon = new WebLinksAddon();
 	term.loadAddon(linkAddon);
 	var cxReadFunc = null;
-	function writeData(buf)
+	function writeData(buf, vt)
 	{
+		if(vt != 1)
+			return;
 		term.write(new Uint8Array(buf));
 	}
 	function readData(str)
@@ -67,6 +69,14 @@
 		if(configObj.printIntro)
 			printMessage(introMessage);
 		initCheerpX();
+	}
+	function handleActivateConsole(vt)
+	{
+		if(vt != 7)
+			return;
+		// Raise the display to the foreground
+		const display = document.getElementById("display");
+		display.style.zIndex = 10;
 	}
 	async function initCheerpX()
 	{
@@ -134,6 +144,12 @@
 		cx.registerCallback("diskActivity", hddCallback);
 		term.scrollToBottom();
 		cxReadFunc = cx.setCustomConsole(writeData, term.cols, term.rows);
+		const display = document.getElementById("display");
+		if(display)
+		{
+			cx.setKmsCanvas(display, 1024, 768);
+			cx.setActivateConsole(handleActivateConsole);
+		}
 		// Run the command in a loop, in case the user exits
 		while (true)
 		{
@@ -153,6 +169,9 @@
 	<Nav />
 	<div class="absolute top-10 bottom-0 left-0 right-0">
 		<SideBar on:connect={handleConnect}/>
+		{#if configObj.needsDisplay}
+			<canvas class="absolute top-0 bottom-0 left-14 right-0" width="1024" height="768" id="display"></canvas>
+		{/if}
 		<div class="absolute top-0 bottom-0 left-14 right-0 p-1 scrollbar" id="console">
 		</div>
 	</div>
