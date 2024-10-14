@@ -4,6 +4,7 @@
 	import CpuTab from './CpuTab.svelte';
 	import DiskTab from './DiskTab.svelte';
 	import DiscordTab from './DiscordTab.svelte';
+	import GitHubTab from './GitHubTab.svelte';
 	import { cpuActivity, diskActivity } from './activities.js'
 
 	const icons = [
@@ -51,8 +52,10 @@
 			<DiskTab/>
 		{:else if activeInfo === 'Discord'}
 			<DiscordTab/>
+		{:else if activeInfo === 'GitHub'}
+			<GitHubTab/>
 		{:else}
-			<p>{activeInfo}</p>
+			<p>TODO: {activeInfo}</p>
 		{/if}
 		<div class="mt-auto text-sm text-gray-300">
 			<div class="pt-1 pb-1">
