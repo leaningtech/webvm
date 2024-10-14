@@ -18,7 +18,7 @@ jobs:
       - run:
           name: Install NPM
           command: |
-            sudo apt-get update && sudo apt-get install -y npm
+            sudo apt-get update && sudo apt-get install -y rsync npm
       - run:
           name: Clone WebVM
           command: |
