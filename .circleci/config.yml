@@ -1,0 +1,35 @@
+version: 2.1
+
+jobs:
+  deploy:
+    docker:
+      - image: cimg/base:2022.10
+    resource_class: medium
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "86:3b:c9:a6:d1:b9:a8:dc:0e:00:db:99:8d:19:c4:3e"
+      - run:
+          name: Install NPM
+          command: |
+            sudo apt-get update && sudo apt-get install -y npm
+      - run:
+          name: Clone WebVM
+          command: |
+            git clone --branch $CIRCLE_BRANCH --single-branch git@github.com:leaningtech/webvm.git
+      - run:
+          name: Publish NPM packages
+          command: |
+            cd webvm/
+            npm run build
+      - run:
+          name: Deploy webvm
+          command: |
+            scp -rP $SSH_PORT webvm/build/* leaningtech@SSH_HOST:/srv/web/webvm_next/
+
+workflows:
+  deploy:
+    when:
+      equal: [ << pipeline.trigger_source >>, "api" ]
+    jobs:
+      - deploy
