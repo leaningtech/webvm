@@ -3,6 +3,7 @@
 	import NetworkingTab from './NetworkingTab.svelte';
 	import CpuTab from './CpuTab.svelte';
 	import DiskTab from './DiskTab.svelte';
+	import DiscordTab from './DiscordTab.svelte';
 	import { cpuActivity, diskActivity } from './activities.js'
 
 	const icons = [
@@ -48,6 +49,8 @@
 			<CpuTab/>
 		{:else if activeInfo === 'Disk'}
 			<DiskTab/>
+		{:else if activeInfo === 'Discord'}
+			<DiscordTab/>
 		{:else}
 			<p>{activeInfo}</p>
 		{/if}
