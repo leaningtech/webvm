@@ -10,6 +10,11 @@ jobs:
           fingerprints:
             - "86:3b:c9:a6:d1:b9:a8:dc:0e:00:db:99:8d:19:c4:3e"
       - run:
+          name: Add known hosts
+          command: |
+            mkdir -p ~/.ssh
+            echo $GH_HOST >> ~/.ssh/known_hosts
+      - run:
           name: Install NPM
           command: |
             sudo apt-get update && sudo apt-get install -y npm
