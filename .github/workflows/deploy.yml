@@ -183,13 +183,11 @@ jobs:
           sed -i 's#ARGS#${{ env.ARGS }}#g' config_github_terminal.js
           sed -i 's#ENV#${{ env.ENV }}#g' config_github_terminal.js
           sed -i 's#CWD#${{ env.CWD }}#g' config_github_terminal.js
-          # Debug
-          cat config_github_terminal.js
 
       - name: Build NPM package
         run: |
           npm install
-          WEBVM_MODE=github npm build run
+          WEBVM_MODE=github npm run build
 
       # Move required files for gh-pages deployment to the deployment directory $DEPLOY_DIR.
       - run: mv build $DEPLOY_DIR
