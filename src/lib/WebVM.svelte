@@ -14,6 +14,7 @@
 	import { introMessage, errorMessage } from '$lib/messages.js'
 
 	export let configObj = null;
+	export let processCallback = null;
 
 	var term = new Terminal({cursorBlink:true, convertEol:true, fontFamily:"monospace", fontWeight: 400, fontWeightBold: 700});
 	var cx = null;
@@ -22,6 +23,7 @@
 	var linkAddon = new WebLinksAddon();
 	term.loadAddon(linkAddon);
 	var cxReadFunc = null;
+	var processCount = 0;
 	function writeData(buf, vt)
 	{
 		if(vt != 1)
@@ -77,6 +79,12 @@
 		// Raise the display to the foreground
 		const display = document.getElementById("display");
 		display.style.zIndex = 10;
+	}
+	function handleProcessCreated()
+	{
+		processCount++;
+		if(processCallback)
+			processCallback(processCount);
 	}
 	async function initCheerpX()
 	{
@@ -142,6 +150,7 @@
 		}
 		cx.registerCallback("cpuActivity", cpuCallback);
 		cx.registerCallback("diskActivity", hddCallback);
+		cx.registerCallback("processCreated", handleProcessCreated);
 		term.scrollToBottom();
 		cxReadFunc = cx.setCustomConsole(writeData, term.cols, term.rows);
 		const display = document.getElementById("display");
