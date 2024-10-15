@@ -6,12 +6,14 @@
 	import '@xterm/xterm/css/xterm.css'
 	import '@fortawesome/fontawesome-free/css/all.min.css'
 	import { networkInterface, startLogin } from '$lib/network.js'
-	import { cpuActivity, diskActivity } from '$lib/activities.js'
+	import { cpuActivity, diskActivity, cpuPercentage } from '$lib/activities.js'
 	import { introMessage, errorMessage } from '$lib/messages.js'
 
 	export let configObj = null;
 	export let processCallback = null;
 	export let cacheId = null;
+	export let cpuActivityEvents = [];
+	export let activityEventsInterval = 0;
 
 	var term = null;
 	var cx = null;
@@ -36,6 +38,61 @@
 		for(var i=0;i<msg.length;i++)
 			term.write(msg[i] + "\n");
 	}
+	function expireEvents(list, curTime, limitTime)
+	{
+		while(list.length)
+		{
+			if(list[0].t < limitTime)
+			{
+				list.shift();
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+	function cleanupEvents()
+	{
+		var curTime = Date.now();
+		var limitTime = curTime - 10000;
+		expireEvents(cpuActivityEvents, curTime, limitTime);
+		computeCpuActivity(curTime, limitTime);
+		if(cpuActivityEvents.length == 0)
+		{
+			clearInterval(activityEventsInterval);
+			activityEventsInterval = 0;
+		}
+	}
+	function computeCpuActivity(curTime, limitTime)
+	{
+		var totalActiveTime = 0;
+		var lastActiveTime = limitTime;
+		var lastWasActive = false;
+		for(var i=0;i<cpuActivityEvents.length;i++)
+		{
+			var e = cpuActivityEvents[i];
+			if(e.state == "ready")
+			{
+				// Inactive state, add the time frome lastActiveTime
+				totalActiveTime += (e.t - lastActiveTime);
+				lastWasActive = false;
+			}
+			else
+			{
+				// Active state
+				lastActiveTime = e.t;
+				lastWasActive = true;
+			}
+		}
+		// Add the last interval if needed
+		if(lastWasActive)
+		{
+			if(e.t - lastActiveTime > 0)debugger;
+			totalActiveTime += (e.t - lastActiveTime);
+		}
+		cpuPercentage.set(Math.ceil((totalActiveTime / 10000) * 100));
+	}
 	function hddCallback(state)
 	{
 		diskActivity.set(state != "ready");
@@ -43,6 +100,15 @@
 	function cpuCallback(state)
 	{
 		cpuActivity.set(state != "ready");
+		var curTime = Date.now();
+		var limitTime = curTime - 10000;
+		expireEvents(cpuActivityEvents, curTime, limitTime);
+		cpuActivityEvents.push({t: curTime, state: state});
+		computeCpuActivity(curTime, limitTime);
+		// Start an interval timer to cleanup old samples when no further activity is received
+		if(activityEventsInterval != 0)
+			clearInterval(activityEventsInterval);
+		activityEventsInterval = setInterval(cleanupEvents, 2000);
 	}
 	async function initTerminal()
 	{
