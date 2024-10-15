@@ -25,6 +25,7 @@
 	term.loadAddon(linkAddon);
 	var cxReadFunc = null;
 	var processCount = 0;
+	var curVT = 0;
 	function writeData(buf, vt)
 	{
 		if(vt != 1)
@@ -75,6 +76,9 @@
 	}
 	function handleActivateConsole(vt)
 	{
+		if(curVT == vt)
+			return;
+		curVT = vt;
 		if(vt != 7)
 			return;
 		// Raise the display to the foreground
