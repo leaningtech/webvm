@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Deploy webvm
           command: |
-            rsync -avz -e "ssh -p ${SSH_PORT}" webvm/build/ leaningtech@${SSH_HOST}:/srv/web/webvm_next/
+            rsync -avz -e "ssh -p ${SSH_PORT}" webvm/build/ leaningtech@${SSH_HOST}:/srv/web/webvm/
 
 workflows:
   deploy:
