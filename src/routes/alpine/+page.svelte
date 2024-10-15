@@ -11,4 +11,4 @@ function handleProcessCreated(processCount)
 }
 </script>
 
-<WebVM configObj={configObj} processCallback={handleProcessCreated} />
+<WebVM configObj={configObj} processCallback={handleProcessCreated} cacheId="blocks_alpine" />

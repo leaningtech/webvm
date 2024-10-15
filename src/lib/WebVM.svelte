@@ -15,6 +15,7 @@
 
 	export let configObj = null;
 	export let processCallback = null;
+	export let cacheId = null;
 
 	var term = new Terminal({cursorBlink:true, convertEol:true, fontFamily:"monospace", fontWeight: 400, fontWeightBold: 700});
 	var cx = null;
@@ -124,7 +125,7 @@
 			default:
 				throw new Error("Unrecognized device type");
 		}
-		var overlayDevice = await CheerpX.OverlayDevice.create(blockDevice, await CheerpX.IDBDevice.create("block1"));
+		var overlayDevice = await CheerpX.OverlayDevice.create(blockDevice, await CheerpX.IDBDevice.create(cacheId));
 		var webDevice = await CheerpX.WebDevice.create("");
 		var dataDevice = await CheerpX.DataDevice.create();
 		var mountPoints = [
