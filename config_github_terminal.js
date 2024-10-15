@@ -13,9 +13,9 @@ export const args = ARGS;
 // Optional extra parameters
 export const opts = {
 	// Environment variables
-	env: ENV;
+	env: ENV,
 	// Current working directory
-	cwd: CWD;
+	cwd: CWD,
 	// User id
 	uid: 1000,
 	// Group id
