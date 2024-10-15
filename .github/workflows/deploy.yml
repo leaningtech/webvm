@@ -190,7 +190,10 @@ jobs:
           WEBVM_MODE=github npm run build
 
       # Move required files for gh-pages deployment to the deployment directory $DEPLOY_DIR.
-      - run: sudo mv build/* $DEPLOY_DIR/
+      - name: Copy build
+        run: |
+          rm build/alpine.html
+          sudo mv build/* $DEPLOY_DIR/
 
       # We generate index.list files for our httpfs to function properly.
       - name: make index.list
