@@ -1,11 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
-	import { Terminal } from '@xterm/xterm';
-	import { FitAddon } from '@xterm/addon-fit';
-	import { WebLinksAddon } from '@xterm/addon-web-links';
 	import Nav from 'labs/packages/global-navbar/src/Nav.svelte';
 	import SideBar from '$lib/SideBar.svelte';
-	import * as CheerpX from '@leaningtech/cheerpx';
 	import '$lib/global.css';
 	import '@xterm/xterm/css/xterm.css'
 	import '@fortawesome/fontawesome-free/css/all.min.css'
@@ -17,12 +13,8 @@
 	export let processCallback = null;
 	export let cacheId = null;
 
-	var term = new Terminal({cursorBlink:true, convertEol:true, fontFamily:"monospace", fontWeight: 400, fontWeightBold: 700});
+	var term = null;
 	var cx = null;
-	var fitAddon = new FitAddon();
-	term.loadAddon(fitAddon);
-	var linkAddon = new WebLinksAddon();
-	term.loadAddon(linkAddon);
 	var cxReadFunc = null;
 	var processCount = 0;
 	var curVT = 0;
@@ -52,15 +44,23 @@
 	{
 		cpuActivity.set(state != "ready");
 	}
-	term.onData(readData);
-	function initTerminal()
+	async function initTerminal()
 	{
+		const { Terminal } = await import('@xterm/xterm');
+		const { FitAddon } = await import('@xterm/addon-fit');
+		const { WebLinksAddon } = await import('@xterm/addon-web-links');
+		term = new Terminal({cursorBlink:true, convertEol:true, fontFamily:"monospace", fontWeight: 400, fontWeightBold: 700});
+		var fitAddon = new FitAddon();
+		term.loadAddon(fitAddon);
+		var linkAddon = new WebLinksAddon();
+		term.loadAddon(linkAddon);
 		const consoleDiv = document.getElementById("console");
 		term.open(consoleDiv);
 		term.scrollToTop();
 		fitAddon.fit();
 		window.addEventListener("resize", function(ev){ fitAddon.fit(); });
 		term.focus();
+		term.onData(readData);
 		// Avoid undesired default DnD handling
 		function preventDefaults (e) {
 			e.preventDefault()
@@ -94,7 +94,7 @@
 	}
 	async function initCheerpX()
 	{
-		// TODO: Check for SAB support
+		const CheerpX = await import('@leaningtech/cheerpx');
 		var blockDevice = null;
 		switch(configObj.diskImageType)
 		{
