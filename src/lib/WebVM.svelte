@@ -6,13 +6,14 @@
 	import '@xterm/xterm/css/xterm.css'
 	import '@fortawesome/fontawesome-free/css/all.min.css'
 	import { networkInterface, startLogin } from '$lib/network.js'
-	import { cpuActivity, diskActivity, cpuPercentage } from '$lib/activities.js'
+	import { cpuActivity, diskActivity, cpuPercentage, diskLatency } from '$lib/activities.js'
 	import { introMessage, errorMessage } from '$lib/messages.js'
 
 	export let configObj = null;
 	export let processCallback = null;
 	export let cacheId = null;
 	export let cpuActivityEvents = [];
+	export let diskLatencies = [];
 	export let activityEventsInterval = 0;
 
 	var term = null;
@@ -96,6 +97,18 @@
 	function hddCallback(state)
 	{
 		diskActivity.set(state != "ready");
+	}
+	function latencyCallback(latency)
+	{
+		diskLatencies.push(latency);
+		if(diskLatencies.length > 30)
+			diskLatencies.shift();
+		// Average the latency over at most 30 blocks
+		var total = 0;
+		for(var i=0;i<diskLatencies.length;i++)
+			total += diskLatencies[i];
+		var avg = total / diskLatencies.length;
+		diskLatency.set(Math.ceil(avg));
 	}
 	function cpuCallback(state)
 	{
@@ -222,6 +235,7 @@
 		}
 		cx.registerCallback("cpuActivity", cpuCallback);
 		cx.registerCallback("diskActivity", hddCallback);
+		cx.registerCallback("diskLatency", latencyCallback);
 		cx.registerCallback("processCreated", handleProcessCreated);
 		term.scrollToBottom();
 		cxReadFunc = cx.setCustomConsole(writeData, term.cols, term.rows);
