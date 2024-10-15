@@ -162,7 +162,7 @@
 			return;
 		// Raise the display to the foreground
 		const display = document.getElementById("display");
-		display.style.zIndex = 10;
+		display.style.zIndex = 5;
 		plausible("Display activated");
 	}
 	function handleProcessCreated()
