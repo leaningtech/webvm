@@ -1,8 +1,14 @@
 import { writable } from 'svelte/store';
+import { browser } from '$app/environment'
 
-let params = new URLSearchParams("?"+window.location.hash.substr(1));
-let authKey = params.get("authKey") || undefined;
-let controlUrl = params.get("controlUrl") || undefined;
+let authKey = undefined;
+let controlUrl = undefined;
+if(browser)
+{
+	let params = new URLSearchParams("?"+window.location.hash.substr(1));
+	authKey = params.get("authKey");
+	controlUrl = params.get("controlUrl");
+}
 let dashboardUrl = controlUrl ? null : "https://login.tailscale.com/admin/machines";
 let resolveLogin = null;
 let loginPromise = new Promise((f,r) => {
