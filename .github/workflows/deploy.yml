@@ -164,28 +164,35 @@ jobs:
           sudo umount /mnt/
       # Result is an ext2 image for webvm.
 
-      # Move required files for gh-pages deployment to the deployment directory $DEPLOY_DIR.
-      - run: sudo mv assets examples xterm favicon.ico index.html login.html network.js scrollbar.css serviceWorker.js tower.ico $DEPLOY_DIR
-      
       # The .txt suffix enabled HTTP compression for free
       - name: Generate image split chunks and .meta file
         run: |
           sudo split ${{ env.IMAGE_NAME }} ${{ env.DEPLOY_DIR }}/${{ env.IMAGE_NAME }}.c -a 6 -b 128k -x --additional-suffix=.txt
           sudo bash -c "stat -c%s ${{ env.IMAGE_NAME }} > ${{ env.DEPLOY_DIR }}/${{ env.IMAGE_NAME }}.meta"
-      # This step updates the default index.html file by performing the following actions:
+
+      # This step updates the default config_github_terminal.js file by performing the following actions:
       #   1. Replaces all occurrences of IMAGE_URL with the URL to the image.
-      #   2. Replaces all occurrences of DEVICE_TYPE to bytes.
-      #   3. Replace CMD with the Dockerfile entry command.
-      #   4. Replace args with the Dockerfile CMD / Entrypoint args.
-      #   5. Replace ENV with the container's environment values.
-      - name: Adjust index.html
+      #   2. Replace CMD with the Dockerfile entry command.
+      #   3. Replace args with the Dockerfile CMD / Entrypoint args.
+      #   4. Replace ENV with the container's environment values.
+      #   5. Replace CWD with the container's current working directory.
+      - name: Adjust config_github_terminal.js
         run: |
-          sudo sed -i 's#IMAGE_URL#"${{ env.IMAGE_NAME }}"#g' ${{ env.DEPLOY_DIR }}index.html
-          sudo sed -i 's#DEVICE_TYPE#"github"#g' ${{ env.DEPLOY_DIR }}index.html
-          sudo sed -i 's#CMD#${{ env.CMD }}#g' ${{ env.DEPLOY_DIR }}index.html
-          sudo sed -i 's#ARGS#${{ env.ARGS }}#g' ${{ env.DEPLOY_DIR }}index.html
-          sudo sed -i 's#ENV#${{ env.ENV }}#g' ${{ env.DEPLOY_DIR }}index.html
-          sudo sed -i 's#CWD#${{ env.CWD }}#g' ${{ env.DEPLOY_DIR }}index.html
+          sed -i 's#IMAGE_URL#"${{ env.IMAGE_NAME }}"#g' config_github_terminal.js
+          sed -i 's#CMD#${{ env.CMD }}#g' config_github_terminal.js
+          sed -i 's#ARGS#${{ env.ARGS }}#g' config_github_terminal.js
+          sed -i 's#ENV#${{ env.ENV }}#g' config_github_terminal.js
+          sed -i 's#CWD#${{ env.CWD }}#g' config_github_terminal.js
+          # Debug
+          cat config_github_terminal.js
+
+      - name: Build NPM package
+        run: |
+          npm install
+          WEBVM_MODE=github npm build run
+
+      # Move required files for gh-pages deployment to the deployment directory $DEPLOY_DIR.
+      - run: mv build $DEPLOY_DIR
 
       # We generate index.list files for our httpfs to function properly.
       - name: make index.list
