@@ -14,6 +14,7 @@ export default {
 				case '.fa-compact-disc:before':
 				case '.fa-discord:before':
 				case '.fa-github:before':
+				case '.fa-star:before':
 				case '.fa-circle:before':
 					return false;
 			}
