@@ -7,7 +7,7 @@
 	import '@fortawesome/fontawesome-free/css/all.min.css'
 	import { networkInterface, startLogin } from '$lib/network.js'
 	import { cpuActivity, diskActivity, cpuPercentage, diskLatency } from '$lib/activities.js'
-	import { introMessage, errorMessage } from '$lib/messages.js'
+	import { introMessage, errorMessage, unexpectedErrorMessage } from '$lib/messages.js'
 
 	export let configObj = null;
 	export let processCallback = null;
@@ -156,7 +156,16 @@
 		consoleDiv.addEventListener("drop", preventDefaults, false);
 		if(configObj.printIntro)
 			printMessage(introMessage);
-		initCheerpX();
+		try
+		{
+			await initCheerpX();
+		}
+		catch(e)
+		{
+			printMessage(unexpectedErrorMessage);
+			printMessage([e.toString()]);
+			return;
+		}
 	}
 	function handleActivateConsole(vt)
 	{

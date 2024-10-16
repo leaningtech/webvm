@@ -38,3 +38,13 @@ export const errorMessage = [
 	"CheerpX internal error message is:",
 	""
 ];
+export const unexpectedErrorMessage = [
+	color + "WebVM encountered an unexpected error" + normal,
+	"",
+	"Check the DevTools console for further information",
+	"",
+	"Please consider reporting a bug!",
+	"",
+	"CheerpX internal error message is:",
+	""
+];
