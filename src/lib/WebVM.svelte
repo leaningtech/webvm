@@ -41,9 +41,9 @@
 	}
 	function expireEvents(list, curTime, limitTime)
 	{
-		while(list.length)
+		while(list.length > 1)
 		{
-			if(list[0].t < limitTime)
+			if(list[1].t < limitTime)
 			{
 				list.shift();
 			}
@@ -73,24 +73,29 @@
 		for(var i=0;i<cpuActivityEvents.length;i++)
 		{
 			var e = cpuActivityEvents[i];
+			// NOTE: The first event could be before the limit,
+			//       we need at least one event to correctly mark
+			//       active time when there is long time under load
+			var eTime = e.t;
+			if(eTime < limitTime)
+				eTime = limitTime;
 			if(e.state == "ready")
 			{
 				// Inactive state, add the time frome lastActiveTime
-				totalActiveTime += (e.t - lastActiveTime);
+				totalActiveTime += (eTime - lastActiveTime);
 				lastWasActive = false;
 			}
 			else
 			{
 				// Active state
-				lastActiveTime = e.t;
+				lastActiveTime = eTime;
 				lastWasActive = true;
 			}
 		}
 		// Add the last interval if needed
 		if(lastWasActive)
 		{
-			if(e.t - lastActiveTime > 0)debugger;
-			totalActiveTime += (e.t - lastActiveTime);
+			totalActiveTime += (curTime - lastActiveTime);
 		}
 		cpuPercentage.set(Math.ceil((totalActiveTime / 10000) * 100));
 	}
