@@ -13,8 +13,12 @@ WebVM is powered by the CheerpX virtualization engine, and enables safe, sandbox
 
 # Enable networking
 
-- Click "Connect via Tailscale" in the page header.
-- Log in to Tailscale (create an account if you don't have one).
+Modern browsers do not provide APIs to directly use TCP or UDP. WebVM provides networking support by integrating with Tailscale, a VPN network that supports WebSockets as a transport layer.
+
+- Open the "Networking" panel from the side-bar
+- Click "Connect to Tailscale" from the panel
+- Log in to Tailscale (create an account if you don't have one)
+- Click "Connect" when prompted by Tailscale
 - If you are unfamiliar with Tailscale or would like additional information see [WebVM and Tailscale](/docs/Tailscale.md).
 
 # Fork, deploy, customize
@@ -43,15 +47,18 @@ You can now customize `dockerfiles/debian_mini` to suits your needs, or make a n
 
 From a local `git clone`
 
-- Download the `debian_mini` Ext2 image from [https://github.com/leaningtech/webvm/releases/](https://github.com/leaningtech/webvm/releases/).
-	- You can also build your own by selecting the "Upload GitHub release" workflow option.
-	- Place the image in the repository root folder.
-- Edit `index.html`.
-	- Uncomment the default values for `CMD`, `ARGS`, `ENV` and `CWD`.
-	- Replace `DEVICE_TYPE` with `"bytes"`.
-	- Replace `IMAGE_URL` with the name of the Ext2 image. For example `"debian_mini_20230519_5022088024.ext2"`.
-- Start a local HTTP server.
-- Enjoy your local WebVM.
+- Download the `debian_mini` Ext2 image from [https://github.com/leaningtech/webvm/releases/](https://github.com/leaningtech/webvm/releases/)
+	- You can also build your own by selecting the "Upload GitHub release" workflow option
+	- Place the image in the repository root folder
+- Edit `config_github_terminal.js`
+	- Uncomment the default values for `CMD`, `ARGS`, `ENV` and `CWD`
+	- Replace `IMAGE_URL` with the URL (absolute or relative) for the Ext2 image. For example `"/debian_mini_20230519_5022088024.ext2"`
+- Build WebVM using `npm`, output will be placed in the `build` directory
+	- `npm install`
+	- `npm run build`
+- Start NGINX, it automatically points to the `build` directory just created
+	- `nginx -p . -c nginx.conf`
+- Visit `http://127.0.0.1:8081` and enjoy your local WebVM
 
 # Example customization: Python3 REPL
 
@@ -85,18 +92,18 @@ Or come to say hello / share your feedback on [Discord](https://discord.gg/yTNZg
 
 # Thanks to... 
 This project depends on:
-- [CheerpX](https://labs.leaningtech.com/cheerpx), made by [Leaning Technologies](https://leaningtech.com) for x86 virtualization and Linux emulation
+- [CheerpX](https://cheerpx.io/), made by [Leaning Technologies](https://leaningtech.com/) for x86 virtualization and Linux emulation
 - xterm.js, [https://xtermjs.org/](https://xtermjs.org/), for providing the Web-based terminal emulator
 - [Tailscale](https://tailscale.com/), for the networking component
-- [lwIP](https://savannah.nongnu.org/projects/lwip/), for the TCP/IP stack, compiled for the Web via [Cheerp](https://github.com/leaningtech/cheerp-meta)
+- [lwIP](https://savannah.nongnu.org/projects/lwip/), for the TCP/IP stack, compiled for the Web via [Cheerp](https://github.com/leaningtech/cheerp-meta/)
 
 # Versioning
 
-WebVM depends on the CheerpX x86-to-WebAssembly virtualization technology. A link to the current latest build is always available at [https://cheerpxdemos.leaningtech.com/publicdeploy/LATEST.txt](https://cheerpxdemos.leaningtech.com/publicdeploy/LATEST.txt). Builds of CheerpX are immutable and uniquely versioned. An example link would be:
+WebVM depends on the CheerpX x86-to-WebAssembly virtualization technology, which is included in the project via [NPM](https://www.npmjs.com/package/@leaningtech/cheerpx).
 
-`https://cheerpxdemos.leaningtech.com/publicdeploy/20230517_94/cx.js`
+The NPM package is updated on every release.
 
-We strongly encourage users _not_ to use the latest build. Please directly use a specific build to avoid unexpected regressions. Since builds are immutable, if they work for you now they will keep working forever.
+Every build is immutable, if a specific version works well for you today, it will keep working forever.
 
 # License
 
@@ -104,6 +111,12 @@ WebVM is released under the Apache License, Version 2.0.
 
 You are welcome to use, modify, and redistribute the contents of this repository.
 
-The public CheerpX deployment is provided **as-is** and is **free to use** for technological exploration, testing and non-commercial uses. Downloading a CheerpX build for the purpose of hosting it elsewhere is not permitted.
+The public CheerpX deployment is provided **as-is** and is **free to use** for technological exploration, testing and use by individuals.
+
+Any other use by organizations, including non-profit, academia and the public sector, requires a license.
+
+Downloading a CheerpX build for the purpose of hosting it elsewhere is not permitted without a commercial license.
+
+Read more about [CheerpX licensing](https://cheerpx.io/docs/licensing)
 
 If you want to build a product on top of CheerpX/WebVM, please get in touch: sales@leaningtech.com
