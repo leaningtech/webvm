@@ -4,6 +4,7 @@
 	import PanelButton from './PanelButton.svelte';
 	var dispatch = createEventDispatcher();
 	var connectionState = networkData.connectionState;
+	var exitNode = networkData.exitNode;
 	function handleConnect() {
 		connectionState.set("DOWNLOADING");
 		dispatch('connect');
@@ -98,6 +99,10 @@
 	}
 </script>
 <h1 class="text-lg font-bold">Networking</h1>
-<PanelButton buttonIcon="assets/tailscale.svg" clickUrl={getClickUrl($connectionState)} clickHandler={getClickHandler($connectionState)} rightClickHandler={getRightClickHandler($connectionState)} buttonTooltip={getButtonTooltip($connectionState)} buttonText={getButtonText($connectionState)}/>
+<PanelButton buttonIcon="assets/tailscale.svg" clickUrl={getClickUrl($connectionState)} clickHandler={getClickHandler($connectionState)} rightClickHandler={getRightClickHandler($connectionState)} buttonTooltip={getButtonTooltip($connectionState)} buttonText={getButtonText($connectionState)}>
+	{#if $connectionState == "CONNECTED"}
+		<i class='fas fa-circle fa-xs ml-auto {$exitNode ? 'text-green-500' : 'text-amber-500'}' title={$exitNode ? 'Ready' : 'No exit node'}></i>
+	{/if}
+</PanelButton>
 <p>WebVM can connect to the Internet via Tailscale</p>
 <p>Using Tailscale is required since browser do not support TCP/UDP sockets (yet!)</p>

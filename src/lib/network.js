@@ -15,6 +15,7 @@ let loginPromise = new Promise((f,r) => {
 	resolveLogin = f;
 });
 let connectionState = writable("DISCONNECTED");
+let exitNode = writable(false);
 
 function loginUrlCb(url)
 {
@@ -36,6 +37,19 @@ function stateUpdateCb(state)
 function netmapUpdateCb(map)
 {
 	networkData.currentIp = map.self.addresses[0];
+	var exitNodeFound = false;
+	for(var i=0;map.peers.length;i++)
+	{
+		if(map.peers[i].exitNode)
+		{
+			exitNodeFound = true;
+			break;
+		}
+	}
+	if(exitNodeFound)
+	{
+		exitNode.set(true);
+	}
 }
 
 export async function startLogin()
@@ -49,4 +63,4 @@ export async function startLogin()
 
 export const networkInterface = { authKey: authKey, controlUrl: controlUrl, loginUrlCb: loginUrlCb, stateUpdateCb: stateUpdateCb, netmapUpdateCb: netmapUpdateCb };
 
-export const networkData = { currentIp: null, connectionState: connectionState, loginUrl: null, dashboardUrl: dashboardUrl }
+export const networkData = { currentIp: null, connectionState: connectionState, exitNode: exitNode, loginUrl: null, dashboardUrl: dashboardUrl }
