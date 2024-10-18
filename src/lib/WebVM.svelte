@@ -187,7 +187,7 @@
 			return;
 		// Raise the display to the foreground
 		const display = document.getElementById("display");
-		display.style.zIndex = 5;
+		display.parentElement.style.zIndex = 5;
 		plausible("Display activated");
 	}
 	function handleProcessCreated()
@@ -268,7 +268,7 @@
 		const display = document.getElementById("display");
 		if(display)
 		{
-			cx.setKmsCanvas(display, 1024, 768);
+			cx.setKmsCanvas(display, display.offsetWidth, display.offsetHeight);
 			cx.setActivateConsole(handleActivateConsole);
 		}
 		// Run the command in a loop, in case the user exits
@@ -299,7 +299,9 @@
 	<div class="absolute top-10 bottom-0 left-0 right-0">
 		<SideBar on:connect={handleConnect} on:reset={handleReset}/>
 		{#if configObj.needsDisplay}
-			<canvas class="absolute top-0 bottom-0 left-14 right-0" width="1024" height="768" id="display"></canvas>
+			<div class="absolute top-0 bottom-0 left-14 right-0">
+				<canvas class="w-full h-full" id="display"></canvas>
+			</div>
 		{/if}
 		<div class="absolute top-0 bottom-0 left-14 right-0 p-1 scrollbar" id="console">
 		</div>
