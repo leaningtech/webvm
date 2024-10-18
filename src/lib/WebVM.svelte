@@ -268,7 +268,16 @@
 		const display = document.getElementById("display");
 		if(display)
 		{
-			cx.setKmsCanvas(display, display.offsetWidth, display.offsetHeight);
+			var mult = 1.0;
+			var displayWidth = display.offsetWidth;
+			var displayHeight = display.offsetHeight;
+			var minWidth = 1024;
+			var minHeight = 768;
+			if(displayWidth < minWidth)
+				mult = minWidth / displayWidth;
+			if(displayHeight < minHeight)
+				mult = Math.max(mult, minHeight / displayHeight);
+			cx.setKmsCanvas(display, displayWidth * mult, displayHeight * mult);
 			cx.setActivateConsole(handleActivateConsole);
 		}
 		// Run the command in a loop, in case the user exits
