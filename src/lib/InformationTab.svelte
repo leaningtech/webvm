@@ -1,5 +1,5 @@
 <h1 class="text-lg font-bold">Information</h1>
-<img src="assets/webvm_hero.png" alt="WebVM Logo" class="w-full self-center">
+<img src="assets/webvm_hero.png" alt="WebVM Logo" class="w-56 h-56 object-contain self-center">
 <p>WebVM is a virtual Linux environment running in the browser via WebAssembly</p>
 <p>It is based on:</p>
 <ul class="list-disc list-inside">
