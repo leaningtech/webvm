@@ -16,3 +16,11 @@ html
 {
 	height: 100%;
 }
+
+@media (width <= 850px)
+{
+	html
+	{
+		font-size: calc(100vw / 55);
+	}
+}

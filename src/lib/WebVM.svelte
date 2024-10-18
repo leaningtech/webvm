@@ -18,6 +18,7 @@
 
 	var term = null;
 	var cx = null;
+	var fitAddon = null;
 	var cxReadFunc = null;
 	var processCount = 0;
 	var curVT = 0;
@@ -128,13 +129,22 @@
 			clearInterval(activityEventsInterval);
 		activityEventsInterval = setInterval(cleanupEvents, 2000);
 	}
+	function computeXTermFontSize()
+	{
+		return parseInt(getComputedStyle(document.body).fontSize);
+	}
+	function handleResize()
+	{
+		term.options.fontSize = computeXTermFontSize();
+		fitAddon.fit();
+	}
 	async function initTerminal()
 	{
 		const { Terminal } = await import('@xterm/xterm');
 		const { FitAddon } = await import('@xterm/addon-fit');
 		const { WebLinksAddon } = await import('@xterm/addon-web-links');
-		term = new Terminal({cursorBlink:true, convertEol:true, fontFamily:"monospace", fontWeight: 400, fontWeightBold: 700});
-		var fitAddon = new FitAddon();
+		term = new Terminal({cursorBlink:true, convertEol:true, fontFamily:"monospace", fontWeight: 400, fontWeightBold: 700, fontSize: computeXTermFontSize()});
+		fitAddon = new FitAddon();
 		term.loadAddon(fitAddon);
 		var linkAddon = new WebLinksAddon();
 		term.loadAddon(linkAddon);
@@ -142,7 +152,7 @@
 		term.open(consoleDiv);
 		term.scrollToTop();
 		fitAddon.fit();
-		window.addEventListener("resize", function(ev){ fitAddon.fit(); });
+		window.addEventListener("resize", handleResize);
 		term.focus();
 		term.onData(readData);
 		// Avoid undesired default DnD handling
