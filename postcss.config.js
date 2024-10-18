@@ -16,6 +16,7 @@ export default {
 				case '.fa-github:before':
 				case '.fa-star:before':
 				case '.fa-circle:before':
+				case '.fa-trash-can:before':
 					return false;
 			}
 			return true;

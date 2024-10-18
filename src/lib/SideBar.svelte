@@ -52,7 +52,7 @@
 		{:else if activeInfo === 'CPU'}
 			<CpuTab/>
 		{:else if activeInfo === 'Disk'}
-			<DiskTab/>
+			<DiskTab on:reset/>
 		{:else if activeInfo === 'Discord'}
 			<DiscordTab/>
 		{:else if activeInfo === 'GitHub'}

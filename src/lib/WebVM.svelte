@@ -282,12 +282,15 @@
 		await cx.networkLogin();
 		w.location.href = await startLogin();
 	}
+	async function handleReset()
+	{
+	}
 </script>
 
 <main class="relative w-full h-full">
 	<Nav />
 	<div class="absolute top-10 bottom-0 left-0 right-0">
-		<SideBar on:connect={handleConnect}/>
+		<SideBar on:connect={handleConnect} on:reset={handleReset}/>
 		{#if configObj.needsDisplay}
 			<canvas class="absolute top-0 bottom-0 left-14 right-0" width="1024" height="768" id="display"></canvas>
 		{/if}
