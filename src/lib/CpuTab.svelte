@@ -4,7 +4,7 @@
 </script>
 
 <h1 class="text-lg font-bold">Engine</h1>
-<PanelButton buttonIcon="assets/cheerpx.svg" clickUrl="https://cheerpx.io/docs" buttonText="Explore CheerpX">
+<PanelButton buttonImage="assets/cheerpx.svg" clickUrl="https://cheerpx.io/docs" buttonText="Explore CheerpX">
 </PanelButton>
 <p><span class="font-bold">Load: </span>{$cpuPercentage}%</p>
 <p>CheerpX is a x86 virtualization engine in WebAssembly</p>

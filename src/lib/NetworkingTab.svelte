@@ -99,7 +99,7 @@
 	}
 </script>
 <h1 class="text-lg font-bold">Networking</h1>
-<PanelButton buttonIcon="assets/tailscale.svg" clickUrl={getClickUrl($connectionState)} clickHandler={getClickHandler($connectionState)} rightClickHandler={getRightClickHandler($connectionState)} buttonTooltip={getButtonTooltip($connectionState)} buttonText={getButtonText($connectionState)}>
+<PanelButton buttonImage="assets/tailscale.svg" clickUrl={getClickUrl($connectionState)} clickHandler={getClickHandler($connectionState)} rightClickHandler={getRightClickHandler($connectionState)} buttonTooltip={getButtonTooltip($connectionState)} buttonText={getButtonText($connectionState)}>
 	{#if $connectionState == "CONNECTED"}
 		<i class='fas fa-circle fa-xs ml-auto {$exitNode ? 'text-green-500' : 'text-amber-500'}' title={$exitNode ? 'Ready' : 'No exit node'}></i>
 	{/if}

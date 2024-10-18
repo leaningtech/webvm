@@ -4,7 +4,7 @@
 </script>
 
 <h1 class="text-lg font-bold">Discord</h1>
-<PanelButton buttonIcon="assets/discord-mark-blue.svg" clickUrl="https://discord.gg/yTNZgySKGa" buttonText="Join our Discord">
+<PanelButton buttonImage="assets/discord-mark-blue.svg" clickUrl="https://discord.gg/yTNZgySKGa" buttonText="Join our Discord">
 	<i class='fas fa-circle fa-xs ml-auto text-green-500'></i>
 	<span class="ml-1"><DiscordPresenceCount /></span>
 </PanelButton>

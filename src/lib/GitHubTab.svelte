@@ -4,7 +4,7 @@
 </script>
 
 <h1 class="text-lg font-bold">GitHub</h1>
-<PanelButton buttonIcon="assets/github-mark-white.svg" clickUrl="https://github.com/leaningtech/webvm" buttonText="GitHub repo">
+<PanelButton buttonImage="assets/github-mark-white.svg" clickUrl="https://github.com/leaningtech/webvm" buttonText="GitHub repo">
 	<i class='fas fa-star fa-xs ml-auto'></i>
 	<span class="ml-1"><GitHubStarCount repo="leaningtech/webvm"/></span>
 </PanelButton>
