@@ -11,16 +11,40 @@
 		else
 			dispatch('reset');
 	}
-	function getButtonText()
+	function getButtonText(state)
 	{
 		if(state == "START")
 			return "Reset disk";
 		else
-			return "Confirm?"
+			return "Reset disk. Confirm?"
+	}
+	function getBgColor(state)
+	{
+		if(state == "START")
+		{
+			// Use default
+			return undefined;
+		}
+		else
+		{
+			return "bg-red-900";
+		}
+	}
+	function getHoverColor(state)
+	{
+		if(state == "START")
+		{
+			// Use default
+			return undefined;
+		}
+		else
+		{
+			return "hover:bg-red-700";
+		}
 	}
 </script>
 <h1 class="text-lg font-bold">Disk</h1>
-<PanelButton buttonIcon="fa-solid fa-trash-can" clickHandler={handleReset} buttonText={getButtonText(state)} bgColor="bg-red-900" hoverColor="hover:bg-red-700">
+<PanelButton buttonIcon="fa-solid fa-trash-can" clickHandler={handleReset} buttonText={getButtonText(state)} bgColor={getBgColor(state)} hoverColor={getHoverColor(state)}>
 </PanelButton>
 {#if state == "CONFIRM"}
 	<p><span class="font-bold">Warning: </span>WebVM will reload</p>
