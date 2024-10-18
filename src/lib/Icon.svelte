@@ -12,7 +12,8 @@
 </script>
 
 <div 
-	class="p-3 cursor-pointer text-center {$activity ? "text-lime-500" : "hover:text-gray-100"}"
+	class="p-3 cursor-pointer text-center {$activity ? "text-amber-500 animate-pulse" : "hover:text-gray-100"}"
+	style="animation-duration: 0.5s"
 	on:mouseenter={handleMouseover}
 	>
 		<i class='{icon} fa-xl'></i>
