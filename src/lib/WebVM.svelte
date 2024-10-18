@@ -20,6 +20,7 @@
 	var cx = null;
 	var fitAddon = null;
 	var cxReadFunc = null;
+	var blockCache = null;
 	var processCount = 0;
 	var curVT = 0;
 	function writeData(buf, vt)
@@ -232,7 +233,8 @@
 			default:
 				throw new Error("Unrecognized device type");
 		}
-		var overlayDevice = await CheerpX.OverlayDevice.create(blockDevice, await CheerpX.IDBDevice.create(cacheId));
+		blockCache = await CheerpX.IDBDevice.create(cacheId);
+		var overlayDevice = await CheerpX.OverlayDevice.create(blockDevice, blockCache);
 		var webDevice = await CheerpX.WebDevice.create("");
 		var dataDevice = await CheerpX.DataDevice.create();
 		var mountPoints = [
@@ -284,6 +286,11 @@
 	}
 	async function handleReset()
 	{
+		// Be robust before initialization
+		if(blockCache == null)
+			return;
+		await blockCache.reset();
+		location.reload();
 	}
 </script>
 
