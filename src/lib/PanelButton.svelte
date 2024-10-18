@@ -3,11 +3,13 @@
 	export let clickHandler = null;
 	export let rightClickHandler = null;
 	export let buttonTooltip = null;
+	export let bgColor = "bg-neutral-700";
+	export let hoverColor = "hover:bg-neutral-500"
 	export let buttonImage = null;
 	export let buttonText;
 </script>
 
-<a href={clickUrl} target="_blank" on:click={clickHandler} on:contextmenu={rightClickHandler}><p class="flex flex-row items-center bg-neutral-700 p-2 rounded-md shadow-md shadow-neutral-900 {(clickUrl != null || clickHandler != null) ? "hover:bg-neutral-500 cursor-pointer" : ""}" title={buttonTooltip}>
+<a href={clickUrl} target="_blank" on:click={clickHandler} on:contextmenu={rightClickHandler}><p class="flex flex-row items-center {bgColor} p-2 rounded-md shadow-md shadow-neutral-900 {(clickUrl != null || clickHandler != null) ? `${hoverColor} cursor-pointer` : ""}" title={buttonTooltip}>
 {#if buttonImage}
 <img src={buttonImage} class="inline w-8 h-8"/>
 {/if}
