@@ -134,10 +134,26 @@
 	{
 		return parseInt(getComputedStyle(document.body).fontSize);
 	}
+	function setScreenSize(display)
+	{
+		var mult = 1.0;
+		var displayWidth = display.offsetWidth;
+		var displayHeight = display.offsetHeight;
+		var minWidth = 1024;
+		var minHeight = 768;
+		if(displayWidth < minWidth)
+			mult = minWidth / displayWidth;
+		if(displayHeight < minHeight)
+			mult = Math.max(mult, minHeight / displayHeight);
+		cx.setKmsCanvas(display, displayWidth * mult, displayHeight * mult);
+	}
 	function handleResize()
 	{
 		term.options.fontSize = computeXTermFontSize();
 		fitAddon.fit();
+		const display = document.getElementById("display");
+		if(display)
+			setScreenSize(display);
 	}
 	async function initTerminal()
 	{
@@ -268,16 +284,7 @@
 		const display = document.getElementById("display");
 		if(display)
 		{
-			var mult = 1.0;
-			var displayWidth = display.offsetWidth;
-			var displayHeight = display.offsetHeight;
-			var minWidth = 1024;
-			var minHeight = 768;
-			if(displayWidth < minWidth)
-				mult = minWidth / displayWidth;
-			if(displayHeight < minHeight)
-				mult = Math.max(mult, minHeight / displayHeight);
-			cx.setKmsCanvas(display, displayWidth * mult, displayHeight * mult);
+			setScreenSize(display);
 			cx.setActivateConsole(handleActivateConsole);
 		}
 		// Run the command in a loop, in case the user exits
