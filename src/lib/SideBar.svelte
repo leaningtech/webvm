@@ -4,6 +4,7 @@
 	import NetworkingTab from './NetworkingTab.svelte';
 	import CpuTab from './CpuTab.svelte';
 	import DiskTab from './DiskTab.svelte';
+	import PostsTab from './PostsTab.svelte';
 	import DiscordTab from './DiscordTab.svelte';
 	import GitHubTab from './GitHubTab.svelte';
 	import { cpuActivity, diskActivity } from './activities.js'
@@ -14,6 +15,7 @@
 		{ icon: 'fas fa-microchip', info: 'CPU', activity: cpuActivity },
 		{ icon: 'fas fa-compact-disc', info: 'Disk', activity: diskActivity },
 		null,
+		{ icon: 'fas fa-book-open', info: 'Posts', activity: null },
 		{ icon: 'fab fa-discord', info: 'Discord', activity: null },
 		{ icon: 'fab fa-github', info: 'GitHub', activity: null },
 	];
@@ -53,6 +55,8 @@
 			<CpuTab/>
 		{:else if activeInfo === 'Disk'}
 			<DiskTab on:reset/>
+		{:else if activeInfo === 'Posts'}
+			<PostsTab/>
 		{:else if activeInfo === 'Discord'}
 			<DiscordTab/>
 		{:else if activeInfo === 'GitHub'}

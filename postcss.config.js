@@ -17,6 +17,7 @@ export default {
 				case '.fa-star:before':
 				case '.fa-circle:before':
 				case '.fa-trash-can:before':
+				case '.fa-book-open:before':
 					return false;
 			}
 			return true;
