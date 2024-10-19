@@ -12,7 +12,7 @@
 </script>
 
 <div 
-	class="p-3 cursor-pointer text-center {$activity ? "text-amber-500 animate-pulse" : "hover:text-gray-100"}"
+	class="p-3 cursor-pointer text-center hover:bg-neutral-600 {$activity ? "text-amber-500 animate-pulse" : "hover:text-gray-100"}"
 	style="animation-duration: 0.5s"
 	on:mouseenter={handleMouseover}
 	>
