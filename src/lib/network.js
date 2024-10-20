@@ -19,7 +19,8 @@ let exitNode = writable(false);
 
 function loginUrlCb(url)
 {
-        resolveLogin(url);
+	connectionState.set("LOGINREADY");
+	resolveLogin(url);
 }
 
 function stateUpdateCb(state)
@@ -57,7 +58,6 @@ export async function startLogin()
 	connectionState.set("LOGINSTARTING");
 	const url = await loginPromise;
 	networkData.loginUrl = url;
-	connectionState.set("LOGINREADY");
 	return url;
 }
 
