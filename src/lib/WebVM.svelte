@@ -147,8 +147,15 @@
 			mult = Math.max(mult, minHeight / displayHeight);
 		cx.setKmsCanvas(display, displayWidth * mult, displayHeight * mult);
 	}
+	var curInnerWidth = 0;
+	var curInnerHeight = 0;
 	function handleResize()
 	{
+		// Avoid spurious resize events caused by the soft keyboard
+		if(curInnerWidth == window.innerWidth && curInnerHeight == window.innerHeight)
+			return;
+		curInnerWidth = window.innerWidth;
+		curInnerHeight = window.innerHeight;
 		term.options.fontSize = computeXTermFontSize();
 		fitAddon.fit();
 		const display = document.getElementById("display");
@@ -181,6 +188,8 @@
 		consoleDiv.addEventListener("dragenter", preventDefaults, false);
 		consoleDiv.addEventListener("dragleave", preventDefaults, false);
 		consoleDiv.addEventListener("drop", preventDefaults, false);
+		curInnerWidth = window.innerWidth;
+		curInnerHeight = window.innerHeight;
 		if(configObj.printIntro)
 			printMessage(introMessage);
 		try
