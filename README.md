@@ -41,7 +41,7 @@ Modern browsers do not provide APIs to directly use TCP or UDP. WebVM provides n
 
 <img src="/assets/result.png" width="70%" >
 
-You can now customize `dockerfiles/debian_mini` to suits your needs, or make a new Dockerfile from scratch. Use the `Path to Dockerfile` workflow parameter to select it.
+You can now customize `dockerfiles/debian_mini` to suit your needs, or make a new Dockerfile from scratch. Use the `Path to Dockerfile` workflow parameter to select it.
 
 # Local deployment
 
