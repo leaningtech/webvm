@@ -325,7 +325,7 @@
 		<SideBar on:connect={handleConnect} on:reset={handleReset}/>
 		{#if configObj.needsDisplay}
 			<div class="absolute top-0 bottom-0 left-14 right-0">
-				<canvas class="w-full h-full" id="display"></canvas>
+				<canvas class="w-full h-full cursor-none" id="display"></canvas>
 			</div>
 		{/if}
 		<div class="absolute top-0 bottom-0 left-14 right-0 p-1 scrollbar" id="console">
