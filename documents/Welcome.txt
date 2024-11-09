@@ -1,0 +1,5 @@
+Welcome to WebVM: A complete desktop environment running in the browser
+
+WebVM is powered by CheerpX: a x86-to-WebAssembly virtualization engine and Just-in-Time compiler
+
+For more info: https://cheerpx.io

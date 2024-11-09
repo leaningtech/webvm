@@ -261,6 +261,7 @@
 		blockCache = await CheerpX.IDBDevice.create(cacheId);
 		var overlayDevice = await CheerpX.OverlayDevice.create(blockDevice, blockCache);
 		var webDevice = await CheerpX.WebDevice.create("");
+		var documentsDevice = await CheerpX.WebDevice.create("documents");
 		var dataDevice = await CheerpX.DataDevice.create();
 		var mountPoints = [
 			// The root filesystem, as an Ext2 image
@@ -271,8 +272,12 @@
 			{type:"dir", dev:dataDevice, path:"/data"},
 			// Automatically created device files
 			{type:"devs", path:"/dev"},
+			// Pseudo-terminals
+			{type:"devpts", path:"/dev/pts"},
 			// The Linux 'proc' filesystem which provides information about running processes
-			{type:"proc", path:"/proc"}
+			{type:"proc", path:"/proc"},
+			// Convenient access to sample documents in the user directory
+			{type:"dir", dev:documentsDevice, path:"/home/user/documents"}
 		];
 		try
 		{
