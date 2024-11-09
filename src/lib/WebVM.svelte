@@ -327,7 +327,9 @@
 <main class="relative w-full h-full">
 	<Nav />
 	<div class="absolute top-10 bottom-0 left-0 right-0">
-		<SideBar on:connect={handleConnect} on:reset={handleReset}/>
+		<SideBar on:connect={handleConnect} on:reset={handleReset}>
+			<slot></slot>
+		</SideBar>
 		{#if configObj.needsDisplay}
 			<div class="absolute top-0 bottom-0 left-14 right-0">
 				<canvas class="w-full h-full cursor-none" id="display"></canvas>

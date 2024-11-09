@@ -48,7 +48,9 @@
 	</div>
 	<div class="flex flex-col gap-5 shrink-0 w-60 h-full z-10 p-2 bg-neutral-600 text-gray-100" class:hidden={!activeInfo}>
 		{#if activeInfo === 'Information'}
-			<InformationTab/>
+			<InformationTab>
+				<slot></slot>
+			</InformationTab>
 		{:else if activeInfo === 'Networking'}
 			<NetworkingTab on:connect/>
 		{:else if activeInfo === 'CPU'}

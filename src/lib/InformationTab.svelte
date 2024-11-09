@@ -8,3 +8,4 @@
 	<li>Local/private <a class="underline" target="_blank" href="https://cheerpx.io/docs/guides/File-System-support">file storage</a></li>
 	<li><a class="underline" target="_blank" href="https://cheerpx.io/docs/guides/Networking">Networking</a> via <a class="underline" target="_blank" href="https://tailscale.com/">Tailscale</a></li>
 </ul>
+<slot></slot>
