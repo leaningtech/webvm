@@ -16,7 +16,7 @@ export const introMessage = [
 	"|                                                                             |",
 	"| " + underline + "https://labs.leaningtech.com/blog/webvm-20" + normal + "                                  |",
 	"|                                                                             |",
-	"| Try out the new Alpine / Xorg / i3 WebVM: " + underline + "https://webvm.io/alpine.html" + normal + "       |",
+	"| Try out the new Alpine / Xorg / i3 WebVM: " + underline + "https://webvm.io/alpine.html" + normal + "      |",
 	"|                                                                             |",
 	"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 	"",
