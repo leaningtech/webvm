@@ -7,7 +7,7 @@ This repository hosts the source code for [https://webvm.io](https://webvm.io), 
 
 Try out the new Alpine / Xorg / i3 graphical environment: [https://webvm.io/alpine.html](https://webvm.io/alpine.html)
 
-<img src="/assets/welcome_to_WebVM_2024.png" width="70%">
+<img src="/assets/welcome_to_WebVM_alpine_2024.png" width="90%">
 
 WebVM is a server-less virtual environment running fully client-side in HTML5/WebAssembly. It's designed to be Linux ABI-compatible. It runs an unmodified Debian distribution including many native development toolchains.
 
