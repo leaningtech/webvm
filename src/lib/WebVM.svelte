@@ -83,7 +83,7 @@
 				eTime = limitTime;
 			if(e.state == "ready")
 			{
-				// Inactive state, add the time frome lastActiveTime
+				// Inactive state, add the time from lastActiveTime
 				totalActiveTime += (eTime - lastActiveTime);
 				lastWasActive = false;
 			}
