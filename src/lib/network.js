@@ -39,7 +39,7 @@ function netmapUpdateCb(map)
 {
 	networkData.currentIp = map.self.addresses[0];
 	var exitNodeFound = false;
-	for(var i=0;map.peers.length;i++)
+	for(var i=0; i < map.peers.length;i++)
 	{
 		if(map.peers[i].exitNode)
 		{
