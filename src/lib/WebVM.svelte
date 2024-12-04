@@ -276,6 +276,8 @@
 			{type:"devpts", path:"/dev/pts"},
 			// The Linux 'proc' filesystem which provides information about running processes
 			{type:"proc", path:"/proc"},
+			// The Linux 'sysfs' filesystem which is used to enumerate emulated devices
+			{type:"sys", path:"/sys"},
 			// Convenient access to sample documents in the user directory
 			{type:"dir", dev:documentsDevice, path:"/home/user/documents"}
 		];
