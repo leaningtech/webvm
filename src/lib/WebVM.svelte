@@ -324,12 +324,53 @@
 		await blockCache.reset();
 		location.reload();
 	}
+	async function handleTool(tool)
+	{
+		if(tool.command)
+		{
+			var sentinel = "# End of AI command";
+			var buffer = term.buffer.active;
+			// Get the current cursor position
+			var marker = term.registerMarker();
+			var startLine = marker.line;
+			marker.dispose();
+			var ret = new Promise(function(f, r)
+			{
+				var callbackDisposer = term.onWriteParsed(function()
+				{
+					var curLength = buffer.length;
+					// Accumulate the output and see if the sentinel has been printed
+					var output = "";
+					for(var i=startLine + 1;i<curLength;i++)
+					{
+						var curLine = buffer.getLine(i).translateToString(true, 0, term.cols);;
+						if(curLine.indexOf(sentinel) >= 0)
+						{
+							// We are done, cleanup and return
+							callbackDisposer.dispose();
+							return f(output);
+						}
+						output += curLine + "\n";
+					}
+				});
+			});
+			term.input(tool.command);
+			term.input("\n");
+			term.input(sentinel);
+			term.input("\n");
+			return ret;
+		}
+		else
+		{
+			debugger;
+		}
+	}
 </script>
 
 <main class="relative w-full h-full">
 	<Nav />
 	<div class="absolute top-10 bottom-0 left-0 right-0">
-		<SideBar on:connect={handleConnect} on:reset={handleReset}>
+		<SideBar on:connect={handleConnect} on:reset={handleReset} needsDisplay={configObj.needsDisplay} handleTool={handleTool}>
 			<slot></slot>
 		</SideBar>
 		{#if configObj.needsDisplay}

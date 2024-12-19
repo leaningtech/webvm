@@ -27,5 +27,8 @@
 		"vite": "^5.0.3",
 		"vite-plugin-static-copy": "^1.0.6"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@anthropic-ai/sdk": "^0.33.0"
+	}
 }

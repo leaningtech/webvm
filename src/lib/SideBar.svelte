@@ -4,10 +4,11 @@
 	import NetworkingTab from './NetworkingTab.svelte';
 	import CpuTab from './CpuTab.svelte';
 	import DiskTab from './DiskTab.svelte';
+	import AnthropicTab from './AnthropicTab.svelte';
 	import PostsTab from './PostsTab.svelte';
 	import DiscordTab from './DiscordTab.svelte';
 	import GitHubTab from './GitHubTab.svelte';
-	import { cpuActivity, diskActivity } from './activities.js'
+	import { cpuActivity, diskActivity, aiActivity } from './activities.js'
 
 	const icons = [
 		{ icon: 'fas fa-info-circle', info: 'Information', activity: null },
@@ -15,6 +16,7 @@
 		{ icon: 'fas fa-microchip', info: 'CPU', activity: cpuActivity },
 		{ icon: 'fas fa-compact-disc', info: 'Disk', activity: diskActivity },
 		null,
+		{ icon: 'fas fa-brain', info: 'ClaudeAI', activity: aiActivity },
 		{ icon: 'fas fa-book-open', info: 'Posts', activity: null },
 		{ icon: 'fab fa-discord', info: 'Discord', activity: null },
 		{ icon: 'fab fa-github', info: 'GitHub', activity: null },
@@ -29,19 +31,22 @@
 	function hideInfo() {
 		activeInfo = null;
 	}
+
+	export let handleTool;
+	export let needsDisplay;
 </script>
 
 <div class="flex flex-row w-14 h-full bg-neutral-700" on:mouseleave={hideInfo}>
 	<div class="flex flex-col shrink-0 w-14 text-gray-300">
 		{#each icons as i}
-			{#if i}
+			{#if i && (!needsDisplay || i.info != 'ClaudeAI')}
 				<Icon
 					icon={i.icon}
 					info={i.info}
 					activity={i.activity}
 					on:mouseover={(e) => showInfo(e.detail)}
 				/>
-			{:else}
+			{:else if i == null}
 				<div class="grow" on:mouseover={(e) => showInfo(null)}></div>
 			{/if}
 		{/each}
@@ -57,6 +62,8 @@
 			<CpuTab/>
 		{:else if activeInfo === 'Disk'}
 			<DiskTab on:reset/>
+		{:else if activeInfo === 'ClaudeAI'}
+			<AnthropicTab handleTool={handleTool} />
 		{:else if activeInfo === 'Posts'}
 			<PostsTab/>
 		{:else if activeInfo === 'Discord'}
