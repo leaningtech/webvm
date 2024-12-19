@@ -41,6 +41,20 @@
 		else
 			return "fa-robot"
 	}
+	function getIconForTool(msg)
+	{
+		if(msg.content[0].input.action == "screenshot")
+			return "fa-desktop";
+		else
+			return "fa-screwdriver-wrench";
+	}
+	function getMessageForTool(msg)
+	{
+		if(msg.content[0].input.action == "screenshot")
+			return "Screenshot";
+		else
+			return "Use the system";
+	}
 	function isToolUse(msg)
 	{
 		if(!Array.isArray(msg.content))
@@ -66,7 +80,7 @@
 		<div class="w-full min-h-full flex flex-col gap-2 justify-end">
 			{#each $messageList as msg}
 				{#if isToolUse(msg)}
-					<p class="bg-neutral-700 p-2 rounded-md italic"><i class='fas fa-screwdriver-wrench w-6 mr-2 text-center'></i>Use the system</p>
+					<p class="bg-neutral-700 p-2 rounded-md italic"><i class='fas {getIconForTool(msg)} w-6 mr-2 text-center'></i>{getMessageForTool(msg)}</p>
 				{:else if !isToolResult(msg)}
 					<p class="{msg.role == 'error' ? 'bg-red-900' : 'bg-neutral-700'} p-2 rounded-md"><i class='fas {getIconForMsg(msg)} w-6 mr-2 text-center'></i>{msg.content}</p>
 				{/if}
