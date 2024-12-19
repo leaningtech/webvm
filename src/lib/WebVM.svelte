@@ -400,9 +400,20 @@
 					var dc = get(displayConfig);
 					var display = document.getElementById("display");
 					var clientRect = display.getBoundingClientRect();
-					var me = new MouseEvent('mousedown', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top });
+					var me = new MouseEvent('mousedown', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 0 });
 					display.dispatchEvent(me);
-					var me = new MouseEvent('mouseup', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top });
+					var me = new MouseEvent('mouseup', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 0 });
+					display.dispatchEvent(me);
+					return null;
+				}
+				case "right_click":
+				{
+					var dc = get(displayConfig);
+					var display = document.getElementById("display");
+					var clientRect = display.getBoundingClientRect();
+					var me = new MouseEvent('mousedown', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 2 });
+					display.dispatchEvent(me);
+					var me = new MouseEvent('mouseup', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 2 });
 					display.dispatchEvent(me);
 					return null;
 				}
