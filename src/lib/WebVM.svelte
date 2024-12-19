@@ -340,6 +340,18 @@
 		}
 		return null;
 	}
+	async function kmsSendChar(textArea, charStr)
+	{
+		textArea.value = "_" + charStr;
+		return new Promise(function(f2, r2)
+		{
+			var ke = new KeyboardEvent("keydown");
+			textArea.dispatchEvent(ke);
+			var ke = new KeyboardEvent("keyup");
+			textArea.dispatchEvent(ke);
+			setTimeout(f2, 0);
+		});
+	}
 	async function handleTool(tool)
 	{
 		if(tool.command)
@@ -435,18 +447,23 @@
 						var textArea = getKmsInputElement();
 						for(var i=0;i<str.length;i++)
 						{
-							textArea.value = "_" + str[i];
-							await new Promise(function(f2, r2)
-							{
-								var ke = new KeyboardEvent("keydown");
-								textArea.dispatchEvent(ke);
-								var ke = new KeyboardEvent("keyup");
-								textArea.dispatchEvent(ke);
-								setTimeout(f2, 0);
-							});
+							await kmsSendChar(textArea, str[i]);
 						}
 						f(null);
 					});
+				}
+				case "key":
+				{
+					var textArea = getKmsInputElement();
+					switch(tool.text)
+					{
+						case "Return":
+							await kmsSendChar(textArea, "\n");
+							break;
+						default:
+							debugger;
+					}
+					return null;
 				}
 				default:
 				{
