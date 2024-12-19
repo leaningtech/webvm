@@ -46,7 +46,7 @@
 			{/if}
 		{/each}
 	</div>
-	<div class="flex flex-col gap-5 shrink-0 w-60 h-full z-10 p-2 bg-neutral-600 text-gray-100" class:hidden={!activeInfo}>
+	<div class="flex flex-col gap-5 shrink-0 w-80 h-full z-10 p-2 bg-neutral-600 text-gray-100 opacity-95" class:hidden={!activeInfo}>
 		{#if activeInfo === 'Information'}
 			<InformationTab>
 				<slot></slot>
