@@ -330,6 +330,16 @@
 		await blockCache.reset();
 		location.reload();
 	}
+	function getKmsInputElement()
+	{
+		// Find the CheerpX textare, it's attached to the body element
+		for(const node of document.body.children)
+		{
+			if(node.tagName == "TEXTAREA")
+				return node;
+		}
+		return null;
+	}
 	async function handleTool(tool)
 	{
 		if(tool.command)
@@ -416,6 +426,27 @@
 					var me = new MouseEvent('mouseup', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 2 });
 					display.dispatchEvent(me);
 					return null;
+				}
+				case "type":
+				{
+					var str = tool.text;
+					return new Promise(async function(f, r)
+					{
+						var textArea = getKmsInputElement();
+						for(var i=0;i<str.length;i++)
+						{
+							textArea.value = "_" + str[i];
+							await new Promise(function(f2, r2)
+							{
+								var ke = new KeyboardEvent("keydown");
+								textArea.dispatchEvent(ke);
+								var ke = new KeyboardEvent("keyup");
+								textArea.dispatchEvent(ke);
+								setTimeout(f2, 0);
+							});
+						}
+						f(null);
+					});
 				}
 				default:
 				{
