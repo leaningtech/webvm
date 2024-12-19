@@ -15,6 +15,7 @@ export function setApiKey(key)
 	messageList.set(messages);
 	localStorage.setItem("anthropic-api-key", key);
 	apiState.set("READY");
+	plausible("ClaudeAI Key");
 }
 
 function clearApiKey()
@@ -81,6 +82,7 @@ export function addMessage(text, handleTool)
 {
 	addMessageInternal('user', text);
 	sendMessages(handleTool);
+	plausible("ClaudeAI Use");
 }
 
 function initialize()
