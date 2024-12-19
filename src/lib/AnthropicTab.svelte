@@ -12,8 +12,17 @@
 	{
 		if(e.key != "Enter")
 			return;
-		addMessage(e.target.value, handleTool);
-		e.target.value = "";
+		var textArea = e.target;
+		addMessage(textArea.value, handleTool);
+		// Reset the textarea
+		textArea.value = "";
+		textArea.style.height = "unset";
+		e.preventDefault();
+	}
+	function handleResize(e)
+	{
+		var textArea = e.target;
+		textArea.style.height = textArea.scrollHeight + "px";
 	}
 	function scrollMessage(node, messageList)
 	{
@@ -60,7 +69,7 @@
 	</div>
 </div>
 {#if $apiState == "KEY_REQUIRED"}
-	<input class="bg-neutral-700 p-2 rounded-md placeholder-gray-400" placeholder="Insert your Claude API Key" on:keydown={handleKeyEnter}/>
+	<textarea class="bg-neutral-700 p-2 rounded-md placeholder-gray-400 resize-none shrink-0" placeholder="Insert your Claude API Key" rows="1" on:keydown={handleKeyEnter} on:input={handleResize}/>
 {:else}
-	<input class="bg-neutral-700 p-2 rounded-md placeholder-gray-400" placeholder="Prompt..." on:keydown={handleMessage}/>
+	<textarea class="bg-neutral-700 p-2 rounded-md placeholder-gray-400 resize-none shrink-0" placeholder="Prompt..." rows="1" on:keydown={handleMessage} on:input={handleResize}/>
 {/if}
