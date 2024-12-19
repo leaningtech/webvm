@@ -94,6 +94,7 @@ function initialize()
 
 export const apiState = writable("KEY_REQUIRED");
 export const messageList = writable(messages);
+export const currentMessage = writable("");
 
 if(browser)
 	initialize();

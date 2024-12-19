@@ -1,5 +1,5 @@
 <script>
-	import { apiState, setApiKey, addMessage, messageList } from '$lib/anthropic.js'
+	import { apiState, setApiKey, addMessage, messageList, currentMessage } from '$lib/anthropic.js'
 	import PanelButton from './PanelButton.svelte';
 	export let handleTool;
 	function handleKeyEnter(e)
@@ -73,5 +73,5 @@
 {#if $apiState == "KEY_REQUIRED"}
 	<textarea class="bg-neutral-700 p-2 rounded-md placeholder-gray-400 resize-none shrink-0" placeholder="Insert your Claude API Key" rows="1" on:keydown={handleKeyEnter} on:input={handleResize}/>
 {:else}
-	<textarea class="bg-neutral-700 p-2 rounded-md placeholder-gray-400 resize-none shrink-0" placeholder="Prompt..." rows="1" on:keydown={handleMessage} on:input={handleResize}/>
+	<textarea class="bg-neutral-700 p-2 rounded-md placeholder-gray-400 resize-none shrink-0" placeholder="Prompt..." rows="1" on:keydown={handleMessage} on:input={handleResize} bind:value={$currentMessage}/>
 {/if}
