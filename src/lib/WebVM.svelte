@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
 	import Nav from 'labs/packages/global-navbar/src/Nav.svelte';
 	import SideBar from '$lib/SideBar.svelte';
 	import '$lib/global.css';
@@ -8,6 +9,7 @@
 	import { networkInterface, startLogin } from '$lib/network.js'
 	import { cpuActivity, diskActivity, cpuPercentage, diskLatency } from '$lib/activities.js'
 	import { introMessage, errorMessage, unexpectedErrorMessage } from '$lib/messages.js'
+	import { displayConfig } from '$lib/anthropic.js'
 
 	export let configObj = null;
 	export let processCallback = null;
@@ -145,7 +147,11 @@
 			mult = minWidth / displayWidth;
 		if(displayHeight < minHeight)
 			mult = Math.max(mult, minHeight / displayHeight);
-		cx.setKmsCanvas(display, displayWidth * mult, displayHeight * mult);
+		var internalWidth = Math.floor(displayWidth * mult);
+		var internalHeight = Math.floor(displayHeight * mult);
+		cx.setKmsCanvas(display, internalWidth, internalHeight);
+		// Track the state of the mouse as requested by the AI, to avoid losing the position due to user movement
+		displayConfig.set({width: internalWidth, height: internalHeight, mouseX: 0, mouseY: 0});
 	}
 	var curInnerWidth = 0;
 	var curInnerHeight = 0;
@@ -359,6 +365,53 @@
 			term.input(sentinel);
 			term.input("\n");
 			return ret;
+		}
+		else if(tool.action)
+		{
+			// Desktop control
+			// TODO: We should have an explicit API to interact with CheerpX display
+			switch(tool.action)
+			{
+				case "screenshot":
+				{
+					// TODO: Resize
+					var display = document.getElementById("display");
+					var dataUrl = display.toDataURL("image/png");
+					// Remove prefix from the encoded data
+					dataUrl = dataUrl.substring("data:image/png;base64,".length);
+					var imageSrc = { type: "base64", media_type: "image/png", data: dataUrl };
+					var contentObj = { type: "image", source: imageSrc };
+					return [ contentObj ];
+				}
+				case "mouse_move":
+				{
+					var coords = tool.coordinate;
+					var dc = get(displayConfig);
+					dc.mouseX = coords[0];
+					dc.mouseY = coords[1];
+					var display = document.getElementById("display");
+					var clientRect = display.getBoundingClientRect();
+					var me = new MouseEvent('mousemove', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top });
+					display.dispatchEvent(me);
+					return null;
+				}
+				case "left_click":
+				{
+					var dc = get(displayConfig);
+					var display = document.getElementById("display");
+					var clientRect = display.getBoundingClientRect();
+					var me = new MouseEvent('mousedown', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top });
+					display.dispatchEvent(me);
+					var me = new MouseEvent('mouseup', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top });
+					display.dispatchEvent(me);
+					return null;
+				}
+				default:
+				{
+					break;
+				}
+			}
+			debugger;
 		}
 		else
 		{
