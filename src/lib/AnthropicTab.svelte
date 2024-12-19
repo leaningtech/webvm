@@ -26,6 +26,8 @@
 	}
 	function scrollMessage(node, messageList)
 	{
+		// Make sure the messages are always scrolled to the bottom
+		node.scrollTop = node.scrollHeight;
 		return {
 			update(messageList) {
 				node.scrollTop = node.scrollHeight;
