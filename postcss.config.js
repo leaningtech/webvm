@@ -18,6 +18,9 @@ export default {
 				case '.fa-circle:before':
 				case '.fa-trash-can:before':
 				case '.fa-book-open:before':
+				case '.fa-brands:before':
+				case '.fa-solid:before':
+				case '.fa-regular:before':
 					return false;
 			}
 			return true;
