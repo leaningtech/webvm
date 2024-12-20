@@ -33,7 +33,6 @@
 	}
 
 	export let handleTool;
-	export let needsDisplay;
 </script>
 
 <div class="flex flex-row w-14 h-full bg-neutral-700" on:mouseleave={hideInfo}>
