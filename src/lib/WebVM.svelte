@@ -26,6 +26,8 @@
 	var processCount = 0;
 	var curVT = 0;
 	var lastScreenshot = null;
+	var screenshotCanvas = null;
+	var screenshotCtx = null;
 	function writeData(buf, vt)
 	{
 		if(vt != 1)
@@ -151,8 +153,17 @@
 		var internalWidth = Math.floor(displayWidth * mult);
 		var internalHeight = Math.floor(displayHeight * mult);
 		cx.setKmsCanvas(display, internalWidth, internalHeight);
+		// Compute the size to be used for AI screenshots
+		var maxWidth = 1024;
+		var maxHeight = 768;
+		if(internalWidth > maxWidth)
+			mult = maxWidth / internalWidth;
+		if(internalHeight > maxHeight)
+			mult = Math.min(mult, maxHeight / internalHeight);
+		var screenshotWidth = Math.floor(internalWidth * mult);
+		var screenshotHeight = Math.floor(internalHeight * mult);
 		// Track the state of the mouse as requested by the AI, to avoid losing the position due to user movement
-		displayConfig.set({width: internalWidth, height: internalHeight, mouseX: 0, mouseY: 0});
+		displayConfig.set({width: screenshotWidth, height: screenshotHeight, mouseX: 0, mouseY: 0, mouseMult: mult});
 	}
 	var curInnerWidth = 0;
 	var curInnerHeight = 0;
@@ -402,11 +413,23 @@
 				case "screenshot":
 				{
 					var delayCount = 0;
+					var display = document.getElementById("display");
+					var dc = get(displayConfig);
+					if(screenshotCanvas == null)
+					{
+						screenshotCanvas = document.createElement("canvas");
+						screenshotCtx = screenshotCanvas.getContext("2d");
+					}
+					if(screenshotCanvas.width != dc.width || screenshotCanvas.height != dc.height)
+					{
+						screenshotCanvas.width = dc.width;
+						screenshotCanvas.height = dc.height;
+					}
 					while(1)
 					{
-						// TODO: Resize
-						var display = document.getElementById("display");
-						var dataUrl = display.toDataURL("image/png");
+						// Resize the canvas to a Claude compatible size
+						screenshotCtx.drawImage(display, 0, 0, display.width, display.height, 0, 0, dc.width, dc.height);
+						var dataUrl = screenshotCanvas.toDataURL("image/png");
 						if(dataUrl == lastScreenshot)
 						{
 							// Delay at most 3 times
@@ -432,8 +455,8 @@
 				{
 					var coords = tool.coordinate;
 					var dc = get(displayConfig);
-					dc.mouseX = coords[0];
-					dc.mouseY = coords[1];
+					dc.mouseX = coords[0] / dc.mouseMult;
+					dc.mouseY = coords[1] / dc.mouseMult;
 					var display = document.getElementById("display");
 					var clientRect = display.getBoundingClientRect();
 					var me = new MouseEvent('mousemove', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top });
