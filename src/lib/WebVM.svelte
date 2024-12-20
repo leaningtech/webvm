@@ -341,17 +341,21 @@
 		}
 		return null;
 	}
+	async function yieldHelper()
+	{
+		return new Promise(function(f2, r2)
+		{
+			setTimeout(f2, 0);
+		});
+	}
 	async function kmsSendChar(textArea, charStr)
 	{
 		textArea.value = "_" + charStr;
-		return new Promise(function(f2, r2)
-		{
-			var ke = new KeyboardEvent("keydown");
-			textArea.dispatchEvent(ke);
-			var ke = new KeyboardEvent("keyup");
-			textArea.dispatchEvent(ke);
-			setTimeout(f2, 0);
-		});
+		var ke = new KeyboardEvent("keydown");
+		textArea.dispatchEvent(ke);
+		var ke = new KeyboardEvent("keyup");
+		textArea.dispatchEvent(ke);
+		await yieldHelper();
 	}
 	async function handleTool(tool)
 	{
@@ -474,15 +478,79 @@
 				case "key":
 				{
 					var textArea = getKmsInputElement();
-					switch(tool.text)
+					var key = tool.text;
+					// Support arbitrary order of modifiers
+					var isCtrl = false;
+					var isAlt = false;
+					var isShift = false;
+					while(1)
 					{
-						case "Return":
-							await kmsSendChar(textArea, "\n");
-							break;
-						default:
-							debugger;
+						if(key.startsWith("shift+"))
+						{
+							isShift = true;
+							key = key.substr("shift+".length);
+							var ke = new KeyboardEvent("keydown", {keyCode: 0x10});
+							textArea.dispatchEvent(ke);
+							await yieldHelper();
+							continue;
+						}
+						else if(key.startsWith("ctrl+"))
+						{
+							isCtrl = true;
+							key = key.substr("ctrl+".length);
+							var ke = new KeyboardEvent("keydown", {keyCode: 0x11});
+							textArea.dispatchEvent(ke);
+							await yieldHelper();
+							continue;
+						}
+						else if(key.startsWith("alt+"))
+						{
+							isAlt = true;
+							key = key.substr("alt+".length);
+							var ke = new KeyboardEvent("keydown", {keyCode: 0x12});
+							textArea.dispatchEvent(ke);
+							await yieldHelper();
+							continue;
+						}
+						break;
 					}
-					return null;
+					var ret = null;
+					// Dispatch single chars directly and parse the rest
+					if(key.length == 1)
+					{
+						await kmsSendChar(textArea, key);
+					}
+					else
+					{
+						switch(tool.text)
+						{
+							case "Return":
+								await kmsSendChar(textArea, "\n");
+								break;
+							default:
+								// TODO: Support more key combinations
+								ret = new Error(`Error: Invalid key '${tool.text}'`);
+						}
+					}
+					if(isShift)
+					{
+						var ke = new KeyboardEvent("keyup", {keyCode: 0x10});
+						textArea.dispatchEvent(ke);
+						await yieldHelper();
+					}
+					if(isCtrl)
+					{
+						var ke = new KeyboardEvent("keyup", {keyCode: 0x11});
+						textArea.dispatchEvent(ke);
+						await yieldHelper();
+					}
+					if(isAlt)
+					{
+						var ke = new KeyboardEvent("keyup", {keyCode: 0x12});
+						textArea.dispatchEvent(ke);
+						await yieldHelper();
+					}
+					return ret;
 				}
 				default:
 				{
