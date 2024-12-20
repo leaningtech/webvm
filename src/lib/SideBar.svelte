@@ -15,7 +15,7 @@
 		{ icon: 'fas fa-wifi', info: 'Networking', activity: null },
 		{ icon: 'fas fa-microchip', info: 'CPU', activity: cpuActivity },
 		{ icon: 'fas fa-compact-disc', info: 'Disk', activity: diskActivity },
-		{ icon: 'fas fa-brain', info: 'ClaudeAI', activity: aiActivity },
+		{ icon: 'fas fa-robot', info: 'ClaudeAI', activity: aiActivity },
 		null,
 		{ icon: 'fas fa-book-open', info: 'Posts', activity: null },
 		{ icon: 'fab fa-discord', info: 'Discord', activity: null },
