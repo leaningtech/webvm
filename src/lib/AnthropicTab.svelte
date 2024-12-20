@@ -1,5 +1,6 @@
 <script>
 	import { apiState, setApiKey, addMessage, messageList, currentMessage } from '$lib/anthropic.js'
+	import { tick } from 'svelte';
 	import PanelButton from './PanelButton.svelte';
 	export let handleTool;
 	function handleKeyEnter(e)
@@ -30,13 +31,18 @@
 		var textArea = e.target;
 		textArea.style.height = textArea.scrollHeight + "px";
 	}
+	async function scrollToBottom(node)
+	{
+		await tick();
+		node.scrollTop = node.scrollHeight;
+	}
 	function scrollMessage(node, messageList)
 	{
 		// Make sure the messages are always scrolled to the bottom
-		node.scrollTop = node.scrollHeight;
+		scrollToBottom(node);
 		return {
 			update(messageList) {
-				node.scrollTop = node.scrollHeight;
+				scrollToBottom(node);
 			}
 		}
 	}
