@@ -35,6 +35,7 @@
 	{
 		await tick();
 		node.scrollTop = node.scrollHeight;
+		document.getElementById("ai-input").focus();
 	}
 	function scrollMessage(node, messageList)
 	{
@@ -79,10 +80,6 @@
 			return false;
 		return msg.content[0].type == "tool_result";
 	}
-	function autoFocus(node)
-	{
-		node.focus();
-	}
 </script>
 <h1 class="text-lg font-bold">Claude AI Integration</h1>
 <p>WebVM is integrated with Claude by Anthropic AI. You can prompt the AI to control the system.</p>
@@ -101,7 +98,7 @@
 	</div>
 </div>
 {#if $apiState == "KEY_REQUIRED"}
-	<textarea class="bg-neutral-700 p-2 rounded-md placeholder-gray-400 resize-none shrink-0" placeholder="Insert your Claude API Key" rows="1" on:keydown={handleKeyEnter} on:input={handleResize} use:autoFocus/>
+	<textarea class="bg-neutral-700 p-2 rounded-md placeholder-gray-400 resize-none shrink-0" placeholder="Insert your Claude API Key" rows="1" on:keydown={handleKeyEnter} on:input={handleResize} id="ai-input"/>
 {:else}
-	<textarea class="bg-neutral-700 p-2 rounded-md placeholder-gray-400 resize-none shrink-0" placeholder="Prompt..." rows="1" on:keydown={handleMessage} on:input={handleResize} bind:value={$currentMessage} use:autoFocus/>
+	<textarea class="bg-neutral-700 p-2 rounded-md placeholder-gray-400 resize-none shrink-0" placeholder="Prompt..." rows="1" on:keydown={handleMessage} on:input={handleResize} bind:value={$currentMessage} id="ai-input"/>
 {/if}
