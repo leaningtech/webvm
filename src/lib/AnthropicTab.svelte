@@ -6,18 +6,24 @@
 	{
 		if(e.key != "Enter")
 			return;
-		setApiKey(e.target.value);
+		var value = e.target.value;
+		if(value == "")
+			return;
+		setApiKey(value);
 	}
 	function handleMessage(e)
 	{
 		if(e.key != "Enter")
 			return;
-		var textArea = e.target;
-		addMessage(textArea.value, handleTool);
-		// Reset the textarea
-		textArea.value = "";
-		textArea.style.height = "unset";
 		e.preventDefault();
+		var textArea = e.target;
+		var value = textArea.value;
+		if(value == "")
+			return;
+		textArea.style.height = "unset";
+		// Reset the textarea
+		currentMessage.set("");
+		addMessage(value, handleTool);
 	}
 	function handleResize(e)
 	{
