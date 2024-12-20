@@ -141,29 +141,30 @@
 	}
 	function setScreenSize(display)
 	{
-		var mult = 1.0;
+		var internalMult = 1.0;
 		var displayWidth = display.offsetWidth;
 		var displayHeight = display.offsetHeight;
 		var minWidth = 1024;
 		var minHeight = 768;
 		if(displayWidth < minWidth)
-			mult = minWidth / displayWidth;
+			internalMult = minWidth / displayWidth;
 		if(displayHeight < minHeight)
-			mult = Math.max(mult, minHeight / displayHeight);
-		var internalWidth = Math.floor(displayWidth * mult);
-		var internalHeight = Math.floor(displayHeight * mult);
+			internalMult = Math.max(internalMult, minHeight / displayHeight);
+		var internalWidth = Math.floor(displayWidth * internalMult);
+		var internalHeight = Math.floor(displayHeight * internalMult);
 		cx.setKmsCanvas(display, internalWidth, internalHeight);
 		// Compute the size to be used for AI screenshots
+		var screenshotMult = 1.0;
 		var maxWidth = 1024;
 		var maxHeight = 768;
 		if(internalWidth > maxWidth)
-			mult = maxWidth / internalWidth;
+			screenshotMult = maxWidth / internalWidth;
 		if(internalHeight > maxHeight)
-			mult = Math.min(mult, maxHeight / internalHeight);
-		var screenshotWidth = Math.floor(internalWidth * mult);
-		var screenshotHeight = Math.floor(internalHeight * mult);
+			screenshotMult = Math.min(screenshotMult, maxHeight / internalHeight);
+		var screenshotWidth = Math.floor(internalWidth * screenshotMult);
+		var screenshotHeight = Math.floor(internalHeight * screenshotMult);
 		// Track the state of the mouse as requested by the AI, to avoid losing the position due to user movement
-		displayConfig.set({width: screenshotWidth, height: screenshotHeight, mouseX: 0, mouseY: 0, mouseMult: mult});
+		displayConfig.set({width: screenshotWidth, height: screenshotHeight, mouseX: 0, mouseY: 0, mouseMult: internalMult * screenshotMult});
 	}
 	var curInnerWidth = 0;
 	var curInnerHeight = 0;
