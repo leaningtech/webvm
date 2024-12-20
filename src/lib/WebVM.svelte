@@ -352,11 +352,11 @@
 		}
 		return null;
 	}
-	async function yieldHelper()
+	async function yieldHelper(timeout)
 	{
 		return new Promise(function(f2, r2)
 		{
-			setTimeout(f2, 0);
+			setTimeout(f2, timeout);
 		});
 	}
 	async function kmsSendChar(textArea, charStr)
@@ -366,7 +366,7 @@
 		textArea.dispatchEvent(ke);
 		var ke = new KeyboardEvent("keyup");
 		textArea.dispatchEvent(ke);
-		await yieldHelper();
+		await yieldHelper(0);
 	}
 	async function handleTool(tool)
 	{
@@ -412,6 +412,8 @@
 			{
 				case "screenshot":
 				{
+					// Insert a 3 seconds delay unconditionally, the reference implementation uses 2
+					await yieldHelper(3000);
 					var delayCount = 0;
 					var display = document.getElementById("display");
 					var dc = get(displayConfig);
@@ -439,7 +441,7 @@
 								console.warn("Identical screenshot, rate limiting");
 								delayCount++;
 								// Wait some time and retry
-								await new Promise(function(f, r) { setTimeout(f, 5000); });
+								await yieldHelper(5000);
 								continue;
 							}
 						}
@@ -514,7 +516,7 @@
 							key = key.substr("shift+".length);
 							var ke = new KeyboardEvent("keydown", {keyCode: 0x10});
 							textArea.dispatchEvent(ke);
-							await yieldHelper();
+							await yieldHelper(0);
 							continue;
 						}
 						else if(key.startsWith("ctrl+"))
@@ -523,7 +525,7 @@
 							key = key.substr("ctrl+".length);
 							var ke = new KeyboardEvent("keydown", {keyCode: 0x11});
 							textArea.dispatchEvent(ke);
-							await yieldHelper();
+							await yieldHelper(0);
 							continue;
 						}
 						else if(key.startsWith("alt+"))
@@ -532,7 +534,7 @@
 							key = key.substr("alt+".length);
 							var ke = new KeyboardEvent("keydown", {keyCode: 0x12});
 							textArea.dispatchEvent(ke);
-							await yieldHelper();
+							await yieldHelper(0);
 							continue;
 						}
 						break;
@@ -559,19 +561,19 @@
 					{
 						var ke = new KeyboardEvent("keyup", {keyCode: 0x10});
 						textArea.dispatchEvent(ke);
-						await yieldHelper();
+						await yieldHelper(0);
 					}
 					if(isCtrl)
 					{
 						var ke = new KeyboardEvent("keyup", {keyCode: 0x11});
 						textArea.dispatchEvent(ke);
-						await yieldHelper();
+						await yieldHelper(0);
 					}
 					if(isAlt)
 					{
 						var ke = new KeyboardEvent("keyup", {keyCode: 0x12});
 						textArea.dispatchEvent(ke);
-						await yieldHelper();
+						await yieldHelper(0);
 					}
 					return ret;
 				}
