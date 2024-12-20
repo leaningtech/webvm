@@ -63,13 +63,24 @@ async function sendMessages(handleTool)
 				var commandResponse = await handleTool(c.input);
 				var responseObj = {type: "tool_result", tool_use_id: c.id };
 				if(commandResponse != null)
-					responseObj.content = commandResponse;
+				{
+					if(commandResponse instanceof Error)
+					{
+						console.warn(`Tool error: ${commandResponse.message}`);
+						responseObj.content = commandResponse.message;
+						responseObj.is_error = true;
+					}
+					else
+					{
+						responseObj.content = commandResponse;
+					}
+				}
 				addMessageInternal("user", [responseObj]);
 				sendMessages(handleTool);
 			}
 			else
 			{
-				debugger;
+				console.warn(`Invalid response type: ${c.type}`);
 			}
 		}
 		if(response.stop_reason == "end_turn")

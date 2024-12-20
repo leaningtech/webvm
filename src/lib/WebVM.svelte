@@ -412,8 +412,8 @@
 							// Delay at most 3 times
 							if(delayCount < 3)
 							{
-								// TODO: Defensive check, validate and remove
-								debugger;
+								// TODO: Defensive message, validate and remove
+								console.warn("Identical screenshot, rate limiting");
 								delayCount++;
 								// Wait some time and retry
 								await new Promise(function(f, r) { setTimeout(f, 5000); });
@@ -557,11 +557,12 @@
 					break;
 				}
 			}
-			debugger;
+			return new Error("Error: Invalid action");
 		}
 		else
 		{
-			debugger;
+			// We can get there due to model hallucinations
+			return new Error("Error: Invalid tool syntax");
 		}
 	}
 </script>
