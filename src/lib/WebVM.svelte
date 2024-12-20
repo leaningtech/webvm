@@ -25,6 +25,7 @@
 	var blockCache = null;
 	var processCount = 0;
 	var curVT = 0;
+	var lastScreenshot = null;
 	function writeData(buf, vt)
 	{
 		if(vt != 1)
@@ -396,14 +397,32 @@
 			{
 				case "screenshot":
 				{
-					// TODO: Resize
-					var display = document.getElementById("display");
-					var dataUrl = display.toDataURL("image/png");
-					// Remove prefix from the encoded data
-					dataUrl = dataUrl.substring("data:image/png;base64,".length);
-					var imageSrc = { type: "base64", media_type: "image/png", data: dataUrl };
-					var contentObj = { type: "image", source: imageSrc };
-					return [ contentObj ];
+					var delayCount = 0;
+					while(1)
+					{
+						// TODO: Resize
+						var display = document.getElementById("display");
+						var dataUrl = display.toDataURL("image/png");
+						if(dataUrl == lastScreenshot)
+						{
+							// Delay at most 3 times
+							if(delayCount < 3)
+							{
+								// TODO: Defensive check, validate and remove
+								debugger;
+								delayCount++;
+								// Wait some time and retry
+								await new Promise(function(f, r) { setTimeout(f, 5000); });
+								continue;
+							}
+						}
+						lastScreenshot = dataUrl;
+						// Remove prefix from the encoded data
+						dataUrl = dataUrl.substring("data:image/png;base64,".length);
+						var imageSrc = { type: "base64", media_type: "image/png", data: dataUrl };
+						var contentObj = { type: "image", source: imageSrc };
+						return [ contentObj ];
+					}
 				}
 				case "mouse_move":
 				{
