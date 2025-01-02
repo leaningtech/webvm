@@ -8,15 +8,22 @@
 	{
 		if(state == "START")
 			state = "CONFIRM";
-		else
-			dispatch('reset');
+		else if (state == "CONFIRM") {
+			state = "RESETTING";
+			setTimeout(() => {
+				dispatch('reset');
+				state = "START";
+			}, 3000);
+		}
 	}
 	function getButtonText(state)
 	{
 		if(state == "START")
 			return "Reset disk";
+		else if (state == "RESETTING")
+			return "Resetting...";
 		else
-			return "Reset disk. Confirm?"
+			return "Reset disk. Confirm?";
 	}
 	function getBgColor(state)
 	{
