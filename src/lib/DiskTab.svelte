@@ -10,10 +10,7 @@
 			state = "CONFIRM";
 		else if (state == "CONFIRM") {
 			state = "RESETTING";
-			setTimeout(() => {
-				dispatch('reset');
-				state = "START";
-			}, 3000);
+			dispatch('reset');
 		}
 	}
 	function getButtonText(state)
@@ -55,6 +52,8 @@
 </PanelButton>
 {#if state == "CONFIRM"}
 	<p><span class="font-bold">Warning: </span>WebVM will reload</p>
+{:else if state == "RESETTING"}
+	<p><span class="font-bold">Reset in progress: </span>Please wait...</p>
 {:else}
 	<p><span class="font-bold">Backend latency: </span>{$diskLatency}ms</p>
 {/if}
