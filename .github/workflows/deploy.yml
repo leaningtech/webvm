@@ -43,7 +43,7 @@ jobs:
         actions: 'write' # Required in order to terminate the workflow run.
   
       steps:
-        - uses: actions/checkout@v3
+        - uses: actions/checkout@v4
         # Guard clause that cancels the workflow in case of an invalid DOCKERFILE_PATH and/or incorrectly configured Github Pages. 
         # The main reason for choosing this workaround for aborting the workflow is the fact that it does not display the workflow as successful, which can set false expectations.
         - name: DOCKERFILE_PATH.
@@ -101,7 +101,7 @@ jobs:
 
     steps:
       # Checks-out our repository under $GITHUB_WORKSPACE, so our job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Setting the IMAGE_NAME variable in GITHUB_ENV to <Dockerfile name>_<date>_<run_id>.ext2.
       - name: Generate the image_name.
@@ -210,14 +210,14 @@ jobs:
 
       # Create a gh-pages artifact in order to deploy to gh-pages.
       - name: Upload GitHub Pages artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           # Path of the directory containing the static assets for our gh pages deployment.
           path: ${{ env.DEPLOY_DIR }} # optional, default is _site/
 
       - name: github release # To upload our final ext2 image as a github release.
         if: ${{ github.event.inputs.GITHUB_RELEASE == 'true' }}
-        uses: softprops/action-gh-release@v0.1.15
+        uses: softprops/action-gh-release@v2
         with:
           target_commitish: ${{ github.sha }} # Last commit on the GITHUB_REF branch or tag
           tag_name: ext2_image
@@ -242,4 +242,4 @@ jobs:
       # Deployment to github pages
       - name: Deploy GitHub Pages site
         id: deployment
-        uses: actions/deploy-pages@v3
+        uses: actions/deploy-pages@v4
