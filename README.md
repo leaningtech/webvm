@@ -45,22 +45,77 @@ Modern browsers do not provide APIs to directly use TCP or UDP. WebVM provides n
 
 You can now customize `dockerfiles/debian_mini` to suit your needs, or make a new Dockerfile from scratch. Use the `Path to Dockerfile` workflow parameter to select it.
 
-# Local deployment
+# Run WebVM locally with a custom Debian mini disk image
 
-From a local `git clone`
+1. Clone the WebVM Repository
 
-- Download the `debian_mini` Ext2 image from [https://github.com/leaningtech/webvm/releases/](https://github.com/leaningtech/webvm/releases/)
-	- You can also build your own by selecting the "Upload GitHub release" workflow option
-	- Place the image in the repository root folder
-- Edit `config_github_terminal.js`
-	- Uncomment the default values for `CMD`, `ARGS`, `ENV` and `CWD`
-	- Replace `IMAGE_URL` with the URL (absolute or relative) for the Ext2 image. For example `"/debian_mini_20230519_5022088024.ext2"`
-- Build WebVM using `npm`, output will be placed in the `build` directory
-	- `npm install`
-	- `npm run build`
-- Start NGINX, it automatically points to the `build` directory just created
-	- `nginx -p . -c nginx.conf`
-- Visit `http://127.0.0.1:8081` and enjoy your local WebVM
+```sh
+git clone https://github.com/leaningtech/webvm.git
+```
+
+2. Download the Debian mini Ext2 image
+	- Download the `debian_mini` Ext2 image from [https://github.com/leaningtech/webvm/releases/](https://github.com/leaningtech/webvm/releases/)
+		- (*You can also build your own disk image by selecting the **"Upload GitHub release"** workflow option*)
+	- Place the image in the **repository root folder**
+
+3. Update the configuration file
+
+	Edit `config_public_terminal.js` to reference your local disk image:
+
+- Replace: 
+	
+	`"wss://disks.webvm.io/debian_large_20230522_5044875331.ext2"`
+	
+	With:
+	
+	`"/disk-images/debian_mini_20230519_5022088024.ext2"`
+
+	(*Use an absolute or relative URL pointing to the disk image location.*)
+
+
+- Also replace `"cloud"` with the correct disk image type: `"bytes"`
+
+	(*This ensures WebVM treats it as a local file.*)
+
+	
+4. Build WebVM
+
+	Run the following commands to install dependencies and build WebVM:
+
+	```sh
+	npm install
+	npm run build
+	```
+
+	The output will be placed in the `build` directory.
+
+5. Configure Nginx
+
+	Modify your `nginx.conf` file to serve the disk image. Add the following location block:
+
+	```nginx
+	location /disk-images/ {
+		alias /home/JohnDoe/Documents/webvm/;
+		autoindex on;
+	}
+	```
+	*Replace `/home/JohnDoe/Documents/webvm/` with your actual path.*
+
+6. Start Nginx
+
+	Run the following command to start Nginx:
+
+	```sh
+	nginx -p . -c nginx.conf
+	```
+
+	*Nginx will automatically serve the build directory.*
+
+7. Access WebVM
+
+	Open a browser and visit: `http://127.0.0.1:8081`.
+
+	Enjoy your local WebVM!
 
 # Example customization: Python3 REPL
 
