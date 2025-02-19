@@ -240,6 +240,15 @@
 		if(processCallback)
 			processCallback(processCount);
 	}
+	async function getLocalDiskImageSize(diskImageUrl) {
+		try {
+			const response = await fetch(diskImageUrl);
+			const blob = await response.blob();
+        	return blob.size;
+		} catch (error) {
+			console.error("Error fetching disk image:", error);
+		}
+	}
 	async function initCheerpX()
 	{
 		const CheerpX = await import('@leaningtech/cheerpx');
@@ -269,6 +278,9 @@
 				}
 				break;
 			case "bytes":
+            	const fileSize = await getLocalDiskImageSize(configObj.diskImageUrl);
+				if (fileSize > 2 * 1024 * 1024 * 1024)
+                	throw new Error("Disk image size exceeds the allowed 2GB limit.");
 				blockDevice = await CheerpX.HttpBytesDevice.create(configObj.diskImageUrl);
 				break;
 			case "github":
