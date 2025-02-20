@@ -51,6 +51,7 @@ You can now customize `dockerfiles/debian_mini` to suit your needs, or make a ne
 
 ```sh
 git clone https://github.com/leaningtech/webvm.git
+cd webvm
 ```
 
 2. Download the Debian mini Ext2 image
@@ -91,15 +92,21 @@ git clone https://github.com/leaningtech/webvm.git
 
 5. Configure Nginx
 
-	Modify your `nginx.conf` file to serve the disk image. Add the following location block:
+- Create a directory for the disk image:
+
+	```sh
+	mkdir disk-images
+	mv debian_mini_20230519_5022088024.ext2 disk-images/
+	```
+
+- Modify your `nginx.conf` file to serve the disk image. Add the following location block:
 
 	```nginx
 	location /disk-images/ {
-		alias /home/JohnDoe/Documents/webvm/;
-		autoindex on;
+        root .;
+        autoindex on;
 	}
 	```
-	*Replace `/home/JohnDoe/Documents/webvm/` with your actual path.*
 
 6. Start Nginx
 
