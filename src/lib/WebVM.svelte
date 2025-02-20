@@ -18,6 +18,8 @@
 	export let diskLatencies = [];
 	export let activityEventsInterval = 0;
 
+	const MAX_DISK_SIZE = 2_147_483_648; // 2GB
+
 	var term = null;
 	var cx = null;
 	var fitAddon = null;
@@ -279,7 +281,7 @@
 				break;
 			case "bytes":
             	const fileSize = await getLocalDiskImageSize(configObj.diskImageUrl);
-				if (fileSize > 2 * 1024 * 1024 * 1024)
+				if (fileSize > MAX_DISK_SIZE)
                 	throw new Error("Disk image size exceeds the allowed 2GB limit.");
 				blockDevice = await CheerpX.HttpBytesDevice.create(configObj.diskImageUrl);
 				break;
