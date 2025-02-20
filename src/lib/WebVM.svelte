@@ -246,7 +246,7 @@
 		try {
 			const response = await fetch(diskImageUrl);
 			const blob = await response.blob();
-        	return blob.size;
+			return blob.size;
 		} catch (error) {
 			console.error("Error fetching disk image:", error);
 		}
