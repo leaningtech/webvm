@@ -55,9 +55,14 @@ cd webvm
 ```
 
 2. Download the Debian mini Ext2 image
-	- Download the `debian_mini` Ext2 image from [https://github.com/leaningtech/webvm/releases/](https://github.com/leaningtech/webvm/releases/)
-		- (*You can also build your own disk image by selecting the **"Upload GitHub release"** workflow option*)
-	- Place the image in the **repository root folder**
+
+	Run the following command to download the Debian mini Ext2 image:
+
+	```sh
+	wget "https://github.com/leaningtech/webvm/releases/download/ext2_image/debian_mini_20230519_5022088024.ext2"
+	```
+
+	(*You can also build your own disk image by selecting the **"Upload GitHub release"** workflow option*)
 
 3. Update the configuration file
 
@@ -74,10 +79,7 @@ cd webvm
 	(*Use an absolute or relative URL pointing to the disk image location.*)
 
 
-- Also replace `"cloud"` with the correct disk image type: `"bytes"`
-
-	(*This ensures WebVM treats it as a local file.*)
-
+- Replace `"cloud"` with the correct disk image type: `"bytes"`
 	
 4. Build WebVM
 
