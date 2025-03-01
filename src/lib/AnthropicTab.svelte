@@ -58,6 +58,21 @@
 			if (tool.action === "screenshot") {
 				icon = "fa-desktop";
 				messageContent = "Screenshot";
+			} else if (tool.action === "mouse_move") {
+				icon = "fa-mouse-pointer";
+				var coords = tool.coordinate;
+				messageContent = `Mouse at (${coords[0]}, ${coords[1]})`;
+			} else if (tool.action === "left_click") {
+				icon = "fa-mouse-pointer";
+				var coords = tool.coordinate;
+				messageContent = `Left click at (${coords[0]}, ${coords[1]})`;
+			} else if (tool.action === "right_click") {
+				icon = "fa-mouse-pointer";
+				var coords = tool.coordinate;
+				messageContent = `Right click at (${coords[0]}, ${coords[1]})`;
+			} else if (tool.action === "wait") {
+				icon = "fa-hourglass-half";
+				messageContent = "Waiting";
 			} else {
 				icon = "fa-screwdriver-wrench";
 				messageContent = "Use the system";
