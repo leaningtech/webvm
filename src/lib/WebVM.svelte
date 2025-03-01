@@ -586,6 +586,12 @@
 					}
 					return ret;
 				}
+				case "wait":
+				{
+					// Wait 2x what the machine expects to compensate for virtualization slowdown
+					await yieldHelper(tool.duration * 2 * 1000);
+					return null;
+				}
 				default:
 				{
 					break;
