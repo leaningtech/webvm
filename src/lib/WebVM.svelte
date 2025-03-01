@@ -468,23 +468,31 @@
 				}
 				case "left_click":
 				{
+					var coords = tool.coordinate;
 					var dc = get(displayConfig);
+					dc.mouseX = coords[0] / dc.mouseMult;
+					dc.mouseY = coords[1] / dc.mouseMult;
 					var display = document.getElementById("display");
 					var clientRect = display.getBoundingClientRect();
 					var me = new MouseEvent('mousedown', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 0 });
 					display.dispatchEvent(me);
-					var me = new MouseEvent('mouseup', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 0 });
+					await yieldHelper(60)
+					me = new MouseEvent('mouseup', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 0 });
 					display.dispatchEvent(me);
 					return null;
 				}
 				case "right_click":
 				{
+					var coords = tool.coordinate;
 					var dc = get(displayConfig);
+					dc.mouseX = coords[0] / dc.mouseMult;
+					dc.mouseY = coords[1] / dc.mouseMult;
 					var display = document.getElementById("display");
 					var clientRect = display.getBoundingClientRect();
 					var me = new MouseEvent('mousedown', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 2 });
 					display.dispatchEvent(me);
-					var me = new MouseEvent('mouseup', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 2 });
+					await yieldHelper(60)
+					me = new MouseEvent('mouseup', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 2 });
 					display.dispatchEvent(me);
 					return null;
 				}
