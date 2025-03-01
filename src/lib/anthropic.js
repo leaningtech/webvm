@@ -36,8 +36,13 @@ async function sendMessages(handleTool)
 	try
 	{
 		var dc = get(displayConfig);
-		var tool = dc ? { type: "computer_20241022", name: "computer", display_width_px: dc.width, display_height_px: dc.height } : { type: "bash_20241022", name: "bash" }
-		const response = await client.beta.messages.create({max_tokens: 1024, messages: messages, model: 'claude-3-5-sonnet-20241022', tools: [tool], betas: ["computer-use-2024-10-22"]}); 
+		var tool = dc ? { type: "computer_20250124", name: "computer", display_width_px: dc.width, display_height_px: dc.height, display_number: 1 } : { type: "bash_20241022", name: "bash" }
+		const response = await client.beta.messages.create({max_tokens: 1024,
+									messages: messages,
+									model: 'claude-3-7-sonnet-20250219',
+									tools: [tool],
+									betas: ["computer-use-2025-01-24"]
+								});
 		// Remove all the image payloads, we don't want to send them over and over again
 		for(var i=0;i<messages.length;i++)
 		{
