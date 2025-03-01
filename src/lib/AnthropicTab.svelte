@@ -47,38 +47,33 @@
 			}
 		}
 	}
-	function getIconForMsg(msg)
-	{
-		if(msg.role == "user")
-			return "fa-user"
-		else
-			return "fa-robot"
-	}
-	function getIconForTool(msg)
-	{
-		if(msg.content[0].input.action == "screenshot")
-			return "fa-desktop";
-		else
-			return "fa-screwdriver-wrench";
-	}
-	function getMessageForTool(msg)
-	{
-		if(msg.content[0].input.action == "screenshot")
-			return "Screenshot";
-		else
-			return "Use the system";
-	}
-	function isToolUse(msg)
-	{
-		if(!Array.isArray(msg.content))
-			return false;
-		return msg.content[0].type == "tool_use";
-	}
-	function isToolResult(msg)
-	{
-		if(!Array.isArray(msg.content))
-			return false;
-		return msg.content[0].type == "tool_result";
+	function getMessageDetails(msg) {
+		const isToolUse = Array.isArray(msg.content) && msg.content[0].type === "tool_use";
+		const isToolResult = Array.isArray(msg.content) && msg.content[0].type === "tool_result";
+		let icon = "";
+		let messageContent = "";
+
+		if (isToolUse) {
+			let tool = msg.content[0].input;
+			if (tool.action === "screenshot") {
+				icon = "fa-desktop";
+				messageContent = "Screenshot";
+			} else {
+				icon = "fa-screwdriver-wrench";
+				messageContent = "Use the system";
+			}
+		} else {
+			icon = msg.role === "user" ? "fa-user" : "fa-robot";
+			messageContent = msg.content;
+		}
+
+		return {
+			isToolUse,
+			isToolResult,
+			icon,
+			messageContent,
+			role: msg.role
+		};
 	}
 </script>
 <h1 class="text-lg font-bold">Claude AI Integration</h1>
@@ -88,10 +83,11 @@
 	<div class="h-full w-full">
 		<div class="w-full min-h-full flex flex-col gap-2 justify-end">
 			{#each $messageList as msg}
-				{#if isToolUse(msg)}
-					<p class="bg-neutral-700 p-2 rounded-md italic"><i class='fas {getIconForTool(msg)} w-6 mr-2 text-center'></i>{getMessageForTool(msg)}</p>
-				{:else if !isToolResult(msg)}
-					<p class="{msg.role == 'error' ? 'bg-red-900' : 'bg-neutral-700'} p-2 rounded-md"><i class='fas {getIconForMsg(msg)} w-6 mr-2 text-center'></i>{msg.content}</p>
+				{@const details = getMessageDetails(msg)}
+				{#if details.isToolUse}
+					<p class="bg-neutral-700 p-2 rounded-md italic"><i class='fas {details.icon} w-6 mr-2 text-center'></i>{details.messageContent}</p>
+				{:else if !details.isToolResult}
+					<p class="{msg.role == 'error' ? 'bg-red-900' : 'bg-neutral-700'} p-2 rounded-md"><i class='fas {details.icon} w-6 mr-2 text-center'></i>{details.messageContent}</p>
 				{/if}
 			{/each}
 		</div>
