@@ -476,6 +476,7 @@
 					var clientRect = display.getBoundingClientRect();
 					var me = new MouseEvent('mousedown', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 0 });
 					display.dispatchEvent(me);
+					// This delay prevent X11 logic from debouncing the mouseup
 					await yieldHelper(60)
 					me = new MouseEvent('mouseup', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 0 });
 					display.dispatchEvent(me);
@@ -491,6 +492,7 @@
 					var clientRect = display.getBoundingClientRect();
 					var me = new MouseEvent('mousedown', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 2 });
 					display.dispatchEvent(me);
+					// This delay prevent X11 logic from debouncing the mouseup
 					await yieldHelper(60)
 					me = new MouseEvent('mouseup', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 2 });
 					display.dispatchEvent(me);
