@@ -42,6 +42,7 @@ async function sendMessages(handleTool)
 									system: "You are running on a virtualized machine. Wait some extra time after all operations to compensate for slowdown.",
 									model: 'claude-3-7-sonnet-20250219',
 									tools: [tool],
+									tool_choice: {type: "auto", disable_parallel_tool_use: true},
 									betas: ["computer-use-2025-01-24"]
 								});
 		// Remove all the image payloads, we don't want to send them over and over again
