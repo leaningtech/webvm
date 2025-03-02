@@ -108,7 +108,7 @@
 				{#if details.isToolUse}
 					<p class="bg-neutral-700 p-2 rounded-md italic"><i class='fas {details.icon} w-6 mr-2 text-center'></i>{details.messageContent}</p>
 				{:else if !details.isToolResult}
-					<p class="{msg.role == 'error' ? 'bg-red-900' : 'bg-neutral-700'} p-2 rounded-md"><i class='fas {details.icon} w-6 mr-2 text-center'></i>{details.messageContent}</p>
+					<p class="{msg.role == 'error' ? 'bg-red-900' : 'bg-neutral-700'} p-2 rounded-md whitespace-pre-wrap"><i class='fas {details.icon} w-6 mr-2 text-center'></i>{details.messageContent}</p>
 				{/if}
 			{/each}
 		</div>
