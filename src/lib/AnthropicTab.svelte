@@ -73,6 +73,12 @@
 			} else if (tool.action === "wait") {
 				icon = "fa-hourglass-half";
 				messageContent = "Waiting";
+			} else if (tool.action === "key") {
+				icon = "fa-keyboard";
+				messageContent = `Key press: ${tool.text}`;
+			} else if (tool.action === "type") {
+				icon = "fa-keyboard";
+				messageContent = "Type text";
 			} else {
 				icon = "fa-screwdriver-wrench";
 				messageContent = "Use the system";
