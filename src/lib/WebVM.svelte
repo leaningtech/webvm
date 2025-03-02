@@ -563,6 +563,14 @@
 							case "Return":
 								await kmsSendChar(textArea, "\n");
 								break;
+							case "Escape":
+								var ke = new KeyboardEvent("keydown", {keyCode: 0x1b});
+								textArea.dispatchEvent(ke);
+								await yieldHelper(0);
+								ke = new KeyboardEvent("keyup", {keyCode: 0x1b});
+								textArea.dispatchEvent(ke);
+								await yieldHelper(0);
+								break;
 							default:
 								// TODO: Support more key combinations
 								ret = new Error(`Error: Invalid key '${tool.text}'`);
