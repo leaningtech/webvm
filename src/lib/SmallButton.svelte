@@ -6,6 +6,6 @@
 	export let buttonIcon = null;
 </script>
 
-<span class="inline-block h-7 {bgColor} p-1 rounded-md shadow-md shadow-neutral-900 {(clickHandler != null) ? `${hoverColor} cursor-pointer` : ""}" title={buttonTooltip} on:click={clickHandler}>
+<span class="inline-block h-7 {bgColor} text-sm p-1 rounded-md shadow-md shadow-neutral-900 {(clickHandler != null) ? `${hoverColor} cursor-pointer` : ""}" title={buttonTooltip} on:click={clickHandler}>
 <i class="w-5 {buttonIcon} text-center"></i>
 </span>
