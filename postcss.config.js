@@ -23,6 +23,7 @@ export default {
 				case '.fa-desktop:before':
 				case '.fa-mouse-pointer:before':
 				case '.fa-hourglass-half:before':
+				case '.fa-keyboard:before':
 				case '.fa-brands:before':
 				case '.fa-solid:before':
 				case '.fa-regular:before':
