@@ -37,7 +37,7 @@ async function sendMessages(handleTool)
 	try
 	{
 		var dc = get(displayConfig);
-		var tool = dc ? { type: "computer_20250124", name: "computer", display_width_px: dc.width, display_height_px: dc.height, display_number: 1 } : { type: "bash_20241022", name: "bash" }
+		var tool = dc ? { type: "computer_20250124", name: "computer", display_width_px: dc.width, display_height_px: dc.height, display_number: 1 } : { type: "bash_20250124", name: "bash" }
 		const response = await client.beta.messages.create({max_tokens: 1024,
 									messages: messages,
 									system: "You are running on a virtualized machine. Wait some extra time after all operations to compensate for slowdown.",
