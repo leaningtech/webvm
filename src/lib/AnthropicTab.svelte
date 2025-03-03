@@ -1,8 +1,9 @@
 <script>
-	import { apiState, setApiKey, addMessage, forceStop, messageList, currentMessage } from '$lib/anthropic.js';
+	import { apiState, setApiKey, addMessage, clearMessageHistory, forceStop, messageList, currentMessage } from '$lib/anthropic.js';
 	import { tick } from 'svelte';
 	import { get } from 'svelte/store';
 	import PanelButton from './PanelButton.svelte';
+	import SmallButton from './SmallButton.svelte';
 	import { aiActivity } from './activities.js';
 	export let handleTool;
 	let stopRequested = false;
@@ -110,17 +111,23 @@
 <h1 class="text-lg font-bold">Claude AI Integration</h1>
 <p>WebVM is integrated with Claude by Anthropic AI. You can prompt the AI to control the system.</p>
 <p>You need to provide your API key. The key is only saved locally to your browser.</p>
-<div class="flex grow overflow-y-scroll scrollbar" use:scrollMessage={$messageList}>
-	<div class="h-full w-full">
-		<div class="w-full min-h-full flex flex-col gap-2 justify-end">
-			{#each $messageList as msg}
-				{@const details = getMessageDetails(msg)}
-				{#if details.isToolUse}
-					<p class="bg-neutral-700 p-2 rounded-md italic"><i class='fas {details.icon} w-6 mr-2 text-center'></i>{details.messageContent}</p>
-				{:else if !details.isToolResult}
-					<p class="{msg.role == 'error' ? 'bg-red-900' : 'bg-neutral-700'} p-2 rounded-md whitespace-pre-wrap"><i class='fas {details.icon} w-6 mr-2 text-center'></i>{details.messageContent}</p>
-				{/if}
-			{/each}
+<div class="flex grow flex-col overflow-y-hidden gap-2">
+	<p class="flex flex-row gap-2">
+		<span class="mr-auto flex items-center">Conversation history</span>
+		<SmallButton buttonIcon="fa-solid fa-trash-can" clickHandler={clearMessageHistory} buttonTooltip="Clear conversation history"></SmallButton>
+	</p>
+	<div class="flex grow overflow-y-scroll scrollbar" use:scrollMessage={$messageList}>
+		<div class="h-full w-full">
+			<div class="w-full min-h-full flex flex-col gap-2 justify-end">
+				{#each $messageList as msg}
+					{@const details = getMessageDetails(msg)}
+					{#if details.isToolUse}
+						<p class="bg-neutral-700 p-2 rounded-md italic"><i class='fas {details.icon} w-6 mr-2 text-center'></i>{details.messageContent}</p>
+					{:else if !details.isToolResult}
+						<p class="{msg.role == 'error' ? 'bg-red-900' : 'bg-neutral-700'} p-2 rounded-md whitespace-pre-wrap"><i class='fas {details.icon} w-6 mr-2 text-center'></i>{details.messageContent}</p>
+					{/if}
+				{/each}
+			</div>
 		</div>
 	</div>
 </div>

@@ -127,6 +127,11 @@ export function addMessage(text, handleTool)
 	plausible("ClaudeAI Use");
 }
 
+export function clearMessageHistory() {
+	messages.length = 0;
+	messageList.set(messages);
+}
+
 export function forceStop() {
     stopFlag = true;
     return new Promise((resolve) => {
