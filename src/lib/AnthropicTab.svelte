@@ -1,8 +1,11 @@
 <script>
-	import { apiState, setApiKey, addMessage, messageList, currentMessage } from '$lib/anthropic.js'
+	import { apiState, setApiKey, addMessage, forceStop, messageList, currentMessage } from '$lib/anthropic.js';
 	import { tick } from 'svelte';
+	import { get } from 'svelte/store';
 	import PanelButton from './PanelButton.svelte';
+	import { aiActivity } from './activities.js';
 	export let handleTool;
+	let stopRequested = false;
 	function handleKeyEnter(e)
 	{
 		if(e.key != "Enter")
@@ -35,7 +38,9 @@
 	{
 		await tick();
 		node.scrollTop = node.scrollHeight;
-		document.getElementById("ai-input").focus();
+		if (!get(aiActivity)) {
+			document.getElementById("ai-input").focus();
+		}
 	}
 	function scrollMessage(node, messageList)
 	{
@@ -96,6 +101,11 @@
 			role: msg.role
 		};
 	}
+	async function handleStop() {
+		stopRequested = true;
+		await forceStop();
+		stopRequested = false;
+	}
 </script>
 <h1 class="text-lg font-bold">Claude AI Integration</h1>
 <p>WebVM is integrated with Claude by Anthropic AI. You can prompt the AI to control the system.</p>
@@ -116,6 +126,14 @@
 </div>
 {#if $apiState == "KEY_REQUIRED"}
 	<textarea class="bg-neutral-700 p-2 rounded-md placeholder-gray-400 resize-none shrink-0" placeholder="Insert your Claude API Key" rows="1" on:keydown={handleKeyEnter} on:input={handleResize} id="ai-input"/>
+{:else if $aiActivity}
+	{#if stopRequested }
+		<PanelButton buttonIcon="fa-solid fa-hand" buttonText="Stopping...">
+		</PanelButton>
+	{:else}
+		<PanelButton buttonIcon="fa-solid fa-hand" clickHandler={handleStop} buttonText="Stop">
+		</PanelButton>
+	{/if}
 {:else}
 	<textarea class="bg-neutral-700 p-2 rounded-md placeholder-gray-400 resize-none shrink-0" placeholder="Prompt..." rows="1" on:keydown={handleMessage} on:input={handleResize} bind:value={$currentMessage} id="ai-input"/>
 {/if}

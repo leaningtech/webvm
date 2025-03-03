@@ -6,6 +6,7 @@ import Anthropic from '@anthropic-ai/sdk';
 
 var client = null;
 var messages = [];
+var stopFlag = false;
 
 export function setApiKey(key)
 {
@@ -45,6 +46,11 @@ async function sendMessages(handleTool)
 									tool_choice: {type: "auto", disable_parallel_tool_use: true},
 									betas: ["computer-use-2025-01-24"]
 								});
+		if(stopFlag)
+		{
+			aiActivity.set(false);
+			return;
+		}
 		// Remove all the image payloads, we don't want to send them over and over again
 		for(var i=0;i<messages.length;i++)
 		{
@@ -83,6 +89,12 @@ async function sendMessages(handleTool)
 					}
 				}
 				addMessageInternal("user", [responseObj]);
+				if(stopFlag)
+				{
+					// Maintain state consitency by stopping after adding a valid response
+					aiActivity.set(false);
+					return;
+				}
 				sendMessages(handleTool);
 			}
 			else
@@ -113,6 +125,19 @@ export function addMessage(text, handleTool)
 	addMessageInternal('user', text);
 	sendMessages(handleTool);
 	plausible("ClaudeAI Use");
+}
+
+export function forceStop() {
+    stopFlag = true;
+    return new Promise((resolve) => {
+        const unsubscribe = aiActivity.subscribe((value) => {
+            if (!value) {
+                unsubscribe();
+				stopFlag = false;
+                resolve();
+            }
+        });
+    });
 }
 
 function initialize()
