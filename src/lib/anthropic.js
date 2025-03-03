@@ -38,14 +38,17 @@ async function sendMessages(handleTool)
 	{
 		var dc = get(displayConfig);
 		var tool = dc ? { type: "computer_20250124", name: "computer", display_width_px: dc.width, display_height_px: dc.height, display_number: 1 } : { type: "bash_20250124", name: "bash" }
-		const response = await client.beta.messages.create({max_tokens: 1024,
+		const config = {max_tokens: 2048,
 									messages: messages,
 									system: "You are running on a virtualized machine. Wait some extra time after all operations to compensate for slowdown.",
 									model: 'claude-3-7-sonnet-20250219',
 									tools: [tool],
 									tool_choice: {type: "auto", disable_parallel_tool_use: true},
 									betas: ["computer-use-2025-01-24"]
-								});
+								};
+		if(get(enableThinking))
+			config.thinking = { type: "enabled", budget_tokens: 1024 };
+		const response = await client.beta.messages.create(config);
 		if(stopFlag)
 		{
 			aiActivity.set(false);
@@ -96,6 +99,10 @@ async function sendMessages(handleTool)
 					return;
 				}
 				sendMessages(handleTool);
+			}
+			else if(c.type == "thinking")
+			{
+				addMessageInternal(response.role, [c]);
 			}
 			else
 			{
@@ -156,6 +163,7 @@ export const apiState = writable("KEY_REQUIRED");
 export const messageList = writable(messages);
 export const currentMessage = writable("");
 export const displayConfig = writable(null);
+export const enableThinking = writable(false);
 
 if(browser)
 	initialize();

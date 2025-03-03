@@ -1,5 +1,5 @@
 <script>
-	import { apiState, setApiKey, addMessage, clearMessageHistory, forceStop, messageList, currentMessage } from '$lib/anthropic.js';
+	import { apiState, setApiKey, addMessage, clearMessageHistory, forceStop, messageList, currentMessage, enableThinking } from '$lib/anthropic.js';
 	import { tick } from 'svelte';
 	import { get } from 'svelte/store';
 	import PanelButton from './PanelButton.svelte';
@@ -56,6 +56,7 @@
 	function getMessageDetails(msg) {
 		const isToolUse = Array.isArray(msg.content) && msg.content[0].type === "tool_use";
 		const isToolResult = Array.isArray(msg.content) && msg.content[0].type === "tool_result";
+		const isThinking = Array.isArray(msg.content) && msg.content[0].type === "thinking";
 		let icon = "";
 		let messageContent = "";
 
@@ -89,6 +90,9 @@
 				icon = "fa-screwdriver-wrench";
 				messageContent = "Use the system";
 			}
+		} else if (isThinking) {
+			icon = "fa-brain";
+			messageContent = "Thinking...";
 		} else {
 			icon = msg.role === "user" ? "fa-user" : "fa-robot";
 			messageContent = msg.content;
@@ -107,6 +111,10 @@
 		await forceStop();
 		stopRequested = false;
 	}
+
+	function toggleThinkingMode() {
+		enableThinking.set(!get(enableThinking));
+	}
 </script>
 <h1 class="text-lg font-bold">Claude AI Integration</h1>
 <p>WebVM is integrated with Claude by Anthropic AI. You can prompt the AI to control the system.</p>
@@ -114,6 +122,7 @@
 <div class="flex grow flex-col overflow-y-hidden gap-2">
 	<p class="flex flex-row gap-2">
 		<span class="mr-auto flex items-center">Conversation history</span>
+		<SmallButton buttonIcon="fa-solid fa-brain" clickHandler={toggleThinkingMode} buttonTooltip="{$enableThinking ? "Disable" : "Enable"} thinking mode" bgColor={$enableThinking ? "bg-neutral-500" : "bg-neutral-700"}></SmallButton>
 		<SmallButton buttonIcon="fa-solid fa-trash-can" clickHandler={clearMessageHistory} buttonTooltip="Clear conversation history"></SmallButton>
 	</p>
 	<div class="flex grow overflow-y-scroll scrollbar" use:scrollMessage={$messageList}>
