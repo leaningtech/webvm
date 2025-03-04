@@ -165,5 +165,5 @@
 		</PanelButton>
 	{/if}
 {:else}
-	<textarea class="bg-neutral-700 p-2 rounded-md placeholder-gray-400 resize-none shrink-0" placeholder="Prompt..." rows="1" on:keydown={handleMessage} on:input={handleResize} bind:value={$currentMessage} id="ai-input"/>
+	<textarea class="bg-neutral-700 p-2 rounded-md placeholder-gray-400 resize-none shrink-0" placeholder={handleTool === null ? "Waiting for system initialization..." : "Prompt..."} rows="1" on:keydown={handleMessage} on:input={handleResize} bind:value={$currentMessage} id="ai-input" disabled={handleTool === null}/>
 {/if}
