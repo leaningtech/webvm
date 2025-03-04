@@ -5,6 +5,7 @@
 	import PanelButton from './PanelButton.svelte';
 	import SmallButton from './SmallButton.svelte';
 	import { aiActivity } from './activities.js';
+	import html2canvas from 'html2canvas-pro';
 	export let handleTool;
 	let stopRequested = false;
 	function handleKeyEnter(e)
@@ -112,6 +113,18 @@
 		stopRequested = false;
 	}
 
+	async function handleDownload() {
+		const messageListElement = document.getElementById('message-list');
+		// Temporarily add padding and background for the list
+		messageListElement.classList.add("p-1");
+		const canvas = await html2canvas(messageListElement);
+		messageListElement.classList.remove("p-1");
+		const link = document.createElement('a');
+		link.href = canvas.toDataURL('image/png');
+		link.download = 'WebVM_Claude.png';
+		link.click();
+	}
+
 	function toggleThinkingMode() {
 		enableThinking.set(!get(enableThinking));
 	}
@@ -122,12 +135,13 @@
 <div class="flex grow flex-col overflow-y-hidden gap-2">
 	<p class="flex flex-row gap-2">
 		<span class="mr-auto flex items-center">Conversation history</span>
+		<SmallButton buttonIcon="fa-solid fa-download" clickHandler={handleDownload} buttonTooltip="Save conversation as image"></SmallButton>
 		<SmallButton buttonIcon="fa-solid fa-brain" clickHandler={toggleThinkingMode} buttonTooltip="{$enableThinking ? "Disable" : "Enable"} thinking mode" bgColor={$enableThinking ? "bg-neutral-500" : "bg-neutral-700"}></SmallButton>
 		<SmallButton buttonIcon="fa-solid fa-trash-can" clickHandler={clearMessageHistory} buttonTooltip="Clear conversation history"></SmallButton>
 	</p>
 	<div class="flex grow overflow-y-scroll scrollbar" use:scrollMessage={$messageList}>
 		<div class="h-full w-full">
-			<div class="w-full min-h-full flex flex-col gap-2 justify-end">
+			<div class="w-full min-h-full flex flex-col gap-2 justify-end bg-neutral-600" id="message-list">
 				{#each $messageList as msg}
 					{@const details = getMessageDetails(msg)}
 					{#if details.isToolUse}

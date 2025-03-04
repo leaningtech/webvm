@@ -25,6 +25,7 @@ export default {
 				case '.fa-hourglass-half:before':
 				case '.fa-hand:before':
 				case '.fa-brain:before':
+				case '.fa-download:before':
 				case '.fa-keyboard:before':
 				case '.fa-brands:before':
 				case '.fa-solid:before':
