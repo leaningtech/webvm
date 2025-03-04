@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { get } from 'svelte/store';
 	import Nav from 'labs/packages/global-navbar/src/Nav.svelte';
 	import SideBar from '$lib/SideBar.svelte';
@@ -28,6 +28,7 @@
 	var lastScreenshot = null;
 	var screenshotCanvas = null;
 	var screenshotCtx = null;
+	var sideBarPinned = false;
 	function writeData(buf, vt)
 	{
 		if(vt != 1)
@@ -175,6 +176,10 @@
 			return;
 		curInnerWidth = window.innerWidth;
 		curInnerHeight = window.innerHeight;
+		triggerResize();
+	}
+	function triggerResize()
+	{
 		term.options.fontSize = computeXTermFontSize();
 		fitAddon.fit();
 		const display = document.getElementById("display");
@@ -615,20 +620,28 @@
 			return new Error("Error: Invalid tool syntax");
 		}
 	}
+	async function handleSidebarPinChange(event)
+	{
+		sideBarPinned = event.detail;
+		// Make sure the pinning state of reflected in the layout
+		await tick();
+		// Adjust the layout based on the new sidebar state
+		triggerResize();
+	}
 </script>
 
 <main class="relative w-full h-full">
 	<Nav />
 	<div class="absolute top-10 bottom-0 left-0 right-0">
-		<SideBar on:connect={handleConnect} on:reset={handleReset} handleTool={handleTool}>
+		<SideBar on:connect={handleConnect} on:reset={handleReset} handleTool={handleTool} on:sidebarPinChange={handleSidebarPinChange}>
 			<slot></slot>
 		</SideBar>
 		{#if configObj.needsDisplay}
-			<div class="absolute top-0 bottom-0 left-14 right-0">
+			<div class="absolute top-0 bottom-0 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0">
 				<canvas class="w-full h-full cursor-none" id="display"></canvas>
 			</div>
 		{/if}
-		<div class="absolute top-0 bottom-0 left-14 right-0 p-1 scrollbar" id="console">
+		<div class="absolute top-0 bottom-0 {sideBarPinned ? 'left-[23.5rem]' : 'left-14'} right-0 p-1 scrollbar" id="console">
 		</div>
 	</div>
 </main>

@@ -27,6 +27,7 @@ export default {
 				case '.fa-brain:before':
 				case '.fa-download:before':
 				case '.fa-keyboard:before':
+				case '.fa-thumbtack:before':
 				case '.fa-brands:before':
 				case '.fa-solid:before':
 				case '.fa-regular:before':

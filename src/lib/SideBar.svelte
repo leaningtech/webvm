@@ -1,4 +1,5 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
 	import Icon from './Icon.svelte';
 	import InformationTab from './InformationTab.svelte';
 	import NetworkingTab from './NetworkingTab.svelte';
@@ -8,6 +9,7 @@
 	import PostsTab from './PostsTab.svelte';
 	import DiscordTab from './DiscordTab.svelte';
 	import GitHubTab from './GitHubTab.svelte';
+	import SmallButton from './SmallButton.svelte';
 	import { cpuActivity, diskActivity, aiActivity } from './activities.js';
 	const icons = [
 		{ icon: 'fas fa-info-circle', info: 'Information', activity: null },
@@ -20,8 +22,10 @@
 		{ icon: 'fab fa-discord', info: 'Discord', activity: null },
 		{ icon: 'fab fa-github', info: 'GitHub', activity: null },
 	];
+	let dispatch = createEventDispatcher();
 	let activeInfo = null; // Tracks currently visible info.
 	let hideTimeout = 0; // Timeout for hiding info panel.
+	export let sideBarPinned;
 
 	function showInfo(info) {
 		clearTimeout(hideTimeout);
@@ -29,6 +33,9 @@
 		activeInfo = info;
 	}
 	function hideInfo() {
+		// Never remove the sidebar if pinning is enabled
+		if(sideBarPinned)
+			return;
 		// Prevents multiple timers and hides the info panel after 400ms unless interrupted.
 		clearTimeout(hideTimeout);
 		hideTimeout = setTimeout(() => {
@@ -42,12 +49,19 @@
 	}
 	// Toggles the info panel for the clicked icon.
 	function handleClick(icon) {
+		if(sideBarPinned)
+			return;
 		// Hides the panel if the icon is active. Otherwise, shows the panel with info.
 		if (activeInfo === icon.info) {
 			activeInfo = null;
 		} else {
 			activeInfo = icon.info;
 		}
+	}
+
+	function toggleSidebarPin() {
+		sideBarPinned = !sideBarPinned;
+		dispatch('sidebarPinChange', sideBarPinned);
 	}
 
 	export let handleTool;
@@ -70,11 +84,19 @@
 		{/each}
 	</div>
 	<div
-		class="flex flex-col gap-5 shrink-0 w-80 h-full z-10 p-2 bg-neutral-600 text-gray-100 opacity-95"
+		class="relative flex flex-col gap-5 shrink-0 w-80 h-full z-10 p-2 bg-neutral-600 text-gray-100 opacity-95"
 		class:hidden={!activeInfo}
 		on:mouseenter={handleMouseEnterPanel}
 		on:mouseleave={hideInfo}
 	>
+		<div class="absolute right-2 top-2">
+			<SmallButton
+				buttonIcon="fa-solid fa-thumbtack"
+				clickHandler={toggleSidebarPin}
+				buttonTooltip={sideBarPinned ? "Unpin Sidebar" : "Pin Sidebar"}
+				bgColor={sideBarPinned ? "bg-neutral-500" : "bg-neutral-700"}
+			/>
+		</div>
 		{#if activeInfo === 'Information'}
 			<InformationTab>
 				<slot></slot>
