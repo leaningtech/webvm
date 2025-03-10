@@ -165,7 +165,7 @@
 		var screenshotWidth = Math.floor(internalWidth * screenshotMult);
 		var screenshotHeight = Math.floor(internalHeight * screenshotMult);
 		// Track the state of the mouse as requested by the AI, to avoid losing the position due to user movement
-		displayConfig.set({width: screenshotWidth, height: screenshotHeight, mouseX: 0, mouseY: 0, mouseMult: internalMult * screenshotMult});
+		displayConfig.set({width: screenshotWidth, height: screenshotHeight, mouseMult: internalMult * screenshotMult});
 	}
 	var curInnerWidth = 0;
 	var curInnerHeight = 0;
@@ -463,11 +463,11 @@
 				{
 					var coords = tool.coordinate;
 					var dc = get(displayConfig);
-					dc.mouseX = coords[0] / dc.mouseMult;
-					dc.mouseY = coords[1] / dc.mouseMult;
+					var mouseX = coords[0] / dc.mouseMult;
+					var mouseY = coords[1] / dc.mouseMult;
 					var display = document.getElementById("display");
 					var clientRect = display.getBoundingClientRect();
-					var me = new MouseEvent('mousemove', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top });
+					var me = new MouseEvent('mousemove', { clientX: mouseX + clientRect.left, clientY: mouseY + clientRect.top });
 					display.dispatchEvent(me);
 					return null;
 				}
@@ -475,15 +475,15 @@
 				{
 					var coords = tool.coordinate;
 					var dc = get(displayConfig);
-					dc.mouseX = coords[0] / dc.mouseMult;
-					dc.mouseY = coords[1] / dc.mouseMult;
+					var mouseX = coords[0] / dc.mouseMult;
+					var mouseY = coords[1] / dc.mouseMult;
 					var display = document.getElementById("display");
 					var clientRect = display.getBoundingClientRect();
-					var me = new MouseEvent('mousedown', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 0 });
+					var me = new MouseEvent('mousedown', { clientX: mouseX + clientRect.left, clientY: mouseY + clientRect.top, button: 0 });
 					display.dispatchEvent(me);
 					// This delay prevent X11 logic from debouncing the mouseup
 					await yieldHelper(60)
-					me = new MouseEvent('mouseup', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 0 });
+					me = new MouseEvent('mouseup', { clientX: mouseX + clientRect.left, clientY: mouseY + clientRect.top, button: 0 });
 					display.dispatchEvent(me);
 					return null;
 				}
@@ -491,15 +491,15 @@
 				{
 					var coords = tool.coordinate;
 					var dc = get(displayConfig);
-					dc.mouseX = coords[0] / dc.mouseMult;
-					dc.mouseY = coords[1] / dc.mouseMult;
+					var mouseX = coords[0] / dc.mouseMult;
+					var mouseY = coords[1] / dc.mouseMult;
 					var display = document.getElementById("display");
 					var clientRect = display.getBoundingClientRect();
-					var me = new MouseEvent('mousedown', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 2 });
+					var me = new MouseEvent('mousedown', { clientX: mouseX + clientRect.left, clientY: mouseY + clientRect.top, button: 2 });
 					display.dispatchEvent(me);
 					// This delay prevent X11 logic from debouncing the mouseup
 					await yieldHelper(60)
-					me = new MouseEvent('mouseup', { clientX: dc.mouseX + clientRect.left, clientY: dc.mouseY + clientRect.top, button: 2 });
+					me = new MouseEvent('mouseup', { clientX: mouseX + clientRect.left, clientY: mouseY + clientRect.top, button: 2 });
 					display.dispatchEvent(me);
 					return null;
 				}
