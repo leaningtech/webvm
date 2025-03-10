@@ -32,6 +32,8 @@ export const introMessage = [
 export const errorMessage = [
 	color + "CheerpX could not start" + normal,
 	"",
+	"Check the DevTools console for more information",
+	"",
 	"CheerpX is expected to work with recent desktop versions of Chrome, Edge, Firefox and Safari",
 	"",
 	"Give it a try from a desktop version / another browser!",
