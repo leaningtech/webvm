@@ -1,6 +1,7 @@
 import { get, writable } from 'svelte/store';
 import { browser } from '$app/environment'
 import { aiActivity } from '$lib/activities.js'
+import { tryPlausible } from '$lib/plausible.js';
 
 import Anthropic from '@anthropic-ai/sdk';
 
@@ -16,7 +17,7 @@ export function setApiKey(key)
 	messageList.set(messages);
 	localStorage.setItem("anthropic-api-key", key);
 	apiState.set("READY");
-	plausible("ClaudeAI Key");
+	tryPlausible("ClaudeAI Key");
 }
 
 function clearApiKey()
@@ -131,7 +132,7 @@ export function addMessage(text, handleTool)
 {
 	addMessageInternal('user', text);
 	sendMessages(handleTool);
-	plausible("ClaudeAI Use");
+	tryPlausible("ClaudeAI Use");
 }
 
 export function clearMessageHistory() {
