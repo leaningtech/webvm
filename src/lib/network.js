@@ -61,6 +61,93 @@ export async function startLogin()
 	return url;
 }
 
+async function handleCopyIP(event)
+{
+	// To prevent the default contexmenu from showing up when right-clicking..
+	event.preventDefault();
+	// Copy the IP to the clipboard.
+	try
+	{
+		await window.navigator.clipboard.writeText(networkData.currentIp)
+		connectionState.set("IPCOPIED");
+		setTimeout(() => {
+			connectionState.set("CONNECTED");
+		}, 2000);
+	}
+	catch(msg)
+	{
+		console.log("Copy ip to clipboard: Error: " + msg);
+	}
+}
+
+export function updateButtonData(state, handleConnect) {
+	switch(state) {
+		case "DISCONNECTED":
+			return {
+				buttonText: "Connect to Tailscale",
+				isClickable: true,
+				clickHandler: handleConnect,
+				clickUrl: null,
+				buttonTooltip: null,
+				rightClickHandler: null
+			};
+		case "DOWNLOADING":
+			return {
+				buttonText: "Loading IP stack...",
+				isClickable: false,
+				clickHandler: null,
+				clickUrl: null,
+				buttonTooltip: null,
+				rightClickHandler: null
+			};
+		case "LOGINSTARTING":
+			return {
+				buttonText: "Starting Login...",
+				isClickable: false,
+				clickHandler: null,
+				clickUrl: null,
+				buttonTooltip: null,
+				rightClickHandler: null
+			};
+		case "LOGINREADY":
+			return {
+				buttonText: "Login to Tailscale",
+				isClickable: true,
+				clickHandler: null,
+				clickUrl: networkData.loginUrl,
+				buttonTooltip: null,
+				rightClickHandler: null
+			};
+		case "CONNECTED":
+			return {
+				buttonText: `IP: ${networkData.currentIp}`,
+				isClickable: true,
+				clickHandler: null,
+				clickUrl: networkData.dashboardUrl,
+				buttonTooltip: "Right-click to copy",
+				rightClickHandler: handleCopyIP
+			};
+		case "IPCOPIED":
+			return {
+				buttonText: "Copied!",
+				isClickable: false,
+				clickHandler: null,
+				clickUrl: null,
+				buttonTooltip: null,
+				rightClickHandler: null
+			};
+		default:
+			return {
+				buttonText: `Text for state: ${state}`,
+				isClickable: false,
+				clickHandler: null,
+				clickUrl: null,
+				buttonTooltip: null,
+				rightClickHandler: null
+			};
+	}
+}
+
 export const networkInterface = { authKey: authKey, controlUrl: controlUrl, loginUrlCb: loginUrlCb, stateUpdateCb: stateUpdateCb, netmapUpdateCb: netmapUpdateCb };
 
 export const networkData = { currentIp: null, connectionState: connectionState, exitNode: exitNode, loginUrl: null, dashboardUrl: dashboardUrl }
