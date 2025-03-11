@@ -27,79 +27,80 @@
 			console.log("Copy ip to clipboard: Error: " + msg);
 		}
 	}
-	function getButtonText(state)
-	{
-		switch(state)
-		{
-			case "DISCONNECTED":
-				return "Connect to Tailscale";
-			case "DOWNLOADING":
-				return "Loading IP stack...";
-			case "LOGINSTARTING":
-				return "Starting Login...";
-			case "LOGINREADY":
-				return "Login to Tailscale";
-			case "CONNECTED":
-				return `IP: ${networkData.currentIp}`;
-			case "IPCOPIED":
-				return "Copied!";
-			default:
-				break;
-		}
-		return `Text for state: ${state}`;
+
+function updateButtonData(state) {
+	switch(state) {
+		case "DISCONNECTED":
+			return {
+				buttonText: "Connect to Tailscale",
+				isClickable: true,
+				clickHandler: handleConnect,
+				clickUrl: null,
+				buttonTooltip: null,
+				rightClickHandler: null
+			};
+		case "DOWNLOADING":
+			return {
+				buttonText: "Loading IP stack...",
+				isClickable: false,
+				clickHandler: null,
+				clickUrl: null,
+				buttonTooltip: null,
+				rightClickHandler: null
+			};
+		case "LOGINSTARTING":
+			return {
+				buttonText: "Starting Login...",
+				isClickable: false,
+				clickHandler: null,
+				clickUrl: null,
+				buttonTooltip: null,
+				rightClickHandler: null
+			};
+		case "LOGINREADY":
+			return {
+				buttonText: "Login to Tailscale",
+				isClickable: true,
+				clickHandler: null,
+				clickUrl: networkData.loginUrl,
+				buttonTooltip: null,
+				rightClickHandler: null
+			};
+		case "CONNECTED":
+			return {
+				buttonText: `IP: ${networkData.currentIp}`,
+				isClickable: true,
+				clickHandler: null,
+				clickUrl: networkData.dashboardUrl,
+				buttonTooltip: "Right-click to copy",
+				rightClickHandler: handleCopyIP
+			};
+		case "IPCOPIED":
+			return {
+				buttonText: "Copied!",
+				isClickable: false,
+				clickHandler: null,
+				clickUrl: null,
+				buttonTooltip: null,
+				rightClickHandler: null
+			};
+		default:
+			return {
+				buttonText: `Text for state: ${state}`,
+				isClickable: false,
+				clickHandler: null,
+				clickUrl: null,
+				buttonTooltip: null,
+				rightClickHandler: null
+			};
 	}
-	function isClickableState(state)
-	{
-		switch(state)
-		{
-			case "DISCONNECTED":
-			case "LOGINREADY":
-			case "CONNECTED":
-				return true;
-		}
-		return false;
-	}
-	function getClickHandler(state)
-	{
-		switch(state)
-		{
-			case "DISCONNECTED":
-				return handleConnect;
-		}
-		return null;
-	}
-	function getClickUrl(state)
-	{
-		switch(state)
-		{
-			case "LOGINREADY":
-				return networkData.loginUrl;
-			case "CONNECTED":
-				return networkData.dashboardUrl;
-		}
-		return null;
-	}
-	function getButtonTooltip(state)
-	{
-		switch(state)
-		{
-			case "CONNECTED":
-				return "Right-click to copy";
-		}
-		return null;
-	}
-	function getRightClickHandler(state)
-	{
-		switch(state)
-		{
-			case "CONNECTED":
-				return handleCopyIP;
-		}
-		return null;
-	}
+}
+
+let buttonData = null;
+$: buttonData = updateButtonData($connectionState);
 </script>
 <h1 class="text-lg font-bold">Networking</h1>
-<PanelButton buttonImage="assets/tailscale.svg" clickUrl={getClickUrl($connectionState)} clickHandler={getClickHandler($connectionState)} rightClickHandler={getRightClickHandler($connectionState)} buttonTooltip={getButtonTooltip($connectionState)} buttonText={getButtonText($connectionState)}>
+<PanelButton buttonImage="assets/tailscale.svg" clickUrl={buttonData.clickUrl} clickHandler={buttonData.clickHandler} rightClickHandler={buttonData.rightClickHandler} buttonTooltip={buttonData.buttonTooltip} buttonText={buttonData.buttonText}>
 	{#if $connectionState == "CONNECTED"}
 		<i class='fas fa-circle fa-xs ml-auto {$exitNode ? 'text-green-500' : 'text-amber-500'}' title={$exitNode ? 'Ready' : 'No exit node'}></i>
 	{/if}
