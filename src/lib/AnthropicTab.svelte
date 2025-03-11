@@ -1,5 +1,5 @@
 <script>
-	import { apiState, setApiKey, addMessage, clearMessageHistory, forceStop, messageList, currentMessage, enableThinking } from '$lib/anthropic.js';
+	import { apiState, setApiKey, addMessage, clearMessageHistory, forceStop, messageList, currentMessage, enableThinking, getMessageDetails } from '$lib/anthropic.js';
 	import { tick } from 'svelte';
 	import { get } from 'svelte/store';
 	import PanelButton from './PanelButton.svelte';
@@ -53,59 +53,6 @@
 				scrollToBottom(node);
 			}
 		}
-	}
-	function getMessageDetails(msg) {
-		const isToolUse = Array.isArray(msg.content) && msg.content[0].type === "tool_use";
-		const isToolResult = Array.isArray(msg.content) && msg.content[0].type === "tool_result";
-		const isThinking = Array.isArray(msg.content) && msg.content[0].type === "thinking";
-		let icon = "";
-		let messageContent = "";
-
-		if (isToolUse) {
-			let tool = msg.content[0].input;
-			if (tool.action === "screenshot") {
-				icon = "fa-desktop";
-				messageContent = "Screenshot";
-			} else if (tool.action === "mouse_move") {
-				icon = "fa-mouse-pointer";
-				var coords = tool.coordinate;
-				messageContent = `Mouse at (${coords[0]}, ${coords[1]})`;
-			} else if (tool.action === "left_click") {
-				icon = "fa-mouse-pointer";
-				var coords = tool.coordinate;
-				messageContent = `Left click at (${coords[0]}, ${coords[1]})`;
-			} else if (tool.action === "right_click") {
-				icon = "fa-mouse-pointer";
-				var coords = tool.coordinate;
-				messageContent = `Right click at (${coords[0]}, ${coords[1]})`;
-			} else if (tool.action === "wait") {
-				icon = "fa-hourglass-half";
-				messageContent = "Waiting";
-			} else if (tool.action === "key") {
-				icon = "fa-keyboard";
-				messageContent = `Key press: ${tool.text}`;
-			} else if (tool.action === "type") {
-				icon = "fa-keyboard";
-				messageContent = "Type text";
-			} else {
-				icon = "fa-screwdriver-wrench";
-				messageContent = "Use the system";
-			}
-		} else if (isThinking) {
-			icon = "fa-brain";
-			messageContent = "Thinking...";
-		} else {
-			icon = msg.role === "user" ? "fa-user" : "fa-robot";
-			messageContent = msg.content;
-		}
-
-		return {
-			isToolUse,
-			isToolResult,
-			icon,
-			messageContent,
-			role: msg.role
-		};
 	}
 	async function handleStop() {
 		stopRequested = true;
