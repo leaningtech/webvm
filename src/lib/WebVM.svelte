@@ -10,6 +10,7 @@
 	import { cpuActivity, diskActivity, cpuPercentage, diskLatency } from '$lib/activities.js'
 	import { introMessage, errorMessage, unexpectedErrorMessage } from '$lib/messages.js'
 	import { displayConfig } from '$lib/anthropic.js'
+	import { tryPlausible } from '$lib/plausible.js'
 
 	export let configObj = null;
 	export let processCallback = null;
@@ -237,7 +238,7 @@
 		// Raise the display to the foreground
 		const display = document.getElementById("display");
 		display.parentElement.style.zIndex = 5;
-		plausible("Display activated");
+		tryPlausible("Display activated");
 	}
 	function handleProcessCreated()
 	{
@@ -263,7 +264,7 @@
 					if(configObj.diskImageUrl.startsWith(wssProtocol))
 					{
 						// WebSocket protocol failed, try agin using plain HTTP
-						plausible("WS Disk failure");
+						tryPlausible("WS Disk failure");
 						blockDevice = await CheerpX.CloudDevice.create("https:" + configObj.diskImageUrl.substr(wssProtocol.length));
 					}
 					else
