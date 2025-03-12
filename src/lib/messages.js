@@ -19,7 +19,7 @@ export const introMessage = [
 	"| AMA alert! Join us Monday, March 17th at 16:00 GMT on Discord for a         |",
 	"| live discussion! Don't miss out!                                            |",
 	"|                                                                             |",
-	"| " + underline + "https://discord.leaningtech.com/" + normal + "                                            |",
+	"| " + underline + "https://discord.leaningtech.com" + normal + "                                             |",
 	"|                                                                             |",
 	"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 	"",
