@@ -114,10 +114,14 @@ async function sendMessages(handleTool)
 			}
 		}
 		if(response.stop_reason == "end_turn")
+		{
+			tryPlausible("ClaudeAI Success");
 			aiActivity.set(false);
+		}
 	}
 	catch(e)
 	{
+		tryPlausible("ClaudeAI Error");
 		if(e.status == 401)
 		{
 			addMessageInternal('error', 'Invalid API key');
