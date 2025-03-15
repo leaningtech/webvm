@@ -143,6 +143,37 @@ index 2878332..1f3103a 100644
 +CMD [ "/usr/bin/python3" ]
 ```
 
+# How to use Claude AI
+
+To access Claude AI, you need an API key. Follow these steps to get started:
+
+1. Create an account
+- Visit [Anthropic Console](https://console.anthropic.com/login) and sign up with your e-mail. You'll receive a sign in link to the Anthropic Console. 
+
+<img src="/assets/anthropic_signup.png" width="90%">
+
+2. Get your API key
+- Once logged in, navigate to **Get API keys**.
+- Purchase the amount of credits you need. After completing the purchase, you'll be able to generate the key through the API console.
+
+<img src="/assets/anthropic_api_payment.png" width="90%">
+
+3. Log in with your API key
+- Navigate to your WebVM and hover over the robot icon. This will show the Claude AI Integration tab. For added convenience, you can click the pin button in the top right corner to keep the tab in place.
+- You'll see a prompt where you can insert your Claude API key.
+- Insert your key and press enter.
+
+<img src="/assets/insert_key.png" width="90%">
+
+4. Start using Claude AI
+- Once your API key is entered, you can begin interacting with Claude AI by asking questions such as:
+
+ __"Solve the CTF challenge at `/home/user/chall1.bin.` Note that the binary reads from stdin."__
+
+<img src="/assets/webvm_claude_ctf.gif" alt="deploy_instructions_gif" width="90%">
+
+**Important:** Your API key is private and should never be shared. We do not have access to your key, which is not only stored locally in your browser.
+
 # Bugs and Issues
 
 Please use [Issues](https://github.com/leaningtech/webvm/issues) to report any bug.
