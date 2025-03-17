@@ -2,6 +2,7 @@ import { parse } from 'node-html-parser';
 import { read } from '$app/server';
 
 var posts = [
+	"https://labs.leaningtech.com/blog/webvm-claude",
 	"https://labs.leaningtech.com/blog/cx-10",
 	"https://labs.leaningtech.com/blog/webvm-20",
 	"https://labs.leaningtech.com/blog/join-the-webvm-hackathon",
