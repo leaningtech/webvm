@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Deploy webvm
           command: |
-            rsync -avz -e "ssh -p ${SSH_PORT}" webvm/build/ leaningtech@${SSH_HOST}:/srv/web/webvm/
+            rsync -avz --chown circleci:runtimes webvm/build/ circleci@$havana.leaningtech.com:webvm/
 
 workflows:
   deploy:
