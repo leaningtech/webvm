@@ -16,7 +16,7 @@ export const introMessage = [
 	"|                                                                             |",
 	"| " + underline + "https://labs.leaningtech.com/blog/webvm-claude" + normal + "                              |",
 	"|                                                                             |",
-	"| [7 - 14 April] Don't miss our Hackathon! Check out the site for updates!    |",
+	"| [7 - 14 April] WebVM Hackathon II is live! Join to win 500£!                |",
 	"|                                                                             |",
 	"| " + underline + "https://cheerpx.io/hackathon" + normal + "                                                |",
 	"|                                                                             |",
