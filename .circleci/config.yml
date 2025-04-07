@@ -14,7 +14,7 @@ jobs:
           command: |
             mkdir -p ~/.ssh
             echo $GH_HOST >> ~/.ssh/known_hosts
-            echo $RPM_HOST >> ~/.ssh/known_hosts
+            echo $HAVANA_HOST >> ~/.ssh/known_hosts
       - run:
           name: Install NPM
           command: |
