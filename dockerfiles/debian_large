@@ -1,10 +1,10 @@
-FROM --platform=i386 i386/debian:buster
+FROM --platform=i386 i386/debian:bookworm
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get -y upgrade && \
-	apt-get install -y apt-utils beef bsdgames bsdmainutils ca-certificates clang \
+	apt-get install -y apt-utils beef bsdgames bsdmainutils ca-certificates \
 	cowsay cpio cron curl dmidecode dmsetup g++ gcc gdbm-l10n git  \
-	hexedit  ifupdown init logrotate lsb-base lshw lua50 luajit lynx make \
+	hexedit  ifupdown init logrotate lsb-base lshw lua5.4 luajit lynx make \
 	nano netbase nodejs openssl procps python3 python3-cryptography \
 	python3-jinja2 python3-numpy python3-pandas python3-pip python3-scipy \
 	python3-six python3-yaml readline-common rsyslog ruby sensible-utils \
