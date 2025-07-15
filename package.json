@@ -3,8 +3,8 @@
 	"version": "2.0.0",
 	"private": true,
 	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build"
+		"dev": "CX_URL=https://localhost:8080/cheerpx vite dev",
+    "build": "CX_URL=https://localhost:8080/cheerpx/ vite build"
 	},
 	"devDependencies": {
 		"@anthropic-ai/sdk": "^0.33.0",
