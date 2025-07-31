@@ -1,5 +1,5 @@
 <script>
-	import { connectToServer, disconnectFromServer, updateButtonData, networkData } from '$lib/network.js'
+	import { connectToServer, disconnectFromServer, startLogin, updateButtonData, networkData } from '$lib/network.js'
 	import { createEventDispatcher } from 'svelte';
 	import PanelButton from './PanelButton.svelte';
 	var dispatch = createEventDispatcher();

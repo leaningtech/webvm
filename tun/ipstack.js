@@ -1116,15 +1116,15 @@ function __ZN12_GLOBAL__N_119CheerpStringBuilder11processCharERjS1_h(Larg0,Marg0
 	var tmp0=null,tmp1=null,tmp2=0,L$psink=0,tmp4=0;
 	L$psink=__ZZN12_GLOBAL__N_117do_syscall_writevEPK5ioveclE9remaining|0;
 	tmp4=Larg1&255;
-	tmp0=1068800|0;
-	tmp1=1068856|0;
+	tmp0=1069112|0;
+	tmp1=1069168|0;
 	a:if((Larg1&255)<192){
 		if((L$psink|0)===0){
-			if(Larg1<<24<=-16777216)___assert_fail(1068868|0,tmp0,79,tmp1);
+			if(Larg1<<24<=-16777216)___assert_fail(1069180|0,tmp0,79,tmp1);
 			;
 			__ZZN12_GLOBAL__N_117do_syscall_writevEPK5ioveclE9codepoint=tmp4;
 		}else{
-			if((tmp4&192|0)!==128)___assert_fail(1068780|0,tmp0,65,tmp1);
+			if((tmp4&192|0)!==128)___assert_fail(1069092|0,tmp0,65,tmp1);
 			;
 			tmp4=(__ZZN12_GLOBAL__N_117do_syscall_writevEPK5ioveclE9codepoint<<6)+(tmp4&63)|0;
 			__ZZN12_GLOBAL__N_117do_syscall_writevEPK5ioveclE9codepoint=tmp4;
@@ -1134,7 +1134,7 @@ function __ZN12_GLOBAL__N_119CheerpStringBuilder11processCharERjS1_h(Larg0,Marg0
 		}
 		__ZN12_GLOBAL__N_119CheerpStringBuilder15outputCodepointEj(Larg0,Marg0,tmp4);
 	}else{
-		if((L$psink|0)!==0)___assert_fail(1068880|0,tmp0,90,tmp1);
+		if((L$psink|0)!==0)___assert_fail(1069192|0,tmp0,90,tmp1);
 		;
 		if((Larg1&255)<224){
 			tmp2=31;

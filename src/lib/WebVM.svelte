@@ -6,7 +6,7 @@
 	import '$lib/global.css';
 	import '@xterm/xterm/css/xterm.css'
 	import '@fortawesome/fontawesome-free/css/all.min.css'
-	import { networkInterface } from '$lib/network.js'
+	import { networkMode, networkInterface, startLogin } from '$lib/network.js'
 	import { cpuActivity, diskActivity, cpuPercentage, diskLatency } from '$lib/activities.js'
 	import { introMessage, errorMessage, unexpectedErrorMessage } from '$lib/messages.js'
 	import { displayConfig, handleToolImpl } from '$lib/anthropic.js'
@@ -309,7 +309,7 @@
 		];
 		try
 		{
-			cx = await CheerpX.Linux.create({mounts: mountPoints, networkInterface: networkInterface});
+			cx = await CheerpX.Linux.create({mounts: mountPoints, networkInterface: networkInterface, networkMode: networkMode});
 		}
 		catch(e)
 		{

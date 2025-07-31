@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 
+let tsNetwork = false;
 let authKey = undefined;
 let controlUrl = undefined;
 if(browser)
@@ -151,3 +152,5 @@ export function updateButtonData(state, handleConnect) {
 
 export const networkInterface = { authKey: authKey, controlUrl: controlUrl, loginUrlCb: loginUrlCb, stateUpdateCb: stateUpdateCb, netmapUpdateCb: netmapUpdateCb };
 export const networkData = { currentIp: null, connectionState: connectionState, exitNode: exitNode, loginUrl: null, dashboardUrl: dashboardUrl }
+export const networkMode = { tsNetwork: tsNetwork };
+

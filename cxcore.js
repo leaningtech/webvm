@@ -22,7 +22,7 @@ function fetchBuffer(p){
 var __stackPtr=2097152|0;
 function __ZN11CheerpXCore12scheduleImplEv(){
 	var tmp0=0,tmp1=0,tmp2=0,tmp3=0;
-	tmp3=HEAP32[812768]|0;
+	tmp3=HEAP32[829214]|0;
 	tmp0=HEAP8[33+(HEAP32[16+tmp3>>2]|0)>>0]|0;
 	tmp1=HEAP32[12+tmp3>>2]|0;
 	__ZN8CoreData23writeGrpsToGlobalMemoryEv(tmp1|0);
@@ -31,33 +31,33 @@ function __ZN11CheerpXCore12scheduleImplEv(){
 	tmp2=HEAP32[36+tmp1>>2]|0;
 	if((tmp0&255)===16)__Z14caInterpFrom16P8CoreDataP12AddressSpacej(tmp1|0,tmp3,tmp2);
 	else __Z12caInterpFromP8CoreDataP12AddressSpacej(tmp1|0,tmp3,tmp2);
-	if((HEAP32[592+tmp1>>2]|0)!==0)___assert_fail(2138284|0,2117228|0,212,2138320|0);
+	if((HEAP32[592+tmp1>>2]|0)!==0)___assert_fail(2136120|0,2120932|0,212,2136488|0);
 	;
 	__ZN8CoreData22readGrpsToGlobalMemoryEv(tmp1|0);
 }
 function __ZN11CheerpXCore8scheduleEv(){
 	var tmp0=0,tmp1=0,tmp2=null;
-	tmp1=2192088;
+	tmp1=2189416;
 	HEAP8[27+tmp1>>0]=0;
 	if((HEAP8[24+tmp1>>0]&255)!==0)HEAP8[26+tmp1>>0]=1;
 	else{
-		tmp1=HEAP32[829540]|0;
+		tmp1=HEAP32[829211]|0;
 		if((tmp1|0)!==0){
 			clearTimeout((+(tmp1>>>0)));
-			HEAP32[829540]=0;
+			HEAP32[829211]=0;
 		}
 		tmp1=__Z11getStackPtrv()|0;
 		tmp2=__ZN11CheerpXCore12scheduleImplEv;
 		try{tmp2()}catch(e){if(e!='CheerpJContinue')debugger};
 		__Z11setStackPtrj(tmp1);
-		tmp1=HEAP32[812768]|0;
+		tmp1=HEAP32[829214]|0;
 		tmp0=HEAP32[592+(HEAP32[12+tmp1>>2]|0)>>2]|0;
 		if((tmp0|0)!==0){
 			if((tmp0|0)===1){
 				tmp1=HEAP32[28+tmp1>>2]|0;
 				if((tmp1|0)>-1){
 					tmp2=__ZN11CheerpXCore13handleTimeoutEv;
-					HEAP32[829540]=~~ +setTimeout(tmp2,(+(tmp1|0)));
+					HEAP32[829211]=~~ +setTimeout(tmp2,(+(tmp1|0)));
 				}
 			}else debugger;
 		}else __ZN12AddressSpace13scheduleLaterEv();
@@ -65,14 +65,14 @@ function __ZN11CheerpXCore8scheduleEv(){
 }
 function __ZN11CheerpXCore13handleTimeoutEv(){
 	var tmp0=0;
-	HEAP32[829540]=0;
-	tmp0=HEAP32[12+(HEAP32[812768]|0)>>2]|0;
+	HEAP32[829211]=0;
+	tmp0=HEAP32[12+(HEAP32[829214]|0)>>2]|0;
 	if((HEAP32[592+tmp0>>2]|0)===1){
 		__ZN7CoreCtx8setStateENS_5STATEE(tmp0,0);
 		__ZN11CheerpXCore8scheduleEv();
 		return;
 	}
-	___assert_fail(2138228|0,2117228|0,257,2138268|0);
+	___assert_fail(2136420|0,2120932|0,257,2136460|0);
 	;
 }
 function __ZN11CheerpXCore16handleInitSystemEjjPN6client10Uint8ArrayES2_(Larg0,Larg1,Larg2,Larg3){
@@ -80,15 +80,15 @@ function __ZN11CheerpXCore16handleInitSystemEjjPN6client10Uint8ArrayES2_(Larg0,L
 	tmp3=HEAP8;
 	tmp4=__ZN11CoreManagernwEj(32)|0;
 	__ZN9SystemCtxC2Ev(tmp4|0);
-	HEAP32[812768]=(tmp4|0);
+	HEAP32[829214]=(tmp4|0);
 	tmp4=HEAP32[tmp4>>2]|0;
-	tmp3=2137452|0;
-	tmp0=2117228|0;
-	if((Larg1|0)===0)___assert_fail(2137436|0,tmp0,273,tmp3);
+	tmp3=2135700|0;
+	tmp0=2120932|0;
+	if((Larg1|0)===0)___assert_fail(2135684|0,tmp0,273,tmp3);
 	;
-	if(Larg2===null)___assert_fail(2137472|0,tmp0,276,tmp3);
+	if(Larg2===null)___assert_fail(2135720|0,tmp0,276,tmp3);
 	;
-	if(Larg3===null)___assert_fail(2137488|0,tmp0,277,tmp3);
+	if(Larg3===null)___assert_fail(2135736|0,tmp0,277,tmp3);
 	;
 	__ZN12AddressSpace17createMemoryChunkEjjj(tmp4,0,655360,1)|0;
 	Lgeptoindex6=__ZN12AddressSpace17createMemoryChunkEjjj(tmp4,786432,(Larg1<<20)-786432|0,1)|0;
@@ -148,7 +148,7 @@ function __ZN11CheerpXCore16handleInitSystemEjjPN6client10Uint8ArrayES2_(Larg0,L
 		Lprol$piter=Lgeptoindexphi17+3|0;
 		if((Lprol$piter|0)===131071){
 			tmp4=__ZN12MemoryBuffer12allocateAnonEj((Larg3.length)+4095& -4096)|0;
-			HEAP32[24+(HEAP32[812768]|0)>>2]=tmp4;
+			HEAP32[24+(HEAP32[829214]|0)>>2]=tmp4;
 			tmp3=HEAP8;
 			Lgeptoindexphi=HEAP32[4+tmp4>>2]|0;
 			tmp4=Larg3.length;
@@ -188,19 +188,19 @@ function __ZN11CheerpXCore16handleInitSystemEjjPN6client10Uint8ArrayES2_(Larg0,L
 				}
 			}
 			tmp4=__ZN12MemoryBuffer12allocateAnonEj(262144)|0;
-			HEAP32[20+(HEAP32[812768]|0)>>2]=tmp4;
+			HEAP32[20+(HEAP32[829214]|0)>>2]=tmp4;
 			tmp3=HEAP8;
 			tmp4=__Znwj(1536)|0;
-			Lgeptoindex6=HEAP32[812768]|0;
-			__ZN10SystemDataC2EP8CoreDataP12AddressSpacejjd(tmp4|0,HEAP32[12+Lgeptoindex6>>2]|0,HEAP32[Lgeptoindex6>>2]|0,Larg0,Larg1,+HEAPF64[405438]);
-			HEAP32[16+(HEAP32[812768]|0)>>2]=(tmp4|0);
+			Lgeptoindex6=HEAP32[829214]|0;
+			__ZN10SystemDataC2EP8CoreDataP12AddressSpacejjd(tmp4|0,HEAP32[12+Lgeptoindex6>>2]|0,HEAP32[Lgeptoindex6>>2]|0,Larg0,Larg1,+HEAPF64[274179]);
+			HEAP32[16+(HEAP32[829214]|0)>>2]=(tmp4|0);
 			__ZN11MasterClock15initGlobalTimerEv();
 			__ZN14AsmCompileBase10globalInitEv();
 			__ZN16InterpPrimitives19InitializeMainTableILi32EEEvv();
 			__ZN12AddressSpace15initializeCacheEv();
-			tmp4=HEAP32[812768]|0;
+			tmp4=HEAP32[829214]|0;
 			__ZN9VGADevice9setRomBufEP12MemoryBuffer(208+(HEAP32[16+tmp4>>2]|0)|0,HEAP32[24+tmp4>>2]|0);
-			tmp4=HEAP32[812768]|0;
+			tmp4=HEAP32[829214]|0;
 			__ZN9VGADevice9setRamBufEP12MemoryBuffer(208+(HEAP32[16+tmp4>>2]|0)|0,HEAP32[20+tmp4>>2]|0);
 			Lgeptoindex6=HEAP32[20+tmp4>>2]|0;
 			tmp3=HEAP8;
@@ -218,7 +218,7 @@ function __ZN11CheerpXCore16handleInitSystemEjjPN6client10Uint8ArrayES2_(Larg0,L
 }
 function __ZN11CheerpXCore17handleStartSystemEv(){
 	var tmp0=0,tmp1=null,tmp2=null;
-	tmp0=HEAP32[12+(HEAP32[812768]|0)>>2]|0;
+	tmp0=HEAP32[12+(HEAP32[829214]|0)>>2]|0;
 	HEAP16[42+tmp0>>1]=61440;
 	HEAP32[56+tmp0>>2]=-65536;
 	HEAP32[36+tmp0>>2]=65520;
@@ -227,14 +227,14 @@ function __ZN11CheerpXCore17handleStartSystemEv(){
 	tmp2=__ZN11CheerpXCore8scheduleEv;
 	tmp1.port2.onmessage=tmp2;
 	__ZN12AddressSpace8selfPortE=tmp1.port1;
-	__ZN7CoreCtx8setStateENS_5STATEE(HEAP32[12+(HEAP32[812768]|0)>>2]|0,0);
-	if((HEAP32[592+(HEAP32[12+(HEAP32[812768]|0)>>2]|0)>>2]|0)!==0)___assert_fail(2136956|0,2117228|0,264,2137416|0);
+	__ZN7CoreCtx8setStateENS_5STATEE(HEAP32[12+(HEAP32[829214]|0)>>2]|0,0);
+	if((HEAP32[592+(HEAP32[12+(HEAP32[829214]|0)>>2]|0)>>2]|0)!==0)___assert_fail(2135624|0,2120932|0,264,2135664|0);
 	;
 	__ZN11CheerpXCore8scheduleEv();
 }
 function __ZN11CheerpXCore13handleMessageEPN6client12MessageEventIPNS0_6ObjectEEE(Larg0){
 	var tmp0=0;
-	tmp0=2192088;
+	tmp0=2189416;
 	if((HEAP32[tmp0>>2]|0)===-2)HEAP32[tmp0>>2]=0;
 	a:{
 		if((HEAP8[24+tmp0>>0]&255)!==0){
@@ -254,10 +254,10 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 	LsavedStack=___getStackPtr();
 	tmp4=-264+LsavedStack|0;
 	___setStackPtr(tmp4);
-	tmp5=2117228|0;
-	tmp6=2117268|0;
-	Lgeptoindex17=2117288|0;
-	tmp1=2117424|0;
+	tmp5=2120932|0;
+	tmp6=2120988|0;
+	Lgeptoindex17=2121008|0;
+	tmp1=2120096|0;
 	a:switch((Larg0.type)|0){
 		case 3:
 		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=Larg0.mhz;
@@ -269,18 +269,18 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 		__ZN11CheerpXCore17handleStartSystemEv();
 		break a;
 		case 9:
-		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=HEAP32[16+(HEAP32[812768]|0)>>2]|0;
+		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=HEAP32[16+(HEAP32[829214]|0)>>2]|0;
 		__ZN10SystemData11scheduleIrqEjj(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed,0,Larg0.value);
-		__ZN7CoreCtx8setStateENS_5STATEE(HEAP32[12+(HEAP32[812768]|0)>>2]|0,0);
+		__ZN7CoreCtx8setStateENS_5STATEE(HEAP32[12+(HEAP32[829214]|0)>>2]|0,0);
 		__ZN11CheerpXCore8scheduleEv();
 		break a;
 		case 10:
-		tmp4=2117212|0;
+		tmp4=2120916|0;
 		if(((Larg0.diskType)|0)!==0){
 			if(((Larg0.diskType)|0)===1){
 				L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=Larg0.index;
 				if(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed>>>0<2){
-					tmp9=HEAP32[16+(HEAP32[812768]|0)>>2]|0;
+					tmp9=HEAP32[16+(HEAP32[829214]|0)>>2]|0;
 					tmp10=Larg0.devId;
 					tmp11=Larg0.len;
 					L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=(__imul(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed,12)|0)+1452+tmp9|0;
@@ -297,7 +297,7 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 		}
 		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=Larg0.index;
 		if(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed>>>0<2){
-			tmp9=HEAP32[16+(HEAP32[812768]|0)>>2]|0;
+			tmp9=HEAP32[16+(HEAP32[829214]|0)>>2]|0;
 			tmp10=Larg0.devId;
 			tmp11=Larg0.len;
 			L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=(__imul(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed,12)|0)+1452+tmp9|0;
@@ -311,7 +311,7 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 		case 41:
 		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=Larg0.index;
 		if(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed>>>0<2){
-			__ZN10SystemData13setFloppyTypeEiN6Floppy11FLOPPY_TYPEE(HEAP32[16+(HEAP32[812768]|0)>>2]|0,L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed,__ZN6Floppy28getFloppyTypeFromImageLengthEj(Larg0.len)|0);
+			__ZN10SystemData13setFloppyTypeEiN6Floppy11FLOPPY_TYPEE(HEAP32[16+(HEAP32[829214]|0)>>2]|0,L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed,__ZN6Floppy28getFloppyTypeFromImageLengthEj(Larg0.len)|0);
 			break a;
 		}
 		___assert_fail(Lgeptoindex17,tmp5,388,tmp6);
@@ -319,7 +319,7 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 		case 45:
 		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=Larg0.index;
 		if(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed>>>0<2){
-			L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=(__imul(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed,12)|0)+144+(HEAP32[16+(HEAP32[812768]|0)>>2]|0)|0;
+			L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=(__imul(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed,12)|0)+144+(HEAP32[16+(HEAP32[829214]|0)>>2]|0)|0;
 			if(((__ZN6Floppy28getFloppyTypeFromImageLengthEj(Larg0.len)|0)|0)===(HEAP32[L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed>>2]|0)){
 				tmp9=Larg0.devId;
 				tmp10=Larg0.writeProtected;
@@ -327,59 +327,59 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 				HEAP32[8+L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed>>2]=tmp9;
 				HEAP8[7+L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed>>0]=(tmp10|0)!==0?1:0;
 				if((tmp11|0)===-1)break a;
-				___assert_fail(2117352|0,tmp5,402,tmp6);
+				___assert_fail(2120244|0,tmp5,402,tmp6);
 				;
 			}
-			___assert_fail(2117304|0,tmp5,399,tmp6);
+			___assert_fail(2121024|0,tmp5,399,tmp6);
 			;
 		}
 		___assert_fail(Lgeptoindex17,tmp5,396,tmp6);
 		;
 		case 14:
 		__ZN8Debugger9attachHudEv((__ZN8Debugger11getInstanceEv()|0)|0);
-		tmp4={type:15, intWrapper: ((3248824|0)|0), statType: 0, statName: "ByteCode"};
+		tmp4={type:15, intWrapper: ((3247692|0)|0), statType: 0, statName: "ByteCode"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3246760|0)|0), statType: 0, statName: "JIT - Queue Length"};
+		tmp4={type:15, intWrapper: ((3247688|0)|0), statType: 0, statName: "JIT - Queue Length"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3249964|0)|0), statType: 0, statName: "JIT - Cold"};
+		tmp4={type:15, intWrapper: ((3249920|0)|0), statType: 0, statName: "JIT - Cold"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3249976|0)|0), statType: 0, statName: "JIT - Invalid"};
+		tmp4={type:15, intWrapper: ((3249932|0)|0), statType: 0, statName: "JIT - Invalid"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3251068|0)|0), statType: 0, statName: "JIT - FP80 failed"};
+		tmp4={type:15, intWrapper: ((3316848|0)|0), statType: 0, statName: "JIT - FP80 failed"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3249968|0)|0), statType: 0, statName: "JIT - Rejected"};
+		tmp4={type:15, intWrapper: ((3249924|0)|0), statType: 0, statName: "JIT - Rejected"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3248820|0)|0), statType: 0, statName: "JIT - Stub Recompile"};
+		tmp4={type:15, intWrapper: ((3245596|0)|0), statType: 0, statName: "JIT - Stub Recompile"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3249972|0)|0), statType: 0, statName: "JIT - Pending / Queue"};
+		tmp4={type:15, intWrapper: ((3249928|0)|0), statType: 0, statName: "JIT - Pending / Queue"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3245720|0)|0), statType: 0, statName: "JIT - Valid"};
+		tmp4={type:15, intWrapper: ((3249780|0)|0), statType: 0, statName: "JIT - Valid"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3249960|0)|0), statType: 0, statName: "JIT - Re-enter"};
+		tmp4={type:15, intWrapper: ((3249916|0)|0), statType: 0, statName: "JIT - Re-enter"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3251064|0)|0), statType: 0, statName: "JIT - Exits"};
+		tmp4={type:15, intWrapper: ((3316860|0)|0), statType: 0, statName: "JIT - Exits"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3251060|0)|0), statType: 0, statName: "JIT - Call Failed"};
+		tmp4={type:15, intWrapper: ((3250272|0)|0), statType: 0, statName: "JIT - Call Failed"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3251236|0)|0), statType: 0, statName: "JIT - Dyn Call Helper"};
+		tmp4={type:15, intWrapper: ((3245628|0)|0), statType: 0, statName: "JIT - Dyn Call Helper"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3251240|0)|0), statType: 0, statName: "JIT - Stub Ready"};
+		tmp4={type:15, intWrapper: ((3245624|0)|0), statType: 0, statName: "JIT - Stub Ready"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3251056|0)|0), statType: 0, statName: "JIT - Extra Line Flush"};
+		tmp4={type:15, intWrapper: ((3316864|0)|0), statType: 0, statName: "JIT - Extra Line Flush"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3251132|0)|0), statType: 0, statName: "JIT - Preserve Assumption Failed"};
+		tmp4={type:15, intWrapper: ((3249940|0)|0), statType: 0, statName: "JIT - Preserve Assumption Failed"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3248816|0)|0), statType: 0, statName: "JIT - Possible SMC"};
+		tmp4={type:15, intWrapper: ((3245592|0)|0), statType: 0, statName: "JIT - Possible SMC"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3251040|0)|0), statType: 0, statName: "JIT - Late Failures"};
+		tmp4={type:15, intWrapper: ((3249772|0)|0), statType: 0, statName: "JIT - Late Failures"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3251036|0)|0), statType: 0, statName: "JIT - Caller Pins Overflow"};
+		tmp4={type:15, intWrapper: ((3245632|0)|0), statType: 0, statName: "JIT - Caller Pins Overflow"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3251232|0)|0), statType: 0, statName: "JIT - Ret Failed"};
+		tmp4={type:15, intWrapper: ((3245616|0)|0), statType: 0, statName: "JIT - Ret Failed"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3251044|0)|0), statType: 0, statName: "JIT - Interp Reached"};
+		tmp4={type:15, intWrapper: ((3249776|0)|0), statType: 0, statName: "JIT - Interp Reached"};
 		postMessage(tmp4);
-		tmp4={type:15, intWrapper: ((3317620|0)|0), statType: 0, statName: "JIT - Pinning Conflict"};
+		tmp4={type:15, intWrapper: ((3316840|0)|0), statType: 0, statName: "JIT - Pinning Conflict"};
 		postMessage(tmp4);
 		break a;
 		case 21:
@@ -437,7 +437,7 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 			__ZN8LinuxApp23handleFsCacheDataResultEj(Larg0.tid);
 			break a;
 		}
-		___assert_fail(2117364|0,tmp5,606,tmp6);
+		___assert_fail(2120036|0,tmp5,606,tmp6);
 		;
 		case 62:
 		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=Larg0.tid;
@@ -565,7 +565,7 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 		break a;
 		case 34:
 		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=72+tmp4|0;
-		__ZNSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEEC2B7v160000IDnEEPKc(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed,2117384|0);
+		__ZNSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEEC2B7v160000IDnEEPKc(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed,2120056|0);
 		tmp9=__ZN10ProcessCtx6createEPS_RKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEE(0,L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed)|0;
 		__ZNSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEED2Ev(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed);
 		HEAP32[32+tmp9>>2]=2;
@@ -574,7 +574,7 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 		break a;
 		case 36:
 		tmp9=Larg0.tid;
-		tmp10=HEAP32[829404]|0;
+		tmp10=HEAP32[829209]|0;
 		while(1){
 			L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=HEAP32[12+tmp10>>2]|0;
 			if((L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed|0)!=(0|0))while(1){
@@ -587,7 +587,7 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 					tmp5=-8+tmp4|0;
 					___setStackPtr(tmp5);
 					HEAP32[tmp5>>2]=tmp9;
-					__ZN7CoreCtx3logEPKcz(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed,2117396|0);
+					__ZN7CoreCtx3logEPKcz(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed,2120068|0);
 					___setStackPtr(tmp4);
 					tmp4={type:35, tid:(Larg0.tid), value: tmp9};
 					postMessage(tmp4);
@@ -602,7 +602,7 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 		}
 		case 37:
 		tmp10=Larg0.tid;
-		tmp9=HEAP32[829404]|0;
+		tmp9=HEAP32[829209]|0;
 		b:if((tmp9|0)!=(0|0)){
 			while(1){
 				L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=HEAP32[12+tmp9>>2]|0;
@@ -671,7 +671,7 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 		break a;
 		case 38:
 		tmp9=Larg0.tid;
-		tmp10=HEAP32[829404]|0;
+		tmp10=HEAP32[829209]|0;
 		while(1){
 			L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=HEAP32[12+tmp10>>2]|0;
 			if((L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed|0)!=(0|0))while(1){
@@ -681,7 +681,7 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 					if((tmp10|0)!=(0|0)){
 						tmp10=HEAP32[tmp10>>2]|0;
 						if((HEAP32[44+tmp10>>2]|0)===1){
-							if(Larg0.arg1!==null)___assert_fail(2117480|0,tmp5,758,tmp6);
+							if(Larg0.arg1!==null)___assert_fail(2120152|0,tmp5,758,tmp6);
 							;
 							if(((__ZN5Inode10canReadFwdEv(tmp10)|0)|0)!==0){
 								L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=__ZN8LinuxApp12handleAcceptEP7CoreCtxP10SocketNode(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed,tmp10|0)|0;
@@ -710,7 +710,7 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 		}
 		case 52:
 		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=Larg0.tid;
-		tmp9=HEAP32[829404]|0;
+		tmp9=HEAP32[829209]|0;
 		while(1){
 			tmp10=HEAP32[12+tmp9>>2]|0;
 			if((tmp10|0)!=(0|0))while(1){
@@ -740,7 +740,7 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 		}
 		case 84:
 		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=Larg0.tid;
-		tmp9=HEAP32[829404]|0;
+		tmp9=HEAP32[829209]|0;
 		while(1){
 			tmp10=HEAP32[12+tmp9>>2]|0;
 			if((tmp10|0)!=(0|0))while(1){
@@ -755,10 +755,10 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 							__ZN13FileDescEntry5clearEv(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed);
 							break a;
 						}
-						___assert_fail(2117524|0,tmp5,794,tmp6);
+						___assert_fail(2120232|0,tmp5,794,tmp6);
 						;
 					}
-					___assert_fail(2117496|0,tmp5,792,tmp6);
+					___assert_fail(2120204|0,tmp5,792,tmp6);
 					;
 				}
 				tmp10=HEAP32[488+tmp10>>2]|0;
@@ -787,12 +787,12 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 		__ZN12AddressSpace13scheduleLaterEv();
 		break a;
 		case 39:
-		HEAP32[529101]=Larg0.value;
+		HEAP32[530060]=Larg0.value;
 		break a;
 		case 87:
 		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=Larg0.columns;
 		tmp9=Larg0.rows;
-		tmp10=2098568;
+		tmp10=2107720;
 		HEAP16[2+tmp10>>1]=L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed;
 		HEAP16[tmp10>>1]=tmp9;
 		break a;
@@ -820,8 +820,8 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 		__ZN8LinuxApp15setTimerHandlerEv();
 		tmp3=+performance.timeOrigin;
 		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=~~(tmp3/1000);
-		HEAP32[812203]=L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed;
-		HEAP32[829538]=~~((tmp3-(+(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed>>>0))*1000)*1000);
+		HEAP32[812484]=L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed;
+		HEAP32[812565]=~~((tmp3-(+(L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed>>>0))*1000)*1000);
 		__ZN8LinuxApp14setTimezoneEnvEi(~~ +new Date().getTimezoneOffset());
 		__ZN14AsmCompileBase10globalInitEv();
 		__ZN16InterpPrimitives19InitializeMainTableILi32EEEvv();
@@ -854,7 +854,7 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 		break a;
 		case 88:
 		tmp10=Larg0.tid;
-		tmp9=HEAP32[829404]|0;
+		tmp9=HEAP32[829209]|0;
 		b:if((tmp9|0)!=(0|0)){
 			while(1){
 				L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=HEAP32[12+tmp9>>2]|0;
@@ -878,15 +878,15 @@ function __ZN11CheerpXCore17handleMessageImplEPN6client11CoreMessageE(Larg0){
 			__ZN12AddressSpace13scheduleLaterEv();
 			break a;
 		}
-		___assert_fail(2116032|0,tmp5,922,tmp6);
+		___assert_fail(2120256|0,tmp5,922,tmp6);
 		;
 		case 92:
-		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=HEAP32[16+(HEAP32[812768]|0)>>2]|0;
+		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=HEAP32[16+(HEAP32[829214]|0)>>2]|0;
 		__ZN13PS2Controller13handleKeyDownEj(76+L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed|0,Larg0.value);
 		__ZN12AddressSpace13scheduleLaterEv();
 		break a;
 		case 93:
-		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=HEAP32[16+(HEAP32[812768]|0)>>2]|0;
+		L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed=HEAP32[16+(HEAP32[829214]|0)>>2]|0;
 		__ZN13PS2Controller11handleKeyUpEj(76+L$poptgep$poptgep$poptgep$poptgep$poptgepsqueezed$poptgepsqueezed$poptgepsqueezed|0,Larg0.value);
 		__ZN12AddressSpace13scheduleLaterEv();
 		break a;
@@ -956,10 +956,10 @@ function __ZN11CheerpXCore10initializeEv(){
 	tmp1="message";
 	tmp0=__ZN11CheerpXCore13handleMessageEPN6client12MessageEventIPNS0_6ObjectEEE;
 	addEventListener(tmp1,tmp0);
-	HEAPF64[405438]=+performance.timeOrigin;
+	HEAPF64[274179]=+performance.timeOrigin;
 	tmp1=HEAP8;
 	tmp1=tmp1.buffer;
-	tmp1={type:0,buffer:tmp1,asyncPtrOffset:((2192088|0)|0),startRealTime: +HEAPF64[405438]};
+	tmp1={type:0,buffer:tmp1,asyncPtrOffset:((2189416|0)|0),startRealTime: +HEAPF64[274179]};
 	postMessage(tmp1);
 }
 function __ZZZN8LinuxApp20retryCoreMessageImplEP7CoreCtxiENK3$_0clES1_iEN9CheerpTmp3RunES1_i(Larg0){
@@ -972,20 +972,20 @@ function __ZZZN8LinuxApp20retryCoreMessageImplEP7CoreCtxiENK3$_0clES1_iEN9Cheerp
 		tmp0[0+Larg0|0]=null;
 		return;
 	}
-	___assert_fail(2146984|0,2117228|0,1011,2146988|0);
+	___assert_fail(2142836|0,2120932|0,1011,2142840|0);
 	;
 }
 function __ZN14AsmCompileBase19completeModuleAsyncEPN6client6ObjectE(Larg0){
 	var tmp0=null,tmp1=0,tmp2=null,tmp3=0,tmp4=0;
-	tmp4=2192088;
+	tmp4=2189416;
 	HEAP8[25+tmp4>>0]=0;
 	HEAP32[20+tmp4>>2]=1;
 	__ZN10BinaryCode10LinearCode10deallocateEv();
-	__ZN14AsmCompileBase14completeModuleEPN6client6ObjectEP14CompiledModule(Larg0,HEAP32[811687]|0);
-	HEAP32[811690]=__ZNKSt6vectorIP9CodeTrace17TrackingAllocatorIS1_L7MEM_TAG9EEE4sizeB7v160000Ev(3245560|0)|0;
-	__ZN14CompiledModule6decRefEv(HEAP32[811687]|0);
-	HEAP32[811687]=0;
-	tmp4=3245560;
+	__ZN14AsmCompileBase14completeModuleEPN6client6ObjectEP14CompiledModule(Larg0,HEAP32[811921]|0);
+	HEAP32[811922]=__ZNKSt6vectorIP9CodeTrace17TrackingAllocatorIS1_L7MEM_TAG9EEE4sizeB7v160000Ev(2194672|0)|0;
+	__ZN14CompiledModule6decRefEv(HEAP32[811921]|0);
+	HEAP32[811921]=0;
+	tmp4=2194672;
 	tmp0=HEAP32;
 	tmp1=HEAP32[tmp4>>2]>>2|0;
 	tmp2=HEAP32;
@@ -997,8 +997,8 @@ function __ZN14AsmCompileBase14completeModuleEPN6client6ObjectEP14CompiledModule
 	LsavedStack=___getStackPtr();
 	tmp7=-32+LsavedStack|0;
 	___setStackPtr(tmp7);
-	tmp1=2152408|0;
-	tmp2=2149228|0;
+	tmp1=2149948|0;
+	tmp2=2147692|0;
 	if((Larg1|0)!=(0|0)){
 		tmp8=new WebAssembly.Instance(Larg0,__ZN17WasmGeneratorBase14moduleTemplateE);
 		__ZN14CompiledModule15setWasmInstanceEPN6client11AsmInstanceE(Larg1|0,tmp8);
@@ -1010,7 +1010,7 @@ function __ZN14AsmCompileBase14completeModuleEPN6client6ObjectEP14CompiledModule
 		L$poptgepsqueezed25=24+Larg1|0;
 		tmp11=__ZNKSt6vectorIP9CodeTrace17TrackingAllocatorIS1_L7MEM_TAG9EEE4sizeB7v160000Ev(L$poptgepsqueezed25)|0;
 		if((tmp9|0)===(tmp11+8|0)){
-			tmp12=tmp4.get(((1271|0)|0));
+			tmp12=tmp4.get(((1276|0)|0));
 			tmp8.set(0,tmp4.get(__ZN17WasmGeneratorBase12getImportPtrE11WasmImports(0)|0));
 			tmp8.set(1,tmp4.get(__ZN17WasmGeneratorBase12getImportPtrE11WasmImports(1)|0));
 			tmp8.set(2,tmp4.get(__ZN17WasmGeneratorBase12getImportPtrE11WasmImports(2)|0));
@@ -1068,13 +1068,13 @@ function __ZN14AsmCompileBase14completeModuleEPN6client6ObjectEP14CompiledModule
 								}
 							}
 						}else{
-							tmp16=HEAP32[812207]|0;
+							tmp16=HEAP32[811405]|0;
 							if((tmp16|0)!=(0|0)){
 								L$poptgepsqueezed24=HEAP32[tmp16>>2]|0;
 								tmp15=L$poptgepsqueezed24+1|0;
 								HEAP32[tmp16>>2]=tmp15;
 								if((tmp15|0)===(HEAP32[4+tmp16>>2]|0)){
-									HEAP32[812207]=(HEAP32[8+tmp16>>2]|0);
+									HEAP32[811405]=(HEAP32[8+tmp16>>2]|0);
 									__ZdlPv(tmp16|0);
 								}
 							}else{
@@ -1082,7 +1082,7 @@ function __ZN14AsmCompileBase14completeModuleEPN6client6ObjectEP14CompiledModule
 								tmp13=HEAP8;
 								tmp16=__Znwj(12)|0;
 								__ZN14FreeTableEntryC2Ejj(tmp16|0,L$poptgepsqueezed24+1|0,L$poptgepsqueezed24+1000|0);
-								HEAP32[812207]=(tmp16|0);
+								HEAP32[811405]=(tmp16|0);
 							}
 							tmp4.set(L$poptgepsqueezed24,tmp12);
 							__ZN9CodeTrace9setModuleEiP14CompiledModulePN6client6ObjectE(tmp11,L$poptgepsqueezed24,Larg1|0,tmp12);
@@ -1101,7 +1101,7 @@ function __ZN14AsmCompileBase14completeModuleEPN6client6ObjectEP14CompiledModule
 			tmp11=8+tmp7|0;
 			__ZNSt6vectorIP9CodeTrace17TrackingAllocatorIS1_L7MEM_TAG9EEE5beginB7v160000Ev(tmp11);
 			L$poptgepsqueezed25=tmp7|0;
-			__ZNSt6vectorIP9CodeTrace17TrackingAllocatorIS1_L7MEM_TAG9EEE3endB7v160000Ev(L$poptgepsqueezed25,3245560|0);
+			__ZNSt6vectorIP9CodeTrace17TrackingAllocatorIS1_L7MEM_TAG9EEE3endB7v160000Ev(L$poptgepsqueezed25,2194672|0);
 			tmp7=HEAP32;
 			tmp16=HEAP32[tmp11>>2]>>2|0;
 			tmp8=HEAP32;
@@ -1109,11 +1109,11 @@ function __ZN14AsmCompileBase14completeModuleEPN6client6ObjectEP14CompiledModule
 			if(tmp7!==tmp8||tmp16!==L$poptgepsqueezed24)while(1){
 				tmp16=tmp7[tmp16]|0;
 				if((tmp16|0)!=(0|0)){
-					if((HEAP16[54+tmp16>>1]&4)===0)___assert_fail(2149292|0,tmp1,290,tmp2);
+					if((HEAP16[54+tmp16>>1]&4)===0)___assert_fail(2146940|0,tmp1,290,tmp2);
 					;
 					tmp15=HEAP32[20+tmp16>>2]|0;
 					HEAP32[24+tmp15>>2]=HEAP32[24+tmp15>>2]|8;
-					if((HEAP16[18+tmp16>>1]&65535)!==0)___assert_fail(2149316|0,tmp1,292,tmp2);
+					if((HEAP16[18+tmp16>>1]&65535)!==0)___assert_fail(2146764|0,tmp1,292,tmp2);
 					;
 				}
 				__ZNSt11__wrap_iterIPP9CodeTraceEppB7v160000Ev(tmp11)|0;
@@ -1125,10 +1125,10 @@ function __ZN14AsmCompileBase14completeModuleEPN6client6ObjectEP14CompiledModule
 			___setStackPtr(LsavedStack);
 			return;
 		}
-		___assert_fail(2149012|0,tmp1,214,tmp2);
+		___assert_fail(2147708|0,tmp1,214,tmp2);
 		;
 	}
-	___assert_fail(2149220|0,tmp1,207,tmp2);
+	___assert_fail(2147684|0,tmp1,207,tmp2);
 	;
 }
 function __ZN14AsmCompileBase10globalInitEv(){
@@ -1142,7 +1142,7 @@ function __ZN14AsmCompileBase10globalInitEv(){
 	__ZN13WasmGenerator14emitBaseHeaderEv(tmp2);
 	__ZN13WasmGeneratorD2Ev(tmp2);
 	__ZN17WasmGeneratorBase21checkWasmFeatureFlagsEv();
-	__ZN14AsmCompileBase24importPlaceholderFuncObjE=__asm.tbl.get(((1271|0)|0));
+	__ZN14AsmCompileBase24importPlaceholderFuncObjE=__asm.tbl.get(((1276|0)|0));
 	___setStackPtr(LsavedStack);
 }
 function __ZN9CodeTrace9setModuleEiP14CompiledModulePN6client6ObjectE(Larg0,Larg1,Larg2,Larg3){
@@ -1150,7 +1150,7 @@ function __ZN9CodeTrace9setModuleEiP14CompiledModulePN6client6ObjectE(Larg0,Larg
 	LsavedStack=___getStackPtr();
 	tmp1=-16+LsavedStack|0;
 	___setStackPtr(tmp1);
-	if(((HEAP32[24+Larg0>>2]|0)|0)!=(0|0))___assert_fail(2149336|0,2169628|0,34,2149356|0);
+	if(((HEAP32[24+Larg0>>2]|0)|0)!=(0|0))___assert_fail(2146784|0,2167124|0,35,2146804|0);
 	;
 	HEAP32[24+Larg0>>2]=(Larg2|0);
 	HEAP32[Larg2>>2]=(HEAP32[Larg2>>2]|0)+1|0;
@@ -1178,7 +1178,7 @@ function __ZN9CodeTrace14freeTableEntryEv(Larg0){
 		tmp0.set(HEAP32[32+Larg0>>2]|0,null);
 		return;
 	}
-	___assert_fail(2171496|0,2171532|0,5037,2171588|0);
+	___assert_fail(2168888|0,2168924|0,5037,2168996|0);
 	;
 }
 function __ZN9CodeTrace10freeModuleEbbb(Larg0,Larg1,Larg2,Larg3){
@@ -1265,7 +1265,7 @@ function __ZN13WasmGenerator8debuggerEj(Larg0){
 	tmp1=-8+tmp0|0;
 	___setStackPtr(tmp1);
 	HEAP32[tmp1>>2]=Larg0;
-	___printf(2167996|0);
+	___printf(2164952|0);
 	___setStackPtr(tmp0);
 	debugger;
 }
@@ -1337,18 +1337,18 @@ function __ZN17WasmGeneratorBase8dumpFileEPKcPKhj(Larg0,Marg0,Larg1){
 }
 function __ZN17WasmGeneratorBase31completeInstructionsModuleAsyncEPN6client6ObjectE(Larg0){
 	var tmp0=0;
-	tmp0=HEAP32[812752]|0;
+	tmp0=HEAP32[812440]|0;
 	if((tmp0|0)!=(0|0)){
 		__ZN25CompiledInterpreterModule16completeHandlersEPN6client6ObjectEjj(tmp0,Larg0,0,__ZNKSt6vectorIN25CompiledInterpreterModule11HandlerDataESaIS1_EE4sizeB7v160000Ev(tmp0|0)|0);
-		tmp0=HEAP32[812752]|0;
+		tmp0=HEAP32[812440]|0;
 		if((tmp0|0)!=(0|0)){
 			__ZN25CompiledInterpreterModuleD2Ev(tmp0);
 			__ZdlPv(tmp0|0);
 		}
-		HEAP32[812752]=0;
+		HEAP32[812440]=0;
 		return;
 	}
-	___assert_fail(2146708|0,2124848|0,510,2146744|0);
+	___assert_fail(2143556|0,2116236|0,510,2142844|0);
 	;
 }
 function __ZN17WasmGeneratorBase21checkWasmFeatureFlagsEv(){
@@ -1379,10 +1379,10 @@ function __ZN17WasmGeneratorBase21checkWasmFeatureFlagsEv(){
 		tmp7=new WebAssembly.Module(tmp5);
 		tmp5=new WebAssembly.Instance(tmp7,__ZN17WasmGeneratorBase14moduleTemplateE).exports.tbl;
 		tmp7=tmp5.get(0);
-		if(tmp7===null)___assert_fail(2139756|0,2124848|0,557,2139776|0);
+		if(tmp7===null)___assert_fail(2143408|0,2116236|0,557,2143428|0);
 		;
 		tmp5.set(0,tmp7);
-		if(tmp5.get(0)!==null)HEAP8[3318148]=1;
+		if(tmp5.get(0)!==null)HEAP8[3245072]=1;
 	}
 	__ZN10BinaryCode10LinearCodeD2Ev(tmp4);
 	__ZN13WasmGeneratorD2Ev(tmp1);
@@ -1391,18 +1391,18 @@ function __ZN17WasmGeneratorBase21checkWasmFeatureFlagsEv(){
 function __ZN14CompiledModule17clearWasmInstanceEv(Larg0){
 	var tmp0=0,tmp1=null,tmp2=null,tmp3=null;
 	tmp0=HEAP32[20+Larg0>>2]|0;
-	tmp1=2169824|0;
-	tmp2=2171468|0;
+	tmp1=2168836|0;
+	tmp2=2166980|0;
 	if((tmp0|0)!==0){
 		tmp3=__ZN14CompiledModule9instancesE;
 		if(tmp3[0+(tmp0-1|0)|0]!==null){
 			tmp3[0+(tmp0-1|0)|0]=null;
 			return;
 		}
-		___assert_fail(2171308|0,tmp1,181,tmp2);
+		___assert_fail(2168856|0,tmp2,181,tmp1);
 		;
 	}
-	___assert_fail(2171456|0,tmp1,179,tmp2);
+	___assert_fail(2168824|0,tmp2,179,tmp1);
 	;
 }
 function __ZN14CompiledModule15setWasmInstanceEPN6client11AsmInstanceE(Larg0,Larg1){
@@ -1474,7 +1474,7 @@ function __ZN14CompiledModule18clearImportedTraceEP9CodeTrace(Larg0,Larg1){
 function __ZNK25CompiledInterpreterModule11HandlerData14setAllHandlersEj(Larg0,Larg1){
 	var tmp0=null,tmp1=0,tmp2=0,tmp3=0,tmp4=0,tmp5=0,tmp6=0,tmp7=0;
 	tmp0=__asm.tbl.get(Larg1);
-	if(!(__ZNK24ImportantBitsForDispatch21doesMaskFitInTwoBytesEv(8+Larg0|0)|0))___assert_fail(2126420|0,2169824|0,251,2126140|0);
+	if(!(__ZNK24ImportantBitsForDispatch21doesMaskFitInTwoBytesEv(8+Larg0|0)|0))___assert_fail(2117912|0,2166980|0,251,2117964|0);
 	;
 	tmp6=HEAP32[8+Larg0>>2]|0;
 	tmp1=HEAP16[6+Larg0>>1]&tmp6&65535;
@@ -1499,9 +1499,9 @@ function __ZN25CompiledInterpreterModule16completeHandlersEPN6client6ObjectEjj(L
 	tmp0=__asm.tbl;
 	tmp9=tmp9.exports.tbl;
 	tmp1=8-Larg2|0;
-	tmp2=2169824|0;
-	tmp10=2126360|0;
-	if(((tmp9.length)|0)!==(tmp1+Larg3|0))___assert_fail(2126284|0,tmp2,288,tmp10);
+	tmp2=2166980|0;
+	tmp10=2117852|0;
+	if(((tmp9.length)|0)!==(tmp1+Larg3|0))___assert_fail(2117776|0,tmp2,288,tmp10);
 	;
 	tmp9.set(0,tmp0.get(__ZN17WasmGeneratorBase12getImportPtrE11WasmImports(9)|0));
 	tmp9.set(1,tmp0.get(__ZN17WasmGeneratorBase12getImportPtrE11WasmImports(1)|0));
@@ -1511,15 +1511,15 @@ function __ZN25CompiledInterpreterModule16completeHandlersEPN6client6ObjectEjj(L
 	tmp9.set(5,tmp0.get(__ZN17WasmGeneratorBase12getImportPtrE11WasmImports(5)|0));
 	tmp9.set(6,tmp0.get(__ZN17WasmGeneratorBase12getImportPtrE11WasmImports(6)|0));
 	tmp9.set(7,tmp0.get(__ZN17WasmGeneratorBase12getImportPtrE11WasmImports(7)|0));
-	if(Larg3>>>0<=Larg2>>>0)___assert_fail(2126380|0,tmp2,298,tmp10);
+	if(Larg3>>>0<=Larg2>>>0)___assert_fail(2117872|0,tmp2,298,tmp10);
 	;
-	if((__ZNKSt6vectorIN25CompiledInterpreterModule11HandlerDataESaIS1_EE4sizeB7v160000Ev(Larg0|0)|0)>>>0<Larg3>>>0)___assert_fail(2126396|0,tmp2,299,tmp10);
+	if((__ZNKSt6vectorIN25CompiledInterpreterModule11HandlerDataESaIS1_EE4sizeB7v160000Ev(Larg0|0)|0)>>>0<Larg3>>>0)___assert_fail(2117888|0,tmp2,299,tmp10);
 	;
 	tmp11=Larg2;
 	while(1){
 		tmp10=tmp9.get(tmp11+tmp1|0);
 		L$poptgep=(__imul(tmp11,56)|0)+(HEAP32[Larg0>>2]|0)|0;
-		if(!(__ZNK24ImportantBitsForDispatch21doesMaskFitInTwoBytesEv(8+L$poptgep|0)|0))___assert_fail(2126420|0,tmp2,251,2126140|0);
+		if(!(__ZNK24ImportantBitsForDispatch21doesMaskFitInTwoBytesEv(8+L$poptgep|0)|0))___assert_fail(2117912|0,tmp2,251,2117964|0);
 		;
 		tmp12=HEAP32[8+L$poptgep>>2]|0;
 		tmp4=HEAP16[6+L$poptgep>>1]&tmp12&65535;
@@ -1581,16 +1581,16 @@ function __ZN22CompiledHandlersTables24completeDispatcherModuleEjPN6client6Objec
 		tmp0.set(tmp2+1|0,tmp1.get(9));
 		tmp0.set(tmp2+2|0,tmp1.get(10));
 		tmp0.set(tmp2+3|0,tmp1.get(11));
-		HEAP32[(Larg0<<2)+8+2191048>>2]=tmp2;
+		HEAP32[(Larg0<<2)+8+2189656>>2]=tmp2;
 		if((Larg2|0)!==2){
 			tmp2=tmp2+4|0;
 			tmp0.set(tmp2,tmp1.get(12));
-			HEAP32[(Larg2<<2)+2191048>>2]=tmp2;
+			HEAP32[(Larg2<<2)+2189656>>2]=tmp2;
 		}
 		__ZN25CompiledInterpreterModule18handlersWasmTablesE[Larg0]=tmp1;
 		return;
 	}
-	___assert_fail(2169752|0,2169824|0,418,2169880|0);
+	___assert_fail(2166908|0,2166980|0,418,2166700|0);
 	;
 }
 function __ZN6cheerp11console_logIJPKcEEEvDpT_(Larg0,Marg0){
@@ -1637,13 +1637,13 @@ function __ZN8Debugger7disasAtEP12AddressSpacejjj(Larg0,Larg1,Larg2){
 		___setStackPtr(LsavedStack);
 		return tmp1;
 	}
-	___assert_fail(2170728|0,2170756|0,1141,2169972|0);
+	___assert_fail(2166728|0,2166756|0,1141,2166812|0);
 	;
 }
 function __ZN8Debugger10appendInstEPKc(){
 	var tmp0=null,tmp1=null;
 	tmp0=__ZN8Debugger11curDisasStrE;
-	tmp1=_cheerpCreate_ZN6client6StringC2EPKc(HEAP8,3248836>>0);
+	tmp1=_cheerpCreate_ZN6client6StringC2EPKc(HEAP8,3244440>>0);
 	__ZN8Debugger11curDisasStrE=tmp0.concat(tmp1,"\n");
 }
 function __ZN8Debugger15registerContextEP7CoreCtx12CONTEXT_TYPEj(Larg0,Larg1,Larg2,Larg3){
@@ -1691,7 +1691,7 @@ function __ZN8Debugger9attachCtxE12CONTEXT_TYPEj(Larg0,Larg1,Larg2){
 	var tmp0=0,tmp1=null;
 	tmp0=__ZN8Debugger11getCtxForIdE12CONTEXT_TYPEj(Larg0|0,Larg1,Larg2)|0;
 	if((tmp0|0)!=(0|0)){
-		if((HEAP32[492+tmp0>>2]|0)!==0)___assert_fail(2148040|0,2170756|0,1210,2147804|0);
+		if((HEAP32[492+tmp0>>2]|0)!==0)___assert_fail(2143672|0,2166756|0,1210,2143704|0);
 		;
 		HEAP32[492+tmp0>>2]=1;
 		tmp1={type:27,ctxType:Larg1,value:Larg2,dbgState:1};
@@ -1703,7 +1703,7 @@ function __ZN8Debugger9detachCtxE12CONTEXT_TYPEj(Larg0,Larg1,Larg2){
 	tmp0=__ZN8Debugger11getCtxForIdE12CONTEXT_TYPEj(Larg0|0,Larg1,Larg2)|0;
 	tmp1=(tmp0|0)==(0|0)?1:0;
 	if(!(tmp1)){
-		if((HEAP32[492+tmp0>>2]|0)!==1)___assert_fail(2147996|0,2170756|0,1222,2148028|0);
+		if((HEAP32[492+tmp0>>2]|0)!==1)___assert_fail(2143628|0,2166756|0,1222,2143660|0);
 		;
 		HEAP32[492+tmp0>>2]=0;
 		tmp2={type:27,ctxType:Larg1,value:Larg2,dbgState:0};
@@ -1713,7 +1713,7 @@ function __ZN8Debugger9detachCtxE12CONTEXT_TYPEj(Larg0,Larg1,Larg2){
 }
 function _dbgDumpThreads(Larg0){
 	var tmp0=0,tmp1=0,tmp2=0,tmp3=0,tmp4=null;
-	tmp1=HEAP32[829404]|0;
+	tmp1=HEAP32[829209]|0;
 	if((tmp1|0)!=(0|0))while(1){
 		tmp2=HEAP32[8+tmp1>>2]|0;
 		tmp3=HEAP32[32+tmp1>>2]|0;
@@ -1739,7 +1739,7 @@ function _dbgDisassemblyAt(Larg0,Larg1,Larg2){
 	LsavedStack=___getStackPtr();
 	tmp1=-8+LsavedStack|0;
 	___setStackPtr(tmp1);
-	tmp3=HEAP32[829404]|0;
+	tmp3=HEAP32[829209]|0;
 	if((tmp3|0)!=(0|0))while(1){
 		if((HEAP32[8+tmp3>>2]|0)!==(Larg0|0)){
 			tmp3=HEAP32[92+tmp3>>2]|0;
@@ -1776,12 +1776,12 @@ function _dbgDisassemblyAt(Larg0,Larg1,Larg2){
 		___setStackPtr(LsavedStack);
 		return;
 	}
-	___assert_fail(2170728|0,2170756|0,1141,2169972|0);
+	___assert_fail(2166728|0,2166756|0,1141,2166812|0);
 	;
 }
 function _dbgDumpMem(Larg0,Larg1,Larg2){
 	var tmp0=0,tmp1=0,tmp2=0,tmp3=null,tmp4=null,tmp5=0,tmp6=null,tmp7=0,tmp8=null;
-	tmp5=HEAP32[829404]|0;
+	tmp5=HEAP32[829209]|0;
 	if((tmp5|0)!=(0|0))while(1){
 		if((HEAP32[8+tmp5>>2]|0)!==(Larg0|0)){
 			tmp5=HEAP32[92+tmp5>>2]|0;
@@ -1816,7 +1816,7 @@ function _dbgDumpMem(Larg0,Larg1,Larg2){
 }
 function _dbgDumpAddressSpace(Larg0){
 	var tmp0=0;
-	tmp0=HEAP32[829404]|0;
+	tmp0=HEAP32[829209]|0;
 	if((tmp0|0)!=(0|0))while(1){
 		if((HEAP32[8+tmp0>>2]|0)!==(Larg0|0)){
 			tmp0=HEAP32[92+tmp0>>2]|0;
@@ -1832,12 +1832,12 @@ function _dbgDumpAddressSpace(Larg0){
 	__ZNK12AddressSpace5checkEv(HEAP32[tmp0>>2]|0);
 }
 function __ZN11CoreManager26exitAndThrowNoAddressSpaceEv(){
-	HEAP32[542681]=((3317628|0)|0);
-	HEAP32[812766]=(HEAP32[812766]|0)+1|0;
+	HEAP32[541764]=((3244552|0)|0);
+	HEAP32[829215]=(HEAP32[829215]|0)+1|0;
 	throw 'CheerpJContinue';
 	;
 }
-function __ZN6cheerpL8date_nowEv$p1511(){
+function __ZN6cheerpL8date_nowEv$p1509(){
 	return +Date.now();
 }
 function __Z12getHexStringji(Larg0){
@@ -1979,12 +1979,12 @@ function __ZN10Graphics3D10runCommandEjP13Graphics3DMsgRSt6vectorIhSaIhEES5_(Lar
 	}
 	tmp7=tmp6.a2;
 	tmp5=HEAP32[Larg1>>2]|0;
-	tmp8=2140080|0;
-	tmp9=2140124|0;
-	tmp10=2140136|0;
-	tmp11=2140156|0;
-	tmp1=2140164|0;
-	tmp2=2140204|0;
+	tmp8=2146668|0;
+	tmp9=2145836|0;
+	tmp10=2145544|0;
+	tmp11=2145588|0;
+	tmp1=2145596|0;
+	tmp2=2145652|0;
 	switch(tmp5|0){
 		case 2:
 		tmp7=new OffscreenCanvas((+(HEAP32[4+Larg1>>2]>>>0)),(+(HEAP32[8+Larg1>>2]>>>0)));
@@ -2108,7 +2108,7 @@ function __ZN10Graphics3D10runCommandEjP13Graphics3DMsgRSt6vectorIhSaIhEES5_(Lar
 			__ZNSt6vectorIhSaIhEE6resizeEj(Larg3|0,8);
 			tmp7=__ZL5getAsIN6client11Uint32ArrayEEPT_RSt6vectorIhSaIhEE(Larg3|0);
 			tmp6=tmp6;
-			if(((tmp6.length)|0)!==2)___assert_fail(2140056|0,tmp8,246,tmp9);
+			if(((tmp6.length)|0)!==2)___assert_fail(2146644|0,tmp8,246,tmp9);
 			;
 			tmp7[0]=tmp6[0]|0;
 			tmp7[0+1|0]=tmp6[0+1|0]|0;
@@ -2285,7 +2285,7 @@ function __ZN10Graphics3D10runCommandEjP13Graphics3DMsgRSt6vectorIhSaIhEES5_(Lar
 				tmp6.a4=tmp10;
 			}
 			tmp5=tmp6.i5|0;
-			if((tmp5|0)!==(HEAP32[4+Larg1>>2]|0))___assert_fail(2139808|0,tmp8,366,tmp9);
+			if((tmp5|0)!==(HEAP32[4+Larg1>>2]|0))___assert_fail(2145552|0,tmp8,366,tmp9);
 			;
 		}
 		tmp7.bindTexture((+(tmp5>>>0)),tmp10);
@@ -2635,7 +2635,7 @@ function __ZN10Graphics3D10runCommandEjP13Graphics3DMsgRSt6vectorIhSaIhEES5_(Lar
 			___setStackPtr(LsavedStack);
 			return 0|0;
 		}
-		___assert_fail(2140216|0,tmp8,666,tmp9);
+		___assert_fail(2145664|0,tmp8,666,tmp9);
 		;
 		case 58:
 		tmp8=__ZL5getAsIN6client12Float32ArrayEEPT_RSt6vectorIhSaIhEE(Larg2|0);
@@ -2751,7 +2751,7 @@ function __ZN10Graphics3D9getMappedIN6client11WebGLShaderEEEPT_j(Larg0,Larg1){
 		tmp0=Larg0.a3;
 		return tmp0[0+(Larg1-1|0)|0];
 	}
-	___assert_fail(2140156|0,2140164|0,60,2140204|0);
+	___assert_fail(2145588|0,2145596|0,60,2145652|0);
 	;
 }
 function __ZN10Graphics3D9getMappedIN6client12WebGLProgramEEEPT_j(Larg0,Larg1){
@@ -2760,7 +2760,7 @@ function __ZN10Graphics3D9getMappedIN6client12WebGLProgramEEEPT_j(Larg0,Larg1){
 		tmp0=Larg0.a3;
 		return tmp0[0+(Larg1-1|0)|0];
 	}
-	___assert_fail(2140156|0,2140164|0,60,2140204|0);
+	___assert_fail(2145588|0,2145596|0,60,2145652|0);
 	;
 }
 function __ZN10Graphics3D9getMappedIN6client20WebGLUniformLocationEEEPT_j(Larg0,Larg1){
@@ -2769,7 +2769,7 @@ function __ZN10Graphics3D9getMappedIN6client20WebGLUniformLocationEEEPT_j(Larg0,
 		tmp0=Larg0.a3;
 		return tmp0[0+(Larg1-1|0)|0];
 	}
-	___assert_fail(2140156|0,2140164|0,60,2140204|0);
+	___assert_fail(2145588|0,2145596|0,60,2145652|0);
 	;
 }
 function __ZL5getAsIN6client11Uint32ArrayEEPT_RSt6vectorIhSaIhEE(Larg0){
@@ -2798,7 +2798,7 @@ function __ZN10Graphics3D9getMappedIN6client17WebGLRenderbufferEEEPT_j(Larg0,Lar
 		tmp0=Larg0.a3;
 		return tmp0[0+(Larg1-1|0)|0];
 	}
-	___assert_fail(2140156|0,2140164|0,60,2140204|0);
+	___assert_fail(2145588|0,2145596|0,60,2145652|0);
 	;
 }
 function __ZL5getAsIN6client10Uint8ArrayEEPT_RSt6vectorIhSaIhEE(Larg0){
@@ -2891,8 +2891,8 @@ function __ZN13IDEController12runAsyncReadEjj(Larg0,Larg1,Larg2){
 function __ZN13IDEController13runAsyncWriteEv(Larg0){
 	var tmp0=0,tmp1=null,tmp2=0,tmp3=0,tmp4=0,L$poptgepsqueezed=0,tmp6=null,tmp7=0;
 	tmp0=HEAP8[87+Larg0>>0]|0;
-	tmp6=2134508|0;
-	tmp1=2134664|0;
+	tmp6=2132904|0;
+	tmp1=2133084|0;
 	if((tmp0&255)!==0){
 		tmp7=HEAP8[86+Larg0>>0]|0;
 		tmp2=tmp7&255;
@@ -2906,23 +2906,23 @@ function __ZN13IDEController13runAsyncWriteEv(Larg0){
 			postMessage(tmp6);
 			return;
 		}
-		___assert_fail(2133684|0,tmp6,308,tmp1);
+		___assert_fail(2133100|0,tmp6,308,tmp1);
 		;
 	}
-	___assert_fail(2134644|0,tmp6,306,tmp1);
+	___assert_fail(2133064|0,tmp6,306,tmp1);
 	;
 }
 function __ZN13EventsHandler18dispatchEmptyEventE15CORE_EVENT_TYPE(){
 	var tmp0=null;
-	if((HEAP32[812756]&1|0)!==0){
+	if((HEAP32[810850]&1|0)!==0){
 		tmp0={type:58,eventType:0,value:null};
 		postMessage(tmp0);
 	}
 }
-function __ZN6cheerpL8date_nowEv$p1733(){
+function __ZN6cheerpL8date_nowEv$p1731(){
 	return +Date.now();
 }
-function __ZN6cheerpL8date_nowEv$p1894(){
+function __ZN6cheerpL8date_nowEv$p1892(){
 	return +Date.now();
 }
 function __ZN8LinuxApp14handleMmapReadEj12CORE_MESSAGES0_jjPhj(Larg0,Larg1,Larg2,Larg3,Larg4,Larg5,Marg5){
@@ -2946,7 +2946,7 @@ function __ZN18CheerpOSFsProvider9CacheNode17postFsListRequestEjRK7InodeId(Larg0
 	LsavedStack=___getStackPtr();
 	tmp6=-16+LsavedStack|0;
 	___setStackPtr(tmp6);
-	if((HEAP32[436+(HEAP32[812751]|0)>>2]|0)===(Larg1|0)){
+	if((HEAP32[436+(HEAP32[811109]|0)>>2]|0)===(Larg1|0)){
 		tmp1=tmp6|0;
 		__ZN10InodeCache14dirNameForNodeEPK9FileInodeP10FsProvider(tmp1,Larg0|0,HEAP32[92+Larg0>>2]|0);
 		tmp6=HEAP8;
@@ -2991,7 +2991,7 @@ function __ZN18CheerpOSFsProvider9CacheNode17postFsListRequestEjRK7InodeId(Larg0
 		___setStackPtr(LsavedStack);
 		return;
 	}
-	___assert_fail(2140292|0,2126568|0,11596,2137936|0);
+	___assert_fail(2145740|0,2116940|0,11625,2136156|0);
 	;
 }
 function __ZN11ChunksCache20closeAndDestroyAsyncEv(Larg0){
@@ -3001,7 +3001,7 @@ function __ZN11ChunksCache20closeAndDestroyAsyncEv(Larg0){
 }
 function __ZN8LinuxApp19getProcessCtxForPidEj(Larg0){
 	var tmp0=0;
-	tmp0=HEAP32[829404]|0;
+	tmp0=HEAP32[829209]|0;
 	if((tmp0|0)==(0|0))return 0|0;
 	while(1){
 		if((HEAP32[8+tmp0>>2]|0)===(Larg0|0))return tmp0|0;
@@ -3028,7 +3028,7 @@ function __ZN18ExternalSocketNode18freeMessageChannelEj(Larg0){
 }
 function __ZN8LinuxApp21runPreciseInterpreterEP7CoreCtx(Larg0){
 	var tmp0=0,tmp1=0,tmp2=null;
-	if(((HEAP32[812751]|0)|0)==(Larg0|0)){
+	if(((HEAP32[811109]|0)|0)==(Larg0|0)){
 		tmp0=HEAP32[(HEAP32[472+Larg0>>2]|0)>>2]|0;
 		tmp1=__Z11getStackPtrv()|0;
 		tmp2=[{a0:0,a1:0}];
@@ -3039,7 +3039,7 @@ function __ZN8LinuxApp21runPreciseInterpreterEP7CoreCtx(Larg0){
 		__Z11setStackPtrj(tmp1);
 		return;
 	}
-	___assert_fail(2125496|0,2126568|0,10815,2114668|0);
+	___assert_fail(2117284|0,2116940|0,10844,2115580|0);
 	;
 }
 function __ZN6cheerp12InvokeHelperIvE6invokeIZN8LinuxApp21runPreciseInterpreterEP7CoreCtxE3$_0JEEEvPT_DpT0_(Larg0){
@@ -3061,7 +3061,7 @@ function __ZN11ConsoleNode19postConsoleActivateEj(Larg0){
 }
 function __ZN18CheerpOSFsProvider20postCacheNodeRequestEjRKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEERK7InodeId12CORE_MESSAGE(Larg0,Larg1,Larg2,Larg3,Larg4){
 	var tmp0=0,tmp1=0,tmp2=0,tmp3=0,tmp4=null,tmp5=null,tmp6=0,tmp7=0;
-	if((HEAP32[436+(HEAP32[812751]|0)>>2]|0)===(Larg1|0)){
+	if((HEAP32[436+(HEAP32[811109]|0)>>2]|0)===(Larg1|0)){
 		tmp4=HEAP8;
 		tmp0=HEAP32[8+Larg2>>2]|0;
 		tmp1=HEAP32[4+Larg2>>2]|0;
@@ -3101,12 +3101,12 @@ function __ZN18CheerpOSFsProvider20postCacheNodeRequestEjRKSbIcSt11char_traitsIc
 		postMessage(tmp4);
 		return;
 	}
-	___assert_fail(2140292|0,2126568|0,6361,2140388|0);
+	___assert_fail(2145740|0,2116940|0,6360,2145520|0);
 	;
 }
 function __ZN18CheerpOSFsProvider19postFsUnlinkRequestEjRKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEE(Larg0,Larg1,Larg2){
 	var tmp0=0,tmp1=0,tmp2=0,tmp3=0,tmp4=null,tmp5=null,tmp6=0,tmp7=0;
-	if((HEAP32[436+(HEAP32[812751]|0)>>2]|0)===(Larg1|0)){
+	if((HEAP32[436+(HEAP32[811109]|0)>>2]|0)===(Larg1|0)){
 		tmp4=HEAP8;
 		tmp0=HEAP32[8+Larg2>>2]|0;
 		tmp1=HEAP32[4+Larg2>>2]|0;
@@ -3146,12 +3146,12 @@ function __ZN18CheerpOSFsProvider19postFsUnlinkRequestEjRKSbIcSt11char_traitsIcE
 		postMessage(tmp4);
 		return;
 	}
-	___assert_fail(2140292|0,2126568|0,6669,2139324|0);
+	___assert_fail(2145740|0,2116940|0,6668,2145992|0);
 	;
 }
 function __ZN18CheerpOSFsProvider19postFsRenameRequestEjRKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEES7_(Larg0,Larg1,Larg2,Larg3){
 	var tmp0=null,tmp1=0,tmp2=0,tmp3=null,tmp4=0,tmp5=0,tmp6=0,tmp7=0,tmp8=null;
-	if((HEAP32[436+(HEAP32[812751]|0)>>2]|0)===(Larg1|0)){
+	if((HEAP32[436+(HEAP32[811109]|0)>>2]|0)===(Larg1|0)){
 		tmp0=HEAP8;
 		tmp1=HEAP32[8+Larg2>>2]|0;
 		tmp2=HEAP32[4+Larg2>>2]|0;
@@ -3226,12 +3226,12 @@ function __ZN18CheerpOSFsProvider19postFsRenameRequestEjRKSbIcSt11char_traitsIcE
 		postMessage(tmp0);
 		return;
 	}
-	___assert_fail(2140292|0,2126568|0,6632,2139388|0);
+	___assert_fail(2145740|0,2116940|0,6631,2146056|0);
 	;
 }
 function __ZN18CheerpOSFsProvider17postFsLinkRequestEjRKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEES7_(Larg0,Larg1,Larg2,Larg3){
 	var tmp0=null,tmp1=0,tmp2=0,tmp3=null,tmp4=0,tmp5=0,tmp6=0,tmp7=0,tmp8=null;
-	if((HEAP32[436+(HEAP32[812751]|0)>>2]|0)===(Larg1|0)){
+	if((HEAP32[436+(HEAP32[811109]|0)>>2]|0)===(Larg1|0)){
 		tmp0=HEAP8;
 		tmp1=HEAP32[8+Larg2>>2]|0;
 		tmp2=HEAP32[4+Larg2>>2]|0;
@@ -3306,12 +3306,12 @@ function __ZN18CheerpOSFsProvider17postFsLinkRequestEjRKSbIcSt11char_traitsIcE17
 		postMessage(tmp0);
 		return;
 	}
-	___assert_fail(2140292|0,2126568|0,6702,2139408|0);
+	___assert_fail(2145740|0,2116940|0,6701,2146076|0);
 	;
 }
 function __ZN18CheerpOSFsProvider20postFsSymlinkRequestEjRKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEEjPKcj(Larg0,Larg1,Larg2,Larg3,Marg3,Larg4){
 	var tmp0=0,tmp1=0,tmp2=null,tmp3=0,tmp4=0,tmp5=null,tmp6=0,tmp7=0;
-	if((HEAP32[436+(HEAP32[812751]|0)>>2]|0)!==(Larg0|0))___assert_fail(2140292|0,2126568|0,6761,2139428|0);
+	if((HEAP32[436+(HEAP32[811109]|0)>>2]|0)!==(Larg0|0))___assert_fail(2145740|0,2116940|0,6760,2146096|0);
 	;
 	tmp2=HEAP8;
 	tmp3=HEAP32[8+Larg1>>2]|0;
@@ -3349,7 +3349,7 @@ function __ZN18CheerpOSFsProvider20postFsSymlinkRequestEjRKSbIcSt11char_traitsIc
 		}
 	}
 	tmp2=_cheerpCreate_ZN6client6StringC2EPKc(Larg3,Marg3);
-	tmp3=HEAP32[829404]|0;
+	tmp3=HEAP32[829209]|0;
 	while(1){
 		tmp4=HEAP32[12+tmp3>>2]|0;
 		if((tmp4|0)!=(0|0))while(1){
@@ -3369,7 +3369,7 @@ function __ZN18CheerpOSFsProvider20postFsSymlinkRequestEjRKSbIcSt11char_traitsIc
 }
 function __ZN18CheerpOSFsProvider19postFsSocketRequestEjRKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEEjjj(Larg0,Larg1,Larg2,Larg3,Larg4){
 	var tmp0=0,tmp1=0,tmp2=null,tmp3=0,tmp4=0,tmp5=null,tmp6=0,tmp7=0;
-	if((HEAP32[436+(HEAP32[812751]|0)>>2]|0)!==(Larg0|0))___assert_fail(2140292|0,2126568|0,6735,2139464|0);
+	if((HEAP32[436+(HEAP32[811109]|0)>>2]|0)!==(Larg0|0))___assert_fail(2145740|0,2116940|0,6734,2146132|0);
 	;
 	tmp2=HEAP8;
 	tmp3=HEAP32[8+Larg1>>2]|0;
@@ -3407,7 +3407,7 @@ function __ZN18CheerpOSFsProvider19postFsSocketRequestEjRKSbIcSt11char_traitsIcE
 		}
 	}
 	tmp2=new Number((+(Larg3>>>0)));
-	tmp3=HEAP32[829404]|0;
+	tmp3=HEAP32[829209]|0;
 	while(1){
 		tmp4=HEAP32[12+tmp3>>2]|0;
 		if((tmp4|0)!=(0|0))while(1){
@@ -3427,7 +3427,7 @@ function __ZN18CheerpOSFsProvider19postFsSocketRequestEjRKSbIcSt11char_traitsIcE
 }
 function __ZN18CheerpOSFsProvider18postFsMkdirRequestEjRKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEEjjj(Larg0,Larg1,Larg2,Larg3,Larg4,Larg5){
 	var tmp0=0,tmp1=0,tmp2=0,tmp3=0,tmp4=null,tmp5=null,tmp6=0,tmp7=0;
-	if((HEAP32[436+(HEAP32[812751]|0)>>2]|0)===(Larg1|0)){
+	if((HEAP32[436+(HEAP32[811109]|0)>>2]|0)===(Larg1|0)){
 		tmp4=HEAP8;
 		tmp0=HEAP32[8+Larg2>>2]|0;
 		tmp1=HEAP32[4+Larg2>>2]|0;
@@ -3467,7 +3467,7 @@ function __ZN18CheerpOSFsProvider18postFsMkdirRequestEjRKSbIcSt11char_traitsIcE1
 		postMessage(tmp4);
 		return;
 	}
-	___assert_fail(2140292|0,2126568|0,6711,2139484|0);
+	___assert_fail(2145740|0,2116940|0,6710,2144456|0);
 	;
 }
 function __ZNK18CheerpOSFsProvider19postFsFChmodRequestEjj(Larg0,Larg1){
@@ -3477,7 +3477,7 @@ function __ZNK18CheerpOSFsProvider19postFsFChmodRequestEjj(Larg0,Larg1){
 }
 function __ZN18CheerpOSFsProvider17postFsOpenRequestEjRKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEEjjj(Larg0,Larg1,Larg2,Larg3,Larg4){
 	var tmp0=0,tmp1=0,tmp2=null,tmp3=0,tmp4=0,tmp5=null,tmp6=0,tmp7=0;
-	if((HEAP32[436+(HEAP32[812751]|0)>>2]|0)!==(Larg0|0))___assert_fail(2140292|0,2126568|0,6193,2140324|0);
+	if((HEAP32[436+(HEAP32[811109]|0)>>2]|0)!==(Larg0|0))___assert_fail(2145740|0,2116940|0,6192,2145772|0);
 	;
 	tmp2=HEAP8;
 	tmp3=HEAP32[8+Larg1>>2]|0;
@@ -3514,7 +3514,7 @@ function __ZN18CheerpOSFsProvider17postFsOpenRequestEjRKSbIcSt11char_traitsIcE17
 			break;
 		}
 	}
-	tmp3=HEAP32[829404]|0;
+	tmp3=HEAP32[829209]|0;
 	while(1){
 		tmp4=HEAP32[12+tmp3>>2]|0;
 		if((tmp4|0)!=(0|0))while(1){
@@ -3534,7 +3534,7 @@ function __ZN18CheerpOSFsProvider17postFsOpenRequestEjRKSbIcSt11char_traitsIcE17
 }
 function __ZN8LinuxApp35reducePriorityAndRescheduleIfNeededEP8CoreData(Larg0){
 	var tmp0=0;
-	tmp0=HEAP32[812751]|0;
+	tmp0=HEAP32[811109]|0;
 	if((tmp0|0)==(Larg0|0)){
 		if((HEAP32[500+tmp0>>2]|0)!==0){
 			HEAP32[500+tmp0>>2]=0;
@@ -3543,12 +3543,12 @@ function __ZN8LinuxApp35reducePriorityAndRescheduleIfNeededEP8CoreData(Larg0){
 		}
 		return;
 	}
-	___assert_fail(2147720|0,2126568|0,271,2147748|0);
+	___assert_fail(2130424|0,2116940|0,268,2130452|0);
 	;
 }
 function __ZL9doUdpBindP14SocketNodeBase(Larg0){
 	var tmp0=null,tmp1=0,tmp2=null;
-	tmp1=HEAP32[472+(HEAP32[812751]|0)>>2]|0;
+	tmp1=HEAP32[472+(HEAP32[811109]|0)>>2]|0;
 	tmp1=__ZN18ExternalSocketNode3getI5DGRAMEEPS_bjjj(HEAP32[9616+tmp1>>2]|0,HEAP32[9628+tmp1>>2]|0,HEAP32[8+tmp1>>2]|0)|0;
 	__ZN14SocketNodeBase7setPeerEPS_(tmp1|0,Larg0|0);
 	__ZN14SocketNodeBase7setPeerEPS_(Larg0|0,tmp1|0);
@@ -3638,8 +3638,8 @@ function __ZZN18ExternalSocketImplI5DGRAME22initMessageChannelImplEvENK3$_0clEPN
 		__ZN18ExternalSocketNode11shutdownFwdEv(Larg0|0);
 	}
 	tmp4=[null];
-	if((HEAP8[27+2192088>>0]&255)===0){
-		HEAP8[27+2192088>>0]=1;
+	if((HEAP8[27+2189416>>0]&255)===0){
+		HEAP8[27+2189416>>0]=1;
 		tmp5=__ZN12AddressSpace8selfPortE;
 		tmp4[0]=0;
 		tmp6=tmp4[0];
@@ -3742,13 +3742,13 @@ function __ZZN18ExternalSocketImplI6STREAME22initMessageChannelImplEvENK3$_0clEP
 				__ZN12LinearBufferD2Ev(tmp1);
 				break a;
 			}
-			if((tmp7|0)!==((tmp6.length)|0))___assert_fail(2117176|0,2126568|0,12127,2116720|0);
+			if((tmp7|0)!==((tmp6.length)|0))___assert_fail(2121404|0,2116940|0,12174,2121368|0);
 			;
 			__ZN12LinearBufferD2Ev(tmp1);
 		}else __ZN18ExternalSocketNode11shutdownFwdEv(Larg0|0);
 		tmp5=[null];
-		if((HEAP8[27+2192088>>0]&255)===0){
-			HEAP8[27+2192088>>0]=1;
+		if((HEAP8[27+2189416>>0]&255)===0){
+			HEAP8[27+2189416>>0]=1;
 			tmp6=__ZN12AddressSpace8selfPortE;
 			tmp5[0]=0;
 			tmp4=tmp5[0];
@@ -3824,17 +3824,17 @@ function __ZN8LinuxApp15performance_nowEv(){
 }
 function __ZN8LinuxApp24wakeThreadAndUpdateTimerEP7CoreCtx(Larg0){
 	var tmp0=-0.,tmp1=-0.,tmp2=0,tmp3=0,tmp4=0,tmp5=null,tmp6=null;
-	tmp4=HEAP32[812751]|0;
-	tmp5=2126568|0;
-	tmp6=2129412|0;
+	tmp4=HEAP32[811109]|0;
+	tmp5=2116940|0;
+	tmp6=2127832|0;
 	if((tmp4|0)!=(0|0)){
 		if((HEAP32[592+Larg0>>2]|0)-1>>>0<2){
 			tmp0=+HEAPF64[520+tmp4>>3];
-			tmp1=+HEAPF64[405438];
-			tmp4=2192088;
+			tmp1=+HEAPF64[274179];
+			tmp4=2189416;
 			tmp2=HEAP32[12+tmp4>>2]|0;
 			tmp3=~~(tmp0-tmp1);
-			if(tmp2>>>0<tmp3>>>0)___assert_fail(2129516|0,tmp5,10288,tmp6);
+			if(tmp2>>>0<tmp3>>>0)___assert_fail(2127936|0,tmp5,10318,tmp6);
 			;
 			if(tmp2-tmp3>>>0>50){
 				tmp5=8+tmp4|0;
@@ -3850,10 +3850,10 @@ function __ZN8LinuxApp24wakeThreadAndUpdateTimerEP7CoreCtx(Larg0){
 			__ZN7CoreCtx8setStateENS_5STATEE(Larg0|0,0);
 			return;
 		}
-		___assert_fail(2129440|0,tmp5,10282,tmp6);
+		___assert_fail(2127860|0,tmp5,10312,tmp6);
 		;
 	}
-	___assert_fail(2129380|0,tmp5,10281,tmp6);
+	___assert_fail(2127800|0,tmp5,10311,tmp6);
 	;
 }
 function __ZN8LinuxApp12handleListenEP7CoreCtxP14SocketNodeBasej(Larg0,Larg1){
@@ -3875,8 +3875,8 @@ function __ZZN8LinuxApp10handleKillEP7CoreCtxEN9CheerpTmp3RunEjj(Larg0,Larg1){
 }
 function __ZN12AddressSpace13scheduleLaterEv(){
 	var tmp0=null,tmp1=null;
-	if((HEAP8[27+2192088>>0]&255)===0){
-		HEAP8[27+2192088>>0]=1;
+	if((HEAP8[27+2189416>>0]&255)===0){
+		HEAP8[27+2189416>>0]=1;
 		tmp0=__ZN12AddressSpace8selfPortE;
 		tmp1=[null];
 		tmp1[0]=0;
@@ -3886,9 +3886,9 @@ function __ZN12AddressSpace13scheduleLaterEv(){
 }
 function __ZN8LinuxApp21handleFsGenericResultEjj(Larg0,Larg1){
 	var tmp0=null,tmp1=0,tmp2=null,tmp3=null,tmp4=0;
-	tmp1=HEAP32[829404]|0;
-	tmp2=2136068|0;
-	tmp3=2126568|0;
+	tmp1=HEAP32[829209]|0;
+	tmp2=2116940|0;
+	tmp3=2134452|0;
 	if((tmp1|0)!=(0|0))while(1){
 		tmp4=HEAP32[12+tmp1>>2]|0;
 		if((tmp4|0)!=(0|0))while(1){
@@ -3898,8 +3898,8 @@ function __ZN8LinuxApp21handleFsGenericResultEjj(Larg0,Larg1){
 					__ZN7CoreCtx8setStateENS_5STATEE(tmp4,0);
 					HEAP32[548+tmp4>>2]=Larg1;
 					tmp2=[null];
-					if((HEAP8[27+2192088>>0]&255)===0){
-						HEAP8[27+2192088>>0]=1;
+					if((HEAP8[27+2189416>>0]&255)===0){
+						HEAP8[27+2189416>>0]=1;
 						tmp3=__ZN12AddressSpace8selfPortE;
 						tmp2[0]=0;
 						tmp0=tmp2[0];
@@ -3907,7 +3907,7 @@ function __ZN8LinuxApp21handleFsGenericResultEjj(Larg0,Larg1){
 					}
 					return;
 				}
-				___assert_fail(2136004|0,tmp3,2046,tmp2);
+				___assert_fail(2134388|0,tmp2,2045,tmp3);
 				;
 			}
 			tmp4=HEAP32[488+tmp4>>2]|0;
@@ -3918,7 +3918,7 @@ function __ZN8LinuxApp21handleFsGenericResultEjj(Larg0,Larg1){
 		if((tmp1|0)!=(0|0))continue;
 		break;
 	}
-	___assert_fail(2136064|0,tmp3,2045,tmp2);
+	___assert_fail(2134448|0,tmp2,2044,tmp3);
 	;
 }
 function __ZN8LinuxApp22postProcessExitMessageEjj(Larg0,Larg1){
@@ -3928,7 +3928,7 @@ function __ZN8LinuxApp22postProcessExitMessageEjj(Larg0,Larg1){
 }
 function __ZN8LinuxApp22handleDeviceReadResultEj(Larg0){
 	var tmp0=0,tmp1=null,tmp2=null,tmp3=null,tmp4=0;
-	tmp0=HEAP32[829404]|0;
+	tmp0=HEAP32[829209]|0;
 	while(1){
 		tmp4=HEAP32[12+tmp0>>2]|0;
 		if((tmp4|0)!=(0|0))while(1){
@@ -3936,8 +3936,8 @@ function __ZN8LinuxApp22handleDeviceReadResultEj(Larg0){
 				if((HEAP32[592+tmp4>>2]|0)===4){
 					__ZN7CoreCtx8setStateENS_5STATEE(tmp4,0);
 					tmp1=[null];
-					if((HEAP8[27+2192088>>0]&255)===0){
-						HEAP8[27+2192088>>0]=1;
+					if((HEAP8[27+2189416>>0]&255)===0){
+						HEAP8[27+2189416>>0]=1;
 						tmp2=__ZN12AddressSpace8selfPortE;
 						tmp1[0]=0;
 						tmp3=tmp1[0];
@@ -3945,7 +3945,7 @@ function __ZN8LinuxApp22handleDeviceReadResultEj(Larg0){
 					}
 					return;
 				}
-				___assert_fail(2136004|0,2126568|0,4265,2136040|0);
+				___assert_fail(2134388|0,2116940|0,4264,2134424|0);
 				;
 			}
 			tmp4=HEAP32[488+tmp4>>2]|0;
@@ -3958,7 +3958,7 @@ function __ZN8LinuxApp22handleDeviceReadResultEj(Larg0){
 }
 function __ZN8LinuxApp23handleFsCacheDataResultEj(Larg0){
 	var tmp0=0,tmp1=null,tmp2=null,tmp3=null,tmp4=0;
-	tmp0=HEAP32[829404]|0;
+	tmp0=HEAP32[829209]|0;
 	while(1){
 		tmp4=HEAP32[12+tmp0>>2]|0;
 		if((tmp4|0)!=(0|0))while(1){
@@ -3966,8 +3966,8 @@ function __ZN8LinuxApp23handleFsCacheDataResultEj(Larg0){
 				if((HEAP32[592+tmp4>>2]|0)===4){
 					__ZN7CoreCtx8setStateENS_5STATEE(tmp4,0);
 					tmp1=[null];
-					if((HEAP8[27+2192088>>0]&255)===0){
-						HEAP8[27+2192088>>0]=1;
+					if((HEAP8[27+2189416>>0]&255)===0){
+						HEAP8[27+2189416>>0]=1;
 						tmp2=__ZN12AddressSpace8selfPortE;
 						tmp1[0]=0;
 						tmp3=tmp1[0];
@@ -3975,7 +3975,7 @@ function __ZN8LinuxApp23handleFsCacheDataResultEj(Larg0){
 					}
 					return;
 				}
-				___assert_fail(2136004|0,2126568|0,4273,2136092|0);
+				___assert_fail(2134388|0,2116940|0,4272,2134476|0);
 				;
 			}
 			tmp4=HEAP32[488+tmp4>>2]|0;
@@ -3991,7 +3991,7 @@ function __ZN8LinuxApp23handleFsCacheNodeResultEjPN6client6StringEjjjjjjbPNS0_6O
 	LsavedStack=___getStackPtr();
 	tmp9=-104+LsavedStack|0;
 	___setStackPtr(tmp9);
-	tmp10=HEAP32[829404]|0;
+	tmp10=HEAP32[829209]|0;
 	a:if((tmp10|0)!=(0|0)){
 		while(1){
 			tmp11=HEAP32[12+tmp10>>2]|0;
@@ -4014,9 +4014,9 @@ function __ZN8LinuxApp23handleFsCacheNodeResultEjPN6client6StringEjjjjjjbPNS0_6O
 	tmp1=72+tmp9|0;
 	__ZN8LinuxApp27clientStringToTrackedStringERKN6client6StringE(tmp1,Larg1);
 	tmp2=__ZN8LinuxApp16getProviderForIdEj(Larg2)|0;
-	tmp12=2136296|0;
-	tmp3=2126568|0;
-	if((HEAP32[44+tmp2>>2]|0)!==0)___assert_fail(2136184|0,tmp3,4293,tmp12);
+	tmp12=2116940|0;
+	tmp3=2134680|0;
+	if((HEAP32[44+tmp2>>2]|0)!==0)___assert_fail(2134568|0,tmp12,4292,tmp3);
 	;
 	tmp13=64+tmp9|0;
 	__ZN9StringRefC2ERKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEE(tmp13,tmp1);
@@ -4049,12 +4049,12 @@ function __ZN8LinuxApp23handleFsCacheNodeResultEjPN6client6StringEjjjjjjbPNS0_6O
 		tmp16=HEAP32[4+tmp10>>2]|0;
 		tmp17=((HEAP32[tmp10>>2]|0)|0)==(tmp16|0)?1:0;
 		if(tmp17){
-			if((Larg3|0)!==0)___assert_fail(2136320|0,tmp3,4328,tmp12);
+			if((Larg3|0)!==0)___assert_fail(2134324|0,tmp12,4327,tmp3);
 			;
 			tmp6=0;
 			tmp18=0;
 		}else{
-			if((Larg3|0)===0)___assert_fail(2136340|0,tmp3,4332,tmp12);
+			if((Larg3|0)===0)___assert_fail(2134716|0,tmp12,4331,tmp3);
 			;
 			HEAP32[tmp13>>2]=Larg2;
 			HEAP32[4+tmp13>>2]=Larg3;
@@ -4064,7 +4064,7 @@ function __ZN8LinuxApp23handleFsCacheNodeResultEjPN6client6StringEjjjjjjbPNS0_6O
 		tmp7=+Date.now();
 		Lconv1=~~((tmp7<0?-tmp7:tmp7)%4294967296);
 		tmp8=tmp7<0?-Lconv1|0:Lconv1|0;
-		tmp20=__ZN10InodeCache15lookupCacheNodeERK7InodeIdj(2191808|0,tmp15,tmp8)|0;
+		tmp20=__ZN10InodeCache15lookupCacheNodeERK7InodeIdj(2191088|0,tmp15,tmp8)|0;
 		if((tmp20|0)==(0|0)){
 			Lconv1=8+tmp9|0;
 			HEAP32[Lconv1>>2]=0;
@@ -4072,7 +4072,7 @@ function __ZN8LinuxApp23handleFsCacheNodeResultEjPN6client6StringEjjjjjjbPNS0_6O
 			tmp20=tmp9|0;
 			__ZN9StringRefC2ERKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEE(tmp20,tmp5);
 			if((tmp14|0)===16384){
-				if((HEAP32[4+tmp5>>2]|0)!==0)___assert_fail(2136664|0,tmp3,4346,tmp12);
+				if((HEAP32[4+tmp5>>2]|0)!==0)___assert_fail(2134736|0,tmp12,4345,tmp3);
 				;
 				if(!(tmp17))__ZN9StringRefaSERKS_(tmp20,-8+tmp16|0)|0;
 				HEAP32[Lconv1>>2]=tmp6;
@@ -4087,8 +4087,8 @@ function __ZN8LinuxApp23handleFsCacheNodeResultEjPN6client6StringEjjjjjjbPNS0_6O
 				HEAP32[48+tmp2>>2]=tmp20;
 				__ZN5Inode6incRefEv(tmp20|0);
 			}else{
-				tmp18=__ZN10InodeCache15lookupCacheNodeERK7InodeIdj(2191808|0,tmp13,tmp8)|0;
-				if((tmp18|0)==(0|0))___assert_fail(2139224|0,tmp3,4366,tmp12);
+				tmp18=__ZN10InodeCache15lookupCacheNodeERK7InodeIdj(2191088|0,tmp13,tmp8)|0;
+				if((tmp18|0)==(0|0))___assert_fail(2145892|0,tmp12,4365,tmp3);
 				;
 				__ZN5Inode6decRefEv(tmp18|0);
 				__ZN10InodeCache13addCachedNodeEP9FileInodeRK9StringRefRK7InodeId(tmp18,-8+tmp16|0,tmp15);
@@ -4097,7 +4097,7 @@ function __ZN8LinuxApp23handleFsCacheNodeResultEjPN6client6StringEjjjjjjbPNS0_6O
 					tmp16=HEAP32[104+tmp18>>2]>>2|0;
 					tmp21=HEAP32;
 					tmp17=HEAP32[108+tmp18>>2]>>2|0;
-					if(tmp9===tmp21&&tmp16===tmp17)___assert_fail(2137660|0,tmp3,4372,tmp12);
+					if(tmp9===tmp21&&tmp16===tmp17)___assert_fail(2134760|0,tmp12,4371,tmp3);
 					;
 					if((__ZNKSt6vectorIP6DEntry17TrackingAllocatorIS1_L7MEM_TAG8EEE4sizeB7v160000Ev(104+tmp18|0)|0)>>>0>3){
 						__ZN5Inode6incRefEv(tmp18|0);
@@ -4108,12 +4108,12 @@ function __ZN8LinuxApp23handleFsCacheNodeResultEjPN6client6StringEjjjjjjbPNS0_6O
 					}
 				}
 			}
-			if((HEAP32[592+tmp11>>2]|0)!==4)___assert_fail(2136004|0,tmp3,4381,tmp12);
+			if((HEAP32[592+tmp11>>2]|0)!==4)___assert_fail(2134388|0,tmp12,4380,tmp3);
 			;
 			__ZN7CoreCtx8setStateENS_5STATEE(tmp11,0);
 			tmp9=[null];
-			if((HEAP8[27+2192088>>0]&255)===0){
-				HEAP8[27+2192088>>0]=1;
+			if((HEAP8[27+2189416>>0]&255)===0){
+				HEAP8[27+2189416>>0]=1;
 				tmp21=__ZN12AddressSpace8selfPortE;
 				tmp9[0]=0;
 				tmp12=tmp9[0];
@@ -4122,7 +4122,7 @@ function __ZN8LinuxApp23handleFsCacheNodeResultEjPN6client6StringEjjjjjjbPNS0_6O
 		}
 		__ZNSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEED2Ev(tmp5);
 	}else{
-		if(((HEAP32[tmp10>>2]|0)|0)==((HEAP32[4+tmp10>>2]|0)|0))___assert_fail(2147860|0,tmp3,4300,2116720|0);
+		if(((HEAP32[tmp10>>2]|0)|0)==((HEAP32[4+tmp10>>2]|0)|0))___assert_fail(2144652|0,tmp12,4299,2121368|0);
 		;
 		tmp9=__ZN18CheerpOSFsProvider15buildStringPathERKN10FsProvider14PathComponentsEj(tmp10,(__ZNKSt6vectorI9StringRef17TrackingAllocatorIS0_L7MEM_TAG2EEE4sizeB7v160000Ev(tmp10|0)|0)-1|0);
 		tmp9={type:68,replyType:69,tid:(HEAP32[436+tmp11>>2]|0),path:tmp9,devId:Larg2,inodeId:Larg3};
@@ -4231,14 +4231,14 @@ function __ZN8LinuxApp25handleFsSpecialFileResultEjPN6client6ObjectEjjjjjjj(Larg
 	LsavedStack=___getStackPtr();
 	tmp5=-40+LsavedStack|0;
 	___setStackPtr(tmp5);
-	tmp6=HEAP32[829404]|0;
-	tmp7=2138020|0;
-	tmp8=2126568|0;
+	tmp6=HEAP32[829209]|0;
+	tmp7=2116940|0;
+	tmp8=2136212|0;
 	if((tmp6|0)!=(0|0))while(1){
 		tmp9=HEAP32[12+tmp6>>2]|0;
 		if((tmp9|0)!=(0|0))while(1){
 			if((HEAP32[436+tmp9>>2]|0)===(Larg0|0)){
-				tmp1=2138048|0;
+				tmp1=2136240|0;
 				if((HEAP32[592+tmp9>>2]|0)===1){
 					tmp6=32+tmp5|0;
 					HEAP32[tmp6>>2]=Larg2;
@@ -4247,12 +4247,12 @@ function __ZN8LinuxApp25handleFsSpecialFileResultEjPN6client6ObjectEjjjjjjj(Larg
 					Lconv2=~~((tmp2<0?-tmp2:tmp2)%4294967296);
 					tmp11=tmp2<0?-Lconv2|0:Lconv2|0;
 					tmp3=Larg4&61440;
-					if((tmp3|0)===16384)___assert_fail(2138084|0,tmp8,4395,tmp7);
+					if((tmp3|0)===16384)___assert_fail(2136276|0,tmp7,4394,tmp8);
 					;
-					Lconv2=__ZN10InodeCache15lookupCacheNodeERK7InodeIdj(2191808|0,tmp6,tmp11)|0;
+					Lconv2=__ZN10InodeCache15lookupCacheNodeERK7InodeIdj(2191088|0,tmp6,tmp11)|0;
 					if((Lconv2|0)==(0|0)){
 						tmp4=__ZN8LinuxApp16getProviderForIdEj(Larg2)|0;
-						if((HEAP32[44+tmp4>>2]|0)!==0)___assert_fail(2136184|0,tmp8,4401,tmp7);
+						if((HEAP32[44+tmp4>>2]|0)!==0)___assert_fail(2134568|0,tmp7,4400,tmp8);
 						;
 						tmp12=24+tmp5|0;
 						HEAP32[tmp12>>2]=0;
@@ -4264,14 +4264,14 @@ function __ZN8LinuxApp25handleFsSpecialFileResultEjPN6client6ObjectEjjjjjjj(Larg
 						Lconv2=tmp11|0;
 					}
 					if((tmp3&65535)===40960){
-						if((HEAP32[72+Lconv2>>2]|0)!==0)___assert_fail(2138116|0,tmp8,4410,tmp7);
+						if((HEAP32[72+Lconv2>>2]|0)!==0)___assert_fail(2136308|0,tmp7,4409,tmp8);
 						;
 						tmp12=tmp5|0;
 						__ZN8LinuxApp27clientStringToTrackedStringERKN6client6StringE(tmp12,Larg1);
 						__ZNSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEEaSB7v160000EOS4_(68+Lconv2|0,tmp12)|0;
 						__ZNSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEED2Ev(tmp12);
 					}else{
-						if((tmp3&65535)!==49152)___assert_fail(2115652|0,tmp8,4414,tmp7);
+						if((tmp3&65535)!==49152)___assert_fail(2113896|0,tmp7,4413,tmp8);
 						;
 						HEAP32[80+Lconv2>>2]=(~~ +Larg1|0);
 					}
@@ -4279,8 +4279,8 @@ function __ZN8LinuxApp25handleFsSpecialFileResultEjPN6client6ObjectEjjjjjjj(Larg
 						HEAP32[tmp9>>2]=0;
 						__ZN7CoreCtx8setStateENS_5STATEE(tmp9,0);
 						tmp5=[null];
-						if((HEAP8[27+2192088>>0]&255)===0){
-							HEAP8[27+2192088>>0]=1;
+						if((HEAP8[27+2189416>>0]&255)===0){
+							HEAP8[27+2189416>>0]=1;
 							tmp7=__ZN12AddressSpace8selfPortE;
 							tmp5[0]=0;
 							tmp8=tmp5[0];
@@ -4289,10 +4289,10 @@ function __ZN8LinuxApp25handleFsSpecialFileResultEjPN6client6ObjectEjjjjjjj(Larg
 						___setStackPtr(LsavedStack);
 						return;
 					}
-					___assert_fail(tmp1,tmp8,4415,tmp7);
+					___assert_fail(tmp1,tmp7,4414,tmp8);
 					;
 				}
-				___assert_fail(tmp1,tmp8,4391,tmp7);
+				___assert_fail(tmp1,tmp7,4390,tmp8);
 				;
 			}
 			tmp9=HEAP32[488+tmp9>>2]|0;
@@ -4303,29 +4303,29 @@ function __ZN8LinuxApp25handleFsSpecialFileResultEjPN6client6ObjectEjjjjjjj(Larg
 		if((tmp6|0)!=(0|0))continue;
 		break;
 	}
-	___assert_fail(2136064|0,tmp8,4390,tmp7);
+	___assert_fail(2134448|0,tmp7,4389,tmp8);
 	;
 }
 function __ZN8LinuxApp25handleFsResolveRootResultEjjj(Larg0,Larg1,Larg2){
 	var tmp0=null,tmp1=0,tmp2=null,tmp3=null,tmp4=0;
-	tmp1=HEAP32[829404]|0;
-	tmp2=2136156|0;
-	tmp3=2126568|0;
+	tmp1=HEAP32[829209]|0;
+	tmp2=2116940|0;
+	tmp3=2134540|0;
 	if((tmp1|0)!=(0|0))while(1){
 		tmp4=HEAP32[12+tmp1>>2]|0;
 		if((tmp4|0)!=(0|0))while(1){
 			if((HEAP32[436+tmp4>>2]|0)===(Larg0|0)){
 				tmp1=__ZN8LinuxApp16getProviderForIdEj(Larg1)|0;
-				if((HEAP32[44+tmp1>>2]|0)!==0)___assert_fail(2136184|0,tmp3,4426,tmp2);
+				if((HEAP32[44+tmp1>>2]|0)!==0)___assert_fail(2134568|0,tmp2,4425,tmp3);
 				;
-				if((HEAP32[52+tmp1>>2]|0)!==0)___assert_fail(2136228|0,tmp3,4428,tmp2);
+				if((HEAP32[52+tmp1>>2]|0)!==0)___assert_fail(2134612|0,tmp2,4427,tmp3);
 				;
 				HEAP32[52+tmp1>>2]=(Larg2|0)!==0?1|0:2|0;
 				if((HEAP32[592+tmp4>>2]|0)===4){
 					__ZN7CoreCtx8setStateENS_5STATEE(tmp4,0);
 					tmp2=[null];
-					if((HEAP8[27+2192088>>0]&255)===0){
-						HEAP8[27+2192088>>0]=1;
+					if((HEAP8[27+2189416>>0]&255)===0){
+						HEAP8[27+2189416>>0]=1;
 						tmp3=__ZN12AddressSpace8selfPortE;
 						tmp2[0]=0;
 						tmp0=tmp2[0];
@@ -4333,7 +4333,7 @@ function __ZN8LinuxApp25handleFsResolveRootResultEjjj(Larg0,Larg1,Larg2){
 					}
 					return;
 				}
-				___assert_fail(2136004|0,tmp3,4432,tmp2);
+				___assert_fail(2134388|0,tmp2,4431,tmp3);
 				;
 			}
 			tmp4=HEAP32[488+tmp4>>2]|0;
@@ -4344,7 +4344,7 @@ function __ZN8LinuxApp25handleFsResolveRootResultEjjj(Larg0,Larg1,Larg2){
 		if((tmp1|0)!=(0|0))continue;
 		break;
 	}
-	___assert_fail(2136064|0,tmp3,4424,tmp2);
+	___assert_fail(2134448|0,tmp2,4423,tmp3);
 	;
 }
 function __ZN8LinuxApp23handleFsCacheListResultEjjjRKN6client6TArrayIPNS0_6StringEEE(Larg0,Larg1,Larg2,Larg3){
@@ -4352,7 +4352,7 @@ function __ZN8LinuxApp23handleFsCacheListResultEjjjRKN6client6TArrayIPNS0_6Strin
 	LsavedStack=___getStackPtr();
 	tmp4=-32+LsavedStack|0;
 	___setStackPtr(tmp4);
-	tmp5=HEAP32[829404]|0;
+	tmp5=HEAP32[829209]|0;
 	a:if((tmp5|0)!=(0|0)){
 		while(1){
 			tmp6=HEAP32[12+tmp5>>2]|0;
@@ -4388,8 +4388,8 @@ function __ZN8LinuxApp23handleFsCacheListResultEjjjRKN6client6TArrayIPNS0_6Strin
 	if((HEAP32[592+tmp6>>2]|0)===4){
 		__ZN7CoreCtx8setStateENS_5STATEE(tmp6,0);
 		tmp4=[null];
-		if((HEAP8[27+2192088>>0]&255)===0){
-			HEAP8[27+2192088>>0]=1;
+		if((HEAP8[27+2189416>>0]&255)===0){
+			HEAP8[27+2189416>>0]=1;
 			tmp2=__ZN12AddressSpace8selfPortE;
 			tmp4[0]=0;
 			tmp3=tmp4[0];
@@ -4399,7 +4399,7 @@ function __ZN8LinuxApp23handleFsCacheListResultEjjjRKN6client6TArrayIPNS0_6Strin
 		___setStackPtr(LsavedStack);
 		return;
 	}
-	___assert_fail(2136004|0,2126568|0,4446,2136116|0);
+	___assert_fail(2134388|0,2116940|0,4445,2134500|0);
 	;
 }
 function __ZN8LinuxApp18handleFsOpenResultEjijjjjjjj(Larg0,Larg1,Larg2,Larg3,Larg4,Larg5,Larg6,Larg7,Larg8){
@@ -4407,7 +4407,7 @@ function __ZN8LinuxApp18handleFsOpenResultEjijjjjjjj(Larg0,Larg1,Larg2,Larg3,Lar
 	LsavedStack=___getStackPtr();
 	tmp4=-24+LsavedStack|0;
 	___setStackPtr(tmp4);
-	tmp5=HEAP32[829404]|0;
+	tmp5=HEAP32[829209]|0;
 	a:if((tmp5|0)!=(0|0)){
 		while(1){
 			tmp6=HEAP32[12+tmp5>>2]|0;
@@ -4425,9 +4425,9 @@ function __ZN8LinuxApp18handleFsOpenResultEjijjjjjjj(Larg0,Larg1,Larg2,Larg3,Lar
 	}else{
 		tmp6=0|0;
 	}
-	tmp7=2136004|0;
-	tmp8=2138144|0;
-	tmp1=2126568|0;
+	tmp7=2116940|0;
+	tmp8=2134388|0;
+	tmp1=2136336|0;
 	if((HEAP32[592+tmp6>>2]|0)===4){
 		if((Larg1|0)>-1){
 			tmp5=16+tmp4|0;
@@ -4436,12 +4436,12 @@ function __ZN8LinuxApp18handleFsOpenResultEjijjjjjjj(Larg0,Larg1,Larg2,Larg3,Lar
 			tmp2=+Date.now();
 			Lconv1=~~((tmp2<0?-tmp2:tmp2)%4294967296);
 			tmp10=tmp2<0?-Lconv1|0:Lconv1|0;
-			if((Larg4&61440|0)===16384)___assert_fail(2138084|0,tmp1,8039,tmp8);
+			if((Larg4&61440|0)===16384)___assert_fail(2136276|0,tmp7,8064,tmp1);
 			;
-			Lconv1=__ZN10InodeCache15lookupCacheNodeERK7InodeIdj(2191808|0,tmp5,tmp10)|0;
+			Lconv1=__ZN10InodeCache15lookupCacheNodeERK7InodeIdj(2191088|0,tmp5,tmp10)|0;
 			if((Lconv1|0)==(0|0)){
 				tmp3=__ZN8LinuxApp16getProviderForIdEj(Larg2)|0;
-				if((HEAP32[44+tmp3>>2]|0)!==0)___assert_fail(2136184|0,tmp1,8045,tmp8);
+				if((HEAP32[44+tmp3>>2]|0)!==0)___assert_fail(2134568|0,tmp7,8070,tmp1);
 				;
 				tmp11=8+tmp4|0;
 				HEAP32[tmp11>>2]=0;
@@ -4452,7 +4452,7 @@ function __ZN8LinuxApp18handleFsOpenResultEjijjjjjjj(Larg0,Larg1,Larg2,Larg3,Lar
 				__ZN10InodeCache12addNodeToMapERK7InodeIdP9FileInode(tmp5,tmp10|0);
 				Lconv1=tmp10|0;
 			}
-			if((HEAP32[44+(HEAP32[92+Lconv1>>2]|0)>>2]|0)!==0)___assert_fail(2138172|0,tmp1,8050,tmp8);
+			if((HEAP32[44+(HEAP32[92+Lconv1>>2]|0)>>2]|0)!==0)___assert_fail(2136364|0,tmp7,8075,tmp1);
 			;
 			tmp4=HEAP8;
 			tmp11=__Znwj(24)|0;
@@ -4462,8 +4462,8 @@ function __ZN8LinuxApp18handleFsOpenResultEjijjjjjjj(Larg0,Larg1,Larg2,Larg3,Lar
 				HEAP32[548+tmp6>>2]=0;
 				__ZN7CoreCtx8setStateENS_5STATEE(tmp6,0);
 				tmp4=[null];
-				if((HEAP8[27+2192088>>0]&255)===0){
-					HEAP8[27+2192088>>0]=1;
+				if((HEAP8[27+2189416>>0]&255)===0){
+					HEAP8[27+2189416>>0]=1;
 					tmp7=__ZN12AddressSpace8selfPortE;
 					tmp4[0]=0;
 					tmp8=tmp4[0];
@@ -4472,13 +4472,13 @@ function __ZN8LinuxApp18handleFsOpenResultEjijjjjjjj(Larg0,Larg1,Larg2,Larg3,Lar
 				___setStackPtr(LsavedStack);
 				return;
 			}
-			___assert_fail(tmp7,tmp1,8053,tmp8);
+			___assert_fail(tmp8,tmp7,8078,tmp1);
 			;
 		}
-		___assert_fail(2138164|0,tmp1,8035,tmp8);
+		___assert_fail(2136356|0,tmp7,8060,tmp1);
 		;
 	}
-	___assert_fail(tmp7,tmp1,8034,tmp8);
+	___assert_fail(tmp8,tmp7,8059,tmp1);
 	;
 }
 function __ZZZN8LinuxApp17handleBindWrapperEP7CoreCtxj12LinearBufferENK3$_0clES1_jS2_EN9CheerpTmp3RunEii(Larg0,Larg1){
@@ -4488,14 +4488,17 @@ function __ZZZN8LinuxApp17handleBindWrapperEP7CoreCtxj12LinearBufferENK3$_0clES1
 }
 function __ZN8LinuxApp14updateWakeTimeEddj(Larg0,Larg1,Larg2){
 	var tmp0=null,tmp1=null,tmp2=0,tmp3=-0.;
-	tmp3=(+((Larg2>>>0>1?50|0:1000|0)|0))+Larg0;
-	if(tmp3>Larg1){
-		tmp3=Larg1;
+	tmp3=Larg0+50;
+	if(!(tmp3>Larg1))if(Larg2>>>0<=1){
+		tmp3=Larg0+1000;
+		if(tmp3>Larg1){
+			tmp3=Larg1;
+		}
 	}
-	tmp0=8+2192088|0;
+	tmp0=8+2189416|0;
 	tmp1=HEAP32;
 	tmp2=(tmp0>>2);
-	Atomics.store(tmp1,tmp2+1|0,~~(tmp3- +HEAPF64[405438]));
+	Atomics.store(tmp1,tmp2+1|0,~~(tmp3- +HEAPF64[274179]));
 	Atomics.store(tmp1,tmp2+2|0,0);
 	if(((Atomics.notify(tmp1,tmp2,1))|0)===0){
 		Atomics.store(tmp1,tmp2,1);
@@ -4504,7 +4507,7 @@ function __ZN8LinuxApp14updateWakeTimeEddj(Larg0,Larg1,Larg2){
 }
 function __ZN12AddressSpace17notifyWorkerClockEjb(Larg0,Larg1){
 	var tmp0=null,tmp1=null,tmp2=0;
-	tmp0=8+2192088|0;
+	tmp0=8+2189416|0;
 	tmp1=HEAP32;
 	tmp2=(tmp0>>2);
 	Atomics.store(tmp1,tmp2+1|0,Larg0);
@@ -4522,7 +4525,7 @@ function __ZN8LinuxApp13postSysResultEjj(Larg0,Larg1){
 function __ZZN8LinuxApp19handleConnectToPortEjjEN9CheerpTmp3RunEj(Larg0){
 	var tmp0=null;
 	tmp0={type:35, tid:Larg0, value: null};
-	HEAP8[3251016]=1;
+	HEAP8[3244540]=1;
 	postMessage(tmp0);
 }
 function __ZZZN8LinuxApp19handleConnectToPortEjjENK3$_0clEP7CoreCtxP18ExternalSocketNodeiEN9CheerpTmp3RunEjS4_(Larg0,Larg1){
@@ -4540,7 +4543,7 @@ function __ZZN8LinuxApp18handleFsCreateFileEjjRKSbIcSt11char_traitsIcE17Tracking
 }
 function __ZN8LinuxApp14runInterpreterEP7CoreCtx(Larg0){
 	var tmp0=0,tmp1=null,tmp2=null;
-	if(((HEAP32[812751]|0)|0)==(Larg0|0)){
+	if(((HEAP32[811109]|0)|0)==(Larg0|0)){
 		tmp0=__Z11getStackPtrv()|0;
 		tmp2=[{a0:0}];
 		tmp2[0].a0=(Larg0|0);
@@ -4550,7 +4553,7 @@ function __ZN8LinuxApp14runInterpreterEP7CoreCtx(Larg0){
 		__Z11setStackPtrj(tmp0);
 		return;
 	}
-	___assert_fail(2125496|0,2126568|0,10826,2125524|0);
+	___assert_fail(2117284|0,2116940|0,10855,2117340|0);
 	;
 }
 function __ZN6cheerp12InvokeHelperIvE6invokeIZN8LinuxApp14runInterpreterEP7CoreCtxE3$_0JEEEvPT_DpT0_(Larg0){
@@ -4563,8 +4566,8 @@ function __ZZN8LinuxApp14runInterpreterEP7CoreCtxEN3$_18__invokeEv(){
 }
 function __ZN8LinuxApp11scheduleAppEv(){
 	var tmp0=0,tmp1=null,tmp2=-0.,tmp3=0,Lconv2=0,tmp5=null,tmp6=null;
-	HEAP8[3251016]=0;
-	tmp0=2192088;
+	HEAP8[3244540]=0;
+	tmp0=2189416;
 	HEAP8[27+tmp0>>0]=0;
 	if((HEAP8[24+tmp0>>0]&255)!==0)HEAP8[26+tmp0>>0]=1;
 	else{
@@ -4576,17 +4579,17 @@ function __ZN8LinuxApp11scheduleAppEv(){
 		if((tmp3|0)!=(0|0)){
 			Lconv2=HEAP32[592+tmp3>>2]|0;
 			if((Lconv2|0)!==0){
-				tmp5=2126568|0;
-				tmp6=2126604|0;
-				if((Lconv2|0)!==2)___assert_fail(2126520|0,tmp5,11055,tmp6);
+				tmp5=2116940|0;
+				tmp6=2116996|0;
+				if((Lconv2|0)!==2)___assert_fail(2116892|0,tmp5,11084,tmp6);
 				;
 				tmp2=+HEAPF64[512+tmp3>>3];
-				if(tmp2===0)___assert_fail(2126616|0,tmp5,11056,tmp6);
+				if(tmp2===0)___assert_fail(2117020|0,tmp5,11085,tmp6);
 				;
 				tmp5=8+tmp0|0;
 				tmp6=HEAP32;
 				tmp3=(tmp5>>2);
-				Atomics.store(tmp6,tmp3+1|0,~~(tmp2- +HEAPF64[405438]));
+				Atomics.store(tmp6,tmp3+1|0,~~(tmp2- +HEAPF64[274179]));
 				Atomics.store(tmp6,tmp3+2|0,1);
 				if(((Atomics.notify(tmp6,tmp3,1))|0)===0){
 					Atomics.store(tmp6,tmp3,1);
@@ -4598,9 +4601,9 @@ function __ZN8LinuxApp11scheduleAppEv(){
 					if((tmp3|0)!==0)if((HEAP32[tmp0>>2]|0)>=0)continue;
 					break;
 				}
-				if(HEAP8[3251020]|0){
-					HEAP8[3251020]=0;
-					if((HEAP32[812756]&2|0)!==0){
+				if(HEAP8[3243404]|0){
+					HEAP8[3243404]=0;
+					if((HEAP32[810850]&2|0)!==0){
 						tmp5={type:58,eventType:1,value:1};
 						postMessage(tmp5);
 					}
@@ -4613,7 +4616,7 @@ function __ZN8LinuxApp11scheduleAppEv(){
 						tmp2-= +HEAPF64[520+tmp3>>3];
 						if(tmp2<50)if((HEAP32[592+tmp3>>2]|0)===0){
 							if((HEAP8[25+tmp0>>0]&255)===0)continue;
-							HEAP32[812757]=tmp3;
+							HEAP32[810852]=tmp3;
 							break a;
 						}
 						break;
@@ -4621,9 +4624,9 @@ function __ZN8LinuxApp11scheduleAppEv(){
 					HEAPF64[504+tmp3>>3]=tmp2+ +HEAPF64[504+tmp3>>3];
 				}
 				__ZN17WasmGeneratorBase20compilePendingTracesEb(1);
-				if(!(HEAP8[3251020]|0)){
-					HEAP8[3251020]=1;
-					if((HEAP32[812756]&2|0)!==0){
+				if(!(HEAP8[3243404]|0)){
+					HEAP8[3243404]=1;
+					if((HEAP32[810850]&2|0)!==0){
 						tmp5={type:58,eventType:1,value:0};
 						postMessage(tmp5);
 					}
@@ -4644,9 +4647,9 @@ function __ZN8LinuxApp11scheduleAppEv(){
 				if((tmp3|0)!==0)if((HEAP32[tmp0>>2]|0)>=0)continue;
 				break;
 			}
-			if(HEAP8[3251020]|0){
-				HEAP8[3251020]=0;
-				if((HEAP32[812756]&2|0)!==0){
+			if(HEAP8[3243404]|0){
+				HEAP8[3243404]=0;
+				if((HEAP32[810850]&2|0)!==0){
 					tmp5={type:58,eventType:1,value:1};
 					postMessage(tmp5);
 				}
@@ -4673,13 +4676,13 @@ function __ZN8LinuxApp16retryCoreMessageEP7CoreCtxPN6client11CoreMessageE(Larg0,
 	tmp0[0+tmp1|0]=Larg1;
 	__ZN8LinuxApp20retryCoreMessageImplEP7CoreCtxi(Larg0|0,tmp1);
 }
-function __ZN6cheerpL8date_nowEv$p2627(){
+function __ZN6cheerpL8date_nowEv$p2459(){
 	return +Date.now();
 }
 function __ZN11MasterClock11realTimeoutEv(Larg0){
 	var tmp0=0,tmp1=0;
 	tmp1=__ZN11MasterClock14getMonotonicMsEv(Larg0|0)|0;
-	__ZN11MasterClock14dispatchEventsEjj(Larg0|0,HEAP32[36+(HEAP32[12+(HEAP32[812768]|0)>>2]|0)>>2]|0,tmp1);
+	__ZN11MasterClock14dispatchEventsEjj(Larg0|0,HEAP32[36+(HEAP32[12+(HEAP32[829214]|0)>>2]|0)>>2]|0,tmp1);
 	tmp0=HEAP32[16+Larg0>>2]|0;
 	if((tmp0|0)==((HEAP32[20+Larg0>>2]|0)|0)){
 		console.log("Master clock: No events");
@@ -4687,7 +4690,7 @@ function __ZN11MasterClock11realTimeoutEv(Larg0){
 	}
 	tmp1=(HEAP32[tmp0>>2]|0)-tmp1|0;
 	if((tmp1|0)>0)return tmp1|0;
-	___assert_fail(2134408|0,2134424|0,47,2134468|0);
+	___assert_fail(2132788|0,2132804|0,47,2132864|0);
 	;
 }
 function __ZZN4CMOS7getDataEvEN9CheerpTmp3RunEv(){
@@ -4717,11 +4720,11 @@ function __ZZN4CMOS7getDataEvEN9CheerpTmp3RunE_6v(){
 function __ZN11MasterClock15performance_nowEv(){
 	return +performance.now();
 }
-function __ZN6cheerpL8date_nowEv$p2714(){
+function __ZN6cheerpL8date_nowEv$p2546(){
 	return +Date.now();
 }
 function __ZN9SystemCtx3RunEv(){
-	__ZN11CoreManager12exitAndThrowEP8CoreDataNS_11EXIT_REASONE(HEAP32[12+(HEAP32[812768]|0)>>2]|0);
+	__ZN11CoreManager12exitAndThrowEP8CoreDataNS_11EXIT_REASONE(HEAP32[12+(HEAP32[829214]|0)>>2]|0);
 	;
 }
 function __ZN9VGADevice9setHeightEi(Larg0){
@@ -4756,7 +4759,7 @@ function __ZN6Floppy17runAsyncReadWriteEPS_(Larg0){
 		tmp6=HEAP8[3+tmp5>>0]|0;
 		L$poptgepsqueezed26=52+Larg0|0;
 		tmp8=(HEAP16[6+tmp5>>1]|0)+1&65535;
-		__ZN13IOTransaction5startEP12AddressSpacejjb(L$poptgepsqueezed26,HEAP32[(HEAP32[812768]|0)>>2]|0,(HEAP8[2+tmp5>>0]&255)<<16|HEAP16[4+tmp5>>1]&65535,tmp8,((tmp6&12)===8?1:0)^1?1:0);
+		__ZN13IOTransaction5startEP12AddressSpacejjb(L$poptgepsqueezed26,HEAP32[(HEAP32[829214]|0)>>2]|0,(HEAP8[2+tmp5>>0]&255)<<16|HEAP16[4+tmp5>>1]&65535,tmp8,((tmp6&12)===8?1:0)^1?1:0);
 		HEAP8[12+Larg0>>0]=0;
 		HEAP8[13+Larg0>>0]=7;
 		HEAP8[4+Larg0>>0]=0;
@@ -4773,13 +4776,13 @@ function __ZN6Floppy17runAsyncReadWriteEPS_(Larg0){
 		postMessage(tmp9);
 		return;
 	}
-	___assert_fail(2135404|0,2134080|0,347,2135432|0);
+	___assert_fail(2133904|0,2136020|0,347,2133932|0);
 	;
 }
 function __ZN13PS2Controller20mapKeyCodeToScanCodeEi(Larg0){
 	var tmp0=0;
 	tmp0=Larg0-48|0;
-	if(tmp0>>>0<43)return HEAP8[tmp0+2116612>>0]|0;
+	if(tmp0>>>0<43)return HEAP8[tmp0+2121172>>0]|0;
 	switch(Larg0|0){
 		case 8:
 		return 14|0;
@@ -4828,8 +4831,8 @@ function __ZN13PS2Controller13handleKeyDownEj(Larg0,Larg1){
 			HEAP8[(tmp2+1&7)+L$poptgep$poptgep$poptgepsqueezed>>0]=tmp0;
 			HEAP8[9+Larg0>>0]=tmp2+2&7;
 		}
-		__ZN10SystemData11scheduleIrqEjj(HEAP32[16+(HEAP32[812768]|0)>>2]|0,0,1);
-		__ZN7CoreCtx8setStateENS_5STATEE(HEAP32[12+(HEAP32[812768]|0)>>2]|0,0);
+		__ZN10SystemData11scheduleIrqEjj(HEAP32[16+(HEAP32[829214]|0)>>2]|0,0,1);
+		__ZN7CoreCtx8setStateENS_5STATEE(HEAP32[12+(HEAP32[829214]|0)>>2]|0,0);
 	}
 }
 function __ZN13PS2Controller11handleKeyUpEj(Larg0,Larg1){
@@ -4851,8 +4854,8 @@ function __ZN13PS2Controller11handleKeyUpEj(Larg0,Larg1){
 			HEAP8[(tmp3+1&7)+L$poptgep$poptgep$poptgepsqueezed>>0]=tmp1;
 			HEAP8[9+Larg0>>0]=tmp3+2&7;
 		}
-		__ZN10SystemData11scheduleIrqEjj(HEAP32[16+(HEAP32[812768]|0)>>2]|0,0,1);
-		__ZN7CoreCtx8setStateENS_5STATEE(HEAP32[12+(HEAP32[812768]|0)>>2]|0,0);
+		__ZN10SystemData11scheduleIrqEjj(HEAP32[16+(HEAP32[829214]|0)>>2]|0,0,1);
+		__ZN7CoreCtx8setStateENS_5STATEE(HEAP32[12+(HEAP32[829214]|0)>>2]|0,0);
 	}
 }
 function ___cxa_throw_wasm_adapter(Larg0,Larg1,Larg2){
@@ -5138,15 +5141,15 @@ function __ZN12_GLOBAL__N_119CheerpStringBuilder11processCharERjS1_h(Larg0,Marg0
 	var tmp0=null,tmp1=null,tmp2=0,L$psink=0,tmp4=0;
 	L$psink=__ZZN12_GLOBAL__N_117do_syscall_writevEPK5ioveclE9remaining|0;
 	tmp4=Larg1&255;
-	tmp0=2165572|0;
-	tmp1=2165628|0;
+	tmp0=2162512|0;
+	tmp1=2162568|0;
 	a:if((Larg1&255)<192){
 		if((L$psink|0)===0){
-			if(Larg1<<24<=-16777216)___assert_fail(2165640|0,tmp0,79,tmp1);
+			if(Larg1<<24<=-16777216)___assert_fail(2162580|0,tmp0,79,tmp1);
 			;
 			__ZZN12_GLOBAL__N_117do_syscall_writevEPK5ioveclE9codepoint=tmp4;
 		}else{
-			if((tmp4&192|0)!==128)___assert_fail(2165552|0,tmp0,65,tmp1);
+			if((tmp4&192|0)!==128)___assert_fail(2162492|0,tmp0,65,tmp1);
 			;
 			tmp4=(__ZZN12_GLOBAL__N_117do_syscall_writevEPK5ioveclE9codepoint<<6)+(tmp4&63)|0;
 			__ZZN12_GLOBAL__N_117do_syscall_writevEPK5ioveclE9codepoint=tmp4;
@@ -5156,7 +5159,7 @@ function __ZN12_GLOBAL__N_119CheerpStringBuilder11processCharERjS1_h(Larg0,Marg0
 		}
 		__ZN12_GLOBAL__N_119CheerpStringBuilder15outputCodepointEj(Larg0,Marg0,tmp4);
 	}else{
-		if((L$psink|0)!==0)___assert_fail(2165496|0,tmp0,90,tmp1);
+		if((L$psink|0)!==0)___assert_fail(2162436|0,tmp0,90,tmp1);
 		;
 		if((Larg1&255)<224){
 			tmp2=31;
@@ -5199,7 +5202,7 @@ function __start(){
 	___syscall_main_environ();
 	__GLOBAL__I_000101();
 	___ctor__ZN25CompiledInterpreterModule14handlersTablesE();
-	tmp0=2192088;
+	tmp0=2189416;
 	HEAP32[tmp0>>2]=0;
 	HEAP32[4+tmp0>>2]=0;
 	HEAP32[8+tmp0>>2]=0;
@@ -5303,7 +5306,7 @@ function create__ZN18CheerpOSFsProvider9CacheNode11doListFilesEP7CoreCtxR13CoreL
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN18CheerpOSFsProvider9CacheNode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
+function create__ZN18CheerpOSFsProvider9CacheNode10doTruncateEP7CoreCtxj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5312,7 +5315,7 @@ function create__ZN18CheerpOSFsProvider9CacheNode7doWriteEP7CoreCtxPKhjj$pFrame(
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp13handleSyscallEP7CoreCtxj$pFrame(obj){
+function create__ZNK18CheerpOSFsProvider9CacheNode13getBackingBufEP7CoreCtxj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5321,7 +5324,7 @@ function create__ZN8LinuxApp13handleSyscallEP7CoreCtxj$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp10handleExitEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp10handleForkEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5330,7 +5333,7 @@ function create__ZN8LinuxApp10handleExitEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp11handleWriteEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp10handleReadEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5348,6 +5351,15 @@ function create__ZN8LinuxApp11handleCloseEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
+function create__ZN8LinuxApp11handleChmodEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
 function create__ZN8LinuxApp13handleWaitPidEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
@@ -5357,7 +5369,7 @@ function create__ZN8LinuxApp13handleWaitPidEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp10handleLinkEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp12handleAccessEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5366,25 +5378,7 @@ function create__ZN8LinuxApp10handleLinkEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12handleExecveEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp11handleChdirEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12handleRenameEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp12handleUnlinkEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5411,16 +5405,7 @@ function create__ZN8LinuxApp10handlePipeEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp9handleBrkEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrI9cxTimeValL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN8LinuxApp11writeToAddrI9cxTimeValEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5438,15 +5423,6 @@ function create__ZN8LinuxApp15handleGetRUsageEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp18partialWriteToAddrI8cxRUsageEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_j$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
 function create__ZN8LinuxApp13handleSymlinkEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
@@ -5456,7 +5432,43 @@ function create__ZN8LinuxApp13handleSymlinkEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp13handleOldMmapEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp12handleMunmapEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12handleFchmodEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12handleStatFsEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp16handleStatFsImplI6statfsEE4TaskIjEP7CoreCtxjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp10handleExitEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5492,25 +5504,16 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEP
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
+function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args_0EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
 function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_0L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args_1EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_1L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5528,7 +5531,7 @@ function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Arg
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_2L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_3L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5537,7 +5540,16 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEP
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args_3EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
+function create__ZN8LinuxApp10handleLinkEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12handleRenameEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5555,16 +5567,7 @@ function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Arg
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_4L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args_5EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_5L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5582,6 +5585,15 @@ function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Arg
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_6L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
 function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args_7EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
 	var a=[];
 	a[0]=obj;
@@ -5591,7 +5603,34 @@ function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Arg
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_8L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN8LinuxApp18partialWriteToAddrI16sockaddr_storageEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_j$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11writeToAddrI6msghdrEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrI6msghdrL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4CMsgL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5618,51 +5657,6 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEP
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args_9EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_9L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args__10_EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args__10_L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args__11_EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
 function create__ZN8LinuxApp11writeToAddrIZNS_16handleSocketCallEP7CoreCtxE8PipePairEE4TaskIvER13CoreLockGuardI12AddressSpaceES2_jRKT_$pFrame(obj){
 	var a=[];
 	a[0]=obj;
@@ -5672,7 +5666,7 @@ function create__ZN8LinuxApp11writeToAddrIZNS_16handleSocketCallEP7CoreCtxE8Pipe
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E8PipePairL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN8LinuxApp11writeToAddrIZNS_16handleSocketCallEP7CoreCtxE5ucredEE4TaskIvER13CoreLockGuardI12AddressSpaceES2_jRKT_$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5681,25 +5675,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEP
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args__12_EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args__13_L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args__14_EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
+function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args__13_EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5717,7 +5693,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEP
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args__16_L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args__16_EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5726,7 +5702,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEP
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp11handleWait4EP7CoreCtx$pFrame(obj){
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args__16_L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5744,7 +5720,34 @@ function create__ZN8LinuxApp8waitImplEP7CoreCtxijbb$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp15handleSigReturnEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp11handleCloneEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp14handleNewUnameEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args__12_L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12handleLlseekEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5762,7 +5765,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrIxL18MEMORY_ACCESS_MODE2ELj2EEE4
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp11writeToAddrI6msghdrEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
+function create__ZN8LinuxApp12handleSelectEP7CoreCtxb$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5771,7 +5774,7 @@ function create__ZN8LinuxApp11writeToAddrI6msghdrEE4TaskIvER13CoreLockGuardI12Ad
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp18partialWriteToAddrI15__kernel_fd_setEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_j$pFrame(obj){
+function create__ZN8LinuxApp19partialReadFromAddrI15__kernel_fd_setEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5780,7 +5783,7 @@ function create__ZN8LinuxApp18partialWriteToAddrI15__kernel_fd_setEE4TaskIvER13C
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12readFromAddrI9cxTimeValEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+function create__ZZN8LinuxApp12handleSelectEP7CoreCtxbENK3$_0clER13CoreLockGuardI12AddressSpaceE$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5798,7 +5801,43 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrI9cxTimeValL18MEMORY_ACCESS_MODE
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
+function create__ZN8LinuxApp18partialWriteToAddrI15__kernel_fd_setEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_j$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11handleReadVEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args__15_EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
 function create__ZN8LinuxApp12handleWriteVEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrI5iovecL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5825,6 +5864,33 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrI20__kernel_sched_paramL18MEMORY
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
+function create__ZN8LinuxApp15handleNanoSleepEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp10handlePollEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZZN8LinuxApp10handlePollEP7CoreCtxENK3$_0clER13CoreLockGuardI12AddressSpaceE$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
 function create__ZN7CoreCtx19getTypedPtrFromAddrI6pollfdL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
@@ -5834,7 +5900,34 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrI6pollfdL18MEMORY_ACCESS_MODE2EL
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E8PipePairL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrI6pollfdEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
 function create__ZN7CoreCtx19getTypedPtrFromAddrI6pollfdL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11handlePrctlEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5861,7 +5954,7 @@ function create__ZN8LinuxApp18sigReturnInternalsEP7CoreCtxj$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp11writeToAddrI11cxSigactionEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
+function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args_9EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5879,7 +5972,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrI11cxSigactionL18MEMORY_ACCESS_M
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp19handleRtSigProcMaskEP7CoreCtx$pFrame(obj){
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args__15_L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5888,7 +5981,7 @@ function create__ZN8LinuxApp19handleRtSigProcMaskEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZNK18CheerpOSFsProvider9CacheNode13getBackingBufEP7CoreCtxj$pFrame(obj){
+function create__ZN7CoreCtx19getTypedPtrFromAddrI11cxSigactionL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5906,25 +5999,16 @@ function create__ZN8LinuxApp18partialWriteToAddrI7siginfoEE4TaskIvER13CoreLockGu
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIhL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZZN8LinuxApp12handleSelectEP7CoreCtxbENK3$_0clER13CoreLockGuardI12AddressSpaceE$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
 function create__ZN8LinuxApp18handleRtSigSuspendEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args__13_L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5951,6 +6035,15 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrIyL18MEMORY_ACCESS_MODE1ELj2EEE4
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
+function create__ZN8LinuxApp11handleWriteEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
 function create__ZN8LinuxApp11handlePreadEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
@@ -5960,7 +6053,7 @@ function create__ZN8LinuxApp11handlePreadEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12handlePwriteEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp15handleGetRLimitEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -5969,43 +6062,7 @@ function create__ZN8LinuxApp12handlePwriteEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12handleGetCwdEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp11handleVForkEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp14cloneInternalsEP7CoreCtxjjjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp11writeToAddrI6rlimitEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrI6rlimitL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN8LinuxApp13mmapInternalsEP7CoreCtxjjjjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -6023,7 +6080,7 @@ function create__ZN8LinuxApp17handleFtruncate64EP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp11writeToAddrI6pollfdEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
+function create__ZN8LinuxApp12handleStat64EP7CoreCtxb$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -6050,15 +6107,6 @@ function create__ZN8LinuxApp11handleChownEP7CoreCtxb$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp10handleForkEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
 function create__ZN8LinuxApp15handleGetGroupsEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
@@ -6068,7 +6116,16 @@ function create__ZN8LinuxApp15handleGetGroupsEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12handleFchownEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp15handleGetResGidEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp17handleRtSigActionEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -6086,34 +6143,7 @@ function create__ZN8LinuxApp16handleGetDents64EP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp19handleSetThreadAreaEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp11writeToAddrI9cxTimeValEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
 function create__ZN8LinuxApp12readFromAddrI9user_descEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrI6msghdrL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -6131,286 +6161,7 @@ function create__ZN8LinuxApp11writeToAddrI9user_descEE4TaskIvER13CoreLockGuardI1
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp11writeToAddrIZNS_16handleSocketCallEP7CoreCtxE5ucredEE4TaskIvER13CoreLockGuardI12AddressSpaceES2_jRKT_$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrI9user_descL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args_0EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp14handleEPollCtlEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrISt5arrayIjLj3EEL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18CheerpOSFsProvider7doChmodEP7CoreCtxP9FileInodej$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14InetSocketNodeI6STREAME6doBindEP7CoreCtxP10ProcessCtxPK16sockaddr_storagej$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp15renameInternalsEP7CoreCtxjjjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN25CheerpOSPreloadFsProvider12getRootInodeEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrI5iovecL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18CheerpOSFsProvider15doFsOpenRequestEP7CoreCtxRKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIjL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN13SysFsProvider10checkMountEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp18getBoundUnixSocketEP7CoreCtxPK11sockaddr_unj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx23waitForFrontendResponseEv$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIiL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18InternalFsProvider7doMkdirEP7CoreCtxP9FileInodeRK9StringRefj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp11handleChmodEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18InternalFsProvider9doSymlinkEP7CoreCtxP9FileInodeRK9StringRefjPKc$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN12TerminalNode16flushWriteBufferEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN9Ext2Inode8doStat64EP7CoreCtxR13CoreLockGuardI12AddressSpaceEj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrI7mmsghdrEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14ProcFsProvider10checkMountEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4CMsgL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrI10cxTimeSpecL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12handleFchmodEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN15ElfLoadingState15runStateMachineEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN16DevPtsFsProvider7doMkdirEP7CoreCtxP9FileInodeRK9StringRefj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12handleLlseekEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN16DevPtsFsProvider15createFileInodeEP7CoreCtxR13CoreLockGuardIcEP9FileInodeRK9StringRef$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN9FileInode11doListFilesEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjPFjP8CoreDataS5_jjRK9StringRefERj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12handleStatFsEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp14cloneInternalsEP7CoreCtxjjjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -6428,7 +6179,7 @@ function create__ZN8LinuxApp11handleFutexEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN16DevPtsFsProvider10checkMountEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp12readFromAddrIjEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -6437,7 +6188,7 @@ function create__ZN16DevPtsFsProvider10checkMountEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN9Ext2Inode11doListFilesEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjPFjP8CoreDataS5_jjRK9StringRefERj$pFrame(obj){
+function create__ZN7CoreCtx19getTypedPtrFromAddrIjL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -6446,457 +6197,7 @@ function create__ZN9Ext2Inode11doListFilesEP7CoreCtxR13CoreLockGuardI12AddressSp
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN14Ext2FsProvider7doChmodEP7CoreCtxP9FileInodej$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN10FsProvider7doChownEP7CoreCtxP9FileInodejj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN16DevPtsFsProvider7doChmodEP7CoreCtxP9FileInodej$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN10FsProvider7doChmodEP7CoreCtxP9FileInodej$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN5Inode7doChmodEP7CoreCtxj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args__15_L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp14handleRenameAtEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider7doMkdirEP7CoreCtxP9FileInodeRK9StringRefj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider21createOnDiskFileInodeEP7CoreCtxP9FileInodeRK9StringRefjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider12getFreeInodeEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider14findSpaceInDirEP7CoreCtxR10DeviceViewj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZZN8LinuxApp17handleExecRequestEOSt6vectorISbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEES3_IS6_LS4_1EEES9_jjRKSt5arrayIhLj64EERKS6_jjENK3$_0clEP7CoreCtxP10ProcessCtxS9_S9_$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider10unlinkImplEP7CoreCtxP9FileInodeR10DeviceViewS3_RK9StringRef$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrI11cxSigactionEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN9EventNode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider15createFileInodeEP7CoreCtxR13CoreLockGuardIcEP9FileInodeRK9StringRef$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN12TerminalNode6doReadEP7CoreCtxjPhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14InetSocketNodeI5DGRAME9doSendMsgEP7CoreCtxR13CoreLockGuardI12AddressSpaceEP7cxIovecjOSt6vectorIN14SocketNodeBase7AuxDataE17TrackingAllocatorISC_L7MEM_TAG1EEERKNSB_12PacketSourceEPK6msghdr$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp15handleGetRandomEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18CheerpOSFsProvider9CacheNode6doReadEP7CoreCtxjPhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp13handleMkdirAtEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8NullNode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12handleMremapEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp15handleGetRLimitEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18CheerpOSFsProvider6doLinkEP7CoreCtxP9FileInodeS3_RK9StringRefS3_S6_$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp14dispatchSignalEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18InternalSocketNode6doReadEP7CoreCtxjPhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp11writeToAddrIiEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp10handleOpenEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp15handleGetResUidEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18CheerpOSFsProvider10checkMountEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZZN14Ext2FsProvider9freeInodeEP7CoreCtxP9FileInodeP5InodeENK3$_1clES1_PS_RSt3mapIjZNS_9freeInodeES1_S3_S5_E15FreedBlocksDataSt4lessIjE17TrackingAllocatorISt4pairIKjS9_EL7MEM_TAG2EEEj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider12getInodeViewEP7CoreCtxj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp11handleMknodEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN10FsProvider6doOpenEP7CoreCtxRK20CachedNodeResolutionRK9StringRefjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18CheerpOSFsProvider15createFileInodeEP7CoreCtxR13CoreLockGuardIcEP9FileInodeRK9StringRef$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN11ChunksCache7getDataEP7CoreCtxjjRj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18CheerpOSFsProvider7doChownEP7CoreCtxP9FileInodejj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E5ucredL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrI5iovecEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18CheerpOSFsProvider6doFifoEP7CoreCtxP9FileInodeRK9StringRefj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider16lookupEntryInDirEP7CoreCtxP13Ext2InodeData9StringRef$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN9Ext2Inode12getHardLinksEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18CheerpOSFsProvider8doUnlinkEP7CoreCtxP9FileInodeS3_RK9StringRefb$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN5Inode8doStat64EP7CoreCtxR13CoreLockGuardI12AddressSpaceEj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18CheerpOSFsProvider12getRootInodeEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp14handleNewUnameEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp11writeToAddrI8rlimit64EE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN5Inode11doListFilesEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjPFjP8CoreDataS5_jjRK9StringRefERj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14InetSocketNodeI5DGRAME6doBindEP7CoreCtxP10ProcessCtxPK16sockaddr_storagej$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx13waitForEventsEd$pFrame(obj){
+function create__ZN8LinuxApp14handleEPollCtlEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -6914,7 +6215,70 @@ function create__ZN8LinuxApp12readFromAddrISt5arrayIjLj3EEEE4TaskIT_ER13CoreLock
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN18CheerpOSFsProvider6doOpenEP7CoreCtxRK20CachedNodeResolutionRK9StringRefjj$pFrame(obj){
+function create__ZN8LinuxApp12handlePwriteEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18CheerpOSFsProvider7doChownEP7CoreCtxP9FileInodejj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIhL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18CheerpOSFsProvider7doMkdirEP7CoreCtxP9FileInodeRK9StringRefj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZZN8LinuxApp17handleExecRequestEOSt6vectorISbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEES3_IS6_LS4_1EEES9_jjRKSt5arrayIhLj64EERKS6_jjENK3$_0clEP7CoreCtxP10ProcessCtxS9_S9_$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp15handleSigReturnEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18CheerpOSFsProvider12getRootInodeEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18CheerpOSFsProvider6doLinkEP7CoreCtxP9FileInodeS3_RK9StringRefS3_S6_$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -6932,7 +6296,70 @@ function create__ZN19OffscreenCanvasNode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp17handleClockGetResEP7CoreCtx$pFrame(obj){
+function create__ZN18CheerpOSFsProvider6doFifoEP7CoreCtxP9FileInodeRK9StringRefj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18InternalFsProvider7doChownEP7CoreCtxP9FileInodejj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN10ProcessCtx15acquireASLockRWEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN12TerminalNode16flushWriteBufferEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN16DevPtsFsProvider6doOpenEP7CoreCtxRK20CachedNodeResolutionRK9StringRefjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp15handleUtimeNsAtEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7PtsNode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrI9user_descL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -6950,6 +6377,528 @@ function create__ZN8PtmxNode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
+function create__ZN10InodeCache8getInodeEP7CoreCtxRKN10FsProvider14PathComponentsEb$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp15handleGetResUidEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18InternalFsProvider10checkMountEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN16DevPtsFsProvider7doMkdirEP7CoreCtxP9FileInodeRK9StringRefj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11handleChdirEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18InternalFsProvider15createFileInodeEP7CoreCtxR13CoreLockGuardIcEP9FileInodeRK9StringRef$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args_1EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args__10_EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14UnixSocketNodeI5DGRAME6doBindEP7CoreCtxP10ProcessCtxPK16sockaddr_storagej$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider7doChmodEP7CoreCtxP9FileInodej$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp15stat64InternalsEP7CoreCtxjjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN25CheerpOSPreloadFsProvider12getRootInodeEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN9ProcInode11doListFilesEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjPFjP8CoreDataS5_jjRK9StringRefERj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_8L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider7doChownEP7CoreCtxP9FileInodejj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12handleGetCwdEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp10handleBindEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider7doMkdirEP7CoreCtxP9FileInodeRK9StringRefj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider6doLinkEP7CoreCtxP9FileInodeS3_RK9StringRefS3_S6_$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN16DevPtsFsProvider10checkMountEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18InternalFsProvider9doSymlinkEP7CoreCtxP9FileInodeRK9StringRefjPKc$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11handleWait4EP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN5Inode16flushWriteBufferEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14UnixSocketNodeI5DGRAME11getPeerImplEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args__11_EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp24readNullTerminatedStringER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp19handleSymlinkAtImplEP7CoreCtxjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args__12_EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider6doFifoEP7CoreCtxP9FileInodeRK9StringRefj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider12createSocketEP7CoreCtxP9FileInodeRK9StringRefjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN16DevPtsFsProvider7doChmodEP7CoreCtxP9FileInodej$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx11handleFaultER13CoreLockGuardI12AddressSpaceEj18MEMORY_ACCESS_MODE$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider14findSpaceInDirEP7CoreCtxR10DeviceViewj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp13handleMadviseEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrI7cxIovecEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp19handleSetThreadAreaEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8NullNode6doReadEP7CoreCtxjPhjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18CheerpOSFsProvider12doUnixSocketEP7CoreCtxP9FileInodeRK9StringRefjP10SocketNode$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider12getRootInodeEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp9handleBrkEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11writeToAddrI6pollfdEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN19OffscreenCanvasNode6doReadEP7CoreCtxjPhjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx23waitForFrontendResponseEv$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp15unlinkInternalsEP7CoreCtxjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN9Ext2Inode11doListFilesEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjPFjP8CoreDataS5_jjRK9StringRefERj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp13pipeInternalsEP7CoreCtxjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp23handleSchedSetSchedulerEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18CheerpOSFsProvider7doChmodEP7CoreCtxP9FileInodej$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider15createFileInodeEP7CoreCtxR13CoreLockGuardIcEP9FileInodeRK9StringRef$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp13openInternalsEP7CoreCtxjjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14ProcFsProvider12getRootInodeEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider8doUnlinkEP7CoreCtxP9FileInodeS3_RK9StringRefb$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider12doUnixSocketEP7CoreCtxP9FileInodeRK9StringRefjP10SocketNode$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp18getBoundUnixSocketEP7CoreCtxRKN10FsProvider14PathComponentsE$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN9Ext2Inode6doReadEP7CoreCtxjPhjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp18partialWriteToAddrI8cxRUsageEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_j$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14UnixSocketNodeI6STREAME11getPeerImplEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN5Inode7doWriteEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
 function create__ZN14Ext2FsProvider13allocateBlockEP7CoreCtxR10DeviceViewjb$pFrame(obj){
 	var a=[];
 	a[0]=obj;
@@ -6959,7 +6908,547 @@ function create__ZN14Ext2FsProvider13allocateBlockEP7CoreCtxR10DeviceViewjb$pFra
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN14InetSocketNodeI6STREAME9doConnectEP7CoreCtxPK16sockaddr_storagej$pFrame(obj){
+function create__ZN9FileInode11doListFilesEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjPFjP8CoreDataS5_jjRK9StringRefERj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN5Inode7doChmodEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp19handleRtSigProcMaskEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrI9user_descL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18InternalSocketNode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp20handleRtSigTimedWaitEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8CoreLockIcE6rwlockEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp15handleSymlinkAtEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx5yieldEv$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider10unlinkImplEP7CoreCtxP9FileInodeR10DeviceViewS3_RK9StringRef$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrI9cxTimeValL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp14dispatchSignalEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrI19__kernel_itimerspecEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrI11cxSigactionEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrI6rlimitL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18CheerpOSFsProvider15createFileInodeEP7CoreCtxR13CoreLockGuardIcEP9FileInodeRK9StringRef$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_4L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11handlePipe2EP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZZN14Ext2FsProvider9freeInodeEP7CoreCtxP9FileInodeP5InodeENK3$_0clES1_PS_RSt3mapIjZNS_9freeInodeES1_S3_S5_E15FreedBlocksDataSt4lessIjE17TrackingAllocatorISt4pairIKjS9_EL7MEM_TAG2EEEj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrI19__kernel_itimerspecL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp10handleOpenEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp10handleTimeEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18InternalFsProvider12getRootInodeEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11handleIoCtlEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN13SysFsProvider6doOpenEP7CoreCtxRK20CachedNodeResolutionRK9StringRefjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider9freeInodeEP7CoreCtxP9FileInodeP5Inode$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18CheerpOSFsProvider8doRenameEP7CoreCtxP9FileInodeS3_RK9StringRefS3_S3_S6_$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZNK9Ext2Inode13getBackingBufEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14ProcFsProvider6doOpenEP7CoreCtxRK20CachedNodeResolutionRK9StringRefjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrI8sigeventEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp15handleExitGroupEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp17mountStateMachineEP7CoreCtxR10MountState$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN15ElfLoadingState15runStateMachineEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN12SysDataInode7doWriteEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp17handleSendMsgImplER13CoreLockGuardI12AddressSpaceEP7CoreCtxjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11handleVForkEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11writeToAddrIiEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14SocketNodeBase7doWriteEP7CoreCtxPKhjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11writeToAddrIZNS_15handleEPollWaitEP7CoreCtxE5EventEE4TaskIvER13CoreLockGuardI12AddressSpaceES2_jRKT_$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN10RandomNode6doReadEP7CoreCtxjPhjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN5Inode11doListFilesEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjPFjP8CoreDataS5_jjRK9StringRefERj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_1L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN5Inode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider26getInodeBitmapViewForGroupEP7CoreCtxP18Ext2GroupTableItem$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18InternalFsProvider7doChmodEP7CoreCtxP9FileInodej$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp19partialReadFromAddrISt5arrayIjLj24EEEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider6doOpenEP7CoreCtxRK20CachedNodeResolutionRK9StringRefjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args__14_EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrI6msghdrEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN5Inode6doReadEP7CoreCtxjPhjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN9FileInode7doWriteEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN10FsProvider7doChmodEP7CoreCtxP9FileInodej$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14SocketNodeBase16flushWriteBufferEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider12getInodeViewEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN5Inode8doStat64EP7CoreCtxR13CoreLockGuardI12AddressSpaceEj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8CoreLockI12AddressSpaceE6rwlockEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN10FsProvider7doChownEP7CoreCtxP9FileInodejj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN9Ext2Inode7doWriteEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN12TerminalNode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN9Ext2Inode12cleanupInodeEP7CoreCtxP5Inode$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN5Inode10doTruncateEP7CoreCtxj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -6986,196 +7475,7 @@ function create__ZN5Inode6doReadEP7CoreCtxjR13CoreLockGuardI12AddressSpaceEjjj$p
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx5yieldEv$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN12TerminalNode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp21loadAddressSpaceRangeEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjj18MEMORY_ACCESS_MODE$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8CoreLockIcE6rwlockEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN13ProcFileInode6doReadEP7CoreCtxjR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7PtsNode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18NlUeventSocketNode9doSendMsgEP7CoreCtxR13CoreLockGuardI12AddressSpaceEP7cxIovecjOSt6vectorIN14SocketNodeBase7AuxDataE17TrackingAllocatorISA_L7MEM_TAG1EEERKNS9_12PacketSourceEPK6msghdr$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp15handleEPollWaitEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN12CoreLockBase4lockEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp16handleReadLinkAtEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN5Inode7doWriteEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp15handlePrlimit64EP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8CoreLockI12AddressSpaceE6rwlockEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18CheerpOSFsProvider9doSymlinkEP7CoreCtxP9FileInodeRK9StringRefjPKc$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZZN8LinuxApp10handlePollEP7CoreCtxENK3$_0clER13CoreLockGuardI12AddressSpaceE$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider6doOpenEP7CoreCtxRK20CachedNodeResolutionRK9StringRefjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp17mountStateMachineEP7CoreCtxR10MountState$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14InetSocketNodeI5DGRAME9doConnectEP7CoreCtxPK16sockaddr_storagej$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp18nanoSleepInternalsI12cxTimeSpec64EE4TaskIjEP7CoreCtxjjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN9Ext2Inode7doWriteEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider26getInodeBitmapViewForGroupEP7CoreCtxP18Ext2GroupTableItem$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14ProcFsProvider7doMkdirEP7CoreCtxP9FileInodeRK9StringRefj$pFrame(obj){
+function create__ZN8LinuxApp13linkInternalsEP7CoreCtxjjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7193,7 +7493,7 @@ function create__ZN14SocketNodeBase7getPeerEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN18InternalFsProvider12getRootInodeEP7CoreCtx$pFrame(obj){
+function create__ZN18CheerpOSFsProvider6doOpenEP7CoreCtxRK20CachedNodeResolutionRK9StringRefjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7202,325 +7502,7 @@ function create__ZN18InternalFsProvider12getRootInodeEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN14Ext2FsProvider7doChownEP7CoreCtxP9FileInodejj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12handleStat64EP7CoreCtxb$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider6doFifoEP7CoreCtxP9FileInodeRK9StringRefj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14UnixSocketNodeI5DGRAME7getPeerEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args__12_L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrI11cxSigactionL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN12SysDataInode7doWriteEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14SocketNodeBase16flushWriteBufferEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_3L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider8doUnlinkEP7CoreCtxP9FileInodeS3_RK9StringRefb$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN9FileInode7doWriteEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create_class$p_Z11InotifyNode(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a18;
-	obj.a18.o=1;
-	obj.a18.a=a;
-	a[2]=obj.a20;
-	obj.a20.o=2;
-	obj.a20.a=a;
-	return obj;}
-function create__ZN13SysFsProvider12getRootInodeEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp10handlePollEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp17handleRtSigActionEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZZN8LinuxApp20retryCoreMessageImplEP7CoreCtxiENK3$_0clES1_i$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args_8EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args__15_EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN11BlockDevice7getViewEP7CoreCtxjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN10SocketImplI6STREAME9doSendMsgEP7CoreCtxR13CoreLockGuardI12AddressSpaceEP7cxIovecjOSt6vectorIN14SocketNodeBase7AuxDataE17TrackingAllocatorISC_L7MEM_TAG1EEERKNSB_12PacketSourceEPK6msghdr$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN5Inode10doTruncateEP7CoreCtxj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14ProcFsProvider12getRootInodeEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp11handleCloneEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp15handleSymlinkAtEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrI9user_descL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8NullNode6doReadEP7CoreCtxjPhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp22handleClockNanoSleep64EP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18InternalFsProvider7doChownEP7CoreCtxP9FileInodejj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp14chmodInternalsEP7CoreCtxjjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN9ProcInode11doListFilesEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjPFjP8CoreDataS5_jjRK9StringRefERj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider12createSocketEP7CoreCtxP9FileInodeRK9StringRefjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZZN8LinuxApp19handleConnectToPortEjjENK3$_0clEP7CoreCtxP18ExternalSocketNodei$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp15handleSetGroupsEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrI8rlimit64L18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrI19__kernel_itimerspecEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12handleMunmapEP7CoreCtx$pFrame(obj){
+function create__ZN11ChunksCache7getDataEP7CoreCtxjjRj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7538,7 +7520,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEP
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN18CheerpOSFsProvider12doUnixSocketEP7CoreCtxP9FileInodeRK9StringRefjP10SocketNode$pFrame(obj){
+function create__ZN8LinuxApp21loadAddressSpaceRangeEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjj18MEMORY_ACCESS_MODE$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7547,7 +7529,7 @@ function create__ZN18CheerpOSFsProvider12doUnixSocketEP7CoreCtxP9FileInodeRK9Str
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN10InodeCache8getInodeEP7CoreCtxRKN10FsProvider14PathComponentsEb$pFrame(obj){
+function create__ZN13SysFsProvider15createFileInodeEP7CoreCtxR13CoreLockGuardIcEP9FileInodeRK9StringRef$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7556,7 +7538,7 @@ function create__ZN10InodeCache8getInodeEP7CoreCtxRKN10FsProvider14PathComponent
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp15handleEPollWaitEPS_E5EventL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN14ProcFsProvider15createFileInodeEP7CoreCtxR13CoreLockGuardIcEP9FileInodeRK9StringRef$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7565,7 +7547,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp15handleEPollWaitEPS
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp13pipeInternalsEP7CoreCtxjj$pFrame(obj){
+function create__ZN14ProcFsProvider10checkMountEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7574,7 +7556,7 @@ function create__ZN8LinuxApp13pipeInternalsEP7CoreCtxjj$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN13SysFsProvider6doOpenEP7CoreCtxRK20CachedNodeResolutionRK9StringRefjj$pFrame(obj){
+function create__ZN13SysFsProvider10checkMountEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7583,7 +7565,7 @@ function create__ZN13SysFsProvider6doOpenEP7CoreCtxRK20CachedNodeResolutionRK9St
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_7L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN8LinuxApp11handleRmdirEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7592,7 +7574,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEP
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8FifoNode12cleanupInodeEP7CoreCtxP5Inode$pFrame(obj){
+function create__ZN14InetSocketNodeI6STREAME9doConnectEP7CoreCtxPK16sockaddr_storagej$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7601,7 +7583,7 @@ function create__ZN8FifoNode12cleanupInodeEP7CoreCtxP5Inode$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp10handleTimeEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp14handleStatFs64EP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7610,91 +7592,7 @@ function create__ZN8LinuxApp10handleTimeEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp11writeToAddrIZNS_15handleEPollWaitEP7CoreCtxE5EventEE4TaskIvER13CoreLockGuardI12AddressSpaceES2_jRKT_$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create_class$p_ZSt14basic_iostreamIcSt11char_traitsIcEE(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	a[2]=obj.a3;
-	obj.a3.o=2;
-	obj.a3.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider8doRenameEP7CoreCtxP9FileInodeS3_RK9StringRefS3_S3_S6_$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14SocketNodeBase7doWriteEP7CoreCtxPKhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14ProcFsProvider6doOpenEP7CoreCtxRK20CachedNodeResolutionRK9StringRefjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp18getBoundUnixSocketEP7CoreCtxRKN10FsProvider14PathComponentsE$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp19partialReadFromAddrI16sockaddr_storageEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN16DevPtsFsProvider12getRootInodeEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider16lookupInodeInDirEP7CoreCtxP13Ext2InodeData9StringRef$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN9FileInode6doReadEP7CoreCtxjPhjj$pFrame(obj){
+function create__ZN14Ext2FsProvider21createOnDiskFileInodeEP7CoreCtxP9FileInodeRK9StringRefjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7715,6 +7613,249 @@ function create_class$p_ZSt18basic_stringstreamIcSt11char_traitsIcESaIcEE(obj){
 	obj.a4.o=2;
 	obj.a4.a=a;
 	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrI8rlimit64L18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider16lookupInodeInDirEP7CoreCtxP13Ext2InodeData9StringRef$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrI5iovecEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp18getBoundUnixSocketEP7CoreCtxPK11sockaddr_unj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11writeToAddrI7mmsghdrEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E5ucredL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14ProcFsProvider7doMkdirEP7CoreCtxP9FileInodeRK9StringRefj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14UnixSocketNodeI6STREAME7getPeerEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp13handleOldMmapEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14UnixSocketNodeI6STREAME6doBindEP7CoreCtxP10ProcessCtxPK16sockaddr_storagej$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN11ChunksCache8getChunkEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp22handleClockNanoSleep64EP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_2L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp16handleStatFsImplI8statfs64EE4TaskIjEP7CoreCtxjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN11BlockDevice7getViewEP7CoreCtxjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp20handleClockNanoSleepEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider9doSymlinkEP7CoreCtxP9FileInodeRK9StringRefjPKc$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18CheerpOSFsProvider15doFsOpenRequestEP7CoreCtxRKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14SocketNodeBase18copyIoVecsToBufferERSt6vectorIhSaIhEEP7CoreCtxR13CoreLockGuardI12AddressSpaceEP7cxIovecj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider10checkMountEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp16handleSendToImplER13CoreLockGuardI12AddressSpaceEP7CoreCtxjjjjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIhL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrI8sigeventL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN5Inode12cleanupInodeEP7CoreCtxPS_$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp15accessInternalsEP7CoreCtxjjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN9Ext2Inode12getHardLinksEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp14handleFchownAtEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
 function create__ZN13ProcFileInode7doWriteEP7CoreCtxR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
@@ -7733,7 +7874,7 @@ function create__ZN14Ext2FsProvider18blockInodeToGlobalEP7CoreCtxP13Ext2InodeDat
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp21handleInotifyAddWatchEP7CoreCtx$pFrame(obj){
+function create__ZN14Ext2FsProvider16lookupEntryInDirEP7CoreCtxP13Ext2InodeData9StringRef$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7742,7 +7883,7 @@ function create__ZN8LinuxApp21handleInotifyAddWatchEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp20handleRtSigTimedWaitEP7CoreCtx$pFrame(obj){
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp15handleEPollWaitEPS_E5EventL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7751,7 +7892,7 @@ function create__ZN8LinuxApp20handleRtSigTimedWaitEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN5Inode6doReadEP7CoreCtxjPhjj$pFrame(obj){
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args__10_L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7760,7 +7901,7 @@ function create__ZN5Inode6doReadEP7CoreCtxjPhjj$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp10handleMmapEP7CoreCtx$pFrame(obj){
+function create__ZN7CoreCtx13waitForEventsEd$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7769,7 +7910,7 @@ function create__ZN8LinuxApp10handleMmapEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN10RandomNode6doReadEP7CoreCtxjPhjj$pFrame(obj){
+function create__ZZN14Ext2FsProvider9freeInodeEP7CoreCtxP9FileInodeP5InodeENK3$_1clES1_PS_RSt3mapIjZNS_9freeInodeES1_S3_S5_E15FreedBlocksDataSt4lessIjE17TrackingAllocatorISt4pairIKjS9_EL7MEM_TAG2EEEj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7778,7 +7919,7 @@ function create__ZN10RandomNode6doReadEP7CoreCtxjPhjj$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN14Ext2FsProvider10checkMountEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp14handleFchmodAtEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7787,7 +7928,7 @@ function create__ZN14Ext2FsProvider10checkMountEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN14ProcFsProvider15createFileInodeEP7CoreCtxR13CoreLockGuardIcEP9FileInodeRK9StringRef$pFrame(obj){
+function create__ZN14Ext2FsProvider12getFreeInodeEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7796,7 +7937,7 @@ function create__ZN14ProcFsProvider15createFileInodeEP7CoreCtxR13CoreLockGuardIc
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp19partialReadFromAddrISt5arrayIjLj24EEEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxjj$pFrame(obj){
+function create__ZN8LinuxApp11writeToAddrI8rlimit64EE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7805,7 +7946,7 @@ function create__ZN8LinuxApp19partialReadFromAddrISt5arrayIjLj24EEEE4TaskIT_ER13
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZNK9Ext2Inode13getBackingBufEP7CoreCtxj$pFrame(obj){
+function create__ZN18CheerpOSFsProvider8doUnlinkEP7CoreCtxP9FileInodeS3_RK9StringRefb$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7814,7 +7955,7 @@ function create__ZNK9Ext2Inode13getBackingBufEP7CoreCtxj$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN5Inode16flushWriteBufferEP7CoreCtx$pFrame(obj){
+function create__ZZN8LinuxApp19handleConnectToPortEjjENK3$_0clEP7CoreCtxP18ExternalSocketNodei$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -7823,304 +7964,7 @@ function create__ZN5Inode16flushWriteBufferEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN14Ext2FsProvider9doSymlinkEP7CoreCtxP9FileInodeRK9StringRefjPKc$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN12SysDataInode6doReadEP7CoreCtxjR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider12doUnixSocketEP7CoreCtxP9FileInodeRK9StringRefjP10SocketNode$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp18handleGetTimeOfDayEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18InternalSocketNode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider12getBlockViewEP7CoreCtxj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN5Inode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN19OffscreenCanvasNode6doReadEP7CoreCtxjPhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider12getRootInodeEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider26getBlockBitmapViewForGroupEP7CoreCtxP18Ext2GroupTableItem$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZZN14Ext2FsProvider9freeInodeEP7CoreCtxP9FileInodeP5InodeENK3$_0clES1_PS_RSt3mapIjZNS_9freeInodeES1_S3_S5_E15FreedBlocksDataSt4lessIjE17TrackingAllocatorISt4pairIKjS9_EL7MEM_TAG2EEEj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp13mmapInternalsEP7CoreCtxjjjjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18InternalFsProvider10checkMountEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN11ChunksCache8getChunkEP7CoreCtxj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN10SocketImplI6STREAME6doReadEP7CoreCtxjPhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN9Ext2Inode6doReadEP7CoreCtxjR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN9Ext2Inode12cleanupInodeEP7CoreCtxP5Inode$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14UnixSocketNodeI5DGRAME9doConnectEP7CoreCtxPK16sockaddr_storagej$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx11handleFaultER13CoreLockGuardI12AddressSpaceEj18MEMORY_ACCESS_MODE$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider9freeInodeEP7CoreCtxP9FileInodeP5Inode$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider12getFreeBlockEP7CoreCtxj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp11handleIoCtlEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN9Ext2Inode10doTruncateEP7CoreCtxj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN9Ext2Inode6doReadEP7CoreCtxjPhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp11writeToAddrIxEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12handleUtimesEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN10InodeCache16resolveCacheNodeEP7CoreCtxRKN10FsProvider14PathComponentsEb$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN17NlRouteSocketNode9doSendMsgEP7CoreCtxR13CoreLockGuardI12AddressSpaceEP7cxIovecjOSt6vectorIN14SocketNodeBase7AuxDataE17TrackingAllocatorISA_L7MEM_TAG1EEERKNS9_12PacketSourceEPK6msghdr$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp13pipeInternalsEPS_jjE4PipeL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx11handleFaultEj18MEMORY_ACCESS_MODE$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN5Inode12cleanupInodeEP7CoreCtxPS_$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN10MountState15runStateMachineEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZZN8LinuxApp18handleMountRequestEjRKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEES7_jENK3$_0clEP7CoreCtxS7_S7_j$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp10handleBindEP10ProcessCtxP7CoreCtxjP16sockaddr_storagej$pFrame(obj){
+function create__ZN18CheerpOSFsProvider10checkMountEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8138,6 +7982,24 @@ function create__ZN8LinuxApp16execStateMachineEP7CoreCtxR15ElfLoadingState$pFram
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
+function create__ZN9Ext2Inode10doTruncateEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN16DevPtsFsProvider15createFileInodeEP7CoreCtxR13CoreLockGuardIcEP9FileInodeRK9StringRef$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
 function create__ZZN8LinuxApp17handleBindWrapperEP7CoreCtxj12LinearBufferENK3$_0clES1_jS2_$pFrame(obj){
 	var a=[];
 	a[0]=obj;
@@ -8147,7 +8009,7 @@ function create__ZZN8LinuxApp17handleBindWrapperEP7CoreCtxj12LinearBufferENK3$_0
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12handleAccessEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp18nanoSleepInternalsI12cxTimeSpec64EE4TaskIjEP7CoreCtxjjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8156,7 +8018,7 @@ function create__ZN8LinuxApp12handleAccessEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12readFromAddrI6pollfdEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+function create__ZN8LinuxApp14handleRenameAtEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8165,7 +8027,7 @@ function create__ZN8LinuxApp12readFromAddrI6pollfdEE4TaskIT_ER13CoreLockGuardI12
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN17NetlinkSocketNode6doBindEP7CoreCtxP10ProcessCtxPK16sockaddr_storagej$pFrame(obj){
+function create__ZN9Ext2Inode8doStat64EP7CoreCtxR13CoreLockGuardI12AddressSpaceEj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8174,7 +8036,7 @@ function create__ZN17NetlinkSocketNode6doBindEP7CoreCtxP10ProcessCtxPK16sockaddr
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN18CheerpOSFsProvider9CacheNode10doTruncateEP7CoreCtxj$pFrame(obj){
+function create__ZN18CheerpOSFsProvider9CacheNode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8183,7 +8045,7 @@ function create__ZN18CheerpOSFsProvider9CacheNode10doTruncateEP7CoreCtxj$pFrame(
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp13handleMadviseEP7CoreCtx$pFrame(obj){
+function create__ZN12TerminalNode6doReadEP7CoreCtxjPhjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8192,7 +8054,7 @@ function create__ZN8LinuxApp13handleMadviseEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12readFromAddrIjEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+function create__ZN14Ext2FsProvider12getBlockViewEP7CoreCtxj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8201,7 +8063,7 @@ function create__ZN8LinuxApp12readFromAddrIjEE4TaskIT_ER13CoreLockGuardI12Addres
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp19partialReadFromAddrI12sockaddr_bufEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxjj$pFrame(obj){
+function create__ZN10FsProvider6doOpenEP7CoreCtxRK20CachedNodeResolutionRK9StringRefjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8210,7 +8072,7 @@ function create__ZN8LinuxApp19partialReadFromAddrI12sockaddr_bufEE4TaskIT_ER13Co
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12handleOpenAtEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp11writeToAddrI6rlimitEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8219,7 +8081,7 @@ function create__ZN8LinuxApp12handleOpenAtEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIhL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN10InodeCache16resolveCacheNodeEP7CoreCtxRKN10FsProvider14PathComponentsEb$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8228,7 +8090,172 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrIhL18MEMORY_ACCESS_MODE1ELj2EEE4
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp11handleRmdirEP7CoreCtx$pFrame(obj){
+function create__ZN10MountState15runStateMachineEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrI12cxTimeSpec64EE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11writeToAddrI11cxSigactionEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN9Ext2Inode6doReadEP7CoreCtxjR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZZN8LinuxApp18handleMountRequestEjRKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEES7_jENK3$_0clEP7CoreCtxS7_S7_j$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZZN8LinuxApp20retryCoreMessageImplEP7CoreCtxiENK3$_0clES1_i$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN13SysFsProvider12getRootInodeEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create_class$p_Z9EPollNode(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a12;
+	obj.a12.o=1;
+	obj.a12.a=a;
+	return obj;}
+function create__ZN8LinuxApp10handleBindEP10ProcessCtxP7CoreCtxjP16sockaddr_storagej$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18InternalFsProvider6doOpenEP7CoreCtxRK20CachedNodeResolutionRK9StringRefjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14InetSocketNodeI5DGRAME9doConnectEP7CoreCtxPK16sockaddr_storagej$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14Ext2FsProvider12getFreeBlockEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN17NlRouteSocketNode9doSendMsgEP7CoreCtxR13CoreLockGuardI12AddressSpaceEP7cxIovecjOSt6vectorIN14SocketNodeBase7AuxDataE17TrackingAllocatorISA_L7MEM_TAG1EEERKNS9_12PacketSourceEPK6msghdr$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp18handleGetTimeOfDayEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18NlUeventSocketNode9doSendMsgEP7CoreCtxR13CoreLockGuardI12AddressSpaceEP7cxIovecjOSt6vectorIN14SocketNodeBase7AuxDataE17TrackingAllocatorISA_L7MEM_TAG1EEERKNS9_12PacketSourceEPK6msghdr$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14InetSocketNodeI5DGRAME6doBindEP7CoreCtxP10ProcessCtxPK16sockaddr_storagej$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14InetSocketNodeI5DGRAME9doSendMsgEP7CoreCtxR13CoreLockGuardI12AddressSpaceEP7cxIovecjOSt6vectorIN14SocketNodeBase7AuxDataE17TrackingAllocatorISC_L7MEM_TAG1EEERKNSB_12PacketSourceEPK6msghdr$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create_class$p_ZSt14basic_iostreamIcSt11char_traitsIcEE(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	a[2]=obj.a3;
+	obj.a3.o=2;
+	obj.a3.a=a;
+	return obj;}
+function create__ZN14InetSocketNodeI6STREAME6doBindEP7CoreCtxP10ProcessCtxPK16sockaddr_storagej$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8255,151 +8282,7 @@ function create__ZN14UnixSocketNodeI6STREAME9doConnectEP7CoreCtxPK16sockaddr_sto
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp16handleSendToImplER13CoreLockGuardI12AddressSpaceEP7CoreCtxjjjjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp18handleClockGetTimeEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp18handleTimerSetTimeEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp14chownInternalsEP7CoreCtxjjjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
 function create__ZN14UnixSocketNodeI6STREAME9doSendMsgEP7CoreCtxR13CoreLockGuardI12AddressSpaceEP7cxIovecjOSt6vectorIN14SocketNodeBase7AuxDataE17TrackingAllocatorISC_L7MEM_TAG1EEERKNSB_12PacketSourceEPK6msghdr$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp15accessInternalsEP7CoreCtxjjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp19partialReadFromAddrI15__kernel_fd_setEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14UnixSocketNodeI6STREAME7getPeerEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14UnixSocketNodeI5DGRAME6doBindEP7CoreCtxP10ProcessCtxPK16sockaddr_storagej$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN16DevPtsFsProvider6doOpenEP7CoreCtxRK20CachedNodeResolutionRK9StringRefjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14UnixSocketNodeI5DGRAME9doSendMsgEP7CoreCtxR13CoreLockGuardI12AddressSpaceEP7cxIovecjOSt6vectorIN14SocketNodeBase7AuxDataE17TrackingAllocatorISC_L7MEM_TAG1EEERKNSB_12PacketSourceEPK6msghdr$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14UnixSocketNodeI5DGRAME11getPeerImplEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN10SocketImplI5DGRAME6doReadEP7CoreCtxjPhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp11handlePrctlEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN15ElfLoadingState7readAllEP7CoreCtxP8FileDescPhjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrI10cxTimeSpecL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args__13_EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8417,7 +8300,7 @@ function create__ZN8LinuxApp11writeToAddrI10cxTimeSpecEE4TaskIvER13CoreLockGuard
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp15handleFstatAt64EP7CoreCtx$pFrame(obj){
+function create__ZN14Ext2FsProvider26getBlockBitmapViewForGroupEP7CoreCtxP18Ext2GroupTableItem$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8426,7 +8309,88 @@ function create__ZN8LinuxApp15handleFstatAt64EP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrI6msghdrL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN10SocketImplI6STREAME6doReadEP7CoreCtxjR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_7L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14UnixSocketNodeI5DGRAME9doConnectEP7CoreCtxPK16sockaddr_storagej$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14UnixSocketNodeI5DGRAME9doSendMsgEP7CoreCtxR13CoreLockGuardI12AddressSpaceEP7cxIovecjOSt6vectorIN14SocketNodeBase7AuxDataE17TrackingAllocatorISC_L7MEM_TAG1EEERKNSB_12PacketSourceEPK6msghdr$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN10SocketImplI5DGRAME6doReadEP7CoreCtxjR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18CheerpOSFsProvider9doSymlinkEP7CoreCtxP9FileInodeRK9StringRefjPKc$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp17handleClockGetResEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp15handleEPollWaitEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp10handleMmapEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN13ProcFileInode6doReadEP7CoreCtxjR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8444,7 +8408,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrI12cxTimeSpec64L18MEMORY_ACCESS_
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12readFromAddrI12cxTimeSpec64EE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+function create__ZN8LinuxApp17handleTimerCreateEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8453,7 +8417,25 @@ function create__ZN8LinuxApp12readFromAddrI12cxTimeSpec64EE4TaskIT_ER13CoreLockG
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12readFromAddrI20__kernel_sched_paramEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+function create__ZN7CoreCtx19getTypedPtrFromAddrI7mmsghdrL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp19partialReadFromAddrI16sockaddr_storageEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp14handleUnlinkAtEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8471,7 +8453,7 @@ function create__ZN8LinuxApp12handleSendToEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_5L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN8LinuxApp14mkdirInternalsEP7CoreCtxjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8480,7 +8462,52 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEP
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN14SocketNodeBase18copyIoVecsToBufferERSt6vectorIhSaIhEEP7CoreCtxR13CoreLockGuardI12AddressSpaceEP7cxIovecj$pFrame(obj){
+function create__ZN8LinuxApp13handleConnectEP7CoreCtxP10ProcessCtxjP16sockaddr_storagej$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrI6msghdrL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp19partialReadFromAddrI12sockaddr_bufEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_9L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18InternalSocketNode6doReadEP7CoreCtxjPhjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx11handleFaultEj18MEMORY_ACCESS_MODE$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8498,7 +8525,7 @@ function create__ZN8LinuxApp13handleConnectEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp11writeToAddrIZNS_16handleSocketCallEP7CoreCtxE4CMsgEE4TaskIvER13CoreLockGuardI12AddressSpaceES2_jRKT_$pFrame(obj){
+function create__ZN8LinuxApp12handleMremapEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8507,7 +8534,7 @@ function create__ZN8LinuxApp11writeToAddrIZNS_16handleSocketCallEP7CoreCtxE4CMsg
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN18InternalFsProvider7doChmodEP7CoreCtxP9FileInodej$pFrame(obj){
+function create__ZN8LinuxApp12handleOpenAtEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8516,7 +8543,7 @@ function create__ZN18InternalFsProvider7doChmodEP7CoreCtxP9FileInodej$pFrame(obj
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN13SysFsProvider15createFileInodeEP7CoreCtxR13CoreLockGuardIcEP9FileInodeRK9StringRef$pFrame(obj){
+function create__ZN8LinuxApp15handleGetRandomEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8525,142 +8552,7 @@ function create__ZN13SysFsProvider15createFileInodeEP7CoreCtxR13CoreLockGuardIcE
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp10handleBindEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp14handleReadLinkEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp11handleReadVEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp11writeToAddrI7mmsghdrEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args__16_EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp15stat64InternalsEP7CoreCtxjjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp14handleSendMMsgEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZZN8LinuxApp15handleEPollWaitEP7CoreCtxENK3$_0clER13CoreLockGuardI12AddressSpaceE$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrI7cxIovecEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12readFromAddrI6msghdrEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12handleUnlinkEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp17handleSendMsgImplER13CoreLockGuardI12AddressSpaceEP7CoreCtxjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp15acceptInternalsEP7CoreCtxjjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIjL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp12handleSelectEP7CoreCtxb$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp15handleExitGroupEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp12handleExecveEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8678,7 +8570,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrI7mmsghdrL18MEMORY_ACCESS_MODE2E
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp11writeToAddrIjEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
+function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args_8EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8687,7 +8579,7 @@ function create__ZN8LinuxApp11writeToAddrIjEE4TaskIvER13CoreLockGuardI12AddressS
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp11writeToAddrIZNS_13pipeInternalsEP7CoreCtxjjE4PipeEE4TaskIvER13CoreLockGuardI12AddressSpaceES2_jRKT_$pFrame(obj){
+function create__ZN8LinuxApp12readFromAddrI7mmsghdrEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8696,7 +8588,7 @@ function create__ZN8LinuxApp11writeToAddrIZNS_13pipeInternalsEP7CoreCtxjjE4PipeE
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN18InternalFsProvider6doOpenEP7CoreCtxRK20CachedNodeResolutionRK9StringRefjj$pFrame(obj){
+function create__ZN8LinuxApp12handleFchownEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8705,34 +8597,7 @@ function create__ZN18InternalFsProvider6doOpenEP7CoreCtxRK20CachedNodeResolution
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp11handlePipe2EP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp20handleNameToHandleAtEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create_class$p_Z9EPollNode(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a12;
-	obj.a12.o=1;
-	obj.a12.a=a;
-	return obj;}
-function create__ZN8LinuxApp24readNullTerminatedStringER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+function create__ZN7CoreCtx19getTypedPtrFromAddrI7cxIovecL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8750,7 +8615,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrIyL18MEMORY_ACCESS_MODE2ELj2EEE4
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp16handleStatFsImplI6statfsEE4TaskIjEP7CoreCtxjj$pFrame(obj){
+function create__ZN8LinuxApp14handleSendMMsgEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8759,7 +8624,190 @@ function create__ZN8LinuxApp16handleStatFsImplI6statfsEE4TaskIjEP7CoreCtxjj$pFra
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12handleLinkAtEP7CoreCtx$pFrame(obj){
+function create__ZN17NetlinkSocketNode6doBindEP7CoreCtxP10ProcessCtxPK16sockaddr_storagej$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIjL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp14handleReadLinkEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11writeToAddrIjEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11handleMknodEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11writeToAddrIZNS_16handleSocketCallEP7CoreCtxE4CMsgEE4TaskIvER13CoreLockGuardI12AddressSpaceES2_jRKT_$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN12CoreLockBase4lockEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp20handleNameToHandleAtEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN16DevPtsFsProvider12getRootInodeEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN18InternalFsProvider7doMkdirEP7CoreCtxP9FileInodeRK9StringRefj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp15handlePrlimit64EP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp17readLinkInternalsEP7CoreCtxjjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args_3EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create_class$p_Z11InotifyNode(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a18;
+	obj.a18.o=1;
+	obj.a18.a=a;
+	a[2]=obj.a20;
+	obj.a20.o=2;
+	obj.a20.a=a;
+	return obj;}
+function create__ZN8LinuxApp15acceptInternalsEP7CoreCtxjjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrI20__kernel_sched_paramEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8NullNode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp16resolveCacheNodeEP7CoreCtxRKN10FsProvider14PathComponentsEb$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11writeToAddrIZNS_13pipeInternalsEP7CoreCtxjjE4PipeEE4TaskIvER13CoreLockGuardI12AddressSpaceES2_jRKT_$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp13pipeInternalsEPS_jjE4PipeL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12readFromAddrI9cxTimeValEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8786,124 +8834,7 @@ function create__ZN9EventNode6doReadEP7CoreCtxjR13CoreLockGuardI12AddressSpaceEj
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp15handleUtimeNsAtEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp15handleGetResGidEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp14handleFchmodAtEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp10handleReadEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp16resolveCacheNodeEP7CoreCtxRKN10FsProvider14PathComponentsEb$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp17readLinkInternalsEP7CoreCtxjjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18CheerpOSFsProvider8doRenameEP7CoreCtxP9FileInodeS3_RK9StringRefS3_S3_S6_$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14UnixSocketNodeI6STREAME11getPeerImplEP7CoreCtx$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp19handleSymlinkAtImplEP7CoreCtxjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp13linkInternalsEP7CoreCtxjjjj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN8LinuxApp18partialWriteToAddrI16sockaddr_storageEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_j$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN18CheerpOSFsProvider7doMkdirEP7CoreCtxP9FileInodeRK9StringRefj$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14UnixSocketNodeI6STREAME6doBindEP7CoreCtxP10ProcessCtxPK16sockaddr_storagej$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN14Ext2FsProvider6doLinkEP7CoreCtxP9FileInodeS3_RK9StringRefS3_S6_$pFrame(obj){
+function create__ZN9FileInode6doReadEP7CoreCtxjPhjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8921,7 +8852,7 @@ function create__ZN8LinuxApp15handleFaccessAtEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp15unlinkInternalsEP7CoreCtxjjj$pFrame(obj){
+function create__ZN8LinuxApp14chmodInternalsEP7CoreCtxjjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8930,7 +8861,7 @@ function create__ZN8LinuxApp15unlinkInternalsEP7CoreCtxjjj$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp23handleSchedSetSchedulerEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp16handleReadLinkAtEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8939,7 +8870,7 @@ function create__ZN8LinuxApp23handleSchedSetSchedulerEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN18InternalFsProvider15createFileInodeEP7CoreCtxR13CoreLockGuardIcEP9FileInodeRK9StringRef$pFrame(obj){
+function create__ZN8LinuxApp12handleLinkAtEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8948,7 +8879,7 @@ function create__ZN18InternalFsProvider15createFileInodeEP7CoreCtxR13CoreLockGua
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp18nanoSleepInternalsI10cxTimeSpecEE4TaskIjEP7CoreCtxjjjj$pFrame(obj){
+function create__ZN8LinuxApp15renameInternalsEP7CoreCtxjjjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8957,7 +8888,7 @@ function create__ZN8LinuxApp18nanoSleepInternalsI10cxTimeSpecEE4TaskIjEP7CoreCtx
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp14handleUnlinkAtEP7CoreCtx$pFrame(obj){
+function create__ZN14Ext2FsProvider8doRenameEP7CoreCtxP9FileInodeS3_RK9StringRefS3_S3_S6_$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8966,7 +8897,7 @@ function create__ZN8LinuxApp14handleUnlinkAtEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp15handleNanoSleepEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp15handleFstatAt64EP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8975,7 +8906,7 @@ function create__ZN8LinuxApp15handleNanoSleepEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrI7mmsghdrL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN8LinuxApp13handleSyscallEP7CoreCtxj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8984,7 +8915,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrI7mmsghdrL18MEMORY_ACCESS_MODE1E
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp20handleClockNanoSleepEP7CoreCtx$pFrame(obj){
+function create__ZN15ElfLoadingState7readAllEP7CoreCtxP8FileDescPhjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -8993,7 +8924,7 @@ function create__ZN8LinuxApp20handleClockNanoSleepEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp14mkdirInternalsEP7CoreCtxjjj$pFrame(obj){
+function create__ZN8LinuxApp13handleMkdirAtEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -9002,7 +8933,7 @@ function create__ZN8LinuxApp14mkdirInternalsEP7CoreCtxjjj$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrI7cxIovecL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN7CoreCtx19getTypedPtrFromAddrISt5arrayIjLj3EEL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -9011,7 +8942,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrI7cxIovecL18MEMORY_ACCESS_MODE1E
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp14handleFchownAtEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp14chownInternalsEP7CoreCtxjjjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -9020,7 +8951,7 @@ function create__ZN8LinuxApp14handleFchownAtEP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp13openInternalsEP7CoreCtxjjjj$pFrame(obj){
+function create__ZN8FifoNode12cleanupInodeEP7CoreCtxP5Inode$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -9029,7 +8960,7 @@ function create__ZN8LinuxApp13openInternalsEP7CoreCtxjjjj$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp16handleStatFsImplI8statfs64EE4TaskIjEP7CoreCtxjj$pFrame(obj){
+function create__ZN8LinuxApp15handleSetGroupsEP7CoreCtx$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -9038,7 +8969,7 @@ function create__ZN8LinuxApp16handleStatFsImplI8statfs64EE4TaskIjEP7CoreCtxjj$pF
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp14handleStatFs64EP7CoreCtx$pFrame(obj){
+function create__ZN9EventNode7doWriteEP7CoreCtxPKhjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -9047,7 +8978,70 @@ function create__ZN8LinuxApp14handleStatFs64EP7CoreCtx$pFrame(obj){
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp13handleConnectEP7CoreCtxP10ProcessCtxjP16sockaddr_storagej$pFrame(obj){
+function create__ZN8LinuxApp21handleInotifyAddWatchEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp11writeToAddrIxEE4TaskIvER13CoreLockGuardI12AddressSpaceEP7CoreCtxjRKT_$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN10SocketImplI6STREAME9doSendMsgEP7CoreCtxR13CoreLockGuardI12AddressSpaceEP7cxIovecjOSt6vectorIN14SocketNodeBase7AuxDataE17TrackingAllocatorISC_L7MEM_TAG1EEERKNSB_12PacketSourceEPK6msghdr$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp18handleTimerSetTimeEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrI10cxTimeSpecL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN8LinuxApp12handleUtimesEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN14UnixSocketNodeI5DGRAME7getPeerEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrI10cxTimeSpecL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -9065,7 +9059,7 @@ function create__ZN8LinuxApp12readFromAddrI10cxTimeSpecEE4TaskIT_ER13CoreLockGua
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrI8sigeventL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN18CheerpOSFsProvider9CacheNode6doReadEP7CoreCtxjPhjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -9074,7 +9068,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrI8sigeventL18MEMORY_ACCESS_MODE1
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrI19__kernel_itimerspecL18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN8LinuxApp12readFromAddrIZNS_16handleSocketCallEP7CoreCtxE4Args_5EE4TaskIT_ER13CoreLockGuardI12AddressSpaceES2_j$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -9083,7 +9077,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrI19__kernel_itimerspecL18MEMORY_
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEPS_E4Args_6L18MEMORY_ACCESS_MODE1ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+function create__ZN12SysDataInode6doReadEP7CoreCtxjR13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -9092,7 +9086,7 @@ function create__ZN7CoreCtx19getTypedPtrFromAddrIZN8LinuxApp16handleSocketCallEP
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp12readFromAddrI8sigeventEE4TaskIT_ER13CoreLockGuardI12AddressSpaceEP7CoreCtxj$pFrame(obj){
+function create__ZN8LinuxApp18nanoSleepInternalsI10cxTimeSpecEE4TaskIjEP7CoreCtxjjjj$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -9101,7 +9095,25 @@ function create__ZN8LinuxApp12readFromAddrI8sigeventEE4TaskIT_ER13CoreLockGuardI
 	obj.a2.o=1;
 	obj.a2.a=a;
 	return obj;}
-function create__ZN8LinuxApp17handleTimerCreateEP7CoreCtx$pFrame(obj){
+function create__ZN8LinuxApp18handleClockGetTimeEP7CoreCtx$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZN7CoreCtx19getTypedPtrFromAddrIiL18MEMORY_ACCESS_MODE2ELj2EEE4TaskIPT_ER13CoreLockGuardI12AddressSpaceEjjj$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
+function create__ZZN8LinuxApp15handleEPollWaitEP7CoreCtxENK3$_0clER13CoreLockGuardI12AddressSpaceE$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -9369,7 +9381,7 @@ WebAssembly.instantiate(tmp0,
 		__ZN12AddressSpace17notifyWorkerClockEjb:__ZN12AddressSpace17notifyWorkerClockEjb,
 		__ZN13WasmGenerator23compileTracesModuleSyncEv:__ZN13WasmGenerator23compileTracesModuleSyncEv,
 		___wrapper___ZN18CheerpOSFsProvider20postFsSymlinkRequestEjRKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEEjPKcj:___wrapper___ZN18CheerpOSFsProvider20postFsSymlinkRequestEjRKSbIcSt11char_traitsIcE17TrackingAllocatorIcL7MEM_TAG7EEEjPKcj,
-		__ZN6cheerpL8date_nowEv$p1511:__ZN6cheerpL8date_nowEv$p1511,
+		__ZN6cheerpL8date_nowEv$p1509:__ZN6cheerpL8date_nowEv$p1509,
 		__ZNK25CompiledInterpreterModule11HandlerData14setAllHandlersEj:__ZNK25CompiledInterpreterModule11HandlerData14setAllHandlersEj,
 		__ZN13WasmGenerator28compileInterpreterModuleSyncEP25CompiledInterpreterModule:__ZN13WasmGenerator28compileInterpreterModuleSyncEP25CompiledInterpreterModule,
 		__ZN13WasmGenerator29compileInterpreterModuleAsyncEP25CompiledInterpreterModule:__ZN13WasmGenerator29compileInterpreterModuleAsyncEP25CompiledInterpreterModule,
@@ -9391,10 +9403,10 @@ WebAssembly.instantiate(tmp0,
 		__ZZN18ExternalSocketNode12disconnectedEvEN9CheerpTmp3RunEPS_:__ZZN18ExternalSocketNode12disconnectedEvEN9CheerpTmp3RunEPS_,
 		__ZN18ExternalSocketNode18freeMessageChannelEj:__ZN18ExternalSocketNode18freeMessageChannelEj,
 		__ZN8LinuxApp13postSysResultEjj:__ZN8LinuxApp13postSysResultEjj,
-		__ZN6cheerpL8date_nowEv$p1894:__ZN6cheerpL8date_nowEv$p1894,
+		__ZN6cheerpL8date_nowEv$p1892:__ZN6cheerpL8date_nowEv$p1892,
 		___cxa_uncaught_exceptions:___cxa_uncaught_exceptions,
 		___wrapper___ZN11ChunksCache14postBlindWriteE12CORE_MESSAGEjjPhj:___wrapper___ZN11ChunksCache14postBlindWriteE12CORE_MESSAGEjjPhj,
-		__ZN6cheerpL8date_nowEv$p1733:__ZN6cheerpL8date_nowEv$p1733,
+		__ZN6cheerpL8date_nowEv$p1731:__ZN6cheerpL8date_nowEv$p1731,
 		___wrapper___ZN8LinuxApp14handleMmapReadEj12CORE_MESSAGES0_jjPhj:___wrapper___ZN8LinuxApp14handleMmapReadEj12CORE_MESSAGES0_jjPhj,
 		__ZN7KmsNode21postDumbBufferDestroyEv:__ZN7KmsNode21postDumbBufferDestroyEv,
 		__ZN7KmsNode21postDumbBufferScanoutEjjj:__ZN7KmsNode21postDumbBufferScanoutEjjj,
@@ -9434,8 +9446,8 @@ WebAssembly.instantiate(tmp0,
 		__ZZN8LinuxApp10handleKillEP7CoreCtxEN9CheerpTmp3RunEjj:__ZZN8LinuxApp10handleKillEP7CoreCtxEN9CheerpTmp3RunEjj,
 		__ZN18CheerpOSFsProvider9CacheNode17postFsListRequestEjRK7InodeId:__ZN18CheerpOSFsProvider9CacheNode17postFsListRequestEjRK7InodeId,
 		__ZN9SystemCtx3RunEv:__ZN9SystemCtx3RunEv,
-		__ZN6cheerpL8date_nowEv$p2714:__ZN6cheerpL8date_nowEv$p2714,
-		__ZN6cheerpL8date_nowEv$p2627:__ZN6cheerpL8date_nowEv$p2627,
+		__ZN6cheerpL8date_nowEv$p2546:__ZN6cheerpL8date_nowEv$p2546,
+		__ZN6cheerpL8date_nowEv$p2459:__ZN6cheerpL8date_nowEv$p2459,
 		__ZZN4CMOS7getDataEvEN9CheerpTmp3RunEv:__ZZN4CMOS7getDataEvEN9CheerpTmp3RunEv,
 		__ZZN4CMOS7getDataEvEN9CheerpTmp3RunE_0v:__ZZN4CMOS7getDataEvEN9CheerpTmp3RunE_0v,
 		__ZZN4CMOS7getDataEvEN9CheerpTmp3RunE_1v:__ZZN4CMOS7getDataEvEN9CheerpTmp3RunE_1v,
