@@ -2,7 +2,6 @@
 	import { createEventDispatcher } from 'svelte';
 	import Icon from './Icon.svelte';
 	import InformationTab from './InformationTab.svelte';
-	import NetworkingTab from './NetworkingTab.svelte';
 	import CpuTab from './CpuTab.svelte';
 	import DiskTab from './DiskTab.svelte';
 	import AnthropicTab from './AnthropicTab.svelte';
@@ -13,7 +12,6 @@
 	import { cpuActivity, diskActivity, aiActivity } from './activities.js';
 	const icons = [
 		{ icon: 'fas fa-info-circle', info: 'Information', activity: null },
-		{ icon: 'fas fa-wifi', info: 'Networking', activity: null },
 		{ icon: 'fas fa-microchip', info: 'CPU', activity: cpuActivity },
 		{ icon: 'fas fa-compact-disc', info: 'Disk', activity: diskActivity },
 		{ icon: 'fas fa-robot', info: 'ClaudeAI', activity: aiActivity },
@@ -101,8 +99,6 @@
 			<InformationTab>
 				<slot></slot>
 			</InformationTab>
-		{:else if activeInfo === 'Networking'}
-			<NetworkingTab on:connect/>
 		{:else if activeInfo === 'CPU'}
 			<CpuTab/>
 		{:else if activeInfo === 'Disk'}
