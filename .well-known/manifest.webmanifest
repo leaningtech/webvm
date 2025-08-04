@@ -1,0 +1,22 @@
+{
+  "name": "WebVM",
+  "version": "0.0.0",
+  "icons": [
+  	{
+  		"src": "../favicon.png",
+  		"type": "image/png",
+  		"sizes": "256x256",
+  		"purpose": "any maskable"
+  	}
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "display_override": ["borderless"],
+  "scope": "/",
+  "isolated_storage": true,
+  "permissions_policy": {
+    "cross-origin-isolated": ["self"],
+    "direct-sockets-private": ["self"],
+    "direct-sockets": ["self"]
+  }
+}
