@@ -1,8 +1,9 @@
 name: Deploy
 
-# Define when the workflow should run
+permissions:
+  id-token: write
+
 on:
-  # Allow manual triggering of the workflow from the Actions tab
   workflow_dispatch:
 
   # Allow inputs to be passed when manually triggering the workflow from the Actions tab
