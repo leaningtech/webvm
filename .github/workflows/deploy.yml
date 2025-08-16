@@ -2,6 +2,7 @@ name: Deploy
 
 permissions:
   id-token: write
+  contents: read
 
 on:
   workflow_dispatch:
