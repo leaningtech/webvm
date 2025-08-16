@@ -7,6 +7,15 @@ permissions:
 on:
   workflow_dispatch:
 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Echo deploy message
+        run: echo "Starting deployment..."
   # Allow inputs to be passed when manually triggering the workflow from the Actions tab
     inputs:
       DOCKERFILE_PATH:
