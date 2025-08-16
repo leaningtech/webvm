@@ -1,21 +1,7 @@
 name: Deploy
 
-permissions:
-  id-token: write
-  contents: read
-
 on:
   workflow_dispatch:
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Echo deploy message
-        run: echo "Starting deployment..."
   # Allow inputs to be passed when manually triggering the workflow from the Actions tab
     inputs:
       DOCKERFILE_PATH:
@@ -51,7 +37,10 @@ jobs:
         GH_TOKEN: ${{ github.token }} # As required by the GitHub-CLI  
 
       permissions:
-        actions: 'write' # Required in order to terminate the workflow run.
+        actions: 'write'
+        id-token: 'write'
+        contents: read
+        # Required in order to terminate the workflow run.
   
       steps:
         - uses: actions/checkout@v4
