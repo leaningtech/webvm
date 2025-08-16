@@ -1,11 +1,7 @@
 name: Deploy
 
-# Define when the workflow should run
 on:
-  # Allow manual triggering of the workflow from the Actions tab
   workflow_dispatch:
-
-  # Allow inputs to be passed when manually triggering the workflow from the Actions tab
     inputs:
       DOCKERFILE_PATH:
         type: string
@@ -32,30 +28,57 @@ on:
         default: false
 
 jobs:
-
   guard_clause:
-      runs-on: ubuntu-latest
-  
-      env:
-        GH_TOKEN: ${{ github.token }} # As required by the GitHub-CLI  
+    runs-on: ubuntu-latest
 
-      permissions:
-        actions: 'write' # Required in order to terminate the workflow run.
-  
-      steps:
-        - uses: actions/checkout@v4
-        # Guard clause that cancels the workflow in case of an invalid DOCKERFILE_PATH and/or incorrectly configured Github Pages. 
-        # The main reason for choosing this workaround for aborting the workflow is the fact that it does not display the workflow as successful, which can set false expectations.
-        - name: DOCKERFILE_PATH.
-          shell: bash
-          run: |
-            # We check whether the Dockerfile_path is valid. 
-            if [ ! -f ${{ github.event.inputs.DOCKERFILE_PATH }} ]; then
-                echo "::error title=Invalid Dockerfile path::No file found at ${{ github.event.inputs.DOCKERFILE_PATH }}"
-                echo "terminate=true" >> $GITHUB_ENV
-            fi
+    env:
+      GH_TOKEN: ${{ github.token }}
 
-        - name: Github Pages config guard clause
+    permissions:
+      actions: write
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate Dockerfile path
+        shell: bash
+        run: |
+          if [ ! -f "${{ github.event.inputs.DOCKERFILE_PATH }}" ]; then
+            echo "::error title=Invalid Dockerfile path::No file found at ${{ github.event.inputs.DOCKERFILE_PATH }}"
+            echo "terminate=true" >> $GITHUB_ENV
+          fi
+
+      - name: Github Pages config guard clause
+        if: ${{ github.event.inputs.DEPLOY_TO_GITHUB_PAGES == 'true' }}
+        run: |
+          set +e
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/${{ github.repository_owner }}/$(basename "${{ github.repository }}")/pages > pages_response
+
+          if [ "$?" -ne 0 ]; then
+            echo "::error title=Potential pages configuration error::Please make sure GitHub Pages is enabled."
+            echo "terminate=true" >> $GITHUB_ENV
+          if
+          set -e
+
+          if [[ "$(jq -r .build_type pages_response)" != "workflow" ]]; then
+            echo "::error title=Pages configuration error::Ensure GitHub Actions is selected as the deployment source."
+            echo "terminate=true" >> $GITHUB_ENV
+          if
+          rm pages_response       
+          
+-name: Terminate run if error occurred
+  run: |
+    if [[ "${{ env.terminate }}" == "true" ]]; then
+      gh run cancel "${{ github.run_id }}"
+      gh run watch "${{ github.run_id }}"
+    fi
+
+          name: Github Pages config guard clause
           if: ${{ github.event.inputs.DEPLOY_TO_GITHUB_PAGES == 'true' }}
           run: |
             # We use the Github Rest api to get information regarding pages for the Github Repository and store it into a temporary file named "pages_response".
