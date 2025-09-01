@@ -38,9 +38,9 @@ function __ZN11IdAllocatorIPFviEEC2Ev(){
 function __ZN7IpStack9TCPSocketC1Ev(Larg0){
 	var tmp0=null,tmp1=0;
 	tmp0=HEAP8;
-	tmp1=__Znwj(92)|0;
+	tmp1=__Znwj(80)|0;
 	__ZN3tcp6SocketC2Ev(tmp1|0);
-	Larg0.a0=(tmp1|0);
+	__ZN7IpStack9TCPSocketC2EPN3tcp6SocketE(Larg0,tmp1|0);
 }
 function __ZN7IpStack9TCPSocketD2Ev(Larg0){
 	var tmp0=0;
@@ -126,29 +126,38 @@ function __ZN7IpStack9TCPSocket4sendEPN6client10Uint8ArrayEjj(Larg0,Larg1,Larg2,
 function __ZN7IpStack9TCPSocket6acceptEv(Larg0){
 	var LsavedStack=null,tmp1=0,tmp2=0,tmp3=0,tmp4=0,tmp5=null,tmp6=null;
 	LsavedStack=___getStackPtr();
-	tmp5=-96+LsavedStack|0;
+	tmp5=-80+LsavedStack|0;
 	___setStackPtr(tmp5);
+	if(((Larg0.a1.length)|0)!==0){
+		tmp5=Larg0.a1.shift();
+		___setStackPtr(LsavedStack);
+		return tmp5;
+	}
 	tmp1=tmp5|0;
 	__ZN3tcp6Socket6acceptEv(tmp1,Larg0.a0|0);
 	if(__ZNK4PbufcvbEv_icf(tmp1|0)|0){
-		tmp2=__ZN3tcp6Socket13getRemoteAddrEv(tmp1)|0;
-		tmp3=__ZN3tcp6Socket13getRemotePortEv(tmp1)|0;
-		tmp5={a0:0};
+		tmp2=__ZNK3tcp6Socket13getRemoteAddrEv(tmp1)|0;
+		tmp3=__ZNK3tcp6Socket13getRemotePortEv(tmp1)|0;
+		tmp5={a0:0,a1:null};
 		tmp6=HEAP8;
-		tmp4=__Znwj(92)|0;
+		tmp4=__Znwj(80)|0;
 		__ZN3tcp6SocketC2EOS0_(tmp4|0,tmp1);
 		__ZN7IpStack9TCPSocketC2EPN3tcp6SocketE(tmp5,tmp4|0);
 		tmp6=_cheerpCreate_ZN6client12AcceptReturnC2Ev();
 		tmp6.socket=Object.create(IpStack.TCPSocket.prototype,{this:{value:tmp5}});
 		tmp6.addr=tmp2;
 		tmp6.port=tmp3;
-		__ZN3tcp6SocketD2Ev(tmp1);
-		___setStackPtr(LsavedStack);
-		return tmp6;
+		tmp5=tmp6;
+	}else{
+		tmp5=null;
 	}
 	__ZN3tcp6SocketD2Ev(tmp1);
 	___setStackPtr(LsavedStack);
-	return null;
+	return tmp5;
+}
+function __ZN7IpStack9TCPSocket16injectConnectionEPN6client6ObjectE(Larg0,Larg1){
+	+Larg0.a1.push(Larg1);
+	__ZN3tcp6Socket14resumeIncomingEi(Larg0.a0|0,0);
 }
 function __ZN7IpStack9TCPSocket5closeEv(Larg0){
 	__ZN3tcp6Socket5closeEv(Larg0.a0|0);
@@ -170,6 +179,11 @@ function __ZN7IpStack9TCPSocket6listenEv(Larg0){
 }
 function __ZN7IpStack9TCPSocket13readAvailableEv(Larg0){
 	return (__ZN3tcp6Socket13readAvailableEv(Larg0.a0|0)|0)|0;
+}
+function __ZNK7IpStack9TCPSocket7getNameEPN6client8AddrInfoE(Larg0,Larg1){
+	Larg1.addr=__ZL6map_ipj(__ZNK3tcp6Socket12getLocalAddrEv(Larg0.a0|0)|0)|0;
+	Larg1.port=__ZNK3tcp6Socket12getLocalPortEv(Larg0.a0|0)|0;
+	return 0|0;
 }
 function __ZN7IpStack9UDPSocketC1Ev(Larg0){
 	var tmp0=null,tmp1=0;
@@ -256,7 +270,7 @@ function __ZN7IpStack9UDPSocket5closeEv(Larg0){
 }
 function __ZN7IpStack9TCPSocket3newEv(){
 	var tmp0=null;
-	tmp0={a0:0};
+	tmp0={a0:0,a1:null};
 	__ZN7IpStack9TCPSocketC1Ev(tmp0);
 	return tmp0;
 }
@@ -397,6 +411,7 @@ function _cheerpCreate_ZN6client9CheerpRefINS_13EventListenerEEC2Ev(){
 }
 function __ZN7IpStack9TCPSocketC2EPN3tcp6SocketE(Larg0,Larg1){
 	Larg0.a0=(Larg1|0);
+	Larg0.a1=new Array();
 }
 function _cheerpCreate_ZN6client12AcceptReturnC2Ev(){
 	return new Object();
@@ -422,7 +437,7 @@ function __ZN6cheerp14MakeTypedArrayIhN6client10Uint8ArrayEEEPT0_PKT_j(Larg0,Mar
 	return tmp1.subarray((+(tmp0>>>0)));
 }
 function __Z14start_timeoutsv(){
-	+setInterval(__ZN6cheerp8CallbackIZ14start_timeoutsvE3$_0EEPN6client13EventListenerEOT_(),10);
+	+setInterval(__ZN6cheerp8CallbackIZ14start_timeoutsvE3$_0EEPN6client13EventListenerEOT_(),125);
 }
 function __ZN6cheerp8CallbackIZ14start_timeoutsvE3$_0EEPN6client13EventListenerEOT_(){
 	var tmp0=null,tmp1=null;
@@ -709,22 +724,22 @@ function __ZN7IpStack7resolveEPN6client6StringE(Larg0){
 }
 function __ZN3tcp6Socket4recvEPN6client10Uint8ArrayEjj(Larg0,Larg1,Larg2,Larg3){
 	var L$poptgepsqueezed7=0,tmp1=0,tmp2=0,L$plcssa=0,tmp4=0;
-	L$poptgepsqueezed7=64+Larg0|0;
-	if(__ZNKSt5dequeIP7tcp_pcbSaIS1_EE5emptyB7v160000Ev_icf(L$poptgepsqueezed7|0)|0)return (((HEAP32[Larg0>>2]|0)|0)!=(0|0)? -7|0: -15|0)|0;
+	L$poptgepsqueezed7=52+Larg0|0;
+	if(__ZNKSt5dequeI4PbufSaIS0_EE5emptyB7v160000Ev(L$poptgepsqueezed7)|0)return (((HEAP32[Larg0>>2]|0)|0)!=(0|0)? -7|0: -15|0)|0;
 	if((Larg3|0)!==0){
 		L$plcssa=0;
 		while(1){
 			tmp1=__ZNSt5dequeI4PbufSaIS0_EE5frontEv(L$poptgepsqueezed7)|0;
 			if(!(__ZNK4PbufcvbEv_icf(tmp1)|0))return L$plcssa|0;
-			tmp4=__ZN4Pbuf4readEPN6client10Uint8ArrayEjjj(tmp1,Larg1,L$plcssa+Larg2|0,Larg3-L$plcssa|0,HEAP32[88+Larg0>>2]|0)|0;
-			tmp2=(HEAP32[88+Larg0>>2]|0)+tmp4|0;
-			HEAP32[88+Larg0>>2]=tmp2;
+			tmp4=__ZN4Pbuf4readEPN6client10Uint8ArrayEjjj(tmp1,Larg1,L$plcssa+Larg2|0,Larg3-L$plcssa|0,HEAP32[76+Larg0>>2]|0)|0;
+			tmp2=(HEAP32[76+Larg0>>2]|0)+tmp4|0;
+			HEAP32[76+Larg0>>2]=tmp2;
 			L$plcssa=tmp4+L$plcssa|0;
 			if((tmp2|0)===((__ZNK4Pbuf4sizeEv(tmp1)|0)|0)){
 				__ZNSt5dequeI4PbufSaIS0_EE9pop_frontEv(L$poptgepsqueezed7);
-				HEAP32[88+Larg0>>2]=0;
+				HEAP32[76+Larg0>>2]=0;
 			}
-			if((__ZNKSt5dequeIP7tcp_pcbSaIS1_EE5emptyB7v160000Ev_icf(L$poptgepsqueezed7|0)|0)^1)if((L$plcssa|0)!==(Larg3|0))continue;
+			if((__ZNKSt5dequeI4PbufSaIS0_EE5emptyB7v160000Ev(L$poptgepsqueezed7)|0)^1)if((L$plcssa|0)!==(Larg3|0))continue;
 			break;
 		}
 	}else{
@@ -1116,15 +1131,15 @@ function __ZN12_GLOBAL__N_119CheerpStringBuilder11processCharERjS1_h(Larg0,Marg0
 	var tmp0=null,tmp1=null,tmp2=0,L$psink=0,tmp4=0;
 	L$psink=__ZZN12_GLOBAL__N_117do_syscall_writevEPK5ioveclE9remaining|0;
 	tmp4=Larg1&255;
-	tmp0=1069112|0;
-	tmp1=1069168|0;
+	tmp0=1068956|0;
+	tmp1=1068944|0;
 	a:if((Larg1&255)<192){
 		if((L$psink|0)===0){
-			if(Larg1<<24<=-16777216)___assert_fail(1069180|0,tmp0,79,tmp1);
+			if(Larg1<<24<=-16777216)___assert_fail(1068932|0,tmp0,79,tmp1);
 			;
 			__ZZN12_GLOBAL__N_117do_syscall_writevEPK5ioveclE9codepoint=tmp4;
 		}else{
-			if((tmp4&192|0)!==128)___assert_fail(1069092|0,tmp0,65,tmp1);
+			if((tmp4&192|0)!==128)___assert_fail(1069012|0,tmp0,65,tmp1);
 			;
 			tmp4=(__ZZN12_GLOBAL__N_117do_syscall_writevEPK5ioveclE9codepoint<<6)+(tmp4&63)|0;
 			__ZZN12_GLOBAL__N_117do_syscall_writevEPK5ioveclE9codepoint=tmp4;
@@ -1134,7 +1149,7 @@ function __ZN12_GLOBAL__N_119CheerpStringBuilder11processCharERjS1_h(Larg0,Marg0
 		}
 		__ZN12_GLOBAL__N_119CheerpStringBuilder15outputCodepointEj(Larg0,Marg0,tmp4);
 	}else{
-		if((L$psink|0)!==0)___assert_fail(1069192|0,tmp0,90,tmp1);
+		if((L$psink|0)!==0)___assert_fail(1068916|0,tmp0,90,tmp1);
 		;
 		if((Larg1&255)<224){
 			tmp2=31;
@@ -1200,6 +1215,15 @@ function constructor_struct$p_ZN10__cxxabiv19ExceptionE(){
 	this.a10=null;
 	this.a11=null;
 }
+function create__ZN3tcp6Socket12waitIncomingEv$pFrame(obj){
+	var a=[];
+	a[0]=obj;
+	obj.o=0;
+	obj.a=a;
+	a[1]=obj.a2;
+	obj.a2.o=1;
+	obj.a2.a=a;
+	return obj;}
 function create__ZN3tcp6Socket12waitOutgoingEv$pFrame(obj){
 	var a=[];
 	a[0]=obj;
@@ -1210,15 +1234,6 @@ function create__ZN3tcp6Socket12waitOutgoingEv$pFrame(obj){
 	obj.a2.a=a;
 	return obj;}
 function create__ZN3udp6Socket12waitIncomingEv$pFrame(obj){
-	var a=[];
-	a[0]=obj;
-	obj.o=0;
-	obj.a=a;
-	a[1]=obj.a2;
-	obj.a2.o=1;
-	obj.a2.a=a;
-	return obj;}
-function create__ZN3tcp6Socket12waitIncomingEv$pFrame(obj){
 	var a=[];
 	a[0]=obj;
 	obj.o=0;
@@ -1283,7 +1298,7 @@ var IpStack={
 	up:null,
 };
 var HEAP8=null,HEAP16=null,HEAP32=null,__asm=null,__heap=null;function __dummy(){throw new Error('this should be unreachable');};
-var memory=new WebAssembly.Memory({initial:30,maximum:2048});
+var memory=new WebAssembly.Memory({initial:18,maximum:2048});
 var __start=null;
 var ___assert_fail=null;
 var __ZN7IpStack11resolveWasmERKSsi=null;
@@ -1333,20 +1348,23 @@ var __ZN4TaskIiED2Ev=null;
 var __ZN4TaskIiEC2EOS0_=null;
 var __Z19taskToPromiseHelperIiE6Thread4TaskIT_Ei=null;
 var __ZN3udp6Socket4bindEii=null;
+var __ZNK3tcp6Socket12getLocalAddrEv=null;
+var __ZNK3tcp6Socket12getLocalPortEv=null;
 var __ZN3tcp6Socket13readAvailableEv=null;
 var __ZN3tcp6Socket6listenEv=null;
 var __ZN3tcp6Socket4bindEii=null;
 var __ZN3tcp6Socket10shutdownRxEv=null;
 var __ZN3tcp6Socket10shutdownTxEv=null;
 var __ZN3tcp6Socket5closeEv=null;
+var __ZN3tcp6Socket14resumeIncomingEi=null;
 var __ZN3tcp6Socket6acceptEv=null;
 var __ZNK4PbufcvbEv_icf=null;
-var __ZN3tcp6Socket13getRemoteAddrEv=null;
-var __ZN3tcp6Socket13getRemotePortEv=null;
+var __ZNK3tcp6Socket13getRemoteAddrEv=null;
+var __ZNK3tcp6Socket13getRemotePortEv=null;
 var __ZN3tcp6SocketC2EOS0_=null;
 var __ZN3tcp6Socket14writeAvailableEv=null;
 var __ZN3tcp6Socket4sendESt4spanIKhLj4294967295EE=null;
-var __ZNKSt5dequeIP7tcp_pcbSaIS1_EE5emptyB7v160000Ev_icf=null;
+var __ZNKSt5dequeI4PbufSaIS0_EE5emptyB7v160000Ev=null;
 var __ZNSt5dequeI4PbufSaIS0_EE5frontEv=null;
 var __ZNSt5dequeI4PbufSaIS0_EE9pop_frontEv=null;
 var _tcp_recved=null;
@@ -1440,20 +1458,23 @@ export default function(tmp1){
 		__ZN4TaskIiEC2EOS0_=__asm.__ZN4TaskIiEC2EOS0_;
 		__Z19taskToPromiseHelperIiE6Thread4TaskIT_Ei=__asm.__Z19taskToPromiseHelperIiE6Thread4TaskIT_Ei;
 		__ZN3udp6Socket4bindEii=__asm.__ZN3udp6Socket4bindEii;
+		__ZNK3tcp6Socket12getLocalAddrEv=__asm.__ZNK3tcp6Socket12getLocalAddrEv;
+		__ZNK3tcp6Socket12getLocalPortEv=__asm.__ZNK3tcp6Socket12getLocalPortEv;
 		__ZN3tcp6Socket13readAvailableEv=__asm.__ZN3tcp6Socket13readAvailableEv;
 		__ZN3tcp6Socket6listenEv=__asm.__ZN3tcp6Socket6listenEv;
 		__ZN3tcp6Socket4bindEii=__asm.__ZN3tcp6Socket4bindEii;
 		__ZN3tcp6Socket10shutdownRxEv=__asm.__ZN3tcp6Socket10shutdownRxEv;
 		__ZN3tcp6Socket10shutdownTxEv=__asm.__ZN3tcp6Socket10shutdownTxEv;
 		__ZN3tcp6Socket5closeEv=__asm.__ZN3tcp6Socket5closeEv;
+		__ZN3tcp6Socket14resumeIncomingEi=__asm.__ZN3tcp6Socket14resumeIncomingEi;
 		__ZN3tcp6Socket6acceptEv=__asm.__ZN3tcp6Socket6acceptEv;
 		__ZNK4PbufcvbEv_icf=__asm.__ZNK4PbufcvbEv_icf;
-		__ZN3tcp6Socket13getRemoteAddrEv=__asm.__ZN3tcp6Socket13getRemoteAddrEv;
-		__ZN3tcp6Socket13getRemotePortEv=__asm.__ZN3tcp6Socket13getRemotePortEv;
+		__ZNK3tcp6Socket13getRemoteAddrEv=__asm.__ZNK3tcp6Socket13getRemoteAddrEv;
+		__ZNK3tcp6Socket13getRemotePortEv=__asm.__ZNK3tcp6Socket13getRemotePortEv;
 		__ZN3tcp6SocketC2EOS0_=__asm.__ZN3tcp6SocketC2EOS0_;
 		__ZN3tcp6Socket14writeAvailableEv=__asm.__ZN3tcp6Socket14writeAvailableEv;
 		__ZN3tcp6Socket4sendESt4spanIKhLj4294967295EE=__asm.__ZN3tcp6Socket4sendESt4spanIKhLj4294967295EE;
-		__ZNKSt5dequeIP7tcp_pcbSaIS1_EE5emptyB7v160000Ev_icf=__asm.__ZNKSt5dequeIP7tcp_pcbSaIS1_EE5emptyB7v160000Ev_icf;
+		__ZNKSt5dequeI4PbufSaIS0_EE5emptyB7v160000Ev=__asm.__ZNKSt5dequeI4PbufSaIS0_EE5emptyB7v160000Ev;
 		__ZNSt5dequeI4PbufSaIS0_EE5frontEv=__asm.__ZNSt5dequeI4PbufSaIS0_EE5frontEv;
 		__ZNSt5dequeI4PbufSaIS0_EE9pop_frontEv=__asm.__ZNSt5dequeI4PbufSaIS0_EE9pop_frontEv;
 		_tcp_recved=__asm._tcp_recved;
@@ -1479,6 +1500,12 @@ export default function(tmp1){
 		};
 		IpStack.TCPSocket.prototype.delete=function(){
 			return __ZN7IpStack9TCPSocket6deleteEv(this.this);
+		};
+		IpStack.TCPSocket.prototype.getName=function(a0){
+			return __ZNK7IpStack9TCPSocket7getNameEPN6client8AddrInfoE(this.this,a0);
+		};
+		IpStack.TCPSocket.prototype.injectConnection=function(a0){
+			return __ZN7IpStack9TCPSocket16injectConnectionEPN6client6ObjectE(this.this,a0);
 		};
 		IpStack.TCPSocket.prototype.listen=function(){
 			return __ZN7IpStack9TCPSocket6listenEv(this.this);

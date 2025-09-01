@@ -6,11 +6,12 @@
 	import '$lib/global.css';
 	import '@xterm/xterm/css/xterm.css'
 	import '@fortawesome/fontawesome-free/css/all.min.css'
-	import { networkMode, networkInterface, startLogin } from '$lib/network.js'
+	import { setupNetwork, networkMode, networkInterface, startLogin } from '$lib/network.js'
 	import { cpuActivity, diskActivity, cpuPercentage, diskLatency } from '$lib/activities.js'
 	import { introMessage, errorMessage, unexpectedErrorMessage } from '$lib/messages.js'
 	import { displayConfig, handleToolImpl } from '$lib/anthropic.js'
 	import { tryPlausible } from '$lib/plausible.js'
+	import {TsWrapper} from '@leaningtech/cheerpx';
 
 	export let configObj = null;
 	export let processCallback = null;
@@ -19,6 +20,7 @@
 	export let diskLatencies = [];
 	export let activityEventsInterval = 0;
 
+	const usingTailscale = false;
 	var term = null;
 	var cx = null;
 	var fitAddon = null;
@@ -302,7 +304,10 @@
 		];
 		try
 		{
-			cx = await CheerpX.Linux.create({mounts: mountPoints, networkInterface: networkInterface, networkMode: networkMode});
+			const network = await setupNetwork(usingTailscale, TsWrapper);
+			console.log("network= ", network);
+			cx = await CheerpX.Linux.create({mounts: mountPoints, networkInterface: network});
+			// cx = await CheerpX.Linux.create({mounts: mountPoints, networkInterface: networkInterface, networkMode: networkMode});
 		}
 		catch(e)
 		{

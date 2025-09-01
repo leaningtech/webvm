@@ -9,3 +9,4 @@ export const WebDevice = CheerpX.WebDevice;
 export const DataDevice = CheerpX.DataDevice;
 export const OverlayDevice = CheerpX.OverlayDevice;
 export const System = CheerpX.System;
+export const TsWrapper = (await cx()).TsWrapper;
