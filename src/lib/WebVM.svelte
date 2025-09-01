@@ -6,12 +6,13 @@
 	import '$lib/global.css';
 	import '@xterm/xterm/css/xterm.css'
 	import '@fortawesome/fontawesome-free/css/all.min.css'
-	import { networkInterface, startLogin } from '$lib/network.js'
+	import { setupNetwork, networkInterface, startLogin } from '$lib/network.js'
 	import { TailscaleDirectSockets } from '$lib/tailscale_direct.js'
 	import { cpuActivity, diskActivity, cpuPercentage, diskLatency } from '$lib/activities.js'
 	import { introMessage, errorMessage, unexpectedErrorMessage } from '$lib/messages.js'
 	import { displayConfig, handleToolImpl } from '$lib/anthropic.js'
 	import { tryPlausible } from '$lib/plausible.js'
+	import {TsWrapper} from '@leaningtech/cheerpx'
 
 	export let configObj = null;
 	export let processCallback = null;
@@ -19,6 +20,10 @@
 	export let cpuActivityEvents = [];
 	export let diskLatencies = [];
 	export let activityEventsInterval = 0;
+
+	// networking
+	var usingTailscale = true;
+	var network = null;
 
 	var term = null;
 	var cx = null;
@@ -306,7 +311,10 @@
 		];
 		try
 		{
-			cx = await CheerpX.Linux.create({mounts: mountPoints, networkInterface: networkInterface, directTailscale: TailscaleDirectSockets});
+			network = await setupNetwork(usingTailscale, TsWrapper);
+			console.log("network= ", network);
+			cx = await CheerpX.Linux.create({mounts: mountPoints, networkInterface: network});
+			console.log("awaited creating cx");
 		}
 		catch(e)
 		{
@@ -327,6 +335,7 @@
 			cx.setActivateConsole(handleActivateConsole);
 		}
 		// Run the command in a loop, in case the user exits
+		console.log("starting to run command in loop");
 		while (true)
 		{
 			await cx.run(configObj.cmd, configObj.args, configObj.opts);
@@ -336,8 +345,9 @@
 	async function handleConnect()
 	{
 		const w = window.open("login.html", "_blank");
-		await cx.networkLogin();
+		await network.tsNetwork.up();
 		w.location.href = await startLogin();
+		console.log("awaited startLogin");
 	}
 	async function handleReset()
 	{

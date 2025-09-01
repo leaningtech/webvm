@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { browser } from '$app/environment'
+import { browser } from '$app/environment';
 
 let authKey = undefined;
 let controlUrl = undefined;
@@ -149,5 +149,78 @@ export function updateButtonData(state, handleConnect) {
 }
 
 export const networkInterface = { authKey: authKey, controlUrl: controlUrl, loginUrlCb: loginUrlCb, stateUpdateCb: stateUpdateCb, netmapUpdateCb: netmapUpdateCb };
+export const networkData = { currentIp: null, connectionState: connectionState, exitNode: exitNode, loginUrl: null, dashboardUrl: dashboardUrl };
+export const networkMode = {tsNetwork: false};
 
-export const networkData = { currentIp: null, connectionState: connectionState, exitNode: exitNode, loginUrl: null, dashboardUrl: dashboardUrl }
+class Network
+{
+	constructor(usingTailscale, wrapper)
+	{
+		this.wrapper = wrapper;
+		this.usingTailscale = usingTailscale;
+		this.tsNetwork = null;
+		console.log("Created network, usingtailscale = ", usingTailscale, " wrapper = ", wrapper);
+	}
+	async setup(config)
+	{
+		if (this.usingTailscale && config)
+		{
+			console.log("Setting up for ts");
+			try {
+				const {autoConf}= await import('/tun/tailscale_tun_auto.js');
+				this.tsNetwork = await autoConf(config);
+			} catch (e) {
+				console.error("Failed to autoconf tsNetwork: ", e);
+				throw e;
+			}
+		}
+		else {
+			console.log("Skipping ts setup");
+			return;
+		}
+	}
+	tcpSocket(addr, port, localPort)
+	{
+		console.log("network tcpSocket(), picking path");
+		if (this.usingTailscale) {
+			console.log("Returning wrapper tcp");
+			return new this.wrapper.tcp(addr, port, localPort, this.tsNetwork);
+		}
+		else {
+			console.log("Returning direct tcp");
+			return new TCPSocket(addr, port, {});
+		}
+	}
+	tcpServer(addr, listeningPort)
+	{
+		if (this.usingTailscale) {
+			console.log("Returning ts server");
+			return new this.wrapper.server(port, this.tsNetwork);
+		}
+		else
+		{
+			console.log("Returning direct server");
+			const options = {localPort:listeningPort};
+			return new TCPServerSocket(addr, options);
+		}
+	}
+	udpSocket(addr, localPort)
+	{
+		if (this.usingTailscale) {
+			console.log("Returning ts udpSocket");
+			return new this.wrapper.udp(addr, localPort, this.tsNetwork);
+		}
+		else
+		{
+			console.log("Returning direct UDPSocket");
+			const options = {localAddress: addr, localPort: localPort};
+			return new UDPSocket(options);
+		}
+	}
+}
+export async function setupNetwork(usingTailscale, wrapper)
+{
+	var network = new Network(usingTailscale, wrapper);
+	await network.setup(networkInterface);
+	return network;
+}

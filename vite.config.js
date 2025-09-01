@@ -21,7 +21,14 @@ export default defineConfig({
 				{ src: 'serviceWorker.js', dest: '' },
 				{ src: 'login.html', dest: '' },
 				{ src: 'assets/', dest: '' },
-				{ src: 'documents/', dest: '' }
+				{ src: 'documents/', dest: '' },
+
+				// for network config test
+				{ src: 'cheerpOS.js', dest: ''},
+				{ src: 'cxcore.js', dest: ''},
+				{ src: 'cxcore.wasm', dest: ''},
+				{ src: 'workerclock.js', dest: ''},
+				{ src: 'tun/', dest: ''},
 			]
 		})
 	]

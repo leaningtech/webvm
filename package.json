@@ -3,8 +3,8 @@
 	"version": "2.0.0",
 	"private": true,
 	"scripts": {
-		"dev": "CX_URL=https://localhost:8080/cheerpx vite dev",
-    "build": "CX_URL=https://localhost:8080/cheerpx/ vite build"
+		"build": "CX_URL=assets/cx.esm.js vite build",
+		"test": "nginx -p . -c nginx.conf"
 	},
 	"devDependencies": {
 		"@anthropic-ai/sdk": "^0.33.0",
