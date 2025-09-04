@@ -6,7 +6,7 @@
 	import '$lib/global.css';
 	import '@xterm/xterm/css/xterm.css'
 	import '@fortawesome/fontawesome-free/css/all.min.css'
-	import { networkInterface, startLogin } from '$lib/network.js'
+	import { networkInterfaceConfig, startLogin } from '$lib/network.js'
 	import { cpuActivity, diskActivity, cpuPercentage, diskLatency } from '$lib/activities.js'
 	import { introMessage, errorMessage, unexpectedErrorMessage } from '$lib/messages.js'
 	import { displayConfig, handleToolImpl } from '$lib/anthropic.js'
@@ -21,6 +21,7 @@
 
 	var term = null;
 	var cx = null;
+	var networkInterface = null;
 	var fitAddon = null;
 	var cxReadFunc = null;
 	var blockCache = null;
@@ -305,6 +306,7 @@
 		];
 		try
 		{
+			networkInterface = await CheerpX.TailscaleNetwork(networkInterfaceConfig);
 			cx = await CheerpX.Linux.create({mounts: mountPoints, networkInterface: networkInterface});
 		}
 		catch(e)
@@ -335,7 +337,7 @@
 	async function handleConnect()
 	{
 		const w = window.open("login.html", "_blank");
-		await cx.networkLogin();
+		await networkInterface.up();
 		w.location.href = await startLogin();
 	}
 	async function handleReset()
