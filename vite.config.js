@@ -10,7 +10,10 @@ export default defineConfig({
 		}
 	},
 	build: {
-		target: "es2022"
+		target: "es2022",
+		rollupOptions: {
+			external: ['/cx.esm.js', '/cx_esm.js']
+		}
 	},
 	plugins: [
 		sveltekit(),
@@ -22,12 +25,7 @@ export default defineConfig({
 				{ src: 'login.html', dest: '' },
 				{ src: 'assets/', dest: '' },
 
-				// added files/dir for IWA
-				{ src: 'cheerpOS.js', dest: ''},
-				{ src: 'cxcore.js', dest: ''},
-				{ src: 'cxcore.wasm', dest: ''},
-				{ src: 'workerclock.js', dest: ''},
-				{ src: 'tun/', dest: ''},
+				// IWA manifest, CX files in static/
 				{ src: './.well-known/', dest: ''},
 			]
 		})

@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
-		"build": "CX_URL=assets/cx.esm.js vite build",
+		"build": "CX_URL=/cx.esm.js vite build",
 		"postbuild": "node ./post_process.cjs",
 		"iwa": "nginx -p . -c nginx.conf"
 	},
