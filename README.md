@@ -13,6 +13,18 @@ WebVM is a server-less virtual environment running fully client-side in HTML5/We
 
 WebVM is powered by the CheerpX virtualization engine, and enables safe, sandboxed client-side execution of x86 binaries on any browser. CheerpX includes an x86-to-WebAssembly JIT compiler, a virtual block-based file system, and a Linux syscall emulator. 
 
+## Table of Contents
+
+- [Fork, deploy, customize](#fork-deploy-customize)
+- [Running WebVM locally with a custom Debian mini disk image](#run-webvm-locally-with-a-custom-debian-mini-disk-image)
+- [Example customization: Python3 REPL](#example-customization-python3-repl)
+- [How to use Claude AI](#how-to-use-claude-ai)
+- [Bugs and Issues](#bugs-and-issues)
+- [More links](#more-links)
+- [Thanks to...](#thanks-to)
+- [Versioning](#versioning)
+- [License](#license)
+
 # Enable networking
 
 Modern browsers do not provide APIs to directly use TCP or UDP. WebVM provides networking support by integrating with Tailscale, a VPN network that supports WebSockets as a transport layer.
@@ -22,6 +34,8 @@ Modern browsers do not provide APIs to directly use TCP or UDP. WebVM provides n
 - Log in to Tailscale (create an account if you don't have one)
 - Click "Connect" when prompted by Tailscale
 - If you are unfamiliar with Tailscale or would like additional information see [WebVM and Tailscale](/docs/Tailscale.md).
+
+<br>
 
 # Fork, deploy, customize
 
@@ -45,26 +59,28 @@ Modern browsers do not provide APIs to directly use TCP or UDP. WebVM provides n
 
 You can now customize `dockerfiles/debian_mini` to suit your needs, or make a new Dockerfile from scratch. Use the `Path to Dockerfile` workflow parameter to select it.
 
+<br>
+
 # Run WebVM locally with a custom Debian mini disk image
 
-1. Clone the WebVM Repository
+### 1. Clone the WebVM Repository
 
 ```sh
 git clone https://github.com/leaningtech/webvm.git
 cd webvm
 ```
 
-2. Download the Debian mini Ext2 image
+### 2. Download the Debian mini Ext2 image
 
-	Run the following command to download the Debian mini Ext2 image:
+Run the following command to download the Debian mini Ext2 image:
 
-	```sh
-	wget "https://github.com/leaningtech/webvm/releases/download/ext2_image/debian_mini_20230519_5022088024.ext2"
-	```
+```sh
+wget "https://github.com/leaningtech/webvm/releases/download/ext2_image/debian_mini_20230519_5022088024.ext2"
+```
 
-	(*You can also build your own disk image by selecting the **"Upload GitHub release"** workflow option*)
+(*You can also build your own disk image by selecting the **"Upload GitHub release"** workflow option*)
 
-3. Update the configuration file
+### 3. Update the configuration file
 
 	Edit `config_public_terminal.js` to reference your local disk image:
 
@@ -80,19 +96,27 @@ cd webvm
 
 
 - Replace `"cloud"` with the correct disk image type: `"bytes"`
-	
-4. Build WebVM
 
-	Run the following commands to install dependencies and build WebVM:
+
+### 4.Add the CheerpX url to your shell enviroment
+
+```sh
+export CX_URL=https://cxrtnc.leaningtech.com/1.1.5/cx.esm.js
+```
+
+	
+### 5. Build WebVM
+
+Run the following commands to install dependencies and build WebVM:
 
 	```sh
 	npm install
 	npm run build
 	```
 
-	The output will be placed in the `build` directory.
+The output will be placed in the `build` directory.
 
-5. Configure Nginx
+### 6. Configure Nginx
 
 - Create a directory for the disk image:
 
@@ -107,24 +131,29 @@ cd webvm
 	location /disk-images/ {
         root .;
         autoindex on;
+		gzip off;
 	}
 	```
 
-6. Start Nginx
+### 7, Start Nginx
 
-	Run the following command to start Nginx:
+Run the following command to start Nginx:
 
-	```sh
-	nginx -p . -c nginx.conf
-	```
+```sh
+nginx -p . -c nginx.conf
+```
 
-	*Nginx will automatically serve the build directory.*
+*Nginx will automatically serve the build directory.*
 
-7. Access WebVM
+### 8. Access WebVM
 
-	Open a browser and visit: `http://127.0.0.1:8081`.
+Open a browser and visit: `http://127.0.0.1:8081`.
 
-	Enjoy your local WebVM!
+Enjoy your local WebVM!
+
+---
+
+<br><br>
 
 # Example customization: Python3 REPL
 
@@ -147,25 +176,25 @@ index 2878332..1f3103a 100644
 
 To access Claude AI, you need an API key. Follow these steps to get started:
 
-1. Create an account
+### 1. Create an account
 - Visit [Anthropic Console](https://console.anthropic.com/login) and sign up with your e-mail. You'll receive a sign in link to the Anthropic Console. 
 
 <img src="/assets/anthropic_signup.png" width="90%">
 
-2. Get your API key
+### 2. Get your API key
 - Once logged in, navigate to **Get API keys**.
 - Purchase the amount of credits you need. After completing the purchase, you'll be able to generate the key through the API console.
 
 <img src="/assets/anthropic_api_payment.png" width="90%">
 
-3. Log in with your API key
+### 3. Log in with your API key
 - Navigate to your WebVM and hover over the robot icon. This will show the Claude AI Integration tab. For added convenience, you can click the pin button in the top right corner to keep the tab in place.
 - You'll see a prompt where you can insert your Claude API key.
 - Insert your key and press enter.
 
 <img src="/assets/insert_key.png" width="90%">
 
-4. Start using Claude AI
+### 4. Start using Claude AI
 - Once your API key is entered, you can begin interacting with Claude AI by asking questions such as:
 
  __"Solve the CTF challenge at `/home/user/chall1.bin.` Note that the binary reads from stdin."__
