@@ -1,3 +1,6 @@
 /node_modules
 /.svelte-kit
 pnpm-lock.yaml
+build/
+disk-images/
+.env
