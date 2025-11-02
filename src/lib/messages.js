@@ -1,22 +1,32 @@
 const color= "\x1b[1;35m";
+const orange = "\x1b[38;5;202m";
+const purple = "\x1b[38;5;141m";
 const underline= "\x1b[94;4m";
+const bold = "\x1b[1m"
 const normal= "\x1b[0m";
 export const introMessage = [
 	"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 	"|                                                                             |",
-	"| WebVM is a virtual Linux environment running in the browser via WebAssembly |",
+	"| WebVM is a virtual Linux environment running in the browser via WebAssembly.|",
 	"|                                                                             |",
 	"| WebVM is powered by the CheerpX virtualization engine, which enables safe,  |",
-	"| sandboxed client-side execution of x86 binaries, fully client-side          |",
+	"| sandboxed execution of x86 binaries, fully client-side.                     |",
 	"|                                                                             |",
 	"| CheerpX includes an x86-to-WebAssembly JIT compiler, a virtual block-based  |",
-	"| file system, and a Linux syscall emulator                                   |",
+	"| file system, and a Linux syscall emulator.                                  |",
 	"|                                                                             |",
 	"| Try out the new Alpine / Xorg / i3 WebVM: " + underline + "https://webvm.io/alpine.html" + normal + "      |",
 	"|                                                                             |",
-	"| [News] BrowserPod: Full-stack dev environments in the browser via Wasm      |",
+	"| [News] BrowserPod: Full-stack dev environments in the browser via Wasm:     |",
 	"|                                                                             |",
 	"| " + underline + "https://labs.leaningtech.com/blog/browserpod-annoucement" + normal + "                    |",
+	"|                                                                             |",
+	"|"+ orange +" [Join] "+ normal + "our first " + bold + orange + "CheerpJ Hackathon!" + normal + "                                         |",
+	"|                                                                             |",
+	"| Explore how CheerpJ can be applied to real-world science and research       |",
+	"| projects, with a" + bold + " £500 " + normal + "prize awaiting the winning team.                      |",
+	"|                                                                             |",
+	"| Visit " + underline + "https://labs.leaningtech.com/cheerpj-hackathon" + normal +  " for more details!      |",
 	"|                                                                             |",
 	"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 	"",
