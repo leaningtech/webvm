@@ -1,5 +1,7 @@
 const color= "\x1b[1;35m";
+const orange = "\x1b[38;5;202m";
 const underline= "\x1b[94;4m";
+const bold= "\x1b[1m"
 const normal= "\x1b[0m";
 export const introMessage = [
 	"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
@@ -18,6 +20,12 @@ export const introMessage = [
 	"|                                                                             |",
 	"| " + underline + "https://labs.leaningtech.com/blog/browserpod-annoucement" + normal + "                    |",
 	"|                                                                             |",
+	"|                                                                             |",
+	"|"+ orange +" [Join] "+ normal + "our first " + bold + "CheerpJ Hackathon!" + normal + "                                         |",
+	"| Explore how CheerpJ can be applied to real-world science and research       |",
+   	"| projects, with a" + bold + " £500 " + normal + "prize awaiting the winning team.                      |",
+	"| Join our Discord for further updates!                                       |",                           
+	"|                                                                             |",                           
 	"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 	"",
 	"   Welcome to WebVM. If unsure, try these examples:",
