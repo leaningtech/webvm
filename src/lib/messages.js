@@ -22,6 +22,7 @@ export const introMessage = [
 	"| " + underline + "https://labs.leaningtech.com/blog/browserpod-annoucement" + normal + "                    |",
 	"|                                                                             |",
 	"|"+ orange +" [Join] "+ normal + "our first " + bold + orange + "CheerpJ Hackathon!" + normal + "                                         |",
+	"|                                                                             |",
 	"| Explore how CheerpJ can be applied to real-world science and research       |",
    	"| projects, with a" + bold + " £500 " + normal + "prize awaiting the winning team.                      |",                         
 	"|                                                                             |",                           
