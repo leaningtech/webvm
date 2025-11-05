@@ -29,12 +29,41 @@ WebVM is powered by the CheerpX virtualization engine, and enables safe, sandbox
 
 Modern browsers do not provide APIs to directly use TCP or UDP. WebVM provides networking support by integrating with Tailscale, a VPN network that supports WebSockets as a transport layer.
 
-- Open the "Networking" panel from the side-bar
-- Click "Connect to Tailscale" from the panel
-- Log in to Tailscale (create an account if you don't have one)
-- Click "Connect" when prompted by Tailscale
-- If you are unfamiliar with Tailscale or would like additional information see [WebVM and Tailscale](/docs/Tailscale.md).
+1.  Open the "Networking" panel from the side-bar
+2.  Click "Connect to Tailscale" from the panel
+3.  Log in to Tailscale (create an account if you don't have one)
+4. Click "Connect" when prompted by Tailscale
 
+WebVM now has access to machines in your own local Tailscale Network!
+
+## the world wide web
+
+If you would like to access the public internet, you will need an Exit Node. See [Tailscale Exit Nodes](https://tailscale.com/kb/1103/exit-nodes/) for detailed instructions.
+(Depending on your network speed, you may need to wait a few moments for the Tailscale Wasm module to be downloaded.)
+Once that is set up:
+- Log in with your Tailscale credentials.
+- Go back to the WebVM tab.
+- The `Connect to Tailscale` button in the Networking side-panel should be replaced by your IP address.
+
+
+## using authkey
+
+As an alternative to manually logging in, you can add your tailscale auth Key at the end of the webvm URL.
+
+`https://webvm.io/#authKey=<your-key>`
+
+It is recommended to use an ephemeral key.
+
+## Selfhosting your tailscale network
+
+We also support [headscale](https://headscale.net/stable/), a selfhosted open source implementation of the Tailscale control server.
+
+to log in to your headscale network add `#controlUrl=<your-control-url>` to the webVM url.
+
+**Notes:**
+
+- this is equivelant to the tailscale  `--login-server` command line option.
+- If used with authkey, don't forget to seperate the URL fragments with a `&` inbetween.
 
 
 # Fork, deploy, customize
