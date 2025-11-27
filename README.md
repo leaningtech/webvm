@@ -88,6 +88,9 @@ to log in to your headscale network add `#controlUrl=<your-control-url>` to the 
 
 You can now customize `dockerfiles/debian_mini` to suit your needs, or make a new Dockerfile from scratch. Use the `Path to Dockerfile` workflow parameter to select it.
 
+- If you would like to use our full desktop Alpine image, you can find it's dockerfile [**here**](github.com/leaningtech/alpine-image).
+
+- For more information on creating custom images, see our [Custom disk Image documentation](https://cheerpx.io/docs/guides/custom-images).
 
 
 # Run WebVM locally with a custom Debian mini disk image
@@ -131,10 +134,10 @@ wget "https://github.com/leaningtech/webvm/releases/download/ext2_image/debian_m
 
 Run the following commands to install dependencies and build WebVM:
 
-	```sh
-	npm install
-	npm run build
-	```
+```sh
+npm install
+npm run build
+```
 
 The output will be placed in the `build` directory.
 
