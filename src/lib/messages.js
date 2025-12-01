@@ -1,8 +1,5 @@
 const color= "\x1b[1;35m";
-const orange = "\x1b[38;5;202m";
-const purple = "\x1b[38;5;141m";
 const underline= "\x1b[94;4m";
-const bold = "\x1b[1m"
 const normal= "\x1b[0m";
 export const introMessage = [
 	"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
@@ -20,13 +17,6 @@ export const introMessage = [
 	"| [News] BrowserPod: Full-stack dev environments in the browser via Wasm:     |",
 	"|                                                                             |",
 	"| " + underline + "https://labs.leaningtech.com/blog/browserpod-annoucement" + normal + "                    |",
-	"|                                                                             |",
-	"|"+ orange +" [Join] "+ normal + "our first " + bold + orange + "CheerpJ Hackathon!" + normal + "                                         |",
-	"|                                                                             |",
-	"| Explore how CheerpJ can be applied to real-world science and research       |",
-	"| projects, with a" + bold + " £500 " + normal + "prize awaiting the winning team.                      |",
-	"|                                                                             |",
-	"| Visit " + underline + "https://labs.leaningtech.com/cheerpj-hackathon" + normal +  " for more details!      |",
 	"|                                                                             |",
 	"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 	"",
