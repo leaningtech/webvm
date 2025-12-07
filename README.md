@@ -58,11 +58,24 @@ It is recommended to use an ephemeral key.
 
 We also support [headscale](https://headscale.net/stable/), a selfhosted open source implementation of the Tailscale control server.
 
-to log in to your headscale network add `#controlUrl=<your-control-url>` to the webVM url.
+Though as headscale unfortunately doesn't support adding CORS headers. You will have to set up a proxy server to add them. Headscales instructions on doing so can be found [here](https://headscale.net/stable/ref/integration/reverse-proxy/#nginx). 
+
+Once ready, add the following line to your `location /` block in your nginx config file.
+
+``` Nginx
+ if ($http_origin = "https://webvm.io") {
+            add_header 'Access-Control-Allow-Origin' "$http_origin";
+			add_header 'Access-Control-Allow-Credentials' 'true' always;
+        }
+```
+
+
+To log in to your headscale network add `#controlUrl=<your-control-url>` to the webVM url.
 
 **Notes:**
 
-- this is equivelant to the tailscale  `--login-server` command line option.
+- If self hosting, replace "https://webvm.io" with your own url.
+- This is equivelant to the tailscale  `--login-server` command line option.
 - If used with authkey, don't forget to seperate the URL fragments with a `&` inbetween.
 
 
