@@ -16,7 +16,7 @@ export const introMessage = [
 	"|                                                                             |",
 	"| [News] BrowserPod (Beta): WebAssembly sandboxes for Node, Python, Rails:    |",
 	"|                                                                             |",
-	"| " + underline + "https://https://labs.leaningtech.com/blog/browserpod-beta-announcement" + normal + "      |",
+	"| " + underline + "https://labs.leaningtech.com/blog/browserpod-beta-announcement" + normal + "      |",
 	"|                                                                             |",
 	"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 	"",
