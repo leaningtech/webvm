@@ -38,13 +38,20 @@ WebVM now has access to machines in your own local Tailscale Network!
 
 ## the world wide web
 
-If you would like to access the public internet, you will need an Exit Node. See [Tailscale Exit Nodes](https://tailscale.com/kb/1103/exit-nodes/) for detailed instructions.
+If you would like to access the public internet, you will need to set up an Exit Node on one of your _non-WebVM_ tailscale network devices.
+See the _"Advertise a device as an exit node"_ section of the [Tailscale Exit Node quickstart guide](https://tailscale.com/kb/1408/quick-guide-exit-nodes?tab=linux) for instructions. (The _“Use an exit node”_ section can be skipped, as WebVM automatically uses an available exit node once one is advertised).
+
+> [!NOTE]
+> While we support most network commands there are a few that rely on kernel-level features not available in modern browsers and are therefore not supported, most notably `ping`.You could use `curl` or `wget` for testing instead.
+
 (Depending on your network speed, you may need to wait a few moments for the Tailscale Wasm module to be downloaded.)
 Once that is set up:
-- Log in with your Tailscale credentials.
-- Go back to the WebVM tab.
-- The `Connect to Tailscale` button in the Networking side-panel should be replaced by your IP address.
+1. Log in with your Tailscale credentials.
+2. Go back to the WebVM tab.
+3.  The `Connect to Tailscale` button in the Networking side-panel should be replaced by your IP address.
 
+> [!TIP]
+> You can also check your connection status by checking the dot colour on the "connect to tailscale" button (which should now show your tailscale IP). On local network connectivity it will be orange, global will be green.
 
 ## using authkey
 
