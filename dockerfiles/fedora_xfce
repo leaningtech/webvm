@@ -1,0 +1,25 @@
+FROM fedora:latest
+
+RUN dnf -y update && dnf -y install \
+    @xfce-desktop-environment \
+    xfce4-terminal \
+    thunar \
+    firefox \
+    fastfetch \
+    htop \
+    nano \
+    sudo \
+    && dnf clean all
+
+RUN useradd -m user && echo "user:user" | chpasswd
+RUN echo "user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+ENV HOME=/home/user \
+    USER=user \
+    SHELL=/bin/bash \
+    TERM=xterm \
+    LANG=en_US.UTF-8
+
+WORKDIR /home/user
+
+CMD ["/usr/bin/startxfce4"]
