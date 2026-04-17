@@ -14,7 +14,7 @@ export const introMessage = [
   "|                                                                             |",
   "| Try out the new Alpine / Xorg / i3 WebVM: " + underline + "https://webvm.io/alpine.html" + normal + "      |",
   "|                                                                             |",
-  "| [News] BrowserPod 2.0: in-browser WebAssembly sandboxes. Run git, bash, node, python...                    |",
+  "| [!] BrowserPod 2.0: in-browser Wasm sandbox with git, bash, node, python... |",
   "|                                                                             |",
   "| " + underline + "https://labs.leaningtech.com/blog/browserpod-20" + normal + "                             |",
   "|                                                                             |",
