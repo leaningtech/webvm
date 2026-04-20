@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+  color: white;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+
+#desktop {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.icon {
+  width: 80px;
+  margin: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.icon img {
+  width: 64px;
+  height: 64px;
+}
+
+.window {
+  position: absolute;
+  width: 400px;
+  height: 300px;
+  background: #222;
+  border: 1px solid #555;
+  top: 100px;
+  left: 100px;
+}
+
+.titlebar {
+  background: #444;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  cursor: move;
+}
+
+iframe {
+  width: 100%;
+  height: calc(100% - 30px);
+  border: none;
+}

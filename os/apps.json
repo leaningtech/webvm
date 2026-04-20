@@ -1,0 +1,16 @@
+{
+  "sections": [
+    {
+      "title": "System",
+      "apps": [
+        {
+          "title": "File Explorer",
+          "icon": "icons/explorer.png",
+          "src": "apps/file-explorer.html",
+          "type": "html",
+          "preinstalled": true
+        }
+      ]
+    }
+  ]
+}
