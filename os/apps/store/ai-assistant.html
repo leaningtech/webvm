@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: #202020; color: #fff; display: flex; height: 100vh; overflow: hidden; }
+        
+        #auth-warning { position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(32,32,32,0.9); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;}
+        
+        /* Sidebar Styles */
+        #sidebar { width: 220px; background: #191919; border-right: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; }
+        .sidebar-header { padding: 15px; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;}
+        .sidebar-header button { background: var(--accent, #0078D4); border: none; color: white; cursor: pointer; font-size: 12px; padding: 5px 10px; border-radius: 4px; font-weight: bold;}
+        .sidebar-header button:hover { opacity: 0.8; }
+        #chat-list { flex: 1; overflow-y: auto; padding: 10px; }
+        .chat-item { padding: 10px; cursor: pointer; border-radius: 4px; margin-bottom: 5px; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; justify-content: space-between;}
+        .chat-item:hover { background: rgba(255,255,255,0.06); }
+        .chat-item.active { background: rgba(255,255,255,0.1); font-weight: 600; border-left: 3px solid var(--accent, #0078D4); }
+        .del-chat { color: #aaa; cursor: pointer; font-size: 12px; padding-left: 5px;}
+        .del-chat:hover { color: #ff6b6b; }
+
+        /* Main Chat Area */
+        #chat-area { flex: 1; display: flex; flex-direction: column; background: #202020; position: relative;}
+        #chat-window { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        
+        .message { max-width: 80%; padding: 12px 16px; border-radius: 8px; line-height: 1.4; font-size: 14px; word-wrap: break-word; }
+        .user-msg { background: var(--accent, #0078D4); align-self: flex-end; border-bottom-right-radius: 2px; }
+        .ai-msg { background: #333; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid rgba(255,255,255,0.1); }
+        .ai-msg img { max-width: 100%; border-radius: 4px; margin-top: 10px; display: block; }
+        
+        #input-area { padding: 15px; background: #191919; border-top: 1px solid rgba(255,255,255,0.1); display: flex; gap: 10px; }
+        input { flex: 1; background: #111; color: white; border: 1px solid #444; padding: 12px; border-radius: 20px; outline: none; transition: 0.2s; }
+        input:focus { border-color: var(--accent, #0078D4); }
+        #send-btn { background: var(--accent, #0078D4); color: white; border: none; padding: 0 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.2s;}
+        #send-btn:hover { opacity: 0.8; }
+        #send-btn:disabled { background: #555; cursor: not-allowed; }
+        .typing { font-style: italic; color: #aaa; font-size: 12px; align-self: flex-start; margin-left: 10px; display: none;}
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <div id="auth-warning">
+        <h2>🔒 OS Login Required</h2>
+        <p style="color: #aaa;">You must log into the Web OS to use the connected AI Assistant.</p>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <div class="sidebar-header">
+            Conversations
+            <button onclick="createNewChat()">+ New</button>
+        </div>
+        <div id="chat-list"></div>
+    </div>
+
+    <!-- Main Area -->
+    <div id="chat-area">
+        <div id="chat-window"></div>
+        <div class="typing" id="typing-indicator">Thinking...</div>
+        <div id="input-area">
+            <input type="text" id="chat-input" placeholder="Type a message or /image..." autocomplete="off">
+            <button id="send-btn" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        document.documentElement.style.setProperty('--accent', window.parent.localStorage.getItem('os_theme') || '#0078D4');
+        const OS = window.parent;
+        
+        const BACKEND_URL = localStorage.getItem('chat_backend_url');
+        const EMAIL = localStorage.getItem('os_email');
+        const PASSWORD = localStorage.getItem('os_password');
+
+        const chatWindow = document.getElementById('chat-window');
+        const chatList = document.getElementById('chat-list');
+        const input = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+        const typing = document.getElementById('typing-indicator');
+
+        let chats = {};
+        let currentChatId = null;
+        const STORAGE_KEY = `ai_chats_${EMAIL}`; 
+
+        if (!BACKEND_URL || !EMAIL || !PASSWORD) {
+            document.getElementById('auth-warning').style.display = 'flex';
+            input.disabled = true; sendBtn.disabled = true;
+        } else {
+            loadData();
+        }
+
+        // --- CORE DATA LOGIC ---
+        function loadData() {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) {
+                chats = JSON.parse(raw);
+            } else {
+                createNewChat(); 
+            }
+            
+            if (!currentChatId && Object.keys(chats).length > 0) {
+                currentChatId = Object.keys(chats)[Object.keys(chats).length - 1];
+            }
+            
+            renderSidebar();
+            renderChat();
+        }
+
+        function saveData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
+            renderSidebar();
+        }
+
+        function createNewChat() {
+            const id = "chat_" + Date.now();
+            chats[id] = {
+                title: "New Conversation",
+                messages: [
+                    { role: "system", content: "You are a helpful AI assistant built into a Web OS. Keep answers clean." }
+                ]
+            };
+            currentChatId = id;
+            saveData();
+            renderChat();
+        }
+
+        function switchChat(id) {
+            currentChatId = id;
+            renderSidebar();
+            renderChat();
+        }
+
+        // UPDATED: Now correctly hooks into the parent OS's modal system
+        async function deleteChat(e, id) {
+            e.stopPropagation();
+
+            const confirmed = await OS.osConfirm(
+                'Delete Conversation',
+                'Are you sure you want to permanently delete this conversation?'
+            );
+
+            if (confirmed) {
+                delete chats[id];
+
+                if (currentChatId === id) {
+                    const keys = Object.keys(chats);
+                    currentChatId = keys.length ? keys[keys.length - 1] : null;
+                }
+
+                if (!Object.keys(chats).length) {
+                    createNewChat();
+                } else {
+                    saveData();
+                    renderChat();
+                }
+            }
+        }
+
+        // --- RENDER LOGIC ---
+        function renderSidebar() {
+            chatList.innerHTML = '';
+            Object.keys(chats).reverse().forEach(id => {
+                const c = chats[id];
+                const div = document.createElement('div');
+                div.className = `chat-item ${id === currentChatId ? 'active' : ''}`;
+                
+                const titleSpan = document.createElement('span');
+                titleSpan.innerText = c.title;
+                titleSpan.style.overflow = "hidden";
+                titleSpan.style.textOverflow = "ellipsis";
+                
+                const delSpan = document.createElement('span');
+                delSpan.className = 'del-chat';
+                delSpan.innerText = '✕';
+                delSpan.onclick = (e) => deleteChat(e, id);
+
+                div.appendChild(titleSpan);
+                div.appendChild(delSpan);
+                div.onclick = () => switchChat(id);
+                chatList.appendChild(div);
+            });
+        }
+
+        function renderChat() {
+            chatWindow.innerHTML = '';
+            if(!currentChatId || !chats[currentChatId]) return;
+
+            const msgs = chats[currentChatId].messages;
+            if (msgs.length === 1) { 
+                chatWindow.innerHTML = `
+                    <div class="message ai-msg">
+                        👋 Hello, ${EMAIL.split('@')[0]}!<br><br>
+                        • Your conversations are completely private and saved to this device.<br>
+                        • Ask me anything, or type <b>/image [prompt]</b> to generate art!
+                    </div>
+                `;
+                return;
+            }
+
+            for (let i = 1; i < msgs.length; i++) {
+                const m = msgs[i];
+                if (m.isImageHtml) {
+                    appendMessage(m.content, 'ai-msg', true, false);
+                } else {
+                    const format = m.role === 'user' ? m.content : formatAI(m.content);
+                    appendMessage(format, m.role === 'user' ? 'user-msg' : 'ai-msg', m.role === 'assistant', false);
+                }
+            }
+            scrollToBottom();
+        }
+
+        function formatAI(text) {
+            return text.replace(/```([\s\S]*?)```/g, '<pre style="background:#000;padding:10px;border-radius:4px;overflow-x:auto;"><code>$1</code></pre>')
+                       .replace(/\n/g, '<br>');
+        }
+
+        function appendMessage(content, className, isHTML = false, doScroll = true) {
+            const div = document.createElement('div'); div.className = `message ${className}`;
+            if (isHTML) div.innerHTML = content; else div.innerText = content;
+            chatWindow.appendChild(div);
+            if(doScroll) scrollToBottom();
+        }
+
+        // --- NETWORK LOGIC ---
+        function jsonpRequest(url, payload) {
+            return new Promise((resolve, reject) => {
+                const cb = 'jsonp_cb_' + Math.round(1000000 * Math.random());
+                window[cb] = function(data) { resolve(data); delete window[cb]; document.body.removeChild(script); };
+                const script = document.createElement('script');
+                let q = `?callback=${cb}`;
+                for (let k in payload) q += `&${k}=${encodeURIComponent(payload[k])}`;
+                script.src = url + q;
+                script.onerror = () => { reject(); delete window[cb]; document.body.removeChild(script); };
+                document.body.appendChild(script);
+            });
+        }
+
+        input.addEventListener('keypress', function(e) { if (e.key === 'Enter') sendMessage(); });
+
+        async function sendMessage() {
+            const text = input.value.trim();
+            if (!text || !currentChatId) return;
+
+            if (chats[currentChatId].messages.length === 1) {
+                chats[currentChatId].title = text.substring(0, 25) + (text.length > 25 ? "..." : "");
+                saveData();
+            }
+
+            appendMessage(text, 'user-msg', false, true);
+            input.value = '';
+            input.disabled = true; sendBtn.disabled = true;
+            typing.style.display = 'block';
+
+            if (text.toLowerCase().startsWith('/image ')) {
+                const prompt = text.replace('/image ', '').trim();
+                const seed = Math.floor(Math.random() * 100000); 
+                const imgUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?seed=${seed}&width=512&height=512&nologo=true`;
+                const imgHTML = `Image for "${prompt}": <br><img src="${imgUrl}" onload="document.getElementById('chat-window').scrollTop = document.getElementById('chat-window').scrollHeight">`;
+                
+                chats[currentChatId].messages.push({ role: "user", content: text, isImageHtml: false }); 
+                chats[currentChatId].messages.push({ role: "assistant", content: imgHTML, isImageHtml: true }); 
+                
+                saveData();
+                appendMessage(imgHTML, 'ai-msg', true, true);
+                resetInput(); return;
+            }
+
+            chats[currentChatId].messages.push({ role: "user", content: text });
+            saveData();
+
+            let cleanContext = chats[currentChatId].messages.filter(m => !m.isImageHtml);
+            let contextToSend = [cleanContext[0]].concat(cleanContext.slice(-5)); 
+
+            try {
+                const payload = {
+                    action: "ai_chat", email: EMAIL, password: PASSWORD,
+                    messages: JSON.stringify(contextToSend) 
+                };
+
+                const data = await jsonpRequest(BACKEND_URL, payload);
+
+                if (data.error) {
+                    appendMessage("❌ Error: " + data.error, 'ai-msg', false, true);
+                    chats[currentChatId].messages.pop(); 
+                } else {
+                    const aiText = data.reply;
+                    chats[currentChatId].messages.push({ role: "assistant", content: aiText });
+                    saveData();
+                    appendMessage(formatAI(aiText), 'ai-msg', true, true);
+                }
+            } catch (err) {
+                appendMessage("❌ Network Error connecting to Backend.", 'ai-msg', false, true);
+                chats[currentChatId].messages.pop(); 
+            }
+
+            resetInput();
+        }
+
+        function resetInput() { input.disabled = false; sendBtn.disabled = false; typing.style.display = 'none'; input.focus(); }
+        function scrollToBottom() { chatWindow.scrollTop = chatWindow.scrollHeight; }
+    </script>
+</body>
+</html>

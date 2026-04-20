@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #202020; color: white; margin: 0; display: flex; height: 100vh; }
+        
+        #sidebar { width: 180px; background: #191919; padding: 15px 0; border-right: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 5px;}
+        .tab { padding: 10px 20px; cursor: pointer; font-size: 14px; transition: 0.1s;}
+        .tab:hover { background: rgba(255,255,255,0.06); }
+        .tab.active { background: rgba(255,255,255,0.1); border-left: 3px solid var(--accent, #0078D4); font-weight: bold;}
+        
+        #content { flex: 1; padding: 30px; overflow-y: auto; }
+        h2 { margin-top: 0; font-weight: normal; margin-bottom: 5px; }
+        p.subtitle { color: #aaa; font-size: 13px; margin-top: 0; margin-bottom: 25px; }
+        
+        .section { display: none; animation: fadeIn 0.3s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .theme-grid { display: flex; gap: 15px; flex-wrap: wrap; }
+        .color-box { width: 50px; height: 50px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: 0.2s;}
+        .color-box:hover { transform: scale(1.1); box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+        
+        input[type="text"] { width: 100%; max-width: 400px; padding: 10px 15px; background: #111; border: 1px solid #444; border-radius: 6px; color: white; margin-bottom: 15px; outline: none; transition: 0.2s;}
+        input[type="text"]:focus { border-color: var(--accent, #0078D4); }
+        
+        button { padding: 8px 20px; background: var(--accent, #0078D4); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;}
+        button:hover { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <div class="tab active" onclick="switchTab('colors', this)">🎨 Personalization</div>
+        <div class="tab" onclick="switchTab('wallpaper', this)">🖼️ Background</div>
+    </div>
+    
+    <div id="content">
+        <!-- Accent Colors Tab -->
+        <div id="colors" class="section active">
+            <h2>Accent Color</h2>
+            <p class="subtitle">Choose your system accent color.</p>
+            <div class="theme-grid">
+                <div class="color-box" style="background: #0078D4;" onclick="changeColor('#0078D4')"></div>
+                <div class="color-box" style="background: #8e44ad;" onclick="changeColor('#8e44ad')"></div>
+                <div class="color-box" style="background: #e74c3c;" onclick="changeColor('#e74c3c')"></div>
+                <div class="color-box" style="background: #27ae60;" onclick="changeColor('#27ae60')"></div>
+                <div class="color-box" style="background: #e67e22;" onclick="changeColor('#e67e22')"></div>
+                <div class="color-box" style="background: #ff2e2e;" onclick="changeColor('#ff2e2e')"></div> <!-- Dragon Red -->
+            </div>
+        </div>
+
+        <!-- Wallpaper Tab -->
+        <div id="wallpaper" class="section">
+            <h2>Desktop Background</h2>
+            <p class="subtitle">Paste an image URL to customize your desktop.</p>
+            <input type="text" id="wall-url" placeholder="https://example.com/image.jpg">
+            <br>
+            <button onclick="applyWallpaper()">Apply Wallpaper</button>
+        </div>
+    </div>
+
+    <script>
+        // Load the current OS accent color to style the Settings app to match
+        document.documentElement.style.setProperty('--accent', window.parent.localStorage.getItem('os_theme') || '#0078D4');
+
+        function switchTab(id, el) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById(id).classList.add('active');
+        }
+
+        function changeColor(hex) {
+            window.parent.postMessage({ action: 'changeTheme', color: hex }, '*');
+            window.parent.postMessage({ action: 'notify', title: 'Theme Updated', msg: 'System accent color changed.' }, '*');
+            document.documentElement.style.setProperty('--accent', hex);
+        }
+
+        function applyWallpaper() {
+            const url = document.getElementById('wall-url').value;
+            if(url) {
+                // Direct update to OS since it's on the same domain
+                window.parent.document.body.style.backgroundImage = `url('${url}')`;
+                window.parent.localStorage.setItem('wallpaper', url);
+                window.parent.postMessage({ action: 'notify', title: 'Wallpaper Updated', msg: 'Your background has been changed.' }, '*');
+                document.getElementById('wall-url').value = '';
+            }
+        }
+    </script>
+</body>
+</html>

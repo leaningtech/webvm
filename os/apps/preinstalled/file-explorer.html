@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; background: #202020; color: #ffffff;}
+        #sidebar { width: 220px; background: #191919; border-right: 1px solid rgba(255,255,255,0.08); padding: 15px 10px; display:flex; flex-direction:column;}
+        .nav-item { padding: 10px; cursor: pointer; border-radius: 4px; margin-bottom:5px; font-size: 14px; display:flex; justify-content:space-between;}
+        .nav-item:hover { background: rgba(255,255,255,0.06); }
+        .nav-item.active { background: rgba(255,255,255,0.1); font-weight: 600; }
+        #content { flex: 1; padding: 25px; overflow-y: auto; position: relative; display:flex; flex-direction:column;}
+        .header-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;}
+        .breadcrumbs { font-size: 16px; font-weight: 500; cursor: pointer;}
+        .breadcrumbs span:hover { text-decoration: underline; color: #60cdff;}
+        .file-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; }
+        .file-item { padding: 15px; border: 1px solid rgba(255,255,255,0.05); background: #2d2d2d; display: flex; flex-direction: column; align-items: center; text-align:center; border-radius: 6px; cursor: pointer; transition: 0.1s;}
+        .file-item:hover { background: #333333; }
+        .file-icon { font-size: 32px; margin-bottom: 10px;}
+        .file-name { font-size: 12px; word-break: break-all;}
+        #drop-zone { position: absolute; top:0;left:0;right:0;bottom:0; background: rgba(96, 205, 255, 0.1); border: 2px dashed #60cdff; display:none; justify-content:center; align-items:center; z-index:10; font-size: 20px;}
+        button { padding: 6px 14px; background: rgba(255,255,255,0.1); color:white; border:1px solid rgba(255,255,255,0.1); border-radius:4px; cursor:pointer;}
+        button:hover { background: rgba(255,255,255,0.15); }
+        .primary-btn { background: #0078D4; border:none;}
+        .primary-btn:hover { background: #006abc; }
+        
+        #fe-context-menu {
+            display: none; position: absolute; background: rgba(40,40,40,0.98); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.08); padding: 5px; border-radius: 6px; z-index: 100;
+            flex-direction: column; gap: 2px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); width: 150px;
+        }
+        .fe-menu-item { padding: 8px 12px; font-size: 13px; cursor: pointer; border-radius: 4px; transition: 0.1s;}
+        .fe-menu-item:hover { background: rgba(255,255,255,0.12); }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <div class="nav-item active" id="nav-imported">📁 Imported Files</div>
+        <div class="nav-item" id="nav-desktop">🖥️ Desktop Apps</div>
+        
+        <div style="flex:1"></div>
+        <button onclick="createFolder()" style="margin-bottom: 10px;">+ New Folder</button>
+        <input type="file" id="file-input" style="display:none" multiple>
+        <button class="primary-btn" onclick="document.getElementById('file-input').click()">Import File</button>
+    </div>
+    
+    <div id="content">
+        <div id="drop-zone">Drop files here</div>
+        <div class="header-bar">
+            <div class="breadcrumbs" id="breadcrumbs">Imported Files</div>
+        </div>
+        <div class="file-list" id="file-list"></div>
+    </div>
+
+    <!-- Custom Context Menu -->
+    <div id="fe-context-menu">
+        <div class="fe-menu-item" id="fe-rename">✏️ Rename</div>
+        <div class="fe-menu-item" id="fe-delete" style="color:#ff6b6b;">🗑️ Delete</div>
+    </div>
+
+    <script>
+        const VFS = window.parent.VFS;
+        const OS = window.parent;
+        let currentView = 'imported';
+        let currentPath = '';
+        let targetFile = null;
+
+        const feMenu = document.getElementById('fe-context-menu');
+
+        document.addEventListener('click', () => feMenu.style.display = 'none');
+
+        // ====================== RENAME ======================
+        document.getElementById('fe-rename').onclick = async () => {
+            if (!targetFile) return;
+            let oldName = targetFile.name.split('/').pop();
+            
+            let newName = await OS.osPrompt("Rename File", "Enter new name (including extension):", oldName);
+            
+            if (newName && newName !== oldName) {
+                const basePath = currentPath === '' ? '' : currentPath + '/';
+                const fullNewName = basePath + newName;
+                
+                await VFS.saveFile(fullNewName, targetFile.type, targetFile.content);
+                await VFS.deleteFile(targetFile.name);
+                
+                if (newName.toLowerCase().endsWith('.exe')) {
+                    OS.showNotification('App Compiled!', `${newName} is now an executable.`);
+                }
+                
+                render();
+                OS.renderDesktop();
+            }
+        };
+
+        // ====================== DELETE ======================
+        document.getElementById('fe-delete').onclick = async () => {
+            if (!targetFile) return;
+            let fileName = targetFile.name.split('/').pop();
+            
+            let confirmed = await OS.osConfirm("Delete File", `Are you sure you want to delete "${fileName}"?`);
+            
+            if (confirmed) {
+                await VFS.deleteFile(targetFile.name);
+                render();
+                OS.renderDesktop();
+            }
+        };
+
+        async function render() {
+            const list = document.getElementById('file-list');
+            list.innerHTML = '';
+
+            if (currentView === 'imported') {
+                let crumbHTML = `<span onclick="navigateFolder('')">Imported Files</span>`;
+                if (currentPath !== '') {
+                    crumbHTML += ` / <span onclick="navigateFolder('${currentPath}')">${currentPath}</span>`;
+                }
+                document.getElementById('breadcrumbs').innerHTML = crumbHTML;
+            } else {
+                document.getElementById('breadcrumbs').innerHTML = `Desktop Apps`;
+            }
+
+            if (currentView === 'imported') {
+                const files = await VFS.getFiles();
+                
+                let visibleItems = files.filter(f => {
+                    if (currentPath === '') return !f.name.includes('/');
+                    return f.name.startsWith(currentPath + '/') && f.name.substring(currentPath.length + 1).indexOf('/') === -1;
+                });
+
+                // Up button
+                if (currentPath !== '') {
+                    const upDiv = document.createElement('div');
+                    upDiv.className = 'file-item';
+                    upDiv.innerHTML = `<div class="file-icon">⬆️</div><div class="file-name">.. (Back)</div>`;
+                    upDiv.onclick = () => {
+                        const parts = currentPath.split('/');
+                        parts.pop();
+                        navigateFolder(parts.join('/'));
+                    };
+                    list.appendChild(upDiv);
+                }
+
+                visibleItems.forEach(f => {
+                    const div = document.createElement('div');
+                    div.className = 'file-item';
+                    const isFolder = f.type === 'folder';
+                    const displayName = f.name.split('/').pop();
+                    const ext = displayName.split('.').pop().toLowerCase();
+                    
+                    let icon = isFolder ? '📁' : '📄';
+                    if (ext === 'exe') icon = '⚙️';
+                    if (['html','js','css','json'].includes(ext)) icon = '📝';
+                    
+                    div.innerHTML = `<div class="file-icon">${icon}</div><div class="file-name">${displayName}</div>`;
+                    
+                    div.onclick = () => {
+                        if (isFolder) navigateFolder(f.name);
+                        else OS.openFile(f);
+                    };
+                    
+                    div.oncontextmenu = (e) => {
+                        e.preventDefault(); e.stopPropagation();
+                        targetFile = f;
+                        feMenu.style.display = 'flex';
+                        feMenu.style.left = e.pageX + 'px';
+                        feMenu.style.top = e.pageY + 'px';
+                    };
+                    
+                    list.appendChild(div);
+                });
+            } else {
+                OS.appRegistry.forEach(app => {
+                    if (app.preinstalled || OS.installedApps.includes(app.id)) {
+                        const div = document.createElement('div');
+                        div.className = 'file-item';
+                        div.innerHTML = `<div class="file-icon">📦</div><div class="file-name">${app.name}.exe</div>`;
+                        div.onclick = () => OS.openWindow(app, app.path);
+                        list.appendChild(div);
+                    }
+                });
+            }
+        }
+
+        function navigateFolder(path) {
+            currentPath = path;
+            render();
+        }
+
+        async function createFolder() {
+            if (currentView !== 'imported') return alert('Navigate to Imported Files to create folders.');
+            let folderName = await OS.osPrompt("New Folder", "Enter folder name:");
+            if (!folderName) return;
+            folderName = folderName.replace(/\//g, '');
+            const fullPath = currentPath === '' ? folderName : `${currentPath}/${folderName}`;
+            await VFS.saveFile(fullPath, 'folder', '');
+            render();
+            OS.renderDesktop();
+        }
+
+        document.getElementById('nav-imported').onclick = (e) => { 
+            currentView = 'imported'; currentPath = ''; 
+            document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active')); 
+            e.target.classList.add('active'); 
+            render(); 
+        };
+        
+        document.getElementById('nav-desktop').onclick = (e) => { 
+            currentView = 'desktop'; 
+            document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active')); 
+            e.target.classList.add('active'); 
+            render(); 
+        };
+
+        document.getElementById('file-input').onchange = (e) => handleFiles(e.target.files);
+        
+        const content = document.getElementById('content');
+        const dropZone = document.getElementById('drop-zone');
+        content.ondragover = (e) => { e.preventDefault(); dropZone.style.display = 'flex'; };
+        dropZone.ondragleave = (e) => { e.preventDefault(); dropZone.style.display = 'none'; };
+        dropZone.ondrop = (e) => { e.preventDefault(); dropZone.style.display = 'none'; handleFiles(e.dataTransfer.files); };
+
+        function handleFiles(files) {
+            if (currentView !== 'imported') return alert('Please navigate to Imported Files before importing.');
+            for (let file of files) {
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    const saveName = currentPath === '' ? file.name : `${currentPath}/${file.name}`;
+                    await VFS.saveFile(saveName, file.type, e.target.result);
+                    render();
+                    OS.renderDesktop();
+                };
+                if (file.name.endsWith('.png') || file.name.endsWith('.jpg')) reader.readAsDataURL(file);
+                else reader.readAsText(file);
+            }
+        }
+
+        window.parent.addEventListener('vfs-updated', render);
+        render();
+    </script>
+</body>
+</html>

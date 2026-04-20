@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Messages</title>
+
+  <style>
+    .dayDivider {
+      text-align: center;
+      margin: 12px 0;
+      font-size: 12px;
+      color: #94a3b8;
+      position: relative;
+    }
+
+    .dayDivider::before,
+    .dayDivider::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 35%;
+      height: 1px;
+      background: #334155;
+    }
+
+    .dayDivider::before { left: 0; }
+    .dayDivider::after { right: 0; }
+
+    .ts {
+      cursor: help;
+      text-decoration: dotted underline;
+    }
+
+    :root {
+      --bg: #0f172a;
+      --panel: #020617;
+      --msg: #020617;
+      --text: white;
+    }
+
+    .light {
+      --bg: #f8fafc;
+      --panel: #e2e8f0;
+      --msg: #ffffff;
+      --text: #020617;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, sans-serif;
+    }
+
+    #rooms {
+      width: 120px;
+      background: var(--panel);
+      padding: 8px;
+      overflow-y: auto;
+    }
+
+    .room {
+      padding: 6px;
+      background: #1e293b;
+      border-radius: 6px;
+      margin-bottom: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .adminBtn {
+      color: #f87171;
+      margin-left: 4px;
+      cursor: pointer;
+    }
+
+    #main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #chat {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px;
+    }
+
+    .msg {
+      background: var(--msg);
+      padding: 8px;
+      border-radius: 10px;
+      margin-bottom: 6px;
+    }
+
+    .email {
+      font-size: 11px;
+      color: #7dd3fc;
+    }
+
+    #input {
+      display: flex;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: var(--panel);
+      color: var(--text);
+    }
+
+    button {
+      padding: 10px;
+      cursor: pointer;
+      background: var(--panel);
+      border: none;
+      color: var(--text);
+    }
+
+    #top {
+      display: flex;
+    }
+
+    #search {
+      flex: 1;
+      padding: 6px;
+    }
+    
+    #privateControls {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding-right: 5px;
+    }
+
+    .msg a {
+      color: #38bdf8;
+      text-decoration: underline;
+      word-break: break-all;
+    }
+
+    .msg a:hover {
+      opacity: 0.85;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="rooms">
+    <div class="room" onclick="newPublicRoom()">➕ Public Room</div>
+    <div class="room" onclick="newPrivateRoom()">🔒 Private Room</div>
+    <div class="room" onclick="joinRoom()">🔗 Join via Invite</div>
+    <div class="room" id="showInvitesBtn" onclick="showInvites()" style="display:none">🔑 Active Invites</div>
+    <div class="room" onclick="toggleTheme()">🌓 Theme</div>
+    <div class="room" id="banBtn" onclick="showBanMenu()" style="display:none">🚫 Manage Bans</div>
+    <div id="roomList"></div>
+    <div class="room" id="exportBtn" onclick="exportData()" style="display:none">📦 Export</div>
+    <div class="room" id="importBtn" onclick="importData()" style="display:none">📥 Import</div>
+    
+    <div style="margin-top:10px;font-size:12px;color:#94a3b8">Online</div>
+    <div id="onlineList"></div>
+    
+    <div style="margin-top:10px;font-size:12px;color:#94a3b8">Members</div>
+    <div id="memberList"></div>
+  </div>
+
+  <div id="main">
+    <div id="top">
+      <input id="search" placeholder="Search…" oninput="render()">
+      <span id="privateControls" style="display:none;">
+        <input id="addUserEmail" placeholder="Add user email">
+        <button onclick="addUser()">Add</button>
+        <button onclick="removeUser()">Remove</button>
+        <button onclick="inviteRoom(room)">Generate Invite</button>
+      </span>
+    </div>
+    
+    <div id="chat"></div>
+    <div id="typing" style="font-size:11px;padding-left:10px;color:#94a3b8"></div>
+    
+    <div id="input">
+      <input type="file" id="file">
+      <input id="msg" placeholder="Message…" onkeydown="if(event.key==='Enter')send()">
+      <button onclick="send()">➤</button>
+    </div>
+  </div>
+
+  <script>
+    // ========== OS INTEGRATION ==========
+    const OS = window.parent;
+    const BACKEND_URL = localStorage.getItem('chat_backend_url');
+    const EMAIL = localStorage.getItem('os_email');
+    const PASSWORD = localStorage.getItem('os_password');
+
+    // ========== JSONP BYPASS ==========
+    function jsonpRequest(url, payload) {
+      return new Promise((resolve, reject) => {
+        const callbackName = 'jsonp_cb_' + Math.round(1000000 * Math.random());
+        window[callbackName] = function(data) {
+          resolve(data);
+          delete window[callbackName];
+          document.body.removeChild(script);
+        };
+        const script = document.createElement('script');
+        let queryString = `?callback=${callbackName}`;
+        for (let key in payload) {
+          queryString += `&${key}=${encodeURIComponent(payload[key])}`;
+        }
+        script.src = url + queryString;
+        script.onerror = () => {
+          reject(new Error("Network Failure"));
+          delete window[callbackName];
+          document.body.removeChild(script);
+        };
+        document.body.appendChild(script);
+      });
+    }
+
+    // ========== GOOGLE APPS SCRIPT WRAPPERS ==========
+    const google = {
+      script: {
+        run: {
+          withSuccessHandler(callback) {
+            return {
+              withFailureHandler(errorCallback) {
+                this.errorCallback = errorCallback;
+                return this;
+              },
+              
+              async _call(action, params) {
+                try {
+                  const payload = {
+                    action: action,
+                    email: EMAIL,
+                    password: PASSWORD,
+                    ...params
+                  };
+                  
+                  const data = await jsonpRequest(BACKEND_URL, payload);
+                  
+                  if (data.error) {
+                    if (this.errorCallback) {
+                      this.errorCallback(data.error);
+                    } else {
+                      OS.showNotification('Messages Error', data.error);
+                    }
+                    return;
+                  }
+                  
+                  callback(data);
+                } catch(err) {
+                  if (this.errorCallback) {
+                    this.errorCallback(err.message);
+                  } else {
+                    OS.showNotification('Network Error', err.message);
+                  }
+                }
+              },
+
+              // ===== ROOM ACTIONS =====
+              getData: function(room) {
+                return this._call('getData', { room: room });
+              },
+              
+              createRoom: function(name) {
+                return this._call('createRoom', { roomName: name });
+              },
+              
+              deleteRoom: function(name) {
+                return this._call('deleteRoom', { roomName: name });
+              },
+              
+              isRoomPrivate: async function(room) {
+                const res = await this._call('isRoomPrivate', { room: room });
+                // This won't work because callback is from outer scope, so we handle it differently
+                return res;
+              },
+              
+              makeRoomPrivate: function(room) {
+                return this._call('makeRoomPrivate', { room: room });
+              },
+              
+              makeRoomPublic: function(room) {
+                return this._call('makeRoomPublic', { room: room });
+              },
+
+              // ===== MEMBER ACTIONS =====
+              getRoomMembers: async function(room) {
+                const res = await this._call('getRoomMembers', { room: room });
+                return res;
+              },
+              
+              addUserToRoom: function(room, targetEmail) {
+                return this._call('addUserToRoom', { room: room, targetEmail: targetEmail });
+              },
+              
+              removeUserFromRoom: function(room, targetEmail) {
+                return this._call('removeUserFromRoom', { room: room, targetEmail: targetEmail });
+              },
+
+              // ===== INVITE ACTIONS =====
+              createInvite: function(room) {
+                return this._call('createInvite', { room: room });
+              },
+              
+              useInvite: async function(code) {
+                const res = await this._call('useInvite', { code: code });
+                return res;
+              },
+              
+              listInvites: async function() {
+                const res = await this._call('listInvites', {});
+                return res;
+              },
+
+              // ===== MESSAGE ACTIONS =====
+              sendMessage: function(room, text, replyTo) {
+                return this._call('send', { room: room, text: text, replyTo: replyTo });
+              },
+              
+              deleteMessage: function(room, msgId) {
+                return this._call('deleteMessage', { room: room, msgId: msgId });
+              },
+              
+              editMessage: function(room, msgId, newText) {
+                return this._call('editMessage', { room: room, msgId: msgId, newText: newText });
+              },
+              
+              pinMessage: function(room, msgId) {
+                return this._call('pinMessage', { room: room, msgId: msgId });
+              },
+              
+              react: function(room, msgId, emoji) {
+                return this._call('react', { room: room, msgId: msgId, emoji: emoji });
+              },
+              
+              sendFile: function(room, fileName, fileData) {
+                return this._call('sendFile', { room: room, fileName: fileName, fileData: fileData });
+              },
+              
+              setTyping: function(room, state) {
+                return this._call('setTyping', { room: room, state: state });
+              },
+
+              // ===== ADMIN ACTIONS =====
+              exportSystem: async function() {
+                const res = await this._call('exportSystem', {});
+                return res;
+              },
+              
+              importSystem: function(jsonData) {
+                return this._call('importSystem', { jsonData: jsonData });
+              }
+            };
+          }
+        }
+      }
+    };
+
+    // ========== ORIGINAL CHAT CODE ==========
+    const msg = document.getElementById("msg");
+    const search = document.getElementById("search");
+    const chat = document.getElementById("chat");
+    const file = document.getElementById("file");
+    const exportBtn = document.getElementById("exportBtn");
+    const importBtn = document.getElementById("importBtn");
+    const banBtn = document.getElementById("banBtn");
+    const showInvitesBtn = document.getElementById("showInvitesBtn");
+    
+    let lastSeenMessage = 0;
+    let room = localStorage.getItem("chat_room") || "general";
+    let data = {};
+    let lastTime = 0;
+    let replyTo = null;
+    let wasAtBottom = true;
+
+    if ("Notification" in window) {
+      Notification.requestPermission();
+    }
+
+    // ---------- UTILS ----------
+    function linkify(text) {
+      const urlRegex = /(https:\/\/[^\s]+)/g;
+      text = text.replace(urlRegex, url => `<a href="${url}" target="_blank">${url}</a>`);
+      const mention = /@([a-zA-Z0-9._-]+)/g;
+      text = text.replace(mention, (m, u) => {
+        return `<span style="color:#facc15;font-weight:600">@${u}</span>`;
+      });
+      return text;
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+    }
+
+    function dayLabel(ts) {
+      const d = new Date(ts);
+      const today = new Date();
+      const yesterday = new Date();
+      yesterday.setDate(today.getDate() - 1);
+
+      if (d.toDateString() === today.toDateString()) return "Today";
+      if (d.toDateString() === yesterday.toDateString()) return "Yesterday";
+      return d.toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" });
+    }
+
+    function timeAgo(ts) {
+      const diff = Date.now() - ts;
+      const mins = Math.floor(diff / 60000);
+      const hours = Math.floor(mins / 60);
+      const days = Math.floor(hours / 24);
+
+      if (mins < 1) return "just now";
+      if (mins < 60) return mins + "m ago";
+      if (hours < 24) return hours + "h ago";
+      return days + "d ago";
+    }
+
+    function notify(m) {
+      if (!("Notification" in window)) return;
+      if (Notification.permission === "default") {
+        Notification.requestPermission();
+      }
+      if (Notification.permission === "granted") {
+        new Notification("Mention from " + m.user, { body: m.text });
+      }
+    }
+
+    // ---------- LOAD & RENDER ----------
+    function load() {
+      google.script.run.withSuccessHandler(res => {
+        data = res;
+
+        if (data.admin) {
+          exportBtn.style.display = "block";
+          importBtn.style.display = "block";
+          banBtn.style.display = "block";
+          showInvitesBtn.style.display = "block";
+        }
+
+        renderRooms();
+        renderOnline();
+        renderMembers();
+        render();
+
+        // Check if room is private
+        google.script.run.isRoomPrivate(room).then(res => {
+          document.getElementById("privateControls").style.display = res.isPrivate ? "flex" : "none";
+        });
+
+      }).getData(room);
+    }
+
+    chat.addEventListener("scroll", () => {
+      const nearBottom = chat.scrollHeight - chat.scrollTop - chat.clientHeight < 40;
+      wasAtBottom = nearBottom;
+    });
+
+    function render() {
+      chat.innerHTML = "";
+      const q = search.value.toLowerCase();
+      let lastDay = "";
+      
+      const msgs = data.messages ? data.messages.filter(m => (m.text || '').toLowerCase().includes(q)) : [];
+      const pinned = msgs.filter(m => m.pinned);
+      const normal = msgs.filter(m => !m.pinned);
+
+      const username = data.email ? data.email.split('@')[0] : "";
+
+      [...pinned, ...normal].forEach(m => {
+        const time = m.time || Date.now();
+        if (time > lastTime) lastTime = time;
+
+        const label = dayLabel(time);
+        if (label !== lastDay) {
+          chat.innerHTML += `<div class="dayDivider">${label}</div>`;
+          lastDay = label;
+        }
+        
+        if (m.text && m.text.includes("@" + username) && time > lastSeenMessage && m.user !== data.email) {
+          notify(m);
+        }
+
+        const isPinned = m.pinned ? '<span style="color:#facc15">📌</span> ' : '';
+
+        chat.innerHTML += `
+        <div class="msg">
+          <div class="email">
+            ${isPinned}${m.user || m.email} · <span class="ts">${timeAgo(time)}</span>
+            ${data.admin ? `
+              <span class="adminBtn" onclick="editMsg('${m.id}','${(m.text||"").replace(/'/g, "\\'")}')">✏</span>
+              <span class="adminBtn" onclick="delMsg('${m.id}')">🗑</span>
+            ` : ""}
+          </div>
+          ${m.replyTo ? `<div style="font-size:11px;color:#94a3b8">↳ replying…</div>` : ""}
+          <div>
+            ${m.text ? linkify(m.text) : ""}
+            ${m.edited ? `<span style="font-size:10px;color:#94a3b8"> (edited)</span>` : ""}
+            ${m.file ? `<a href="${m.data}" download="${m.file}">📎 ${m.file}</a>` : ""}
+          </div>
+          <div style="margin-top:4px">
+            <span onclick="react('${m.id}','👍')" style="cursor:pointer">👍 ${(m.reactions?.["👍"] || 0)}</span>
+            <span onclick="react('${m.id}','😱')" style="cursor:pointer">😱 ${(m.reactions?.["😱"] || 0)}</span>
+            <span onclick="react('${m.id}','😂')" style="cursor:pointer">😂 ${(m.reactions?.["😂"] || 0)}</span>
+            <span onclick="reply('${m.id}')" style="margin-left:6px;cursor:pointer">↩</span>
+            <span onclick="pinMsg('${m.id}')" style="margin-left:6px;cursor:pointer">📌</span>
+          </div>
+        </div>`;
+      });
+
+      if (lastTime > lastSeenMessage) {
+        lastSeenMessage = lastTime;
+      }
+
+      if (wasAtBottom) {
+        chat.scrollTop = chat.scrollHeight;
+      }
+      
+      const typingDiv = document.getElementById("typing");
+      if (data.typing && data.typing.length > 0) {
+        const typists = data.typing.filter(e => e !== data.email).map(e => e.split('@')[0]);
+        typingDiv.innerText = typists.length ? typists.join(", ") + " is typing..." : "";
+      } else {
+        typingDiv.innerText = "";
+      }
+    }
+
+    function renderRooms() {
+      const el = document.getElementById("roomList");
+      if (!data.rooms) return;
+
+      el.innerHTML = data.rooms
+        .filter(r => r && r !== "undefined")
+        .map(r => {
+          const lock = data.privateRooms && data.privateRooms[r] ? "🔒 " : "";
+          const isActive = r === room ? 'style="background:#374151;font-weight:bold"' : '';
+          return `
+            <div class="room" ${isActive} onclick="switchRoom('${r}')">
+              ${lock}${r}
+              ${data.admin ? `<span class="adminBtn" onclick="event.stopPropagation();delRoom('${r}')">✖</span>` : ""}
+            </div>
+          `;
+        }).join("");
+    }
+
+    function renderOnline() {
+      const el = document.getElementById("onlineList");
+      if (!el) return; 
+      if (!data.online) {
+        el.innerHTML = "";
+        return;
+      }
+      el.innerHTML = data.online.map(u => `<div style="font-size:11px">${u.split('@')[0]}</div>`).join("");
+    }
+
+    function renderMembers() {
+      google.script.run.getRoomMembers(room).then(res => {
+        const members = res.members || [];
+        const el = document.getElementById("memberList");
+        if (!members || !members.length) {
+          el.innerHTML = "";
+          return;
+        }
+        el.innerHTML = members.map(m => `<div style="font-size:11px">${m.split('@')[0]}</div>`).join("");
+      });
+    }
+
+    // ---------- ROOM & USER ACTIONS ----------
+    function switchRoom(r) {
+      room = r;
+      localStorage.setItem("chat_room", r);
+      load();
+    }
+
+    async function newPublicRoom() {
+      const r = await OS.osPrompt("New Public Room", "Enter room name:");
+      if (!r) return;
+      google.script.run.withSuccessHandler(load).createRoom(r);
+    }
+
+    async function newPrivateRoom() {
+      const r = await OS.osPrompt("New Private Room", "Enter room name:");
+      if (!r) return;
+      google.script.run.withSuccessHandler(() => {
+        google.script.run.makeRoomPrivate(r);
+        setTimeout(load, 500);
+      }).createRoom(r);
+    }
+
+    async function delRoom(r) {
+      const confirmed = await OS.osConfirm("Delete Room", `Delete room "${r}"?`);
+      if (confirmed) {
+        google.script.run.withSuccessHandler(load).deleteRoom(r);
+      }
+    }
+
+    function addUser() {
+      const email = document.getElementById("addUserEmail").value.trim();
+      if (!email) return;
+      google.script.run.withSuccessHandler(() => {
+        OS.showNotification('Messages', 'User added to room');
+        document.getElementById("addUserEmail").value = "";
+        renderMembers();
+      }).addUserToRoom(room, email);
+    }
+
+    async function removeUser() {
+      const email = await OS.osPrompt("Remove User", "Enter email to remove:");
+      if (!email) return;
+      google.script.run.withSuccessHandler(() => {
+        OS.showNotification('Messages', 'User removed');
+        renderMembers();
+      }).removeUserFromRoom(room, email);
+    }
+    
+    function inviteRoom(r) {
+      google.script.run.createInvite(r).then(res => {
+        if (!res || !res.code) {
+          OS.showNotification('Messages', 'Failed to create invite');
+          return;
+        }
+        OS.osPrompt("Invite Code", `Share this code (expires in ${res.expires} minutes):`, res.code);
+      });
+    }
+
+    async function joinRoom() {
+      const code = await OS.osPrompt("Join Room", "Enter invite code:");
+      if (!code) return;
+      google.script.run.useInvite(code).then(res => {
+        const joinedRoom = res.room;
+        if (joinedRoom) {
+          OS.showNotification('Messages', `Joined ${joinedRoom}`);
+          switchRoom(joinedRoom);
+        } else {
+          OS.showNotification('Messages', 'Invalid or expired invite code');
+        }
+      });
+    }
+    
+    function showInvites() {
+      google.script.run.listInvites().then(res => {
+        const invites = res.invites || [];
+        if (!invites.length) {
+          OS.showNotification('Messages', 'No active invites');
+          return;
+        }
+        let text = "";
+        invites.forEach(i => {
+          const mins = Math.floor((i.expires - Date.now()) / 60000);
+          text += `${i.room}: ${i.code} (${mins}m left)\n`;
+        });
+        OS.osAlert("Active Invites", text);
+      });
+    }
+
+    // ---------- BAN SYSTEM ----------
+    async function showBanMenu() {
+      const action = await OS.osPrompt('Ban System', 'Enter "ban [email]" or "unban [email]" or "list"');
+      if (!action) return;
+      
+      const parts = action.split(' ');
+      const cmd = parts[0];
+      const targetEmail = parts[1];
+      
+      if (cmd === 'ban' && targetEmail) {
+        const res = await jsonpRequest(BACKEND_URL, {
+          action: 'banUser',
+          email: EMAIL,
+          password: PASSWORD,
+          targetEmail: targetEmail
+        });
+        OS.showNotification('Messages', res.error || `Banned ${targetEmail}`);
+      } else if (cmd === 'unban' && targetEmail) {
+        const res = await jsonpRequest(BACKEND_URL, {
+          action: 'unbanUser',
+          email: EMAIL,
+          password: PASSWORD,
+          targetEmail: targetEmail
+        });
+        OS.showNotification('Messages', res.error || `Unbanned ${targetEmail}`);
+      } else if (cmd === 'list') {
+        const res = await jsonpRequest(BACKEND_URL, {
+          action: 'getBannedUsers',
+          email: EMAIL,
+          password: PASSWORD
+        });
+        OS.osAlert('Banned Users', res.banned && res.banned.length ? res.banned.join('\n') : 'No banned users');
+      }
+    }
+
+    // ---------- MESSAGE ACTIONS ----------
+    function send() {
+      const text = msg.value.trim();
+      if (!text) return;
+      msg.value = "";
+
+      google.script.run
+        .withSuccessHandler(() => { setTimeout(load, 300); })
+        .withFailureHandler(err => OS.showNotification('Messages Error', err))
+        .sendMessage(room, text, replyTo);
+
+      replyTo = null;
+      msg.placeholder = "Message…";
+    }
+
+    function pinMsg(id) {
+      google.script.run.withSuccessHandler(load).pinMessage(room, id);
+    }
+
+    function react(id, emoji) {
+      google.script.run.withSuccessHandler(load).react(room, id, emoji);
+    }
+
+    function reply(id) {
+      replyTo = id;
+      msg.placeholder = "Replying...";
+      msg.focus();
+    }
+
+    async function editMsg(id, old) {
+      const text = await OS.osPrompt("Edit Message", "Edit message:", old);
+      if (!text) return;
+      google.script.run.withSuccessHandler(load).editMessage(room, id, text);
+    }
+
+    async function delMsg(id) {
+      const confirmed = await OS.osConfirm("Delete Message", "Delete this message?");
+      if (confirmed) {
+        google.script.run.deleteMessage(room, id);
+        setTimeout(load, 300);
+      }
+    }
+
+    function typing() {
+      google.script.run.setTyping(room, true);
+      clearTimeout(window.typingTimer);
+      window.typingTimer = setTimeout(() => {
+        google.script.run.setTyping(room, false);
+      }, 2000);
+    }
+    msg.addEventListener("input", typing);
+
+    file.onchange = e => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        google.script.run.withSuccessHandler(load).sendFile(room, f.name, reader.result);
+      };
+      reader.readAsDataURL(f);
+    };
+
+    // ---------- EXPORT / IMPORT ----------
+    function exportData() {
+      google.script.run.exportSystem().then(res => {
+        const json = res.data;
+        const blob = new Blob([json], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "chat-backup.json";
+        a.click();
+      });
+    }
+
+    function importData() {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.onchange = e => {
+        const f = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+          google.script.run
+            .withSuccessHandler(() => OS.showNotification('Messages', 'Import complete'))
+            .importSystem(reader.result);
+        };
+        reader.readAsText(f);
+      };
+      input.click();
+    }
+
+    // ---------- AUTO REFRESH ----------
+    setInterval(() => {
+      google.script.run.withSuccessHandler(res => {
+        data = res;
+        render();
+        renderOnline();
+      }).getData(room);
+    }, 3000);
+
+    load();
+  </script>
+</body>
+</html>

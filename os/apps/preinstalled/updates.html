@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: #202020; color: #fff; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px;}
+        h2 { margin: 0 0 15px 0; font-weight: 500; font-size: 18px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;}
+        
+        .card { background: #2d2d2d; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);}
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
+        .card-title { font-weight: bold; font-size: 15px; color: var(--accent, #60cdff);}
+        .card-date { font-size: 12px; color: #aaa;}
+        .card-body { font-size: 13px; line-height: 1.5; color: #ddd; white-space: pre-wrap;}
+
+
+        .commit-log { border-left: 2px solid var(--accent, #0078D4); padding-left: 15px; margin-left: 10px; display: flex; flex-direction: column; gap: 15px;}
+        .commit { position: relative; }
+        .commit::before { content: ''; position: absolute; left: -21px; top: 0; width: 10px; height: 10px; background: var(--accent, #0078D4); border-radius: 50%; border: 2px solid #202020;}
+        .commit-msg { font-size: 14px; font-weight: 600; margin-bottom: 5px;}
+        .commit-info { font-size: 12px; color: #aaa;}
+    </style>
+</head>
+<body>
+
+
+    <div>
+        <h2>📢 Developer Announcements</h2>
+        <div id="announcements-container">
+            <p style="color:#aaa; font-size: 13px;">Loading announcements...</p>
+        </div>
+    </div>
+
+
+    <div>
+        <h2>💻 Live Commit Log (Dragon-Gaming-Platforms)</h2>
+        <div id="commits-container" class="commit-log">
+            <p style="color:#aaa; font-size: 13px;">Fetching latest updates...</p>
+        </div>
+    </div>
+
+
+    <script>
+        // Use OS Theme color
+        document.documentElement.style.setProperty('--accent', window.parent.localStorage.getItem('os_theme') || '#0078D4');
+
+
+        // 1. Fetch Manual Announcements
+        async function loadAnnouncements() {
+            const container = document.getElementById('announcements-container');
+            try {
+                // Adjust path depending on if run inside iframe vs directly
+                const res = await fetch('../../announcements.json');
+                if(!res.ok) throw new Error("Not found");
+                const data = await res.json();
+                
+                container.innerHTML = '';
+                data.reverse().forEach(item => {
+                    container.innerHTML += `
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">${item.title}</div>
+                                <div class="card-date">${item.date}</div>
+                            </div>
+                            <div class="card-body">${item.message}</div>
+                        </div>
+                    `;
+                });
+            } catch(e) {
+                container.innerHTML = '<p style="color:#ff6b6b; font-size: 13px;">Could not load announcements.json.</p>';
+            }
+        }
+
+
+        // 2. Fetch Live GitHub Commits
+        async function loadCommits() {
+            const container = document.getElementById('commits-container');
+            try {
+                const res = await fetch('https://api.github.com/repos/Dragon-Gaming-Platforms/Web-Operating-System/commits?per_page=10');
+                const commits = await res.json();
+                
+                container.innerHTML = '';
+                commits.forEach(item => {
+                    const date = new Date(item.commit.author.date).toLocaleString();
+                    container.innerHTML += `
+                        <div class="commit">
+                            <div class="commit-msg">${item.commit.message}</div>
+                            <div class="commit-info">By ${item.commit.author.name} • ${date}</div>
+                        </div>
+                    `;
+                });
+            } catch(e) {
+                container.innerHTML = '<p style="color:#ff6b6b; font-size: 13px;">Failed to connect to GitHub API.</p>';
+            }
+        }
+
+
+        loadAnnouncements();
+        loadCommits();
+    </script>
+</body>
+</html>

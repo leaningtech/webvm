@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+
+<!-- Ultimate Game Stash file--> 
+<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
+
+
+<html>
+<head>
+  <title>EaglercraftX</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    /* Sayfa ve oyun çerçevesi için temel düzenlemeler */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden; /* Sayfanın gereksiz kaymasını engeller */
+    }
+
+    #game_frame {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #000; /* Arka plan rengi, isteğe bağlı */
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bubbls/loltheygotbannedfromjsdelivr@38f40924ae70b843f3d4d0a5dc3d6ba13ca3a461/classes.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bubbls/loltheygotbannedfromjsdelivr@38f40924ae70b843f3d4d0a5dc3d6ba13ca3a461/fix-webm-duration.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('load', function () {
+      window.focus();
+      document.body.addEventListener('click', function (e) {
+        window.focus();
+      }, false);
+    });
+
+    window.addEventListener("load", () => {
+      if (document.location.href.startsWith("file:")) {
+        console.warn("HTTP required. Do not open this file locally, run it via a local HTTP server.");
+      } else {
+        // Default configuration for EaglercraftX
+        if (!window.eaglercraftXOpts) {
+          window.eaglercraftXOpts = {
+            container: "game_frame",
+            assetsURI: "https://cdn.jsdelivr.net/gh/bubbls/loltheygotbannedfromjsdelivr@38f40924ae70b843f3d4d0a5dc3d6ba13ca3a461/assets.epk",
+            localesURI: "lang/",
+            servers: [
+              { addr: "wss://mc.arch.lol/", name: "ArchMC" },
+              { addr: "wss://mc.asspixel.net", name: "AssPixel" },
+              { addr: "wss://sus.shhnowisnottheti.me", name: "Ayunboom" },
+              { addr: "wss://aeon-network.net/1.8", name: "Aeon" },
+              { addr: "wss://zentic.org/", name: "Zentic" }
+            ]
+          };
+        }
+        // Ensure container element exists
+        let container = document.querySelector(`#${window.eaglercraftXOpts.container}`);
+        if (!container) {
+          console.error("Container element not found. Creating a default one.");
+          container = document.createElement("div");
+          container.id = window.eaglercraftXOpts.container;
+          document.body.appendChild(container);
+        }
+        try {
+          main();
+        } catch (error) {
+          console.error("Error starting EaglercraftX:", error);
+        }
+      }
+    });
+  </script>
+</head>
+<body>
+  <!-- Ensure essential DOM elements exist -->
+  <div id="game_frame"></div>
+  <div class="_eaglercraftX_wrapper_element"></div>
+  <div id="_eaglercraftX_crashReason" style="display:none;"></div>
+  <div id="_eaglercraftX_crashUserAgent" style="display:none;"></div>
+</body>
+</html>

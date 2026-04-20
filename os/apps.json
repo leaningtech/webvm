@@ -1,0 +1,24 @@
+[
+    {
+        "id": "file-explorer",
+        "name": "File Explorer",
+        "path": "apps/preinstalled/file-explorer.html",
+        "category": "System",
+        "preinstalled": true,
+        "icon": "📂"
+    },
+    {
+        "id": "html-editor",
+        "name": "HTML Editor",
+        "path": "apps/store/html-editor.html",
+        "category": "Productivity",
+        "preinstalled": false
+    },
+    {
+        "id": "github-importer",
+        "name": "Import GitHub",
+        "path": "apps/store/github-importer.html",
+        "category": "Developer Tools",
+        "preinstalled": false
+    }
+]

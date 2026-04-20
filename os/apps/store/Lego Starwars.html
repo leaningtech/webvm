@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+
+<!-- Ultimate Game Stash file--> 
+<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
+
+
+  <head>
+    <script>
+      window.gameconfig = {
+        name: "LEGO Star Wars - The Complete Saga (USA)",
+        url: "https://cdn.jsdelivr.net/gh/bubbls/ugss@be3eda6572fba26d9575c87fd864392c7e19261c/LEGO%20Star%20Wars%20-%20The%20Complete%20Saga%20(USA)/LEGO%20Star%20Wars%20-%20The%20Complete%20Saga%20(USA).nds",
+        core: "nds",
+        min: 1,
+        max: 4,
+      };
+    </script>
+    <script>
+      function mergeFiles(fileParts, cb) {
+        return new Promise((resolve, reject) => {
+          let buffers = [];
+          function fetchPart(index) {
+            if (index >= fileParts.length) {
+              let mergedBlob = new Blob(buffers);
+              let mergedFileUrl = URL.createObjectURL(mergedBlob);
+              resolve(mergedFileUrl);
+              return;
+            }
+            fetch(fileParts[index])
+              .then((response) => response.arrayBuffer())
+              .then((data) => {
+                buffers.push(data);
+                fetchPart(index + 1);
+              })
+              .catch(reject);
+            cb(index);
+          }
+          fetchPart(0);
+        });
+      }
+      function getParts(file, start, end) {
+        let parts = [];
+        for (let i = start; i <= end; i++) {
+          let padded = String(i).padStart((end+"").length, '0');
+          parts.push(file + ".part" + padded);
+        }
+        return parts;
+      }
+getParts("asd.js", 0, 100)
+    </script>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        background-color: #121212;
+        color: white;
+        font-family: Arial, sans-serif;
+      }
+      #game-container {
+        text-align: center;
+        width: 100%;
+        height: 100%;
+      }
+      #loading-progress {
+        font-size: 18px;
+        margin-top: 20px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game-container">
+      <div id="game"></div>
+      <div id="loading-progress">Loading: 0/0</div>
+      <div id="first-time">First-time loading may take longer...</div>
+    </div>
+    <script>
+      var parts = getParts(
+        window.gameconfig.url,
+        window.gameconfig.min,
+        window.gameconfig.max
+      );
+      var totalParts = parts.length;
+
+      function updateLoadingProgress(loaded) {
+        const progressElement = document.getElementById("loading-progress");
+        if (loaded === 0) {
+          progressElement.textContent = "Loading: 0/0";
+        } else {
+          progressElement.textContent = `Loading: ${loaded}/${totalParts}`;
+        }
+      }
+
+      Promise.all([mergeFiles(parts, updateLoadingProgress)])
+        .then(([gameUrl]) => {
+          document.getElementById("loading-progress").remove();
+          document.getElementById("first-time").remove();
+          EJS_player = "#game";
+          EJS_core = window.gameconfig.core;
+          EJS_gameName = window.gameconfig.name;
+          EJS_color = "#0064ff";
+          EJS_startOnLoaded = true;
+          EJS_pathtodata = "https://cdn.jsdelivr.net/gh/genizy/emu@master/";
+          EJS_gameUrl = gameUrl;
+          const script = document.createElement("script");
+          script.src =
+            "https://cdn.jsdelivr.net/gh/genizy/emu@master/loader.js";
+          document.body.appendChild(script);
+        })
+        .catch((error) => {
+          console.error(error);
+          document.getElementById("loading-progress").textContent =
+            "Error loading game.";
+        });
+    </script>
+  </body>
+</html> 

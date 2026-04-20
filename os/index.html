@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragon-Web Operating System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 1. Lock Screen / Login -->
+    <div id="lock-screen">
+        <div class="lock-bg"></div>
+        
+        <!-- NEW: Logo is now OUTSIDE and ABOVE the login box -->
+        <img src="assets/images/dragon-login.png" class="lock-logo" alt="Dragon Gaming Logo">
+
+        <div class="lock-content">
+            <h2 id="auth-title">Welcome Back</h2>
+            <p style="font-size: 12px; color: #aaa; margin-bottom: 20px;">Connect to your OS Server.</p>
+            
+            <input type="text" id="backend-url" placeholder="Google Backend URL (Do this once)">
+            <input type="email" id="login-email" placeholder="Email Address">
+            <input type="password" id="login-pass" placeholder="Password">
+            
+            <button id="auth-btn" onclick="submitAuth()">Unlock</button>
+            <div class="toggle-link" onclick="toggleAuthMode()" id="auth-toggle">Need an account? Sign up here</div>
+            
+            <p id="login-error" style="color:#ff6b6b; display:none; margin-top: 15px; font-size: 13px; font-weight: bold;"></p>
+        </div>
+    </div>
+    <!-- Desktop Area -->
+    <div id="desktop"></div>
+    <div id="selection-box" class="hidden"></div>
+    <div id="snap-preview" class="hidden"></div>
+    
+    <!-- 2. Action Center -->
+    <div id="action-center" class="hidden">
+        <div class="ac-header">Quick Actions</div>
+        <div class="ac-grid">
+            <div class="ac-item" onclick="toggleTheme()">🌓 Theme</div>
+            <div class="ac-item" onclick="adjustVolume(10)">🔊 Vol +</div>
+            <div class="ac-item" onclick="adjustVolume(-10)">🔉 Vol -</div>
+            <div class="ac-item" onclick="window.parent.openWindow('Task Manager', 'apps/preinstalled/task-manager.html')">💻 Task Manager</div>
+        </div>
+        <div class="ac-calendar" id="ac-calendar"></div>
+    </div>
+
+    <div id="start-menu" class="hidden">
+        <div class="start-search">
+            <input type="text" placeholder="Search..." disabled>
+        </div>
+        <div class="start-header">Pinned Apps</div>
+        <div id="store-categories"></div>
+    </div>
+
+    <div id="taskbar">
+        <div class="taskbar-icons" id="taskbar-icons"></div>
+        <div class="taskbar-tray" onclick="toggleActionCenter()">
+            <div class="tray-icon">🛜</div>
+            <div class="tray-icon">🔊 <span id="vol-level">100%</span></div>
+            <div class="taskbar-time">
+                <div id="clock-time">12:00 PM</div>
+                <div id="clock-date">10/24/2023</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="personalize-dialog" class="hidden">
+        <h3>Change Wallpaper</h3>
+        <input type="text" id="wallpaper-input" placeholder="Image URL...">
+        <div style="display:flex; gap:10px; margin-top:15px; justify-content:flex-end;">
+            <button onclick="document.getElementById('personalize-dialog').classList.add('hidden')">Cancel</button>
+            <button class="primary" onclick="setWallpaper()">Apply</button>
+        </div>
+    </div>
+
+    <div id="notification-center"></div>
+    <div id="context-menu" class="hidden">
+        <div class="context-item" id="ctx-open">Open</div>
+        <div class="context-item" id="ctx-new-text">New Text Doc</div>
+        <div class="context-item" id="ctx-new-folder">New Folder</div>
+        <div class="context-item" id="ctx-personalize">Personalize</div>
+        <div class="context-item" id="ctx-delete">Delete</div>
+    </div>
+    <!-- Add this right above the scripts at the bottom! -->
+    <div id="os-dialog" class="hidden">
+        <div class="dialog-box">
+            <h3 id="dialog-title">Title</h3>
+            <p id="dialog-message">Message</p>
+            <input type="text" id="dialog-input">
+            <div class="dialog-buttons">
+                <button id="dialog-btn-cancel">Cancel</button>
+                <button id="dialog-btn-ok" class="primary">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/vfs.js"></script>
+    <script src="js/os.js"></script>
+</body>
+</html>

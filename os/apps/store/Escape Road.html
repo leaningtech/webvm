@@ -1,0 +1,276 @@
+<html lang="en-us">
+  <base href="https://cdn.jsdelivr.net/gh/bubbls/escape-road@45b2d69c626dc365753f6922d2c48c4075683ef5/drive.google.com/escape%20road/">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Escape Road</title>
+<link rel="shortcut icon" href="icon.png">
+<link rel="stylesheet" href="TemplateData/style.css">
+<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init()</script>
+</head>
+<style>
+  @font-face {
+  font-family: myFirstFont;
+  src: url(Chainwhacks.otf);
+  }
+  #logo-canvas, body
+  {
+    font-family: myFirstFont;
+  }
+</style>
+<body class="dark">
+<div id="unity-container" class="unity-desktop"><p style="opacity: 0;position: absolute;">_</p>
+<canvas id="unity-canvas"></canvas>
+</div>
+<div id="loading-cover" style="display:none;background: black;">
+<div id="unity-loading-bar">
+<canvas id="logo-canvas" style="position: absolute; background-color: black;">
+<img src="loading.png" id="ld_bg">
+<img src="car-icon.png" id="ld_car">
+</canvas>
+</div>
+</div>
+<!-- /0a502697b99e36d322eeb8daf23bc8b8.data.unityweb",
+      frameworkUrl: buildUrl + "/f9b96a5188376a54aba0e08c0ed35ba8.js.unityweb",
+      codeUrl: buildUrl + "/7b28c6f059eabf99b5ee87d37b2df90c.wasm.unityweb",
+      streamingAssetsUrl: " -->
+<img id="azlogo" class="az" src="az_logo.png">
+<script type="57480f3f31f76c75506c83a0-text/javascript">
+    const container = document.querySelector("#unity-container");
+    const canvas = document.querySelector("#unity-canvas");
+    const loadingCover = document.querySelector("#loading-cover");
+    const fullscreenButton = document.querySelector("#unity-fullscreen-button");
+
+
+
+    const buildUrl = "TemplateData";
+    const loaderUrl = buildUrl + "/loader.js";
+    const config = {
+      dataUrl: buildUrl + "/data.unityweb",
+      frameworkUrl: buildUrl + "/framework.js.unityweb",
+      codeUrl: buildUrl + "/wasm.unityweb",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "1games.io",
+      productName: "Escape Road",
+      productVersion: "2.0",
+    };
+
+    
+    
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      container.className = "unity-mobile";
+      config.devicePixelRatio = 1;
+    }
+    
+    function delay(ms) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve();
+        }, ms);
+      });
+    }
+    async function load() {
+
+      var az_logo = document.getElementById('azlogo');
+      az_logo.style.opacity = 0;
+      logo_loaded = true;
+     /* var t = new Date().getTime();
+      while (az_logo.style.opacity < 1) {
+        var delta = new Date().getTime() - t;
+        az_logo.style.opacity = delta / 1000;
+        await delay(20);
+      }
+      await delay(1000);*/
+      az_logo.style.display = 'none';
+      logo_loaded = false;
+      
+      createUnityInstance(canvas, config, (progress) => {
+        logo_loading_percent = progress;
+        drawCanvas(progress);
+      }).then((unityInstance) => {
+        window.unityInstance = unityInstance;
+        setTimeout(() => {
+          loadingCover.style.display = "none";
+          logo_loaded = true;
+          window.focus();
+        }, 2000);
+      }).catch((message) => {
+        alert(message);
+      });
+    }
+
+    loadingCover.style.display = "";
+
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+      load();
+    };
+
+    // setTimeout(() => {
+    //     var progress = 0.5;
+    //     logo_loading_percent = progress;
+    //     drawCanvas(progress);
+    //   }, 1000);
+
+    // var progress = 0;
+    // setInterval(() => {
+    //   logo_loading_percent = progress;
+    //   drawCanvas(progress);
+    //   progress += 0.01;
+    // }, 30);
+
+
+    var logo_loaded = false;
+    var logo_loading_percent = 0;
+
+    window.onresize = () => {
+      // console.log('onresize');
+      drawCanvas(logo_loading_percent);
+    }
+    window.onload = () => {
+      // console.log('onload');
+      drawCanvas(logo_loading_percent);
+    }
+
+    var logo_canvas = document.getElementById("logo-canvas");
+    function drawCanvas(_percent = 0) {
+      if (logo_loaded) {
+        return;
+      }
+      resizeLogoCanvas();
+      var ctx = logo_canvas.getContext("2d");
+      var ld_bg = document.getElementById("ld_bg");
+      var ld_car = document.getElementById("ld_car");
+
+      var _sw = logo_canvas.width / 1920;
+      var _sh = logo_canvas.height / 1080;
+
+      if (_percent > 1) {
+        _percent = 1;
+      }
+
+      //bgbar
+      var bgbar_H = 86;
+      var bgbar_W = 1383;
+      //fillbar
+      var fillbar_H = 55;
+      var fillbar_W = 1345;
+      //Mask
+      var maskbar_H = 55;
+      var maskbar_W = 1350;
+      //bg_bar_mask
+      var bgbar_mask_H = 86;
+      var bgbar_mask_W = 1383;
+
+      var posshowbar_Y = 200;   //position loadingbar 
+
+      var posbgbar_X = (1920 - bgbar_W) / 2; // center
+      var posbgbar_Y = posshowbar_Y;
+
+      var posfillbar_X = (1920 - fillbar_W) / 2;
+      var posfillbar_Y = posshowbar_Y - 15;
+
+      var posmaskbar_X = (1920 - maskbar_W) / 2;
+      var posmaskbar_Y = posshowbar_Y - 15;
+
+      var _fl = 0;
+      var _fl1 = posmaskbar_X + _percent * maskbar_W;
+
+      var _fw = maskbar_W - _percent * maskbar_W;
+
+      // console.log(`${logo_canvas.width} ${logo_canvas.height}`);
+      //background
+      ctx.drawImage(ld_bg, 0, 0, logo_canvas.width, logo_canvas.height);
+
+      //loading background
+      ctx.fillStyle = "#977e21";
+      var _lw = 700;
+      var _lh = 50;
+      ctx.fillRect((1920 - _lw) * 0.5 * _sw, (1080 - 150) * _sh, _lw * _sw, _lh * _sh);
+
+      //loading progress
+      ctx.fillStyle = "#fad234";
+      var _pad = 5;
+      var _pw = (_lw - _pad * 2);
+      var _ph = _lh - _pad * 2;
+      var _px = (1920 - _pw) * 0.5;
+      ctx.fillRect(_px * _sw, (1080 - 150 + _pad) * _sh, _pw * _percent * _sw, _ph * _sh);
+
+      //car
+      var _car_x = _px + _pw * _percent - 100;
+      if (_car_x < _px) {
+        _car_x = _px;
+      }
+     // ctx.drawImage(ld_car,  _car_x * _sw, (1080 - 190) * _sh, 100 * _sw, 42 * _sh);
+
+
+      ctx.font = "18px myFirstFont";
+      const match = /(?<value>\d+\.?\d*)/;
+      const setFontSize = (size) => ctx.font = ctx.font.replace(match, size);
+      setFontSize(35 * _sh);
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#fff";
+      ctx.shadowColor = "black";
+      ctx.shadowOffsetY = 2;
+      var new_per = parseInt(_percent * 100);
+      ctx.fillText("" + new_per + "%", logo_canvas.width / 2, logo_canvas.height / 2 + _sh * 425);
+    }
+    function resizeLogoCanvas() {
+      var _w = window.innerWidth;
+      var _h = window.innerHeight;
+      var _nw = _h * 16 / 9;
+      // console.log(`${_w} ${_h} ${_nw}`);
+      if (_nw <= _w) {
+        logo_canvas.width = _nw;
+        logo_canvas.height = _h;
+      }
+      else {
+        logo_canvas.width = _w;
+        logo_canvas.height = _w * 9 / 16;
+      }
+
+    }
+
+
+    document.body.appendChild(script);
+  </script>
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js" type="57480f3f31f76c75506c83a0-text/javascript"></script>
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js" type="57480f3f31f76c75506c83a0-text/javascript"></script>
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js" type="57480f3f31f76c75506c83a0-text/javascript"></script>
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics-compat.js" type="57480f3f31f76c75506c83a0-text/javascript"></script>
+<script type="57480f3f31f76c75506c83a0-module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics.js";
+  import { getAuth  } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+  apiKey: "AIzaSyC2RwMfh0GMuQMtQdijjUo-MEffB4N9xVY",
+  authDomain: "escape-road-gm1.firebaseapp.com",
+  projectId: "escape-road-gm1",
+  storageBucket: "escape-road-gm1.appspot.com",
+  messagingSenderId: "713881704715",
+  appId: "1:713881704715:web:615cc93a73d9814b24ea0e",
+  measurementId: "G-E8C3TNJE0S"
+};
+window.dataLayer = window.dataLayer || [];
+window.gtag = function(){dataLayer.push(arguments);}
+
+window.gtag("config", firebaseConfig.measurementId, {
+    cookie_domain: location.hostname,
+    cookie_flags: "SameSite=None;Secure",
+});
+  // Initialize Firebase
+
+  const app = firebase.initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+</script>
+<script src="rocket-loader.min.js" data-cf-settings="57480f3f31f76c75506c83a0-|49" defer></script></body>
+</html>

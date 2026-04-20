@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { margin: 0; display: flex; flex-direction: column; height: 100vh; font-family: sans-serif; background: #202020; color:white;}
+        .toolbar { padding: 10px; background: #191919; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; gap: 10px; }
+        .container { display: flex; flex: 1; overflow: hidden; position:relative;}
+        textarea { flex: 1; border: none; padding: 15px; resize: none; border-right: 1px solid rgba(255,255,255,0.1); outline: none; font-family: 'Consolas', monospace; white-space: pre; background:#1e1e1e; color:#d4d4d4;}
+        iframe { flex: 1; border: none; background: white; pointer-events: none;}
+        #drop-zone { position:absolute; top:0; left:0; width:50%; height:100%; background:rgba(96, 205, 255, 0.1); border:2px dashed #60cdff; display:none; z-index:10;}
+        button { padding: 6px 12px; cursor: pointer; background: rgba(255,255,255,0.1); color:white; border:1px solid rgba(255,255,255,0.1); border-radius:4px; }
+        button:hover { background: rgba(255,255,255,0.15); }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <button onclick="importVFS()">Import from File Explorer</button>
+        <button onclick="exportLocal()">Export to Device Storage</button>
+        <span id="status" style="margin-left:auto; color:#60cdff; font-size: 13px; align-self:center;"></span>
+    </div>
+    <div class="container">
+        <div id="drop-zone"></div>
+        <textarea id="editor" placeholder="Type or drop HTML/TXT code here..."></textarea>
+        <iframe id="preview"></iframe>
+    </div>
+
+    <script>
+        const editor = document.getElementById('editor');
+        const preview = document.getElementById('preview');
+        const dropZone = document.getElementById('drop-zone');
+        const VFS = window.parent.VFS;
+        let currentFile = null;
+
+        function updatePreview() {
+            preview.srcdoc = editor.value;
+            if(currentFile) {
+                VFS.saveFile(currentFile, 'text/html', editor.value);
+                document.getElementById('status').innerText = 'Auto-saved to ' + currentFile;
+                setTimeout(() => document.getElementById('status').innerText = '', 2000);
+            }
+        }
+
+        editor.addEventListener('input', updatePreview);
+
+        async function importVFS() {
+            const files = await VFS.getFiles();
+            const htmlFiles = files.filter(f => f.name.endsWith('.html') || f.name.endsWith('.txt'));
+            if(htmlFiles.length === 0) return alert('No HTML/TXT files found in File Explorer -> Imported Files.');
+            
+            const names = htmlFiles.map(f => f.name).join('\n');
+            const target = prompt('Type filename to import exactly as shown:\n\n' + names);
+            const file = htmlFiles.find(f => f.name === target);
+            if(file) {
+                editor.value = file.content;
+                currentFile = file.name;
+                updatePreview();
+            }
+        }
+
+        function exportLocal() {
+            const blob = new Blob([editor.value], {type: 'text/html'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = (currentFile || 'exported_code.html');
+            a.click();
+        }
+
+        // Drag and Drop
+        document.querySelector('.container').ondragover = (e) => { e.preventDefault(); dropZone.style.display = 'block'; };
+        dropZone.ondragleave = (e) => { e.preventDefault(); dropZone.style.display = 'none'; };
+        dropZone.ondrop = (e) => { 
+            e.preventDefault(); dropZone.style.display = 'none'; 
+            const file = e.dataTransfer.files[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                editor.value = ev.target.result;
+                currentFile = file.name;
+                updatePreview();
+            };
+            reader.readAsText(file);
+        };
+    </script>
+</body>
+</html>

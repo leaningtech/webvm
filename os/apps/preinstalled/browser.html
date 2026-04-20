@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; display: flex; flex-direction: column; height: 100vh; background: #202020;}
+        
+        .toolbar { display: flex; padding: 10px 15px; background: #1a1a1a; align-items: center; gap: 10px; border-bottom: 1px solid #333;}
+        
+        input[type="text"] { flex: 1; padding: 10px 15px; border-radius: 20px; border: 1px solid #444; background: #111; color: white; outline: none; font-size: 13px;}
+        input[type="text"]:focus { border-color: var(--accent, #0078D4); }
+        
+        select { padding: 9px 12px; border-radius: 6px; border: 1px solid #444; background: #2d2d2d; color: white; outline: none; cursor: pointer; font-size: 13px;}
+        
+        button { padding: 9px 18px; border-radius: 20px; border: none; background: var(--accent, #0078D4); color: white; cursor: pointer; font-weight: bold; transition: 0.2s;}
+        button:hover { opacity: 0.8; }
+
+        #web-frame { flex: 1; border: none; background: #fff; width: 100%; }
+        
+        .info-bar { padding: 5px; text-align: center; background: #2d2d2d; color: #aaa; font-size: 11px; }
+    </style>
+</head>
+<body>
+
+    <div class="toolbar">
+        <input type="text" id="url-input" placeholder="Type a URL or Search Query...">
+        
+        <select id="engine-select">
+            <option value="default">🌐 Default (URL Fetcher)</option>
+            <!-- Custom HTML Engines injected here -->
+        </select>
+
+        <button onclick="navigate()">Go</button>
+    </div>
+    
+    <div class="info-bar" id="info-bar">
+        Note: The URL Fetcher requires a full URL (https://...) and may be blocked by sites like Google/YouTube.
+    </div>
+
+    <iframe id="web-frame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+
+    <script>
+        const input = document.getElementById('url-input');
+        const select = document.getElementById('engine-select');
+        const frame = document.getElementById('web-frame');
+        const infoBar = document.getElementById('info-bar');
+
+        // Load custom engines from the OS's background scan
+        const engines = window.parent.browserEngines || [];
+        
+        engines.forEach(engine => {
+            const opt = document.createElement('option');
+            opt.value = `../../${engine.path}`; // Adjust path relative to this app
+            opt.innerText = `🔍 ${engine.name}`;
+            select.appendChild(opt);
+        });
+
+        // Allow pressing Enter
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') navigate();
+        });
+
+        select.addEventListener('change', () => {
+            if (select.value === 'default') {
+                infoBar.innerText = "Note: The URL Fetcher requires a full URL (https://...) and may be blocked by major sites.";
+            } else {
+                infoBar.innerText = `Using custom engine. We will pass your query to it.`;
+                // Pre-load the custom engine HTML
+                frame.src = select.value;
+            }
+        });
+
+        function navigate() {
+            const query = input.value.trim();
+            if (!query) return;
+
+            if (select.value === 'default') {
+                // Default URL Fetcher mode
+                let finalUrl = query;
+                if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
+                    finalUrl = 'https://' + finalUrl;
+                }
+                frame.src = finalUrl;
+            } else {
+                // Custom Search Engine mode
+                // Send the search text securely to the custom HTML iframe
+                frame.contentWindow.postMessage({
+                    action: 'search',
+                    query: query
+                }, '*');
+            }
+        }
+    </script>
+</body>
+</html>

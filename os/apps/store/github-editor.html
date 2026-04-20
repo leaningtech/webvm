@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Repository Editor</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #0d1117;
+    color: #c9d1d9;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.auth-section,
+.repo-section,
+.commit-section {
+    background: #161b22;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #30363d;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+label {
+    font-weight: 600;
+    color: #8b949e;
+}
+
+input[type="text"],
+input[type="password"] {
+    flex: 1;
+    min-width: 150px;
+    padding: 8px 12px;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    color: #c9d1d9;
+    font-size: 14px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #58a6ff;
+}
+
+button {
+    padding: 8px 16px;
+    background: #238636;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #2ea043;
+}
+
+button:disabled {
+    background: #30363d;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+button#delete-file {
+    background: #da3633;
+}
+
+button#delete-file:hover {
+    background: #f85149;
+}
+
+button#export-vfs {
+    background: #8957e5;
+}
+
+button#export-vfs:hover {
+    background: #a371f7;
+}
+
+button#import-vfs {
+    background: #1f6feb;
+}
+
+button#import-vfs:hover {
+    background: #388bfd;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+    height: 600px;
+}
+
+.sidebar {
+    background: #161b22;
+    border-radius: 8px;
+    border: 1px solid #30363d;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    padding: 15px;
+    background: #0d1117;
+    border-bottom: 1px solid #30363d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-header h3 {
+    color: #58a6ff;
+}
+
+#refresh-files {
+    padding: 4px 8px;
+    background: transparent;
+    font-size: 16px;
+}
+
+#file-tree {
+    overflow-y: auto;
+    flex: 1;
+    padding: 10px;
+}
+
+.file-item,
+.folder-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.file-item:hover,
+.folder-item:hover {
+    background: #21262d;
+}
+
+.file-item.active {
+    background: #1f6feb;
+    color: white;
+}
+
+.folder-item {
+    font-weight: 600;
+    color: #8b949e;
+}
+
+.folder-content {
+    margin-left: 20px;
+}
+
+.editor-container {
+    background: #161b22;
+    border-radius: 8px;
+    border: 1px solid #30363d;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-header {
+    padding: 15px;
+    background: #0d1117;
+    border-bottom: 1px solid #30363d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#current-file {
+    font-weight: 600;
+    color: #58a6ff;
+}
+
+.editor-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.editor-actions button {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+#editor {
+    flex: 1;
+    padding: 20px;
+    background: #0d1117;
+    border: none;
+    color: #c9d1d9;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: none;
+}
+
+#editor:focus {
+    outline: none;
+}
+
+.editor-footer {
+    padding: 10px 15px;
+    background: #0d1117;
+    border-top: 1px solid #30363d;
+    font-size: 12px;
+    color: #8b949e;
+}
+
+.status {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    display: none;
+    max-width: 400px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.status.success {
+    background: #238636;
+    color: white;
+    display: block;
+}
+
+.status.error {
+    background: #da3633;
+    color: white;
+    display: block;
+}
+
+.status.info {
+    background: #1f6feb;
+    color: white;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .sidebar {
+        height: 300px;
+    }
+
+    .editor-container {
+        height: 400px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="auth-section">
+            <div class="input-group">
+                <label for="pat-token">Personal Access Token:</label>
+                <input type="password" id="pat-token" placeholder="ghp_xxxxxxxxxxxxx">
+                <button id="save-token">Save Token</button>
+            </div>
+        </div>
+
+        <div class="repo-section">
+            <div class="input-group">
+                <label for="repo-owner">Owner:</label>
+                <input type="text" id="repo-owner" placeholder="username">
+                
+                <label for="repo-name">Repository:</label>
+                <input type="text" id="repo-name" placeholder="repo-name">
+                
+                <label for="branch">Branch:</label>
+                <input type="text" id="branch" placeholder="main" value="main">
+                
+                <button id="load-repo">Load Repository</button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <h3>Files</h3>
+                    <button id="refresh-files" title="Refresh">🔄</button>
+                </div>
+                <div id="file-tree"></div>
+            </div>
+
+            <div class="editor-container">
+                <div class="editor-header">
+                    <span id="current-file">No file selected</span>
+                    <div class="editor-actions">
+                        <button id="import-vfs">Import from VFS</button>
+                        <button id="export-vfs" disabled>Export to VFS</button>
+                        <button id="new-file">New File</button>
+                        <button id="save-file" disabled>Save File</button>
+                        <button id="delete-file" disabled>Delete File</button>
+                    </div>
+                </div>
+                <textarea id="editor" placeholder="Select a file or create a new one..."></textarea>
+                <div class="editor-footer">
+                    <span id="file-info"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="commit-section">
+            <div class="input-group">
+                <label for="commit-message">Commit Message:</label>
+                <input type="text" id="commit-message" placeholder="Update files">
+                <button id="commit-push" disabled>Commit & Push</button>
+            </div>
+        </div>
+
+        <div id="status" class="status"></div>
+    </div>
+
+    <script>
+// ========== OS INTEGRATION ==========
+const OS = window.parent;
+const VFS = OS.VFS;
+
+// ========== SAFE BASE64 ENCODING (FIXES EMOJI CORRUPTION) ==========
+function safeBase64Encode(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+}
+
+function safeBase64Decode(str) {
+    return decodeURIComponent(escape(atob(str)));
+}
+
+class GitHubEditor {
+    constructor() {
+        this.token = localStorage.getItem('github_pat') || '';
+        this.owner = '';
+        this.repo = '';
+        this.branch = 'main';
+        this.currentFile = null;
+        this.files = {};
+        this.fileContents = {};
+        this.fileSHAs = {};
+        
+        this.initializeElements();
+        this.attachEventListeners();
+        this.loadStoredToken();
+    }
+
+    initializeElements() {
+        this.elements = {
+            patToken: document.getElementById('pat-token'),
+            saveToken: document.getElementById('save-token'),
+            repoOwner: document.getElementById('repo-owner'),
+            repoName: document.getElementById('repo-name'),
+            branch: document.getElementById('branch'),
+            loadRepo: document.getElementById('load-repo'),
+            fileTree: document.getElementById('file-tree'),
+            refreshFiles: document.getElementById('refresh-files'),
+            editor: document.getElementById('editor'),
+            currentFile: document.getElementById('current-file'),
+            fileInfo: document.getElementById('file-info'),
+            newFile: document.getElementById('new-file'),
+            saveFile: document.getElementById('save-file'),
+            deleteFile: document.getElementById('delete-file'),
+            exportVfs: document.getElementById('export-vfs'),
+            importVfs: document.getElementById('import-vfs'),
+            commitMessage: document.getElementById('commit-message'),
+            commitPush: document.getElementById('commit-push'),
+            status: document.getElementById('status')
+        };
+    }
+
+    attachEventListeners() {
+        this.elements.saveToken.addEventListener('click', () => this.saveToken());
+        this.elements.loadRepo.addEventListener('click', () => this.loadRepository());
+        this.elements.refreshFiles.addEventListener('click', () => this.loadRepository());
+        this.elements.newFile.addEventListener('click', () => this.createNewFile());
+        this.elements.saveFile.addEventListener('click', () => this.saveCurrentFile());
+        this.elements.deleteFile.addEventListener('click', () => this.deleteCurrentFile());
+        this.elements.exportVfs.addEventListener('click', () => this.exportToVFS());
+        this.elements.importVfs.addEventListener('click', () => this.importFromVFS());
+        this.elements.commitPush.addEventListener('click', () => this.commitAndPush());
+        this.elements.editor.addEventListener('input', () => this.onEditorChange());
+    }
+
+    loadStoredToken() {
+        if (this.token) {
+            this.elements.patToken.value = this.token;
+            this.showStatus('Token loaded from storage', 'info');
+        }
+    }
+
+    saveToken() {
+        this.token = this.elements.patToken.value.trim();
+        if (this.token) {
+            localStorage.setItem('github_pat', this.token);
+            this.showStatus('Token saved successfully', 'success');
+        } else {
+            this.showStatus('Please enter a valid token', 'error');
+        }
+    }
+
+    async loadRepository() {
+        this.owner = this.elements.repoOwner.value.trim();
+        this.repo = this.elements.repoName.value.trim();
+        this.branch = this.elements.branch.value.trim() || 'main';
+
+        if (!this.token || !this.owner || !this.repo) {
+            this.showStatus('Please provide token, owner, and repository name', 'error');
+            return;
+        }
+
+        this.showStatus('Loading repository...', 'info');
+
+        try {
+            await this.fetchRepositoryTree();
+            this.showStatus('Repository loaded successfully', 'success');
+            this.elements.commitPush.disabled = false;
+        } catch (error) {
+            this.showStatus(`Error: ${error.message}`, 'error');
+        }
+    }
+
+async fetchRepositoryTree() {
+    const url = `https://api.github.com/repos/${this.owner}/${this.repo}/git/trees/${this.branch}?recursive=1`;
+    
+    // Try without auth first
+    let headers = { 'Accept': 'application/vnd.github.v3+json' };
+    
+    let response = await fetch(url, { headers });
+
+    // If unauthorized, try with token
+    if (!response.ok && this.token) {
+        headers['Authorization'] = `token ${this.token}`;
+        response = await fetch(url, { headers });
+    }
+
+    if (!response.ok) {
+        throw new Error(`Failed to fetch repository: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    this.files = this.organizeFiles(data.tree);
+    this.renderFileTree();
+}
+
+    organizeFiles(tree) {
+        const organized = {};
+        
+        tree.forEach(item => {
+            if (item.type === 'blob') {
+                const parts = item.path.split('/');
+                let current = organized;
+                
+                for (let i = 0; i < parts.length - 1; i++) {
+                    if (!current[parts[i]]) {
+                        current[parts[i]] = {};
+                    }
+                    current = current[parts[i]];
+                }
+                
+                current[parts[parts.length - 1]] = {
+                    path: item.path,
+                    sha: item.sha,
+                    size: item.size
+                };
+            }
+        });
+        
+        return organized;
+    }
+
+    renderFileTree() {
+        this.elements.fileTree.innerHTML = '';
+        this.renderTreeLevel(this.files, this.elements.fileTree, '');
+    }
+
+    renderTreeLevel(level, container, prefix) {
+        Object.keys(level).sort().forEach(key => {
+            const item = level[key];
+            const fullPath = prefix ? `${prefix}/${key}` : key;
+
+            if (item.path) {
+                // It's a file
+                const fileDiv = document.createElement('div');
+                fileDiv.className = 'file-item';
+                fileDiv.textContent = `📄 ${key}`;
+                fileDiv.onclick = () => this.loadFile(item.path, item.sha);
+                container.appendChild(fileDiv);
+            } else {
+                // It's a folder
+                const folderDiv = document.createElement('div');
+                folderDiv.className = 'folder-item';
+                folderDiv.textContent = `📁 ${key}`;
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'folder-content';
+                contentDiv.style.display = 'none';
+                
+                folderDiv.onclick = (e) => {
+                    e.stopPropagation();
+                    const isHidden = contentDiv.style.display === 'none';
+                    contentDiv.style.display = isHidden ? 'block' : 'none';
+                    folderDiv.textContent = `${isHidden ? '📂' : '📁'} ${key}`;
+                };
+                
+                container.appendChild(folderDiv);
+                container.appendChild(contentDiv);
+                
+                this.renderTreeLevel(item, contentDiv, fullPath);
+            }
+        });
+    }
+
+async loadFile(path, sha) {
+    try {
+        this.showStatus('Loading file...', 'info');
+        
+        const url = `https://api.github.com/repos/${this.owner}/${this.repo}/contents/${path}?ref=${this.branch}`;
+        
+        // Try without auth first (public repos)
+        let headers = { 'Accept': 'application/vnd.github.v3+json' };
+        
+        let response = await fetch(url, { headers });
+
+        // If it fails and we have a token, retry with auth
+        if (!response.ok && this.token) {
+            headers['Authorization'] = `token ${this.token}`;
+            response = await fetch(url, { headers });
+        }
+
+        if (!response.ok) {
+            throw new Error(`Failed to load file: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        const content = safeBase64Decode(data.content);
+        
+        this.currentFile = path;
+        this.fileContents[path] = content;
+        this.fileSHAs[path] = data.sha;
+        
+        this.elements.editor.value = content;
+        this.elements.currentFile.textContent = path;
+        this.elements.fileInfo.textContent = `Size: ${data.size} bytes | SHA: ${data.sha.substring(0, 7)}`;
+        
+        this.elements.saveFile.disabled = false;
+        this.elements.deleteFile.disabled = false;
+        this.elements.exportVfs.disabled = false;
+        
+        document.querySelectorAll('.file-item').forEach(item => {
+            item.classList.remove('active');
+            if (item.textContent.includes(path.split('/').pop())) {
+                item.classList.add('active');
+            }
+        });
+        
+        this.showStatus('File loaded successfully', 'success');
+    } catch (error) {
+        this.showStatus(`Error loading file: ${error.message}`, 'error');
+    }
+}
+
+    async createNewFile() {
+        const fileName = await OS.osPrompt('New File', 'Enter file name (with path if needed):');
+        if (!fileName) return;
+
+        this.currentFile = fileName;
+        this.fileContents[fileName] = '';
+        this.elements.editor.value = '';
+        this.elements.currentFile.textContent = fileName + ' (new)';
+        this.elements.fileInfo.textContent = 'New file - not saved';
+        this.elements.saveFile.disabled = false;
+        this.elements.deleteFile.disabled = true;
+        this.elements.exportVfs.disabled = false;
+    }
+
+    onEditorChange() {
+        if (this.currentFile) {
+            this.elements.fileInfo.textContent = 'Modified - not saved';
+        }
+    }
+
+    async saveCurrentFile() {
+        if (!this.currentFile) {
+            this.showStatus('No file selected', 'error');
+            return;
+        }
+
+        const content = this.elements.editor.value;
+        const message = await OS.osPrompt('Commit Message', 'Enter commit message:', `Update ${this.currentFile}`);
+        
+        if (!message) return;
+
+        try {
+            this.showStatus('Saving file...', 'info');
+            
+            const url = `https://api.github.com/repos/${this.owner}/${this.repo}/contents/${this.currentFile}`;
+            
+            const body = {
+                message: message,
+                // ✅ SAFE ENCODING - fixes emoji corruption
+                content: safeBase64Encode(content),
+                branch: this.branch
+            };
+
+            if (this.fileSHAs[this.currentFile]) {
+                body.sha = this.fileSHAs[this.currentFile];
+            }
+
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${this.token}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || response.statusText);
+            }
+
+            const data = await response.json();
+            this.fileSHAs[this.currentFile] = data.content.sha;
+            this.fileContents[this.currentFile] = content;
+            
+            this.showStatus('File saved successfully', 'success');
+            this.elements.fileInfo.textContent = `Saved | SHA: ${data.content.sha.substring(0, 7)}`;
+            
+            OS.showNotification('GitHub Editor', `${this.currentFile} pushed successfully!`);
+            
+            await this.loadRepository();
+        } catch (error) {
+            this.showStatus(`Error saving file: ${error.message}`, 'error');
+        }
+    }
+
+    async deleteCurrentFile() {
+        if (!this.currentFile || !this.fileSHAs[this.currentFile]) {
+            this.showStatus('Cannot delete unsaved file', 'error');
+            return;
+        }
+
+        const confirmed = await OS.osConfirm('Delete File', `Are you sure you want to delete ${this.currentFile}?`);
+        if (!confirmed) return;
+
+        const message = await OS.osPrompt('Commit Message', 'Enter commit message:', `Delete ${this.currentFile}`);
+        if (!message) return;
+
+        try {
+            this.showStatus('Deleting file...', 'info');
+            
+            const url = `https://api.github.com/repos/${this.owner}/${this.repo}/contents/${this.currentFile}`;
+            
+            const response = await fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `token ${this.token}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: message,
+                    sha: this.fileSHAs[this.currentFile],
+                    branch: this.branch
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to delete file: ${response.statusText}`);
+            }
+
+            delete this.fileContents[this.currentFile];
+            delete this.fileSHAs[this.currentFile];
+            
+            this.currentFile = null;
+            this.elements.editor.value = '';
+            this.elements.currentFile.textContent = 'No file selected';
+            this.elements.fileInfo.textContent = '';
+            this.elements.saveFile.disabled = true;
+            this.elements.deleteFile.disabled = true;
+            this.elements.exportVfs.disabled = true;
+            
+            this.showStatus('File deleted successfully', 'success');
+            OS.showNotification('GitHub Editor', 'File deleted from repository');
+            
+            await this.loadRepository();
+        } catch (error) {
+            this.showStatus(`Error deleting file: ${error.message}`, 'error');
+        }
+    }
+
+    // ========== VFS INTEGRATION ==========
+    
+    async exportToVFS() {
+        if (!this.currentFile) {
+            this.showStatus('No file selected', 'error');
+            return;
+        }
+
+        const content = this.elements.editor.value;
+        const fileName = this.currentFile.split('/').pop();
+        
+        const vfsPath = await OS.osPrompt('Export to VFS', 'Enter VFS file path:', fileName);
+        if (!vfsPath) return;
+
+        try {
+            const ext = vfsPath.split('.').pop().toLowerCase();
+            const mimeTypes = {
+                'html': 'text/html',
+                'js': 'text/javascript',
+                'css': 'text/css',
+                'json': 'application/json',
+                'txt': 'text/plain',
+                'md': 'text/markdown'
+            };
+            const mime = mimeTypes[ext] || 'text/plain';
+
+            await VFS.saveFile(vfsPath, mime, content);
+            
+            this.showStatus(`Exported to VFS: ${vfsPath}`, 'success');
+            OS.showNotification('GitHub Editor', `${vfsPath} saved to local VFS`);
+            OS.renderDesktop();
+        } catch (error) {
+            this.showStatus(`Export failed: ${error.message}`, 'error');
+        }
+    }
+
+    async importFromVFS() {
+        try {
+            const files = await VFS.getFiles();
+            
+            if (!files || files.length === 0) {
+                this.showStatus('No files in VFS', 'error');
+                return;
+            }
+
+            // Build a list of file names for selection
+            const fileList = files
+                .filter(f => f.type !== 'folder')
+                .map(f => f.name)
+                .join('\n');
+
+            const selectedFile = await OS.osPrompt(
+                'Import from VFS', 
+                `Available files:\n${fileList}\n\nEnter file name to import:`
+            );
+            
+            if (!selectedFile) return;
+
+            const file = files.find(f => f.name === selectedFile);
+            
+            if (!file) {
+                this.showStatus(`File not found: ${selectedFile}`, 'error');
+                return;
+            }
+
+            this.currentFile = selectedFile;
+            this.fileContents[selectedFile] = file.content;
+            this.elements.editor.value = file.content;
+            this.elements.currentFile.textContent = selectedFile + ' (from VFS)';
+            this.elements.fileInfo.textContent = 'Imported from VFS - not on GitHub';
+            this.elements.saveFile.disabled = false;
+            this.elements.deleteFile.disabled = true;
+            this.elements.exportVfs.disabled = false;
+
+            this.showStatus(`Imported from VFS: ${selectedFile}`, 'success');
+        } catch (error) {
+            this.showStatus(`Import failed: ${error.message}`, 'error');
+        }
+    }
+
+    async commitAndPush() {
+        const message = this.elements.commitMessage.value.trim();
+        if (!message) {
+            this.showStatus('Please enter a commit message', 'error');
+            return;
+        }
+
+        this.showStatus('This feature saves files individually. Use "Save File" to commit changes.', 'info');
+    }
+
+    showStatus(message, type) {
+        this.elements.status.textContent = message;
+        this.elements.status.className = `status ${type}`;
+        
+        setTimeout(() => {
+            this.elements.status.style.display = 'none';
+        }, 3000);
+    }
+}
+
+// Initialize the editor when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    new GitHubEditor();
+});
+    </script>
+</body>
+</html>

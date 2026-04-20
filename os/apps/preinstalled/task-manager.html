@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: #202020; 
+            color: white; 
+            margin: 0; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        .header {
+            padding: 20px 20px 10px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .header h2 { margin: 0; font-weight: 500; font-size: 20px;}
+        .header p { margin: 5px 0 0 0; color: #aaa; font-size: 13px;}
+        
+        .table-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 20px;
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px;}
+        th { color: #aaa; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;}
+        
+        tr:hover td { background: rgba(255,255,255,0.03); }
+        
+        .status-running { color: #27ae60; font-weight: bold; font-size: 12px;}
+        
+        button { 
+            background: #e81123; 
+            color: white; 
+            border: none; 
+            padding: 6px 15px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        button:hover { background: #ff2e2e; box-shadow: 0 0 10px rgba(255,0,0,0.4); }
+        
+        .empty-state { text-align: center; color: #666; margin-top: 40px; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Task Manager</h2>
+        <p>Monitor and close running applications.</p>
+    </div>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>App Name</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Action</th>
+                </tr>
+            </thead>
+            <tbody id="proc-list"></tbody>
+        </table>
+    </div>
+
+        <script>
+        function render() {
+            const list = document.getElementById('proc-list');
+            let newHTML = '';
+            
+            // Because we used 'var' in os.js, we can read these safely now!
+            const wins = window.parent.openWindows;
+            const registry = window.parent.appRegistry;
+
+            if(wins && wins.length > 0) {
+                wins.forEach((w, index) => {
+                    let displayName = 'Unknown Process';
+                    try {
+                        const appMeta = registry.find(a => a.id === w.appId);
+                        if (appMeta) {
+                            displayName = appMeta.name;
+                        } else if (w.winElement) {
+                            // Strip out any HTML icons from the title
+                            displayName = w.winElement.querySelector('.window-title').innerText.trim();
+                        }
+                    } catch(e) {}
+                    
+                    newHTML += `
+                        <tr>
+                            <td style="font-weight: 500;">${displayName}</td>
+                            <td><span class="status-running">Running</span></td>
+                            <td style="text-align: right;"><button onclick="kill(${index})">End Task</button></td>
+                        </tr>
+                    `;
+                });
+            } else {
+                newHTML = `<tr><td colspan="3"><div class="empty-state">No apps currently running.</div></td></tr>`;
+            }
+
+            // Only update the screen if something changed to stop flickering
+            if(list.innerHTML !== newHTML) {
+                list.innerHTML = newHTML;
+            }
+        }
+
+        function kill(index) {
+             try {
+                 // Safely delete the window directly
+                 if (window.parent.openWindows[index]) {
+                     window.parent.openWindows[index].winElement.remove();
+                     window.parent.openWindows.splice(index, 1);
+                     window.parent.renderTaskbar();
+                     render();
+                 }
+             } catch(e) {
+                 console.error("Task Manager error:", e);
+             }
+        }
+
+        // Check for updates every 1 second
+        setInterval(render, 1000);
+        render();
+    </script>
+</body>
+</html>

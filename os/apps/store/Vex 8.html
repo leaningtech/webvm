@@ -1,0 +1,48 @@
+<!-- Ultimate Game Stash file--> 
+<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
+<!-- Made by genizy -->
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <base href="https://cdn.jsdelivr.net/gh/genizy/vex/8/">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui, shrink-to-fit=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Vex 8</title>
+    <link rel="icon" type="image/png" href="assets/icon.png">
+    <link rel="apple-touch-icon" type="image/png" href="assets/icon.png" />
+    <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
+    <script src="azerion-libs.min.js" defer></script>
+</head>
+
+<body>
+    <div id="content"> </div>
+    <div id="loader">Loading...</div>
+    <div id="orientation"></div>
+    <script type="text/javascript">
+        var gameName = "vex8.min.js";
+        var azAdWrapper, _azFeedback;
+
+        function addScript(src, buster, callback) {
+            var s = document.createElement('script');
+            s.setAttribute('src', src + '?v=' + buster);
+            if (typeof callback === 'function') {
+                s.onload = callback;
+            }
+            document.body.appendChild(s);
+        }
+        addScript('version.js', Date.now(), function() {
+            addScript(gameName, Date.now(), function() {
+                new Game();
+            });
+        });
+    </script>
+</body>
+
+</html>
