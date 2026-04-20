@@ -1,6 +1,6 @@
-// The root filesystem location
+// The root OS image location, change to local filepath if serving locally
 export const diskImageUrl = "wss://disks.webvm.io/debian_large_20230522_5044875331_2.ext2";
-// The root filesystem backend type
+// The root filesystem backend type use "cloud" for serving remotely or "bytes" for serving locally
 export const diskImageType = "cloud";
 // Print an introduction message about the technology
 export const printIntro = true;
