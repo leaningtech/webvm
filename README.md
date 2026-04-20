@@ -24,9 +24,8 @@ WebVM is powered by the **CheerpX** virtualization engine, which provides:
 - [Quick Start](#quick-start)
 - [Networking](#networking)
 - [Development & Customization](#development--customization)
+  - [Local Serving & Image Configuration](#local-serving--image-configuration)
   - [Deploy to GitHub Pages](#deploy-to-github-pages)
-  - [Build Custom Disk Images](#building-custom-disk-images)
-  - [Run Locally](#run-webvm-locally)
   - [Example: Python3 REPL](#example-python3-repl)
 - [Features](#features)
   - [Claude AI Integration](#claude-ai-integration)
@@ -40,26 +39,16 @@ WebVM is powered by the **CheerpX** virtualization engine, which provides:
 
 Visit [https://webvm.io](https://webvm.io) to get started immediately in your browser. No setup required.
 
-### Local Development
-
-If you'd like to run WebVM locally:
-
-```sh
-git clone https://github.com/leaningtech/webvm.git
-cd webvm
-npm install && npm run build
-nginx -p . -c nginx.conf
-```
-
-Then open `http://127.0.0.1:8081` in your browser.
-
-For detailed local setup with custom images, see [Run Locally](#run-webvm-locally-with-a-custom-debian-mini-disk-image).
+For local setup, custom image builds, and fork/deploy guidance, see [Development & Customization](#development--customization).
 
 ## Networking
 
-Modern browsers don't provide TCP/UDP sockets directly. WebVM supports networking via **Tailscale**, a WireGuard-based VPN with WebSocket support.
+WebVM now does something browsers usually cannot: it brings **Tailscale** networking into the VM itself, so your browser VM can reach your private network and, with an exit node, the public internet too.
 
-### Quick Setup
+> [!NOTE]
+> Some low-level networking operations (especially ICMP used by `ping`) are not currently available in this environment. For connectivity checks, use `curl` or `wget`.
+
+### Local network
 
 1.  Open the "Networking" panel from the sidebar
 2.  Click "Connect to Tailscale"
@@ -68,16 +57,9 @@ Modern browsers don't provide TCP/UDP sockets directly. WebVM supports networkin
 
 WebVM now has access to all machines in your Tailscale network!
 
-## The world wide web
-
-If you would like to access the public internet, you will need to set up an Exit Node on one of your _non-WebVM_ tailscale network devices.
-See the _"Advertise a device as an exit node"_ section of the [Tailscale Exit Node quickstart guide](https://tailscale.com/kb/1408/quick-guide-exit-nodes?tab=linux) for instructions. (The _“Use an exit node”_ section can be skipped, as WebVM automatically uses an available exit node once one is advertised).
-
-> [!NOTE]
-> Some commands like `ping` require kernel features unavailable in browsers. Use `curl` or `wget` instead.
-
 > [!TIP]
-> Connection status is shown as a colored dot on the button: orange = local network, green = global/internet. The button text shows your Tailscale IP address once connected.
+> On slower connections there may be a short delay before initialisation. Connection status is shown as a colored dot on the button: orange = local network, green = global/internet. The button text shows your Tailscale IP address once connected.
+
 
 ### Internet Access (Exit Node)
 
@@ -86,16 +68,24 @@ To access the public internet from WebVM, set up an **Exit Node** on another dev
 1. Follow the [Tailscale Exit Node quickstart](https://tailscale.com/kb/1408/quick-guide-exit-nodes?tab=linux) (sections: "Advertise a device as an exit node")
 2. WebVM automatically uses the exit node once advertised
 
-### Authentication Options
+### Using an Auth Key
 
-**Via API key (for automation):**
+As an alternative to interactive login, add your Tailscale auth key to the URL fragment:
 ```
 https://webvm.io/#authKey=<your-ephemeral-key>
 ```
 
-**Via Headscale (self-hosted Tailscale):**
+This is equivalent to Tailscale's `--login-server` option.
 
-Headscale doesn't support CORS by default. Set up an Nginx proxy with CORS headers:
+> [!TIP]
+> If you also need a custom control server, add `controlUrl` in the same URL fragment and separate values with `&`, for example: `#authKey=...&controlUrl=...`.
+
+### Self-Hosting Tailscale with Headscale
+
+We also support [headscale](https://headscale.net/stable/), a selfhosted open source implementation of the Tailscale control server.
+Because Headscale does not add CORS headers by default, you will need a proxy in front of it. See the [Headscale reverse proxy setup docs](https://headscale.net/stable/ref/integration/reverse-proxy/#nginx) for an example.
+
+Once ready, add the following line to your `location /` block in your nginx config file.
 
 ```nginx
 if ($http_origin = "https://yourdomain.com") {
@@ -109,15 +99,54 @@ Then access WebVM with:
 https://yourdomain.com/#controlUrl=<your-headscale-url>
 ```
 
-See [Headscale Nginx integration docs](https://headscale.net/stable/ref/integration/reverse-proxy/#nginx) for more details.
-
-**Notes:**
-- If self-hosting, replace URLs with your own domain
-- This is equivalent to the Tailscale `--login-server` option
-- When using both `authKey` and `controlUrl`, separate them with `&`: `#authKey=...&controlUrl=...`
 
 
 ## Development & Customization
+
+### Local Serving & Image Configuration
+
+If you are running WebVM locally, this is the primary flow.
+
+#### 1. Clone the repository
+
+```sh
+git clone https://github.com/leaningtech/webvm.git
+cd webvm
+```
+
+#### 2. Put your image in `custom-disk-images/`
+
+This repository includes a persistent `custom-disk-images/` directory for local `.ext2` files.
+
+To use the official Debian mini image, download it from Releases:
+
+[debian_mini_20230519_5022088024.ext2](https://github.com/leaningtech/webvm/releases/download/ext2_image/debian_mini_20230519_5022088024.ext2)
+
+You can also copy in an image you built yourself.
+
+#### 3. Point WebVM to your local image
+
+Edit `config_public_terminal.js`:
+
+```js
+export const diskImageUrl = "/custom-disk-images/debian_mini_20230519_5022088024.ext2";
+export const diskImageType = "bytes";
+```
+
+#### 4. Install dependencies and build
+
+```sh
+npm install
+npm run build
+```
+
+#### 5. Start Nginx and open WebVM
+
+```sh
+nginx -p . -c nginx.conf
+```
+
+Then open `http://127.0.0.1:8081` and enjoy your local WebVM!
 
 ### Deploy to GitHub Pages
 
@@ -125,138 +154,18 @@ Fork the WebVM repository to deploy your own version to GitHub Pages:
 
 <img src="/assets/fork_deploy_instructions.gif" alt="deploy_instructions_gif" width="90%">
 
-1. **Fork the repository** (click the Fork button on GitHub)
-2. **Enable GitHub Pages:**
-   - Go to Settings → Pages
-   - Select "GitHub Actions" as the source
-   - Enable "Enforce HTTPS" if using a custom domain
-3. **Run the Deploy workflow:**
-   - Go to Actions → Click "Deploy" workflow
-   - Click "Run workflow" twice (once in the dropdown menu)
-4. After a few minutes, the workflow will show your deployed URL below the `deploy_to_github_pages` job
+1. **Fork the repository**
+2. **Enable GitHub Pages** in Settings → Pages using "GitHub Actions" as source
+3. **Run the `Deploy` workflow** from Actions
+4. After completion, open the URL shown under the `deploy_to_github_pages` job
 
 <img src="/assets/result.png" width="70%">
 
-### Building Custom Disk Images
+The same `Deploy` workflow also builds custom `.ext2` disk images from a Dockerfile. You can point it at `dockerfiles/debian_mini` or another Dockerfile, then either publish the result as a GitHub Release asset or deploy the Pages build from your fork.
 
-You can customize the Debian mini image or create entirely new disk images using the **Deploy workflow**.
+For the full Alpine desktop environment, see [leaningtech/alpine-image](https://github.com/leaningtech/alpine-image).
 
-The workflow builds a custom Dockerfile into a bootable `.ext2` disk image and can either:
-- **Upload to GitHub Release** — Download and use locally
-- **Deploy to GitHub Pages** — Use remotely from your fork
-
-**To build a custom image:**
-
-1. Modify `dockerfiles/debian_mini` or create a new Dockerfile
-2. Go to Actions → "Deploy" workflow → "Run workflow"
-3. Set the "Path to Dockerfile" parameter to your Dockerfile
-4. Choose deployment: "Upload as release" or "Deploy to pages"
-5. After the workflow completes, download the `.ext2` file (from Releases tab if you chose "Upload as release")
-
-**To use a custom image locally:**
-
-1. Save the `.ext2` file to `custom-disk-images/`
-2. In `config_public_terminal.js`, set:
-   ```js
-   diskImageUrl = "/custom-disk-images/your-image.ext2"
-   diskImageType = "bytes"
-   ```
-3. Rebuild: `npm install && npm run build`
-
-**For the full Alpine desktop environment:**
-
-Our Alpine/Xorg/i3 environment Dockerfile is available [here](https://github.com/leaningtech/alpine-image).
-
-**For more details:**
-
-See the [CheerpX Custom Images documentation](https://cheerpx.io/docs/guides/custom-images).
-
-### Run WebVM Locally
-
-#### 1. Clone the WebVM Repository
-
-```sh
-git clone https://github.com/leaningtech/webvm.git
-cd webvm
-```
-
-#### 2. Put your local image in `custom-disk-images/`
-
-This repository includes a persistent `custom-disk-images/` directory for local `.ext2` files.
-
-Download the Debian mini image into that directory:
-
-```sh
-wget -O custom-disk-images/debian_mini_20230519_5022088024.ext2 \
-  "https://github.com/leaningtech/webvm/releases/download/ext2_image/debian_mini_20230519_5022088024.ext2"
-```
-
-(*You can also build your own image and copy it into `custom-disk-images/`.*)
-
-#### 3. Configure WebVM to use the local image
-
-Edit `config_public_terminal.js`:
-
-- Set `diskImageUrl` to your local file URL, for example:
-
-  `"/custom-disk-images/debian_mini_20230519_5022088024.ext2"`
-
-- Set `diskImageType` to:
-
-  `"bytes"`
-
-#### 4. Build WebVM
-
-Install dependencies and build:
-
-```sh
-npm install
-npm run build
-```
-
-The web assets are generated into `build/`.
-
-#### 5. Configure Nginx
-
-Keep your existing `location /` that serves `build/`, and add a separate location for custom images:
-
-```nginx
-location /custom-disk-images/ {
-    alias ./custom-disk-images/;
-}
-```
-
-Why this separate location is needed:
-
-- `location /` points to `build/`, but the image file lives outside `build/`.
-- If you try to serve images only through `location /`, Nginx will look under `build/custom-disk-images/...`.
-- Keeping images outside `build/` avoids losing them on future `npm run build` runs.
-
-`autoindex` is optional and not required for WebVM disk loading. It can stay off.
-
-#### 6. Start Nginx
-
-Run the following command to start Nginx:
-
-```sh
-nginx -p . -c nginx.conf
-```
-
-#### 7. Verify that the local image is actually being used
-
-In another shell, inspect access logs while loading WebVM:
-
-```sh
-tail -f nginx_access.log | grep --line-buffered custom-disk-images
-```
-
-You should see repeated `206` responses for `/custom-disk-images/...ext2`.
-
-#### 8. Access WebVM
-
-Open a browser and visit: `http://127.0.0.1:8081`.
-
-Enjoy your local WebVM!
+For more details, see [CheerpX Custom Images documentation](https://cheerpx.io/docs/guides/custom-images).
 
 ### Example: Python3 REPL
 
@@ -274,8 +183,6 @@ index 2878332..1f3103a 100644
 -CMD [ "/bin/bash" ]
 +CMD [ "/usr/bin/python3" ]
 ```
-
-## Features
 
 ### Claude AI Integration
 
