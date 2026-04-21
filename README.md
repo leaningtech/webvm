@@ -176,6 +176,14 @@ Replace:	CMD [ "/bin/bash" ]
 With:		CMD [ "/usr/bin/python3" ]
 ```
 
+> [!TIP] Python3 REPL
+>
+> The `Deploy` workflow takes into account the `CMD` specified in the Dockerfile. To build a REPL you can simply apply this patch and deploy:
+> ``` 
+> Replace:	CMD [ "/bin/bash" ]
+> With:		CMD [ "/usr/bin/python3" ]
+> ```
+
 ### Claude AI Integration
 
 To access Claude AI, you need an API key. Follow these steps to get started:
@@ -183,20 +191,13 @@ To access Claude AI, you need an API key. Follow these steps to get started:
 #### 1. Create an account
 - Visit [Anthropic Console](https://console.anthropic.com/login) and sign up with your e-mail. You'll receive a sign in link to the Anthropic Console. 
 
-<img src="/assets/anthropic_signup.png" width="90%">
-
 #### 2. Get your API key
 - Once logged in, navigate to **Get API keys**.
 - Purchase the amount of credits you need. After completing the purchase, you'll be able to generate the key through the API console.
 
-<img src="/assets/anthropic_api_payment.png" width="90%">
-
 #### 3. Log in with your API key
 - Navigate to your WebVM and hover over the robot icon. This will show the Claude AI Integration tab. For added convenience, you can click the pin button in the top right corner to keep the tab in place.
 - You'll see a prompt where you can insert your Claude API key.
-- Insert your key and press enter.
-
-<img src="/assets/insert_key.png" width="90%">
 
 #### 4. Start using Claude AI
 - Once your API key is entered, you can begin interacting with Claude AI by asking questions such as:
