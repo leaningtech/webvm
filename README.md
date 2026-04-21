@@ -26,8 +26,7 @@ WebVM is powered by the **CheerpX** virtualization engine, which provides:
 - [Development & Customization](#development--customization)
   - [Local Serving & Image Configuration](#local-serving--image-configuration)
   - [Deploy to GitHub Pages](#deploy-to-github-pages)
-  - [Example: Python3 REPL](#example-python3-repl)
-- [Features](#features)
+- [Features](#freatures)
   - [Claude AI Integration](#claude-ai-integration)
 - [Community & Support](#community--support)
 - [Learn More](#learn-more)
@@ -171,6 +170,8 @@ For more details, see [CheerpX Custom Images documentation](https://cheerpx.io/d
 > For Python3 REPL, the `Deploy` workflow takes into account the `CMD` specified in the Dockerfile. 
 >
 > To build a REPL you can simply change `CMD [ "/bin/bash" ]` to `CMD [ "/usr/bin/python3" ]` and deploy.
+
+## Freatures
 
 ### Claude AI Integration
 
