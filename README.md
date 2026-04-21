@@ -14,6 +14,7 @@ Try out the new Alpine / Xorg / i3 graphical environment: [https://webvm.io/alpi
 WebVM is a server-less virtual environment running fully client-side in HTML5/WebAssembly. It's designed to be Linux ABI-compatible and runs an unmodified Debian distribution including many native development toolchains.
 
 WebVM is powered by the **CheerpX** virtualization engine, which provides:
+
 - x86-to-WebAssembly JIT compiler
 - Virtual block-based file system
 - Linux syscall emulator
@@ -59,7 +60,6 @@ WebVM now has access to all machines in your Tailscale network!
 > [!TIP]
 > On slower connections there may be a short delay before initialisation. Connection status is shown as a colored dot on the button: orange = local network, green = global/internet. The button text shows your Tailscale IP address once connected.
 
-
 ### Internet Access (Exit Node)
 
 To access the public internet from WebVM, set up an **Exit Node** on another device in your Tailscale network:
@@ -70,6 +70,7 @@ To access the public internet from WebVM, set up an **Exit Node** on another dev
 ### Using an Auth Key
 
 As an alternative to interactive login, add your Tailscale auth key to the URL fragment:
+
 ```
 https://webvm.io/#authKey=<your-ephemeral-key>
 ```
@@ -94,11 +95,10 @@ if ($http_origin = "https://yourdomain.com") {
 ```
 
 Then access WebVM with:
+
 ```
 https://yourdomain.com/#controlUrl=<your-headscale-url>
 ```
-
-
 
 ## Development & Customization
 
@@ -128,7 +128,8 @@ You can also copy in an image you built yourself.
 Edit `config_public_terminal.js`:
 
 ```js
-export const diskImageUrl = "/custom-disk-images/debian_mini_20230519_5022088024.ext2";
+export const diskImageUrl =
+  "/custom-disk-images/debian_mini_20230519_5022088024.ext2";
 export const diskImageType = "bytes";
 ```
 
@@ -167,7 +168,7 @@ For the full Alpine desktop environment, see [leaningtech/alpine-image](https://
 For more details, see [CheerpX Custom Images documentation](https://cheerpx.io/docs/guides/custom-images).
 
 > [!TIP]
-> For Python3 REPL, the `Deploy` workflow takes into account the `CMD` specified in the Dockerfile. 
+> For Python3 REPL, the `Deploy` workflow takes into account the `CMD` specified in the Dockerfile.
 >
 > To build a REPL you can simply change `CMD [ "/bin/bash" ]` to `CMD [ "/usr/bin/python3" ]` and deploy.
 
@@ -178,20 +179,24 @@ For more details, see [CheerpX Custom Images documentation](https://cheerpx.io/d
 To access Claude AI, you need an API key. Follow these steps to get started:
 
 #### 1. Create an account
-- Visit [Anthropic Console](https://console.anthropic.com/login) and sign up with your e-mail. You'll receive a sign in link to the Anthropic Console. 
+
+- Visit [Anthropic Console](https://console.anthropic.com/login) and sign up with your e-mail. You'll receive a sign in link to the Anthropic Console.
 
 #### 2. Get your API key
+
 - Once logged in, navigate to **Get API keys**.
 - Purchase the amount of credits you need. After completing the purchase, you'll be able to generate the key through the API console.
 
 #### 3. Log in with your API key
+
 - Navigate to your WebVM and hover over the robot icon. This will show the Claude AI Integration tab. For added convenience, you can click the pin button in the top right corner to keep the tab in place.
 - You'll see a prompt where you can insert your Claude API key.
 
 #### 4. Start using Claude AI
+
 - Once your API key is entered, you can begin interacting with Claude AI by asking questions such as:
 
- __"Solve the CTF challenge at `/home/user/chall1.bin.` Note that the binary reads from stdin."__
+**"Solve the CTF challenge at `/home/user/chall1.bin.` Note that the binary reads from stdin."**
 
 <img src="/assets/webvm_claude_ctf.gif" alt="deploy_instructions_gif" width="90%">
 
@@ -206,17 +211,20 @@ To access Claude AI, you need an API key. Follow these steps to get started:
 ## Learn More
 
 **Articles & Resources:**
+
 - [WebVM: Server-less x86 virtual machines in the browser](https://leaningtech.com/webvm-server-less-x86-virtual-machines-in-the-browser/)
 - [WebVM: Linux Virtualization in WebAssembly with Full Networking via Tailscale](https://leaningtech.com/webvm-virtual-machine-with-networking-via-tailscale/)
 - [Mini.WebVM: Your own Linux box from Dockerfile, virtualized in the browser via WebAssembly](https://leaningtech.com/mini-webvm-your-linux-box-from-dockerfile-via-wasm/)
 - [Crafting the Impossible: X86 Virtualization in the Browser with WebAssembly](https://www.youtube.com/watch?v=VqrbVycTXmw) — Talk at JsNation 2022
 
 **Example Deployment:**
+
 - [Mini.WebVM Reference](https://mini.webvm.io) — A running example deployed to GitHub Pages
 
 **Technology Behind WebVM:**
 
 This project is powered by:
+
 - **[CheerpX](https://cheerpx.io/)** — x86-to-WebAssembly JIT compiler | by [Leaning Technologies](https://leaningtech.com/)
 - **[xterm.js](https://xtermjs.org/)** — Web-based terminal emulator
 - **[Tailscale](https://tailscale.com/)** — VPN networking layer
