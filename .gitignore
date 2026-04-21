@@ -2,3 +2,5 @@
 /.svelte-kit
 pnpm-lock.yaml
 build/
+custom-disk-images/*
+!custom-disk-images/.gitkeep
