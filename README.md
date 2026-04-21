@@ -167,22 +167,10 @@ For the full Alpine desktop environment, see [leaningtech/alpine-image](https://
 
 For more details, see [CheerpX Custom Images documentation](https://cheerpx.io/docs/guides/custom-images).
 
-### Example: Python3 REPL
-
-The `Deploy` workflow takes into account the `CMD` specified in the Dockerfile. To build a REPL you can simply apply this patch and deploy:
-
-```
-Replace:	CMD [ "/bin/bash" ]
-With:		CMD [ "/usr/bin/python3" ]
-```
-
-> [!TIP] Python3 REPL
->
-> The `Deploy` workflow takes into account the `CMD` specified in the Dockerfile. To build a REPL you can simply apply this patch and deploy:
-> ``` 
-> Replace:	CMD [ "/bin/bash" ]
-> With:		CMD [ "/usr/bin/python3" ]
-> ```
+> [!TIP]
+> Python3 REPL
+> 
+> The `Deploy` workflow takes into account the `CMD` specified in the Dockerfile. To build a REPL you can simply change `CMD [ "/bin/bash" ]` to `CMD [ "/usr/bin/python3" ]` and deploy.
 
 ### Claude AI Integration
 
