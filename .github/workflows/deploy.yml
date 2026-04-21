@@ -1,11 +1,7 @@
-name: Deploy
+name: Deploy WebVM + Dragon OS
 
-# Define when the workflow should run
 on:
-  # Allow manual triggering of the workflow from the Actions tab
   workflow_dispatch:
-
-  # Allow inputs to be passed when manually triggering the workflow from the Actions tab
     inputs:
       DOCKERFILE_PATH:
         type: string
@@ -31,98 +27,95 @@ on:
         required: true
         default: false
 
+  # Auto-deploy on push to main
+  push:
+    branches: [ main ]
+
 jobs:
 
   guard_clause:
-      runs-on: ubuntu-latest
-  
-      env:
-        GH_TOKEN: ${{ github.token }} # As required by the GitHub-CLI  
-
-      permissions:
-        actions: 'write' # Required in order to terminate the workflow run.
-  
-      steps:
-        - uses: actions/checkout@v4
-        # Guard clause that cancels the workflow in case of an invalid DOCKERFILE_PATH and/or incorrectly configured Github Pages. 
-        # The main reason for choosing this workaround for aborting the workflow is the fact that it does not display the workflow as successful, which can set false expectations.
-        - name: DOCKERFILE_PATH.
-          shell: bash
-          run: |
-            # We check whether the Dockerfile_path is valid. 
-            if [ ! -f ${{ github.event.inputs.DOCKERFILE_PATH }} ]; then
-                echo "::error title=Invalid Dockerfile path::No file found at ${{ github.event.inputs.DOCKERFILE_PATH }}"
-                echo "terminate=true" >> $GITHUB_ENV
-            fi
-
-        - name: Github Pages config guard clause
-          if: ${{ github.event.inputs.DEPLOY_TO_GITHUB_PAGES == 'true' }}
-          run: |
-            # We use the Github Rest api to get information regarding pages for the Github Repository and store it into a temporary file named "pages_response".
-            set +e
-            gh api \
-              -H "Accept: application/vnd.github+json" \
-              -H "X-GitHub-Api-Version: 2022-11-28" \
-              /repos/${{ github.repository_owner }}/$(basename ${{ github.repository }})/pages > pages_response
-
-            # We make sure Github Pages has been enabled for this repository.
-            if [ "$?" -ne 0 ]; then
-              echo "::error title=Potential pages configuration error.::Please make sure you have enabled Github pages for the ${{ github.repository }} repository. If already enabled then Github pages might be down"
-              echo "terminate=true" >> $GITHUB_ENV
-            fi
-            set -e
-
-            # We make sure the Github pages build & deployment source is set to "workflow" (Github Actions). Instead of a "legacy" (branch).
-            if [[ "$(jq --compact-output --raw-output .build_type pages_response)" != "workflow" ]]; then
-                echo "Undefined behaviour, Make sure the Github Pages source is correctly configured in the Github Pages settings."
-                echo "::error title=Pages configuration error.::Please make sure you have correctly picked \"Github Actions\" as the build and deployment source for the Github Pages."
-                echo "terminate=true" >> $GITHUB_ENV
-            fi
-            rm pages_response
-
-        - name: Terminate run if error occurred.
-          run: |
-            if [[ $terminate == "true" ]]; then
-              gh run cancel ${{ github.run_id }}
-              gh run watch ${{ github.run_id }}
-            fi
-
-  build:
-    needs: guard_clause # Dependency
-    runs-on: ubuntu-latest # Image to run the worker on.
+    runs-on: ubuntu-latest
 
     env:
-      TAG: "ext2-webvm-base-image" # Tag of docker image.
-      IMAGE_SIZE: '${{ github.event.inputs.IMAGE_SIZE }}'
-      DEPLOY_DIR: /webvm_deploy/ # Path to directory where we host the final image from.
+      GH_TOKEN: ${{ github.token }}
 
-    permissions: # Permissions to grant the GITHUB_TOKEN.
-      contents: write  # Required permission to make a github release.
+    permissions:
+      actions: 'write'
 
     steps:
-      # Checks-out our repository under $GITHUB_WORKSPACE, so our job can access it
+      - uses: actions/checkout@v4
+      
+      - name: DOCKERFILE_PATH validation
+        shell: bash
+        run: |
+          DOCKERFILE="${{ github.event.inputs.DOCKERFILE_PATH || 'dockerfiles/debian_mini' }}"
+          if [ ! -f "$DOCKERFILE" ]; then
+              echo "::error title=Invalid Dockerfile path::No file found at $DOCKERFILE"
+              echo "terminate=true" >> $GITHUB_ENV
+          fi
+
+      - name: Github Pages config guard clause
+        if: ${{ github.event.inputs.DEPLOY_TO_GITHUB_PAGES == 'true' || github.event_name == 'push' }}
+        run: |
+          set +e
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/${{ github.repository_owner }}/$(basename ${{ github.repository }})/pages > pages_response
+
+          if [ "$?" -ne 0 ]; then
+            echo "::error title=Potential pages configuration error.::Please make sure you have enabled Github pages for the ${{ github.repository }} repository."
+            echo "terminate=true" >> $GITHUB_ENV
+          fi
+          set -e
+
+          if [[ "$(jq --compact-output --raw-output .build_type pages_response)" != "workflow" ]]; then
+              echo "::error title=Pages configuration error.::Please make sure you have correctly picked \"Github Actions\" as the build and deployment source."
+              echo "terminate=true" >> $GITHUB_ENV
+          fi
+          rm pages_response
+
+      - name: Terminate run if error occurred
+        run: |
+          if [[ $terminate == "true" ]]; then
+            gh run cancel ${{ github.run_id }}
+            gh run watch ${{ github.run_id }}
+          fi
+
+  build:
+    needs: guard_clause
+    runs-on: ubuntu-latest
+
+    env:
+      TAG: "ext2-webvm-base-image"
+      IMAGE_SIZE: '${{ github.event.inputs.IMAGE_SIZE || ''750M'' }}'
+      DEPLOY_DIR: /webvm_deploy/
+
+    permissions:
+      contents: write
+
+    steps:
       - uses: actions/checkout@v4
 
-      # Setting the IMAGE_NAME variable in GITHUB_ENV to <Dockerfile name>_<date>_<run_id>.ext2.
-      - name: Generate the image_name.
+      - name: Generate the image_name
         id: image_name_gen
         run: |
-          echo "IMAGE_NAME=$(basename ${{ github.event.inputs.DOCKERFILE_PATH }})_$(date +%Y%m%d)_${{ github.run_id }}.ext2" >> $GITHUB_ENV
+          DOCKERFILE="${{ github.event.inputs.DOCKERFILE_PATH || 'dockerfiles/debian_mini' }}"
+          echo "IMAGE_NAME=$(basename $DOCKERFILE)_$(date +%Y%m%d)_${{ github.run_id }}.ext2" >> $GITHUB_ENV
 
-      # Create directory to host the image from.
       - run: sudo mkdir -p $DEPLOY_DIR
 
-      # Build the i386 Dockerfile image.
-      - run: docker build . --tag $TAG --file ${{ github.event.inputs.DOCKERFILE_PATH }} --platform=i386
+      - name: Build Docker image
+        run: |
+          DOCKERFILE="${{ github.event.inputs.DOCKERFILE_PATH || 'dockerfiles/debian_mini' }}"
+          docker build . --tag $TAG --file $DOCKERFILE --platform=i386
       
-      # Run the docker image so that we can export the container.
-      # Run the Docker container with the Google Public DNS nameservers: 8.8.8.8, 8.8.4.4
-      - run: |
+      - name: Run Docker container
+        run: |
           docker run --dns 8.8.8.8 --dns 8.8.4.4 -d $TAG
           echo "CONTAINER_ID=$(sudo docker ps -aq)" >> $GITHUB_ENV
 
-      # We extract the CMD, we first need to figure whether the Dockerfile uses CMD or an Entrypoint.
-      - name: Extracting CMD / Entrypoint and args
+      - name: Extract CMD / Entrypoint and args
         shell: bash
         run: |
           cmd=$(sudo docker inspect --format='{{json .Config.Cmd}}' $CONTAINER_ID)
@@ -138,44 +131,28 @@ jobs:
             echo "ARGS=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.Entrypoint[1:]' )" >> $GITHUB_ENV
           fi
 
-      # We extract the ENV, CMD/Entrypoint and cwd from the Docker container with docker inspect.
-      - name: Extracting env, args and cwd.
+      - name: Extract env, args and cwd
         shell: bash
         run: |
           echo "ENV=$( sudo docker inspect $CONTAINER_ID | jq --compact-output  '.[0].Config.Env' )" >> $GITHUB_ENV
           echo "CWD=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.WorkingDir' )" >> $GITHUB_ENV
 
-      # We create and mount the base ext2 image to extract the Docker container's filesystem its contents into.
-      - name: Create ext2 image.
+      - name: Create ext2 image
         run: |
-         # Preallocate space for the ext2 image
          sudo fallocate -l $IMAGE_SIZE ${IMAGE_NAME}
-         # Format to ext2 linux kernel revision 0
          sudo mkfs.ext2 -r 0 ${IMAGE_NAME}
-         # Mount the ext2 image to modify it
          sudo mount -o loop -t ext2 ${IMAGE_NAME} /mnt/
 
-      # We opt for 'docker cp --archive' over 'docker save' since our focus is solely on the end product rather than individual layers and metadata.
-      # However, it's important to note that despite being specified in the documentation, the '--archive' flag does not currently preserve uid/gid information when copying files from the container to the host machine.
-      # Another compelling reason to use 'docker cp' is that it preserves resolv.conf.
-      - name: Export and unpack container filesystem contents into mounted ext2 image.
+      - name: Export container filesystem to ext2 image
         run: | 
           sudo docker cp -a ${CONTAINER_ID}:/ /mnt/
           sudo umount /mnt/
-      # Result is an ext2 image for webvm.
 
-      # The .txt suffix enabled HTTP compression for free
       - name: Generate image split chunks and .meta file
         run: |
           sudo split ${{ env.IMAGE_NAME }} ${{ env.DEPLOY_DIR }}/${{ env.IMAGE_NAME }}.c -a 6 -b 128k -x --additional-suffix=.txt
           sudo bash -c "stat -c%s ${{ env.IMAGE_NAME }} > ${{ env.DEPLOY_DIR }}/${{ env.IMAGE_NAME }}.meta"
 
-      # This step updates the default config_github_terminal.js file by performing the following actions:
-      #   1. Replaces all occurrences of IMAGE_URL with the URL to the image.
-      #   2. Replace CMD with the Dockerfile entry command.
-      #   3. Replace args with the Dockerfile CMD / Entrypoint args.
-      #   4. Replace ENV with the container's environment values.
-      #   5. Replace CWD with the container's current working directory.
       - name: Adjust config_github_terminal.js
         run: |
           sed -i 's#IMAGE_URL#"${{ env.IMAGE_NAME }}"#g' config_github_terminal.js
@@ -184,19 +161,77 @@ jobs:
           sed -i 's#ENV#${{ env.ENV }}#g' config_github_terminal.js
           sed -i 's#CWD#${{ env.CWD }}#g' config_github_terminal.js
 
-      - name: Build NPM package
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Build WebVM NPM package
         run: |
           npm install
           WEBVM_MODE=github npm run build
 
-      # Move required files for gh-pages deployment to the deployment directory $DEPLOY_DIR.
-      - name: Copy build
-        run: |
-          rm build/alpine.html
-          sudo mv build/* $DEPLOY_DIR/
+      # ============================================
+      # INTEGRATION WITH YOUR OS STARTS HERE
+      # ============================================
 
-      # We generate index.list files for our httpfs to function properly.
-      - name: make index.list
+      - name: Integrate Dragon OS
+        run: |
+          # Remove alpine version (we don't need it)
+          rm -f build/alpine.html
+          
+          # Copy WebVM build to deploy directory
+          sudo mv build/* $DEPLOY_DIR/
+          
+          # Copy your OS into the deployment
+          echo "Integrating Dragon OS..."
+          sudo mkdir -p $DEPLOY_DIR/os
+          sudo cp -r os/* $DEPLOY_DIR/os/
+          
+          # Verify OS files copied
+          echo "OS files deployed:"
+          ls -la $DEPLOY_DIR/os/
+
+      - name: Add SharedArrayBuffer support (COOP/COEP)
+        run: |
+          cd $DEPLOY_DIR
+          
+          # Download coi-serviceworker for SharedArrayBuffer support
+          sudo wget -q https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/master/coi-serviceworker.js
+          
+          # Add to WebVM index.html (terminal)
+          if [ -f index.html ]; then
+            sudo sed -i 's|</head>|<script src="coi-serviceworker.js"></script></head>|' index.html
+            echo "Added COOP/COEP to WebVM"
+          fi
+          
+          # Add to OS index.html
+          if [ -f os/index.html ]; then
+            sudo sed -i 's|</head>|<script src="../coi-serviceworker.js"></script></head>|' os/index.html
+            echo "Added COOP/COEP to Dragon OS"
+          fi
+
+      - name: Create OS entry point redirect (optional)
+        run: |
+          # Create a redirect page that sends users to your OS
+          cat << 'EOF' | sudo tee $DEPLOY_DIR/os-redirect.html
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="refresh" content="0; url=os/">
+            <title>Redirecting to Dragon OS...</title>
+          </head>
+          <body>
+            <p>Redirecting to <a href="os/">Dragon OS</a>...</p>
+          </body>
+          </html>
+          EOF
+          
+          echo "Created OS redirect page"
+
+      - name: Generate index.list files
         shell: bash
         run: |
           find $DEPLOY_DIR -type d | while read -r dir;
@@ -205,41 +240,57 @@ jobs:
             sudo rm -f "$index_list";
             sudo ls "$dir" | sudo tee "$index_list" > /dev/null;
             sudo chmod +rw "$index_list";     
-            sudo echo "created $index_list"; 
+            echo "created $index_list"; 
           done
 
-      # Create a gh-pages artifact in order to deploy to gh-pages.
+      - name: Verify deployment structure
+        run: |
+          echo "=== Deployment Directory Structure ==="
+          sudo tree -L 3 $DEPLOY_DIR || sudo find $DEPLOY_DIR -maxdepth 3 -type d
+          echo ""
+          echo "=== Key Files Check ==="
+          echo "WebVM index.html: $([ -f $DEPLOY_DIR/index.html ] && echo '✓ Found' || echo '✗ Missing')"
+          echo "OS index.html: $([ -f $DEPLOY_DIR/os/index.html ] && echo '✓ Found' || echo '✗ Missing')"
+          echo "COI serviceworker: $([ -f $DEPLOY_DIR/coi-serviceworker.js ] && echo '✓ Found' || echo '✗ Missing')"
+          echo "OS VFS.js: $([ -f $DEPLOY_DIR/os/js/vfs.js ] && echo '✓ Found' || echo '✗ Missing')"
+          echo "OS bridge: $([ -f $DEPLOY_DIR/os/js/webvm-bridge.js ] && echo '✓ Found' || echo '✗ Missing')"
+
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Path of the directory containing the static assets for our gh pages deployment.
-          path: ${{ env.DEPLOY_DIR }} # optional, default is _site/
+          path: ${{ env.DEPLOY_DIR }}
 
-      - name: github release # To upload our final ext2 image as a github release.
+      - name: Create GitHub release
         if: ${{ github.event.inputs.GITHUB_RELEASE == 'true' }}
         uses: softprops/action-gh-release@v2
         with:
-          target_commitish: ${{ github.sha }} # Last commit on the GITHUB_REF branch or tag
-          tag_name: ext2_image
-          fail_on_unmatched_files: 'true' # Fail in case of no matches with the file(s) glob(s).
-          files: | # Assets to upload as release.
+          target_commitish: ${{ github.sha }}
+          tag_name: ext2_image_${{ github.run_number }}
+          fail_on_unmatched_files: 'true'
+          files: |
             ${{ env.IMAGE_NAME }}
 
-  deploy_to_github_pages: # Job that deploys the github-pages artifact to github-pages.
-    if: ${{ github.event.inputs.DEPLOY_TO_GITHUB_PAGES == 'true' }}
+  deploy_to_github_pages:
+    if: ${{ github.event.inputs.DEPLOY_TO_GITHUB_PAGES == 'true' || github.event_name == 'push' }}
     needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
+      pages: write
+      id-token: write
 
     runs-on: ubuntu-latest
+    
     steps:
-      # Deployment to github pages
       - name: Deploy GitHub Pages site
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Output deployment URLs
+        run: |
+          echo "=== Deployment Complete ==="
+          echo "WebVM Terminal: ${{ steps.deployment.outputs.page_url }}"
+          echo "Dragon OS: ${{ steps.deployment.outputs.page_url }}os/"
+          echo "OS Redirect: ${{ steps.deployment.outputs.page_url }}os-redirect.html"
