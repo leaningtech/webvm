@@ -11,7 +11,7 @@
         "id": "html-editor",
         "name": "HTML Editor",
         "path": "apps/store/html-editor.html",
-        "category": "Productivity",
+        "category": "Developer Tools",
         "preinstalled": false
     },
     {
@@ -20,5 +20,13 @@
         "path": "apps/store/github-importer.html",
         "category": "Developer Tools",
         "preinstalled": false
+    },
+    {
+        "id": "java-runner",
+        "name": "Java Runner",
+        "path": "apps/preinstalled/java-runner.html",
+        "category": "Developer Tools",
+        "preinstalled": true
+        "icon": "☕"
     }
 ]
