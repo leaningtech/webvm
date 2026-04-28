@@ -22,24 +22,19 @@ WebVM is powered by the **CheerpX** virtualization engine, which provides:
 
 ## Table of Contents
 
-- [Quick Start](#quick-start)
 - [Networking](#networking)
 - [Development & Customization](#development--customization)
   - [Local Serving & Image Configuration](#local-serving--image-configuration)
   - [Deploy to GitHub Pages](#deploy-to-github-pages)
-- [Features](#freatures)
-  - [Claude AI Integration](#claude-ai-integration)
+- [Claude AI Integration](#claude-ai-integration)
 - [Community & Support](#community--support)
 - [Learn More](#learn-more)
 - [License](#license)
 
-## Quick Start
-
-### Online (No Installation)
-
-Visit [https://webvm.io](https://webvm.io) to get started immediately in your browser. No setup required.
-
-For local setup, custom image builds, and fork/deploy guidance, see [Development & Customization](#development--customization).
+> [!NOTE]
+> Visit [https://webvm.io](https://webvm.io) to get started immediately in your browser. No setup required.
+>
+> For local setup, custom image builds, and fork/deploy guidance, see [Development & Customization](#development--customization).
 
 ## Networking
 
@@ -56,11 +51,11 @@ WebVM now does something browsers usually cannot: it brings **Tailscale** networ
 4.  Click "Connect" when prompted
 
 WebVM now has access to all machines in your Tailscale network!
+ 
+### Internet Usage Tips
 
 > [!TIP]
 > On slower connections there may be a short delay before initialisation. Connection status is shown as a colored dot on the button: orange = local network, green = global/internet. The button text shows your Tailscale IP address once connected.
-
-### Internet Access (Exit Node)
 
 To access the public internet from WebVM, set up an **Exit Node** on another device in your Tailscale network:
 
@@ -103,8 +98,6 @@ https://yourdomain.com/#controlUrl=<your-headscale-url>
 ## Development & Customization
 
 ### Local Serving & Image Configuration
-
-If you are running WebVM locally, this is the primary flow.
 
 #### 1. Clone the repository
 
@@ -172,9 +165,7 @@ For more details, see [CheerpX Custom Images documentation](https://cheerpx.io/d
 >
 > To build a REPL you can simply change `CMD [ "/bin/bash" ]` to `CMD [ "/usr/bin/python3" ]` and deploy.
 
-## Freatures
-
-### Claude AI Integration
+## Claude AI Integration
 
 To access Claude AI, you need an API key. Follow these steps to get started:
 
