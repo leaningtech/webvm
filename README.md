@@ -97,6 +97,8 @@ https://yourdomain.com/#controlUrl=<your-headscale-url>
 
 ## Development & Customization
 
+> [!NOTE] Users have root privileges by default. `sudo` is not installed though this can easily be added to the Dockerfile if needed.
+
 ### Deploy to GitHub Pages
 
 This is a simple, beginner-friendly workflow. For local hosting and customization, see below [Local Serving & Image Configuration](#local-serving--image-configuration).
@@ -106,13 +108,15 @@ Fork the WebVM repository to deploy your own version to GitHub Pages:
 <img src="/assets/fork_deploy_instructions.gif" alt="deploy_instructions_gif" width="90%">
 
 1. **Fork the repository**
-2. **Enable GitHub Pages** in Settings → Pages using "GitHub Actions" as source
+2. **Enable GitHub Pages** *via forked repository* in Settings → Pages using "GitHub Actions" as source
 3. **Run the `Deploy` workflow** from Actions
 4. After completion, open the URL shown under the `deploy_to_github_pages` job
 
 <img src="/assets/result.png" width="70%">
 
 The same `Deploy` workflow also builds custom `.ext2` disk images from a Dockerfile. You can point it at `dockerfiles/debian_mini` or another Dockerfile, then either publish the result as a GitHub Release asset or deploy the Pages build from your fork.
+
+> [!NOTE] `dockerfiles/debian_large` is too large of an image for GitHub pages.
 
 ### Local Serving & Image Configuration
 

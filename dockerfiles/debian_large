@@ -1,4 +1,4 @@
-FROM --platform=i386 i386/debian:bookworm
+FROM --platform=linux/386 i386/debian:bookworm
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get -y upgrade && \
