@@ -24,8 +24,8 @@ WebVM is powered by the **CheerpX** virtualization engine, which provides:
 
 - [Networking](#networking)
 - [Development & Customization](#development--customization)
-  - [Local Serving & Image Configuration](#local-serving--image-configuration)
   - [Deploy to GitHub Pages](#deploy-to-github-pages)
+  - [Local Serving & Image Configuration](#local-serving--image-configuration)
 - [Claude AI Integration](#claude-ai-integration)
 - [Community & Support](#community--support)
 - [Learn More](#learn-more)
@@ -97,6 +97,23 @@ https://yourdomain.com/#controlUrl=<your-headscale-url>
 
 ## Development & Customization
 
+### Deploy to GitHub Pages
+
+This is a simple, beginner-friendly workflow. For local hosting and customization, see below [Local Serving & Image Configuration](#local-serving--image-configuration).
+
+Fork the WebVM repository to deploy your own version to GitHub Pages:
+
+<img src="/assets/fork_deploy_instructions.gif" alt="deploy_instructions_gif" width="90%">
+
+1. **Fork the repository**
+2. **Enable GitHub Pages** in Settings → Pages using "GitHub Actions" as source
+3. **Run the `Deploy` workflow** from Actions
+4. After completion, open the URL shown under the `deploy_to_github_pages` job
+
+<img src="/assets/result.png" width="70%">
+
+The same `Deploy` workflow also builds custom `.ext2` disk images from a Dockerfile. You can point it at `dockerfiles/debian_mini` or another Dockerfile, then either publish the result as a GitHub Release asset or deploy the Pages build from your fork.
+
 ### Local Serving & Image Configuration
 
 #### 1. Clone the repository
@@ -140,21 +157,6 @@ nginx -p . -c nginx.conf
 ```
 
 Then open `http://127.0.0.1:8081` and enjoy your local WebVM!
-
-### Deploy to GitHub Pages
-
-Fork the WebVM repository to deploy your own version to GitHub Pages:
-
-<img src="/assets/fork_deploy_instructions.gif" alt="deploy_instructions_gif" width="90%">
-
-1. **Fork the repository**
-2. **Enable GitHub Pages** in Settings → Pages using "GitHub Actions" as source
-3. **Run the `Deploy` workflow** from Actions
-4. After completion, open the URL shown under the `deploy_to_github_pages` job
-
-<img src="/assets/result.png" width="70%">
-
-The same `Deploy` workflow also builds custom `.ext2` disk images from a Dockerfile. You can point it at `dockerfiles/debian_mini` or another Dockerfile, then either publish the result as a GitHub Release asset or deploy the Pages build from your fork.
 
 For the full Alpine desktop environment, see [leaningtech/alpine-image](https://github.com/leaningtech/alpine-image).
 
