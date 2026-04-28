@@ -43,7 +43,7 @@ For local setup, custom image builds, and fork/deploy guidance, see [Development
 
 ## Networking
 
-WebVM now does something browsers usually cannot: it brings **Tailscale** networking into the VM itself, so your browser VM can reach your private network and, with an exit node, the public internet too.
+WebVM supports **Tailscale** integration. So your browser VM can reach your private network and, with an exit node, the public internet too.
 
 > [!NOTE]
 > Some low-level networking operations (especially ICMP used by `ping`) are not currently available in this environment. For connectivity checks, use `curl` or `wget`.
