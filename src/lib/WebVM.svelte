@@ -336,7 +336,15 @@
 	{
 		const w = window.open("login.html", "_blank");
 		cx.networkLogin();
-		w.location.href = await startLogin();
+		try
+		{
+			w.location.href = await startLogin();
+		}
+		catch(e)
+		{
+			w.close();
+			console.warn(e);
+		}
 	}
 	async function handleReset()
 	{

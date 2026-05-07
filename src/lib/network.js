@@ -11,14 +11,34 @@ if(browser)
 }
 let dashboardUrl = controlUrl ? null : "https://login.tailscale.com/admin/machines";
 let resolveLogin = null;
+let rejectLogin = null;
 let loginPromise = new Promise((f,r) => {
 	resolveLogin = f;
+	rejectLogin = r;
 });
 let connectionState = writable("DISCONNECTED");
 let exitNode = writable(false);
 
+function validateLoginUrl(url)
+{
+	const parsedUrl = new URL(url);
+	if(parsedUrl.protocol != "https:" && parsedUrl.protocol != "http:")
+		throw new Error("Invalid Tailscale login URL scheme");
+	return parsedUrl.href;
+}
+
 function loginUrlCb(url)
 {
+	try
+	{
+		url = validateLoginUrl(url);
+	}
+	catch(e)
+	{
+		connectionState.set("LOGINFAILED");
+		rejectLogin(e);
+		return;
+	}
 	connectionState.set("LOGINREADY");
 	resolveLogin(url);
 }
@@ -115,6 +135,15 @@ export function updateButtonData(state, handleConnect) {
 				isClickable: true,
 				clickHandler: null,
 				clickUrl: networkData.loginUrl,
+				buttonTooltip: null,
+				rightClickHandler: null
+			};
+		case "LOGINFAILED":
+			return {
+				buttonText: "Invalid login URL",
+				isClickable: false,
+				clickHandler: null,
+				clickUrl: null,
 				buttonTooltip: null,
 				rightClickHandler: null
 			};
