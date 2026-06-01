@@ -11,7 +11,7 @@ Try out the new Alpine / Xorg / i3 graphical environment: [https://webvm.io/alpi
 
 ## What is WebVM?
 
-WebVM is a server-less virtual environment running fully client-side in HTML5/WebAssembly. It's designed to be Linux ABI-compatible and runs an unmodified Debian distribution including many native development toolchains.
+WebVM is a server-less virtual environment running client-side in HTML5/WebAssembly. It's designed to be Linux ABI-compatible and runs an unmodified Debian distribution including many native development toolchains.
 
 WebVM is powered by the **CheerpX** virtualization engine, which provides:
 
@@ -203,7 +203,7 @@ To access Claude AI, you need an API key. Follow these steps to get started:
 
 ## Community & Support
 
-**Report issues:** Use [GitHub Issues](https://github.com/leaningtech/webvm/issues) to report bugs or request features.
+**Report isuser:** Use [GitHub Isuser](https://github.com/leaningtech/webvm/isuser) to report bugs or request features.
 
 **Chat with us:** Join our [Discord community](https://discord.gg/yTNZgySKGa) to discuss WebVM, share ideas, and get help.
 
