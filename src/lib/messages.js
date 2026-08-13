@@ -14,7 +14,7 @@ export const introMessage = [
   "|                                                                             |",
   "| Try out the new Alpine / Xorg / i3 WebVM: " + underline + "https://webvm.io/alpine.html" + normal + "      |",
   "|                                                                             |",
-  "| [News] BrowserCode 3.0: run any Rust application (including Codex) in the browser via WebAssembly          |",
+  "| [News] BrowserCode 3.0: run any Rust application in browser (jj/codex/...)  |",
   "|                                                                             |",
   "| " + underline + "https://labs.leaningtech.com/blog/browserpod-rust" + normal + "                           |",
   "|                                                                             |",
