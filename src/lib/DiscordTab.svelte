@@ -1,6 +1,6 @@
 <script>
 	import PanelButton from './PanelButton.svelte';
-	import DiscordPresenceCount from 'labs/packages/astro-theme/components/nav/DiscordPresenceCount.svelte'
+	import DiscordPresenceCount from './counters/DiscordPresenceCount.svelte';
 </script>
 
 <h1 class="text-lg font-bold">Discord</h1>
