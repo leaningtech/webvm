@@ -184,6 +184,11 @@ jobs:
           sed -i 's#ENV#${{ env.ENV }}#g' config_github_terminal.js
           sed -i 's#CWD#${{ env.CWD }}#g' config_github_terminal.js
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
       - name: Build NPM package
         run: |
           npm install

@@ -3,6 +3,7 @@ version: 2.1
 jobs:
   deploy:
     docker:
+      # Keep this in sync with .nvmrc (CircleCI cannot read it directly).
       - image: cimg/node:22.9
     resource_class: medium
     steps:
@@ -16,9 +17,9 @@ jobs:
             echo $GH_HOST >> ~/.ssh/known_hosts
             echo $HAVANA_HOST >> ~/.ssh/known_hosts
       - run:
-          name: Install NPM
+          name: Install rsync
           command: |
-            sudo apt-get update && sudo apt-get install -y rsync npm
+            sudo apt-get update && sudo apt-get install -y rsync
       - run:
           name: Clone WebVM
           command: |
