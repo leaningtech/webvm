@@ -19,7 +19,6 @@
 		"@xterm/addon-web-links": "^0.11.0",
 		"@xterm/xterm": "^5.5.0",
 		"autoprefixer": "^10.4.20",
-		"labs": "git@github.com:leaningtech/labs.git",
 		"node-html-parser": "^6.1.13",
 		"postcss": "^8.4.47",
 		"postcss-discard": "^2.0.0",

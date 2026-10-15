@@ -1,6 +1,6 @@
 <script>
 	import PanelButton from './PanelButton.svelte';
-	import GitHubStarCount from 'labs/packages/astro-theme/components/nav/GitHubStarCount.svelte'
+	import GitHubStarCount from './counters/GitHubStarCount.svelte';
 </script>
 
 <h1 class="text-lg font-bold">GitHub</h1>
