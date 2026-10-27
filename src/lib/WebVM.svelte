@@ -5,7 +5,7 @@
 	import '$lib/global.css';
 	import '@xterm/xterm/css/xterm.css'
 	import '@fortawesome/fontawesome-free/css/all.min.css'
-	import { networkInterface, startLogin } from '$lib/network.js'
+	import { networkInterface, networkData, startLogin } from '$lib/network.js'
 	import { cpuActivity, diskActivity, cpuPercentage, diskLatency } from '$lib/activities.js'
 	import { introMessage, errorMessage, unexpectedErrorMessage } from '$lib/messages.js'
 	import { displayConfig, handleToolImpl } from '$lib/anthropic.js'
@@ -333,6 +333,13 @@
 	onMount(initTerminal);
 	async function handleConnect()
 	{
+		// NOTE: Logging in with an auth key produces no login URL
+		if(networkInterface.authKey)
+		{
+			networkData.connectionState.set("LOGINSTARTING");
+			cx.networkLogin();
+			return;
+		}
 		const w = window.open("login.html", "_blank");
 		cx.networkLogin();
 		try
