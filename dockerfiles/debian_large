@@ -1,29 +1,35 @@
-FROM --platform=linux/386 docker.io/i386/debian:buster
+FROM --platform=linux/386 docker.io/i386/debian:bookworm
+
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Point APT to the archived mirrors (Buster is EOL)
-RUN echo "deb [trusted=yes] http://archive.debian.org/debian buster main contrib non-free" \
-  > /etc/apt/sources.list && \
-	echo "deb [trusted=yes] http://archive.debian.org/debian-security buster/updates main" \
-	>> /etc/apt/sources.list
+# One layer keeps the package indexes and installed state consistent.
+RUN apt-get clean && \
+	apt-get -o Acquire::Retries=10 update && \
+	apt-get -o Acquire::Retries=10 -y upgrade && \
+	apt-get -o Acquire::Retries=10 install -y --no-install-recommends \
+		apt-utils beef bsdgames bsdmainutils ca-certificates \
+		cowsay cpio cron curl dmidecode dmsetup g++ gcc gdbm-l10n git \
+		hexedit ifupdown init logrotate lsb-base lshw lua5.3 luajit lynx make \
+		nano netbase nodejs openssl procps python3 python3-cryptography \
+		python3-jinja2 python3-numpy python3-pandas python3-pip python3-scipy \
+		python3-six python3-yaml readline-common rsyslog ruby sensible-utils \
+		ssh systemd systemd-sysv tasksel tasksel-data udev vim wget whiptail \
+		xxd iptables isc-dhcp-client isc-dhcp-common kmod less netcat-openbsd \
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get -y upgrade && \
-	apt-get install -y apt-utils beef bsdgames bsdmainutils ca-certificates \
-	cowsay cpio cron curl dmidecode dmsetup g++ gcc gdbm-l10n git  \
-	hexedit  ifupdown init logrotate lsb-base lshw lua5.3 luajit lynx make \
-	nano netbase nodejs openssl procps python3 python3-cryptography \
-	python3-jinja2 python3-numpy python3-pandas python3-pip python3-scipy \
-	python3-six python3-yaml readline-common rsyslog ruby sensible-utils \
-	ssh systemd systemd-sysv tasksel tasksel-data udev vim wget whiptail \
-	xxd iptables isc-dhcp-client isc-dhcp-common kmod less netcat-openbsd
+# Verify key tooling at image-build time.
+RUN curl --version >/dev/null && less --version >/dev/null && cowsay 'ok'
 
 # Make a user, then copy over the /example directory
 RUN useradd -m user && echo "user:password" | chpasswd
 COPY --chown=user:user ./examples /home/user/examples
-RUN chmod -R +x  /home/user/examples/lua
+RUN chmod -R +x /home/user/examples/lua
+
 # We set WORKDIR, as this gets extracted by Webvm to be used as the cwd. This is optional.
 WORKDIR /home/user/
+
 # We set env, as this gets extracted by Webvm. This is optional.
 ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="vim" LANG="C.UTF-8"
 RUN echo 'root:password' | chpasswd
-CMD [ "/bin/bash" ]
+CMD ["/bin/bash"]
