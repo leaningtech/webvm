@@ -2,9 +2,10 @@ FROM --platform=linux/386 docker.io/i386/debian:bookworm
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-# One layer keeps the package indexes and installed state consistent.
+# Fail immediately if any APT repository index cannot be downloaded.
 RUN apt-get clean && \
-	apt-get -o Acquire::Retries=10 update && \
+	apt-get -o Acquire::Retries=10 update 2>&1 | tee /tmp/apt-update.log && \
+	! grep -Eq '^(E:|W: Failed to fetch)' /tmp/apt-update.log && \
 	apt-get -o Acquire::Retries=10 -y upgrade && \
 	apt-get -o Acquire::Retries=10 install -y --no-install-recommends \
 		apt-utils beef bsdgames bsdmainutils ca-certificates \
@@ -16,7 +17,7 @@ RUN apt-get clean && \
 		ssh systemd systemd-sysv tasksel tasksel-data udev vim wget whiptail \
 		xxd iptables isc-dhcp-client isc-dhcp-common kmod less netcat-openbsd \
 	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists/*
+	&& rm -rf /var/lib/apt/lists/* /tmp/apt-update.log
 
 # Verify key tooling at image-build time.
 RUN curl --version >/dev/null && less --version >/dev/null && cowsay 'ok'
