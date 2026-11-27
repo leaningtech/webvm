@@ -8,37 +8,15 @@ RUN echo "deb [trusted=yes] http://archive.debian.org/debian buster main contrib
   echo "deb [trusted=yes] http://archive.debian.org/debian-security buster/updates main" \
   >> /etc/apt/sources.list
 
-# Update package lists and install dependencies
+# Update, upgrade and install in ONE layer so the package index is never stale
 RUN apt-get clean && \
-    apt-get -o Acquire::Check-Valid-Until=false update && \
-    apt-get -y upgrade
-
-RUN apt-get install -y \
-    apt-utils \
-    gcc \
-    python3 \
-    vim \
-    unzip \
-    ruby \
-    nodejs \
-    fakeroot \
-    dbus \
-    whiptail \
-    hexedit \
-    patch \
-    wamerican \
-    ucf \
-    manpages \
-    file \
-    luajit \
-    make \
-    lua5.3 \
-    dialog \
-    curl \
-    less \
-    cowsay \
-    netcat-openbsd \
-    lynis \
+    apt-get -o Acquire::Retries=5 -o Acquire::Check-Valid-Until=false update && \
+    apt-get -o Acquire::Retries=5 -y upgrade && \
+    apt-get -o Acquire::Retries=5 install -y \
+      apt-utils gcc python3 vim unzip ruby nodejs \
+      fakeroot dbus whiptail hexedit patch wamerican ucf manpages \
+      file luajit make lua5.3 dialog curl less cowsay netcat-openbsd \
+      lynis \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -49,7 +27,6 @@ RUN lynis --version
 RUN useradd -m user && echo "user:password" | chpasswd
 
 COPY --chown=user:user ./examples /home/user/examples
-
 RUN chmod -R +x /home/user/examples/lua
 
 WORKDIR /home/user/
