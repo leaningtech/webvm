@@ -1,4 +1,4 @@
-FROM --platform=linux/386 docker.io/i386/debian:bookworm
+FROM --platform=linux/386 docker.io/i386/debian:trixie
 
 ARG DEBIAN_FRONTEND=noninteractive
 
