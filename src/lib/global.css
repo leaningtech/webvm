@@ -24,3 +24,15 @@ html
 		font-size: calc(100vw / 55);
 	}
 }
+
+/* BrowserCode logo as an icon font-style glyph: drawn in the current text color, sized like Font Awesome icons */
+.icon-browsercode
+{
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	vertical-align: -0.125em;
+	background-color: currentColor;
+	-webkit-mask: url('../../assets/browsercode-white.svg') center / contain no-repeat;
+	mask: url('../../assets/browsercode-white.svg') center / contain no-repeat;
+}
