@@ -2,10 +2,11 @@ FROM --platform=linux/386 docker.io/i386/debian:bookworm
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Debian packages can be transiently unavailable or slow to download on hosted runners.
-# One layer keeps the package indexes and installed state consistent.
+# Fail immediately if any APT repository index cannot be downloaded.
+# Acquire::Retries helps, but a warning from apt-get update must remain fatal.
 RUN apt-get clean && \
-    apt-get -o Acquire::Retries=10 update && \
+    apt-get -o Acquire::Retries=10 update 2>&1 | tee /tmp/apt-update.log && \
+    ! grep -Eq '^(E:|W: Failed to fetch)' /tmp/apt-update.log && \
     apt-get -o Acquire::Retries=10 -y upgrade && \
     apt-get -o Acquire::Retries=10 install -y --no-install-recommends \
       apt-utils gcc python3 vim unzip ruby nodejs \
@@ -13,7 +14,7 @@ RUN apt-get clean && \
       file luajit make lua5.3 dialog curl less cowsay netcat-openbsd \
       lynis \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* /tmp/apt-update.log
 
 # Verify key tooling at image-build time.
 RUN lynis --version && curl --version >/dev/null && less --version >/dev/null
