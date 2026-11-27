@@ -9,6 +9,7 @@
 	import PostsTab from './PostsTab.svelte';
 	import DiscordTab from './DiscordTab.svelte';
 	import GitHubTab from './GitHubTab.svelte';
+	import BrowserCodeTab from './BrowserCodeTab.svelte';
 	import SmallButton from './SmallButton.svelte';
 	import { cpuActivity, diskActivity, aiActivity } from './activities.js';
 	const icons = [
@@ -21,6 +22,7 @@
 		{ icon: 'fas fa-book-open', info: 'Posts', activity: null },
 		{ icon: 'fab fa-discord', info: 'Discord', activity: null },
 		{ icon: 'fab fa-github', info: 'GitHub', activity: null },
+		{ icon: 'icon-browsercode', info: 'BrowserCode', activity: null },
 	];
 	let dispatch = createEventDispatcher();
 	let activeInfo = null; // Tracks currently visible info.
@@ -115,6 +117,8 @@
 			<DiscordTab/>
 		{:else if activeInfo === 'GitHub'}
 			<GitHubTab/>
+		{:else if activeInfo === 'BrowserCode'}
+			<BrowserCodeTab/>
 		{:else}
 			<p>TODO: {activeInfo}</p>
 		{/if}
