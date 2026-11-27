@@ -1,18 +1,12 @@
-FROM --platform=linux/386 docker.io/i386/debian:buster
+FROM --platform=linux/386 docker.io/i386/debian:bookworm
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Debian Buster archived repositories
-RUN echo "deb [trusted=yes] http://archive.debian.org/debian buster main contrib non-free" \
-  > /etc/apt/sources.list && \
-  echo "deb [trusted=yes] http://archive.debian.org/debian-security buster/updates main" \
-  >> /etc/apt/sources.list
-
-# Update, upgrade and install in ONE layer so the package index is never stale
+# Update, upgrade and install in one layer so the package index is fresh.
 RUN apt-get clean && \
-    apt-get -o Acquire::Retries=5 -o Acquire::Check-Valid-Until=false update && \
+    apt-get -o Acquire::Retries=5 update && \
     apt-get -o Acquire::Retries=5 -y upgrade && \
-    apt-get -o Acquire::Retries=5 install -y \
+    apt-get -o Acquire::Retries=5 install -y --no-install-recommends \
       apt-utils gcc python3 vim unzip ruby nodejs \
       fakeroot dbus whiptail hexedit patch wamerican ucf manpages \
       file luajit make lua5.3 dialog curl less cowsay netcat-openbsd \
